@@ -1,0 +1,203 @@
+<window class="window::MainWnd" serial-number="1853825024">
+	<ID>0x80002</ID>
+	<X>0</X>
+	<Y>0</Y>
+	<Width>580</Width>
+	<Height>640</Height>
+	<Text>0x00022712</Text>
+	<Border>True</Border>
+	<HasCaption>True</HasCaption>
+	<SystemMenu>True</SystemMenu>
+	<BorderType>DlgFrame</BorderType>
+	<MinimizeBox>True</MinimizeBox>
+	<MaximizeBox>True</MaximizeBox>
+	<onCreate>onCreate</onCreate>
+	<onClose>onClose</onClose>
+	<window class="window::Combobox" serial-number="4158334976">
+		<ID>0x4000000a</ID>
+		<X>20</X>
+		<Y>280</Y>
+		<Width>236</Width>
+		<Height>24</Height>
+	</window>
+	<window class="window::ListBox" serial-number="1815040000">
+		<ID>0x4000000b</ID>
+		<X>20</X>
+		<Y>332</Y>
+		<Width>236</Width>
+		<Height>96</Height>
+		<listen>
+			<sender>1073741834</sender>
+			<event>4107</event>
+			<prototype>lb_source_events_on_cb_source_ctrls_selectok</prototype>
+		</listen>
+	</window>
+	<window class="window::ListBox" serial-number="2050961408">
+		<ID>0x4000000c</ID>
+		<ScrollBarMode>Automatic</ScrollBarMode>
+		<X>20</X>
+		<Y>456</Y>
+		<Width>236</Width>
+		<Height>108</Height>
+		<listen>
+			<sender>1073741834</sender>
+			<event>4107</event>
+			<prototype>lb_source_props_on_cb_source_ctrls_selectok</prototype>
+		</listen>
+	</window>
+	<window class="window::Static" serial-number="1702555648">
+		<ID>0x4000000d</ID>
+		<Align>Left</Align>
+		<X>20</X>
+		<Y>256</Y>
+		<Width>208</Width>
+		<Height>20</Height>
+		<Text>0x00022713</Text>
+	</window>
+	<window class="window::Static" serial-number="2789134336">
+		<ID>0x4000000e</ID>
+		<Align>Left</Align>
+		<X>20</X>
+		<Y>308</Y>
+		<Width>208</Width>
+		<Height>20</Height>
+		<Text>0x00022715</Text>
+	</window>
+	<window class="window::Static" serial-number="3179278336">
+		<ID>0x4000000f</ID>
+		<Align>Left</Align>
+		<X>20</X>
+		<Y>432</Y>
+		<Width>208</Width>
+		<Height>20</Height>
+		<Text>0x00022716</Text>
+	</window>
+	<window class="window::Combobox" serial-number="4256976896">
+		<ID>0x40000010</ID>
+		<X>312</X>
+		<Y>280</Y>
+		<Width>236</Width>
+		<Height>24</Height>
+	</window>
+	<window class="window::ListBox" serial-number="398116864">
+		<ID>0x40000012</ID>
+		<ScrollBarMode>Automatic</ScrollBarMode>
+		<X>312</X>
+		<Y>456</Y>
+		<Width>236</Width>
+		<Height>108</Height>
+		<listen>
+			<sender>1073741840</sender>
+			<event>4107</event>
+			<prototype>lb_listener_props_on_cb_listner_ctrls_selectok</prototype>
+		</listen>
+	</window>
+	<window class="window::Static" serial-number="2951483392">
+		<ID>0x40000013</ID>
+		<Align>Left</Align>
+		<X>312</X>
+		<Y>256</Y>
+		<Width>208</Width>
+		<Height>20</Height>
+		<Text>0x0002271A</Text>
+	</window>
+	<window class="window::Static" serial-number="2841399296">
+		<ID>0x40000015</ID>
+		<Align>Left</Align>
+		<X>312</X>
+		<Y>432</Y>
+		<Width>208</Width>
+		<Height>20</Height>
+		<Text>0x0002271C</Text>
+	</window>
+	<window class="window::Button" serial-number="4141240320">
+		<ID>0x40000016</ID>
+		<Align>Center</Align>
+		<X>468</X>
+		<Y>216</Y>
+		<Width>80</Width>
+		<Height>32</Height>
+		<Text>0x0002271D</Text>
+	</window>
+	<window class="window::Static" serial-number="4148144128">
+		<ID>0x40000018</ID>
+		<Align>Left</Align>
+		<AutoWrap>True</AutoWrap>
+		<X>16</X>
+		<Y>204</Y>
+		<Width>444</Width>
+		<Height>44</Height>
+		<Text>0x0002271F</Text>
+		<Border>True</Border>
+	</window>
+	<window class="window::Static" serial-number="3195916288">
+		<ID>0x40000019</ID>
+		<Align>Left</Align>
+		<X>312</X>
+		<Y>308</Y>
+		<Width>208</Width>
+		<Height>20</Height>
+		<Text>0x00022721</Text>
+	</window>
+	<window class="window::ListBox" serial-number="1304381440">
+		<ID>0x40000011</ID>
+		<X>312</X>
+		<Y>332</Y>
+		<Width>236</Width>
+		<Height>96</Height>
+		<listen>
+			<sender>1073741840</sender>
+			<event>4107</event>
+			<prototype>lb_listener_events_on_cb_listner_ctrls_selectok</prototype>
+		</listen>
+	</window>
+	<window class="window::SlEdit" serial-number="4009177088">
+		<ID>0x4000001a</ID>
+		<X>108</X>
+		<Y>568</Y>
+		<Width>149</Width>
+		<Height>24</Height>
+		<Text>0x00022722</Text>
+		<listen>
+			<sender>1073741836</sender>
+			<event>4151</event>
+			<prototype>se_source_prop_on_lb_source_props_selchanged</prototype>
+		</listen>
+	</window>
+	<window class="window::SlEdit" serial-number="4293115904">
+		<ID>0x4000001b</ID>
+		<X>400</X>
+		<Y>568</Y>
+		<Width>148</Width>
+		<Height>24</Height>
+		<Text>0x00022724</Text>
+		<listen>
+			<sender>1073741842</sender>
+			<event>4151</event>
+			<prototype>se_listener_prop_on_lb_listener_props_selchanged</prototype>
+		</listen>
+	</window>
+	<window class="window::Static" serial-number="2616442880">
+		<ID>0x4000001c</ID>
+		<Align>Left</Align>
+		<X>24</X>
+		<Y>568</Y>
+		<Width>80</Width>
+		<Height>24</Height>
+		<Text>0x00022725</Text>
+	</window>
+	<window class="window::Static" serial-number="3487416320">
+		<ID>0x4000001d</ID>
+		<Align>Left</Align>
+		<X>316</X>
+		<Y>568</Y>
+		<Width>80</Width>
+		<Height>24</Height>
+		<Text>0x00022727</Text>
+	</window>
+	<listen>
+		<sender>1073741846</sender>
+		<event>4050</event>
+		<prototype>main_on_update_clicked</prototype>
+	</listen>
+</window>

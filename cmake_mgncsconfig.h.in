@@ -1,0 +1,156 @@
+/*
+ ** $Id$
+ **
+ ** cmake_mgncsconfig.h.in: 
+ **
+ ** Copyright (C) 2003 ~ 2010 Beijing Feynman Software Technology Co., Ltd. 
+ ** 
+ ** All rights reserved by Feynman Software.
+ **   
+ ** Current maintainer: dongjunjie 
+ **  
+ ** Create date: 2010-09-07 
+ */
+
+#ifndef MGNCS_CONFIG_H
+#define MGNCS_CONFIG_H
+
+/* Major version of mGNCS */
+#define MGNCS_MAJOR_VERSION @MGNCS_MAJOR_VERSION@
+
+/* Minor version of mGNCS  */
+#define MGNCS_MINOR_VERSION @MGNCS_MINOR_VERSION@
+
+/* Micro version of mGNCS */
+#define MGNCS_MICRO_VERSION @MGNCS_MICRO_VERSION@
+
+
+/* Define mGNCS configure file name */
+#define MGNCS_ETCFILENAME "@MGNCS_ETCFILENAME@"
+
+/* Define mGNCS control suffix name */
+#define _MGNCS_CLASS_SUFFIX "@_MGNCS_CLASS_SUFFIX@"
+
+/* Define if support the guibuilder */
+#cmakedefine _MGNCS_GUIBUILDER_SUPPORT 1
+
+/* MGNCS library suffix */
+#cmakedefine _MGNCS_LIBSUFFIX "@_MGNCS_LIBSUFFIX@"
+
+/* Define if support datasource */
+#cmakedefine _MGNCS_DATASOURCE 1
+
+/* Define if support old multiline editor */
+#cmakedefine _MGNCS_OLD_MLEDIT 1
+
+/* Define if support property name */
+#cmakedefine _MGNCS_PROP_NAME 1
+
+/* Define if include fashion renderer */
+#cmakedefine _MGNCS_RDR_FASHION 1
+
+/* Define if include flat renderer */
+#cmakedefine _MGNCS_RDR_FLAT 1
+
+/* Define if include skin renderer */
+#cmakedefine _MGNCS_RDR_SKIN 1
+
+/* Define if support sqlite */
+#cmakedefine _MGNCS_SQLITE 1
+
+/* Define if support new text editor */
+#cmakedefine _MGNCS_TEXTEDITOR 1
+
+/* Define if support title of new text editor */
+#cmakedefine _MGNCS_TEXTEDITTITLE 1
+
+/* Define if build NCS for using edit with double buffer */
+#cmakedefine _MGNCS_USE_DBEDIT 1
+
+/* Define if support xml */
+#cmakedefine _MGNCS_XML 1
+
+/************** */
+/* HEADER FILES */
+/************** */
+
+/* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
+*/
+#cmakedefine HAVE_ALLOCA_H      1
+
+/* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
+   */
+#cmakedefine HAVE_DIRENT_H      1
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#cmakedefine HAVE_DLFCN_H       1
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#cmakedefine HAVE_INTTYPES_H    1
+
+/* Define to 1 if you have the <locale.h> header file. */
+#cmakedefine HAVE_LOCALE_H      1
+
+/* Define to 1 if you have the <math.h> header file. */
+#cmakedefine HAVE_MATH_H        1
+
+/* Define to 1 if you have the <memory.h> header file. */
+#cmakedefine HAVE_MEMORY_H      1
+
+/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
+#cmakedefine HAVE_NDIR_H        1
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#cmakedefine HAVE_STDINT_H      1
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#cmakedefine HAVE_STDLIB_H      1
+
+/* Define to 1 if you have the <strings.h> header file. */
+#cmakedefine HAVE_STRINGS_H     1
+
+/* Define to 1 if you have the <string.h> header file. */
+#cmakedefine HAVE_STRING_H      1
+
+/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
+   */
+#cmakedefine HAVE_SYS_DIR_H     1
+
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
+   */
+#cmakedefine HAVE_SYS_NDIR_H    1
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#cmakedefine HAVE_SYS_STAT_H    1
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#cmakedefine HAVE_SYS_TIME_H    1
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#cmakedefine HAVE_SYS_TYPES_H   1
+
+/* Define to 1 if you have the <termio.h> header file. */
+#cmakedefine HAVE_TERMIO_H      1
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#cmakedefine HAVE_UNISTD_H      1
+
+/* **************** */
+/* type definitions */
+/* **************** */
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#cmakedefine const
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+ *    calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+#define inline __inline
+#endif
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#cmakedefine size_t
+
+
+#endif
+

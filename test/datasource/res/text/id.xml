@@ -1,0 +1,53 @@
+<res-ids>
+	<res-id>
+		<id  value="0x22712"/>
+		<type>2</type>
+		<source>Main Frame</source>
+	</res-id>
+	<res-id>
+		<id value="0x22713"/>
+		<type>2</type>
+	</res-id>
+	<res-id>
+		<id  value="0x22714"/>
+		<type>2</type>
+	</res-id>
+	<res-id>
+		<id  value="0x22717"/>
+		<type>2</type>
+	</res-id>
+	<res-id>
+		<id  value="0x22719"/>
+		<type>2</type>
+		<source>Open DS</source>
+	</res-id>
+	<res-id>
+		<id  value="0x2271a"/>
+		<type>2</type>
+		<source>Main Frame</source>
+	</res-id>
+	<res-id>
+		<id  value="0x2271b"/>
+		<type>2</type>
+		<source>OK</source>
+	</res-id>
+	<res-id>
+		<id  value="0x2271c"/>
+		<type>2</type>
+		<source>Cancel</source>
+	</res-id>
+	<res-id>
+		<id  value="0x22724"/>
+		<type>2</type>
+		<source>OK</source>
+	</res-id>
+	<res-id>
+		<id  value="0x22725"/>
+		<type>2</type>
+		<source>Cancel</source>
+	</res-id>
+	<res-id>
+		<id value="0x22729">
+		<type>2</type>
+	</res-id>
+</res-ids>

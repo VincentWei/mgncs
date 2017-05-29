@@ -1,0 +1,127 @@
+<res-ids>
+	<res-id>
+		<id name="ID_MAINWND1"  value="0x80002"/>
+		<type>8</type>
+		<source>res/ui/datasource.xml</source>
+	</res-id>
+	<res-id>
+		<id name="ID_MAINSELECT"  value="0x80004"/>
+		<type>8</type>
+		<source>res/ui/selectdlg.xml</source>
+	</res-id>
+	<res-id>
+		<id name="ID_OPENDS"  value="0x80006"/>
+		<type>8</type>
+		<source>res/ui/open_ds.xml</source>
+	</res-id>
+	<res-id>
+		<id name="IDOK"  value="0x40000001"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="IDCANCEL"  value="0x40000002"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_LV_RECORD"  value="0x40000009"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="IDB_OPENDS"  value="0x4000000a"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_CN_RECORD"  value="0x4000000b"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_EXIT"  value="0x4000000c"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_UPDATE"  value="0x4000000d"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_CANCEL"  value="0x4000000e"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_RELOAD"  value="0x4000000f"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC1"  value="0x40000010"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_DSTYPE"  value="0x40000011"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC2"  value="0x40000012"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_DSFILE"  value="0x40000013"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_OPENFILE"  value="0x40000014"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_SELECT"  value="0x40000015"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_SLEDIT2"  value="0x40000016"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC3"  value="0x40000017"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_MLSELECT"  value="0x40000018"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="IDB_DELETE"  value="0x40000019"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="IDB_APPEND"  value="0x4000001a"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="IDB_DELRD"  value="0x4000001b"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="IDB_APPENDRD"  value="0x4000001c"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+</res-ids>

@@ -1,0 +1,112 @@
+<res-ids>
+	<res-id>
+		<id name="ID_MAIN"  value="0x80002"/>
+		<type>8</type>
+		<source>res/ui/main.xml</source>
+	</res-id>
+	<res-id>
+		<id name="ID_CB_SOURCE"  value="0x40000009"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_CB_SOURCE_CTRLS"  value="0x4000000a"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_LB_SOURCE_EVENTS"  value="0x4000000b"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_LB_SOURCE_PROPS"  value="0x4000000c"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC1"  value="0x4000000d"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC3"  value="0x4000000e"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC4"  value="0x4000000f"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_CB_LISTNER_CTRLS"  value="0x40000010"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_LB_LISTENER_EVENTS"  value="0x40000011"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_LB_LISTENER_PROPS"  value="0x40000012"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC8"  value="0x40000013"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC9"  value="0x40000014"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC10"  value="0x40000015"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_UPDATE"  value="0x40000016"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_GROUPBOX1"  value="0x40000017"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_CUR_BIND_INFO"  value="0x40000018"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC8_COPY"  value="0x40000019"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_SE_SOURCE_PROP"  value="0x4000001a"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_SE_LISTENER_PROP"  value="0x4000001b"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC8_COPY_COPY"  value="0x4000001c"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+	<res-id>
+		<id name="ID_STATIC10_COPY"  value="0x4000001d"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
+</res-ids>

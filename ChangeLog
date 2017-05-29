@@ -1,0 +1,1282 @@
+********************************************************************************
+
+What's new in this branches for 1.0.6 ( 2010/09 ~ )
+12/02. MERGE : from rel-1-0 and rel-1-0-6 to trunk(dongjunjie)
+	* M       test/datasource/MiniGUI.cfg
+	* M       test/datasource/src/datasource_main.c
+	* M       test/datasource/src/selectdlg.c
+	* M       test/datasource/src/open_ds.c
+	* M       test/datasource/src/datasource.c
+	* M       test/radiogroup.c
+	* M       test/button.c
+	* M       test/resdump.c
+	* M       test/databinding/MiniGUI.cfg
+	* M       test/databinding/src/main.c
+	* M       test/databinding/src/databinding_main.c
+	* M       test/name2value.c
+	* M       test/list.c
+	* M       test/mledit.c
+	* M       test/sledit.c
+	* M       test/list_group.c
+	* M       test/imetest/src/imetest_main.c
+	* M       test/imetest/src/mobile-ime.c
+	* M       test/imetest/src/ime-view.c
+	* M       test/imetest/src/imetest.c
+	* M       test/imetest/res/res.project
+	* M       test/textedit.c
+	* M       include/mwidget.h
+	* M       include/mitemview.h
+	* M       include/mbmparrayanimateframes.h
+	* M       include/manimateframes.h
+	* M       include/manimate.h
+	* M       include/mlistbox.h
+	* M       include/mnode.h
+	* M       include/medit.h
+	* M       include/mtexteditbase.h
+	* M       include/mrdr.h
+	* M       include/pieces/mlabelpiece.h
+	* M       include/pieces/msimplelistpiece.h
+	* M       include/pieces/mhotpiece.h
+	* M       include/pieces/manimatepiece.h
+	* M       include/pieces/msliderpiece.h
+	* M       include/pieces/piece-id.h
+	* M       include/pieces/Makefile.am
+	* M       include/mobject.h
+	* M       include/mmemanimateframes.h
+	* M       include/mresmgr.h
+	* M       include/mgifanimateframes.h
+	* M       include/piece.h
+	* M       include/mlist.h
+	* M       include/msledit.h
+	* M       include/mcommon.h
+	* M       include/mlistcolumn.h
+	* M       include/mgncs.h
+	* M       include/mtextedit.h
+	* M       include/mlistview.h
+	* M       include/Makefile.am
+	* M       configure.in
+	* M       src/mspinbox.c
+	* M       src/mwidget.c
+	* M       src/miconview.c
+	* M       src/mime-wordsel.c
+	* M       src/mitemview.c
+	* M       src/datasource/mxmlds.c
+	* M       src/datasource/minids.c
+	* M       src/datasource/str_expression.c
+	* M       src/datasource/Makefile.am
+	* M       src/mmenubutton.c
+	* M       src/mscroll_widget.c
+	* M       src/mradionode.c
+	* M       src/renderer/classic/classic_boxpieces.c
+	* M       src/renderer/classic/Makefile.am
+	* M       src/renderer/skin/skin.c
+	* M       src/renderer/skin/skin_boxpieces.c
+	* M       src/renderer/skin/Makefile.am
+	* M       src/renderer/flat/flat_boxpieces.c
+	* M       src/renderer/flat/Makefile.am
+	* M       src/renderer/fashion/fashion_common.c
+	* M       src/renderer/fashion/Makefile.am
+	* M       src/renderer/fashion/fashion_boxpieces.c
+	* M       src/renderer/Makefile.am
+	* M       src/mcombobox.c
+	* M       src/mbmparrayanimateframes.c
+	* M       src/ime/mpti-ime.c
+	* M       src/ime/charset-convert.c
+	* M       src/ime/mime.c
+	* M       src/ime/pinyin-dict.c
+	* M       src/ime/Makefile.am
+	* M       src/ime/digit_ime.c
+	* M       src/ime/mpinyin-ime.c
+	* M       src/manimate.c
+	* M       src/mresmanager.c
+	* M       src/mlistbox.c
+	* M       src/minvisible-component.c
+	* M       src/mnode.c
+	* M       src/medit.c
+	* M       src/mrdr.c
+	* M       src/mbuttongroup.c
+	* M       src/mtrackbar.c
+	* M       src/mdatabinding.c
+	* M       src/mobject.c
+	* M       src/pieces/mspinnerpiece.c
+	* M       src/pieces/mlabelpiece.c
+	* M       src/pieces/piece-event.c
+	* M       src/pieces/msimplelistpiece.c
+	* M       src/pieces/mledstaticpiece.c
+	* M       src/pieces/manimatepiece.c
+	* M       src/pieces/msliderpiece.c
+	* M       src/pieces/mboxlayoutpiece.c
+	* M       src/pieces/mgridboxpiece.c
+	* M       src/pieces/mprogresspiece.c
+	* M       src/pieces/Makefile.am
+	* M       src/mmemanimateframes.c
+	* M       src/mcontainer.c
+	* M       src/mctrls.c
+	* M       src/mlistitem.c
+	* M       src/mtoolitem.c
+	* M       src/mbtree.c
+	* M       src/mgifanimateframes.c
+	* M       src/mcomponent.c
+	* M       src/mlist.c
+	* M       src/mem-slab.c
+	* M       src/mslider.c
+	* M       src/mchecknode.c
+	* M       src/uthash.h
+	* M       src/msledit.c
+	* M       src/mitem_manager.c
+	_(NCSS_TE_BASELINE),
+	* M       src/mtextedit.c
+	* M       src/mmainwnd.c
+	* M       src/mlistview.c
+	* M       src/mlist_layout.c
+	* M       src/mbutton.c
+	* M       src/Makefile.am
+	* M       ChangeLog
+	* M       build/buildlib-linux-pc-mstudio
+	* M       samples/src/listview.c
+	* M       samples/src/propsheet.c
+	* M       samples/src/iconview.c
+	* M       samples/src/listbox.c
+	* M       samples/src/scrollview.c
+	* M       samples/src/container.c
+	* M       Makefile.am
+
+
+11/30. BUGFIXING #?: Fixed the compiling question in vxworks.(xwyan)
+	* src/datasource/minids.c
+	* include/mcommon.h
+
+11/24. BUGFIXING #5307: assert resource id whether is valid or not.(xwyan)
+	* src/mresmanager.c
+
+11/23. ENHANCEMENT #?: Add the support for makefile.ng compiling.(xwyan)
+	* (Add) build/rules-mipse.vxworks
+	* (Add) include/pieces/makefile.ng
+	* (Add) include/makefile.ng
+	* (Add) src/datasource/makefile.ng
+	* (Add) src/renderer/makefile.ng
+	* (Add) src/renderer/classic/makefile.ng
+	* (Add) src/renderer/skin/makefile.ng
+	* (Add) src/renderer/flat/makefile.ng
+	* (Add) src/renderer/fashion/makefile.ng
+	* (Add) src/ime/makefile.ng
+	* (Add) src/makefile.ng
+	* (Add) src/pieces/makefile.ng
+	* include/pieces/Makefile.am
+	* include/Makefile.am
+	* src/datasource/Makefile.am
+	* src/renderer/classic/Makefile.am
+	* src/renderer/skin/Makefile.am
+	* src/renderer/flat/Makefile.am
+	* src/renderer/fashion/Makefile.am
+	* src/renderer/Makefile.am
+	* src/ime/Makefile.am
+	* src/pieces/Makefile.am
+	* src/Makefile.am
+
+11/22. BUGFIXING #?, Merge the texteditor from minigui, and fixed the bug 
+of enableCaret(dongjunjie)
+	* src/mtextedit.c
+	* include/mtextedit.h
+
+11/18. BUGFIXING #5312: Fixed the bug of mButtonGroup(dongjunjie)
+	* src/mbuttongroup.c
+
+11/11. ENHANCEMENT #?: Add default process for MSG_CLOSE.(xwyan)
+	* src/mmainwnd.c
+
+11/11. BUGFIXING #?: Fixed some bugs by initializing some global variables.(xwyan)
+	* src/mwidget.c
+	* src/mctrls.c
+	* src/mcomponent.c
+	* src/pieces/piece-event.c
+	* src/mdatabinding.c
+	* src/renderer/fashion/fashion_common.c
+
+11/11. BUGFIXING #5285, Fixed the bug of iconview(dongjunjie)
+	* src/miconview.c
+
+11/09. BUGFIXING #?, Remove warnings(dongjunjie)
+	* M       src/mscroll_widget.c
+	* M       src/manimate.c
+	* M       src/medit.c
+	* M       src/mtextedit.c
+	* M       src/mlistview.c
+	* M       src/mbutton.c
+
+
+11/09. BUGFIXING #5263, Fixed the bug of mcombobox, set renderer info(dongjunjie)
+	* src/mwidget.c
+
+11/09. BUGFIXING #?, Fixed the bug of monthcalder paint(dongjunjie)
+	* M       src/renderer/classic/classic_boxpieces.c
+	* M       src/renderer/skin/skin_boxpieces.c
+	* M       src/renderer/flat/flat_boxpieces.c
+	* M       src/renderer/fashion/fashion_boxpieces.c
+	* M       src/pieces/mgridboxpiece.c
+
+
+11/08. BUGFIXING #?, Fixed the bug of ncsSkinDraw, get_sub_bitmap didnot save
+the alpha masks (dongjunjie)
+	* src/renderer/skin/skin.c
+
+11/08. BUGFIXING #? , Fixed the bug in windows(dongjunjie)
+	* src/msledit.c
+	* src/mtextedit.c
+
+11/5. BUGFIXING #5268, Fixed the bug of mTextEditor,
+NCSP_TE_SCROLL_MODE(dongjunjie)
+	* src/mtextedit.c
+
+11/5. BUGFIXING #5263, Fixed the bug of mCombobox, which cannot set the sub
+controls renderer(dongjunjie)
+	* M       src/mwidget.c
+	* M       src/mcombobox.c
+
+
+11/5. BUGFIXING #5231, Fixed the radiobutton check(dongjunjie)
+	* M       src/mbuttongroup.c
+	* M       src/mbutton.c
+
+11/5. BUGFIXING #5260,5257,5258,5259: fixed the refresh delay question in some setting
+methods.(xwyan)
+	* src/mlistview.c
+	* include/mlistview.h
+	* include/mlistcolumn.h
+	* sample/src/listview.c
+
+11/5. BUGFIXING #5230. Fixed the bug of mTextEditor, update the scrollmode
+when call refresh method(dongjunjie)
+	* M       include/mtexteditbase.h
+	* M       include/mtextedit.h
+	* M       src/mtextedit.c
+
+11/4. BUGFIXING #? Fixed the bugs of animate. Remove the mMemAnimateFrames
+class and reconstruct the mBmpArrayAnimateFrames; Add the mem_dc for mAnimate,
+to implement the blink and transparent bugs(dongjunjie)
+	* M       include/mbmparrayanimateframes.h
+	* M       include/manimate.h
+	* M       include/pieces/manimatepiece.h
+	* M       include/mmemanimateframes.h
+	* M       include/piece.h
+	* M       include/Makefile.am
+	* M       src/mbmparrayanimateframes.c
+	* M       src/manimate.c
+	* M       src/pieces/manimatepiece.c
+	* M       src/mmemanimateframes.c
+	* M       src/mctrls.c
+	* M       src/mgifanimateframes.c
+	* M       src/Makefile.am
+
+
+11/4. BUGFIXING #5089 fixed the bug of animate(dongjunjie)
+	* M       include/manimateframes.h
+	* M       src/mbmparrayanimateframes.c
+	* M       src/pieces/manimatepiece.c
+	* M       src/mmemanimateframes.c
+	* M       src/mgifanimateframes.c
+
+11/4. BUGFIXING #5229 fixed the bug of TextEditor default style did match with
+guibuilder(dongjunjie)
+	* src/mctrls.c
+
+11/3. BUGFIXING #5134 fixed the bug of makevisible(dongjunjie)
+	* src/msledit.c
+
+11/1. BUGFIXING #5214 fixed the bug of mListView, memory leak(dongjunjie)
+	* M       src/mitemview.c
+	* M       src/mlistitem.c
+	* M       src/mitem_manager.c
+
+11/01. BUGFIXING #5215: Fixed the bug in mGIFAnimateFrames, cause the
+crash(dongjunjie)
+	* src/mgifanimateframes.c
+
+10/29. BUGFIXING #5168, 5170 : Fixed the bug of mtexteditor. scrollbar and
+letter case(dongjunjie)
+	* M       include/mtexteditbase.h
+	* M       include/mtextedit.h
+	* M       src/mtextedit.c
+
+10/28. BUGFIXING #5203: Fixed the refresh question when setMargin for
+scrollwidget series control.(xwyan)
+	* src/mscroll_widget.c
+
+10/28. BUGFIXING #5167 Fixed the error of msledit, delete the function
+check_valid_passwd(dongjunjie)
+	* src/msledit.c
+
+10/28. BUGFIXING #: fixed the error process for NCSP_WIDGET_TEXT in
+combobox.(xwyan)
+	* src/mcombobox.c
+
+
+10/27. BUGFIXING #5192 fixed the bug of medit, didn't process the double dc
+for event handlers(dongjunjie)
+	* M       src/mwidget.c
+	* M       src/medit.c
+
+10/27. BUGFIXING #5190 fixed the trackbar (dongjunjie)
+	* M       include/pieces/msliderpiece.h
+	* M       src/renderer/classic/classic_boxpieces.c
+	* M       src/renderer/skin/skin_boxpieces.c
+	* M       src/renderer/flat/flat_boxpieces.c
+	* M       src/renderer/fashion/fashion_boxpieces.c
+	* M       src/mtrackbar.c
+	* M       src/pieces/msliderpiece.c
+
+
+10/27. BUGFIXING #5180 fixed the anmiation bug(dongjunjie)
+	* M       include/manimate.h
+	* M       include/mgifanimateframes.h
+	* M       ChangeLog
+	* M       src/mbmparrayanimateframes.c
+	* M       src/manimate.c
+	* M       src/pieces/manimatepiece.c
+	* M       src/mgifanimateframes.c
+
+
+10/25. BUGFIXING #4868 fixed the msledit and combobox didnot support the
+SetWindowFont(dongjunjie)
+	* M       include/medit.h
+	* M       src/mcombobox.c
+	* M       src/msledit.c
+
+10/22. BUGFIXING #?: enable the mSlEdit can accept a NULL value of
+tooltip(dongjunjie)
+	* src/msledit.c
+
+10/22. BUGFIXING #5114 : menubutton getProperty of ImagePercent(dongjunjie)
+	* src/mmenubutton.c
+
+10/18. BUGFIXING #?: Marge the texteditor from minigui, and remove the
+warnings(dongjunjie)
+	* M       test/name2value.c
+	* M       src/mime-wordsel.c
+	* M       src/mbuttongroup.c
+	* M       src/mtextedit.c
+
+10/16. BUGFIXING #5120: Rename NCSN_LSTBOX_SELCANCEL to NCSN_LSTBOX_CMCANCEL.
+(xwyan)
+	* src/mlistbox.c
+
+10/15. BUGFIXING #5134: Fixed the bug of makevisible of mSlEdit(dongjunjie)
+	* src/msledit.c
+
+10/15. BUGFIXING #5097: Fixed painting error in progressbar.(xwyan)
+	* src/renderer/classic/classic_boxpieces.c
+	* src/renderer/flat/flat_boxpieces.c
+	* src/renderer/fashion/fashion_boxpieces.c
+	* src/renderer/skin/skin_boxpieces.c
+
+10/15. BUGFIXING #5126: Set Property NCSP_EDIT_LIMITTEXT failed when the value
+is -1(dongjunjie)
+	* src/msledit.c
+
+10/15. BUGFIXING #5143: Add MSG_RBUTTONDOWN and MSG_RBUTTONUP support in
+itemview.(xwyan)
+	* src/mitemview.c
+	* src/mlistview.c
+
+10/14. BUGFIXING #5142: Add error output information in
+ncsCreateMainWindowIndirectFromID and ncsCreateModalDialogFromID.(xwyan)
+	* src/mresmanager.c
+
+10/14. BUGFIXING #5114: mMenuButton should pass the property of
+NCSP_BUTTON_IMAGE_SIZE to the content of mPushButtonPiece(dongjunjie)
+	* src/mmenubutton.c
+
+10/14. BUGFIXING #5108: fixed bug of mTextEditor, set property
+NCSP_TE_READONLY didnot return TRUE(dongjunjie)
+	* src/mtextedit.c
+
+10/13. BUGFIXING #5103: fixed the bug of mButtonGroup.addButton(dongjunjie)
+	* M       src/mbuttongroup.c
+	* M       src/mbutton.c
+
+10/13. BUGFIXING #5087: fixed the bug of sledit'marign(dongjunjie)
+	* src/msledit.c
+
+10/13. BUGFIXING #5084: fixed the bug of animate. and fixed the bug of animate
+didnot support Align and VAlign properties(dongjunjie)
+	* M       include/manimateframes.h
+	* M       include/pieces/manimatepiece.h
+	* M       include/mgifanimateframes.h
+	* M       src/mbmparrayanimateframes.c
+	* M       src/manimate.c
+	* M       src/pieces/manimatepiece.c
+	* M       src/mgifanimateframes.c
+
+10/13. BUGFIXING #5132: Set default selected item in GUIBuilder.(xwyan)
+	* src/mcombobox.c
+
+10/13. BUGFIXING #5105: Hit checkbox error in listbox with NCSS_LSTBOX_CHECKBOX.(xwyan)
+	* src/mlistbox.c
+
+10/13. BUGFIXING #5102: Add the support for negative linestep value in spinbox.(xwyan)
+	* src/pieces/mspinnerpiece.c
+
+10/13. BUGFIXING #5095: Don't accept 0 value for linestep, pagestep in
+scrollbar, progressbar, spinbox.(xwyan)
+	* src/pieces/mspinnerpiece.c
+	* src/pieces/msliderpiece.c
+	* src/pieces/mprogresspiece.c
+
+10/13. BUGFIXING #5094: Tunning the processing policy for invalid property
+value setting.(xwyan)
+	* src/pieces/mprogresspiece.c
+
+10/12. BUGFIXING #5082: fixed the spinbox control for guibuilder(dongjunjie)
+	* M       src/mspinbox.c
+	* M       src/pieces/mspinnerpiece.c
+
+
+10/12. BUGFIXING #5076: Fix the bug of IMWordSel(dongjunjie)
+	* M       include/pieces/mlabelpiece.h
+	* M       include/pieces/msimplelistpiece.h
+	* M       include/pieces/piece-id.h
+	* M       src/mime-wordsel.c
+	* M       src/pieces/mlabelpiece.c
+	* M       src/pieces/msimplelistpiece.c
+
+
+10/11. BUGFIXING #4921: Fixed the definition error of NCS_CB_ONSCROLL.(xwyan)
+	* include/mwidget.h
+	* src/mwidget.c
+
+10/09. BUGFIXING #5092: Register page control with WS_VSCROLL and WS_HSCROLL
+style.(xwyan)
+	* src/mctrls.c
+
+10/09. BUGFIXED #? 5048 Add the NCSS_TE_AUTOHSCROLL and NCSS_TE_AUTOVSCROLL
+(as ES_AUTOHSCROLL and ES_AUTOVSCROLL in minigui), and change the implement of
+NCSP_TE_SCROLLMODE property(dongjunjie)
+	* M       include/mtextedit.h
+	* M       src/mtextedit.c
+
+
+10/09. BUGFIXED #4998 Add the NCSS_EX_UNNEEDIME flags for texteditor, and add
+the name of mpti ime "abc*"(dongunjie)
+	* M       include/mwidget.h
+	* M       include/medit.h
+	* M       include/mrdr.h
+	* M       src/ime/mpti-ime.c
+	* M       src/mrdr.c
+	* M       src/mtextedit.c
+
+
+10/09. Enhancement #? Move the mtextedit.[ch], mtexteditbase.h from
+minigui, and fixed the version of mgncs(dongjunjie)
+	* include/mtextedit.h
+	* include/mtexteditbase.h
+	* src/mtextedit.c
+	* configure.in
+
+09/30. BUGFIXED #5005 Add the implement of mIMWordSel's methods (dongjunjie)
+	* src/mime-wordsel.c
+
+09/27. BUGFIXED #5056 remove the slider piece 's event when the minpos is equal
+maxpos(dongunjie)
+	* src/pieces/msliderpiece.c
+
+09/27. BUGFIXED #4943 mSlEdit calculate the caret pos use the the content
+text. Should use the password char to calculate the caret pos, because the
+width of charactors are diffirent from each other.(dongunjie)
+	* src/msledit.c
+
+09/07. Enhancement #? Add the cmake script for mgncs, and fixed some code for
+cmake(dongjunjie)
+	* A       test/CMakeLists.txt
+	* A       cmake
+	* A       cmake/common.cmake
+	* A       src/datasource/CMakeLists.txt
+	* A       src/renderer/classic/CMakeLists.txt
+	* A       src/renderer/skin/CMakeLists.txt
+	* A       src/renderer/flat/CMakeLists.txt
+	* A       src/renderer/fashion/CMakeLists.txt
+	* A       src/ime/CMakeLists.txt
+	* A       src/pieces/CMakeLists.txt
+	* A       src/CMakeLists.txt
+	* A       cmake_mgncsconfig.h.in
+	* A       CMakeLists.txt
+	* A       mgncs.pc.in
+	* M       test/mledit.c
+	* M       include/mgncs.h
+	* M       src/datasource/str_expression.c
+	* M       src/mctrls.c
+
+
+
+11/20. ENHANCEMENT #?: Add a variable `parent'(mHotPiece *) to mHotPiece.
+(wanzheng)
+	* include/pieces/mhotpiece.h
+
+11/20. CLEANUP #1: Resolve compiling issues. (wanzheng)
+	* M include/medit.h
+	* M configure.in
+	* M src/datasource/mxmlds.c
+	* D acinclude.m4
+
+09/21. ENHANCEMENT #? Add Load The User Defined Renderer Elements:change the 
+rdr_hash_table from an array to a link list ; Add the API
+ncsLoadRdrElementsFromEtcFile and ncsLoadRdrElementsFromEtcHandle(dongjunjie)
+	* src/mrdr.c
+	* include/mrdr.h
+
+09/10. BUGFIXING #?: fixed a bug for wndProc function in mlist.c (wangjian)
+	* M       src/mlist.c
+
+07/20. Enhancement #? merge the texteditor form minigui. (just copy mbtree.h,
+mbtree.c mtexteditbase.h mtextedit.h mtextedit.c. minigui and ncs can use the
+same codes)
+	* M       include/mwidget.h
+	* M       include/mtexteditbase.h
+	* M       include/mobject.h
+	* M       include/mbtree.h
+	* M       include/mtextedit.h
+	* M       ChangeLog
+	* M       src/ime/mgpti_dict.c
+	* M       src/mbtree.c
+	* M       src/mtextedit.c
+
+
+07/02. Enhancement #? add the tools for translate marcos _M, _IM, _SUPER, 
+NEWV. (dongjunjie)
+	* A         tools
+	* A         tools/vaargs_trans
+	* A         tools/vaargs_trans/trans.sh
+	* A         tools/vaargs_trans/test.c
+	* A         tools/vaargs_trans/trans.l
+	* A         tools/vaargs_trans/Makefile
+	* A         tools/vaargs_trans/README
+
+
+06/09. BUGFIXING #?: merge from trunk (dongjunjie)
+	* M       test/imetest/ReadMe
+	* M       include/mime.h
+	* M       configure.in
+	* M       ChangeLog
+	* M       src/datasource/minids.c
+	* M       src/datasource/str_expression.c
+	* M       src/mbmparrayanimateframes.c
+	* M       src/ime/mime.c
+	* M       src/ime/digit_ime.c
+	* M       build/buildlib-linux-pc-mstudio
+	* A       src/ime/charset-convert.c
+
+
+06/09. BUGGIXING #? repleace or reimplement the function which is not support
+in some platform: lstat, strndup, ftruncate
+	* M       configure.in
+	* M       src/datasource/minids.c
+	* M       src/datasource/str_expression.c
+	* M       src/mbmparrayanimateframes.c
+
+
+06/09. BUGFIXING #? Use MiniGUI's MB2WC* and WC2MB* to finished the charset
+convsert; and add configure option --enable-useiconv to open the iconv support
+(dongjunjie)
+	* M       test/imetest/ReadMe
+	* M       include/mime.h
+	* M       configure.in
+	* M       src/ime/mime.c
+	* M       src/ime/digit_ime.c
+	* A       src/ime/charset-convert.c
+
+
+05/28. BUGFIXING #4752: Can't refresh content pieces correctly in button and
+checkbutton control.(xwyan)
+	* src/mbutton.c
+	* src/mcheckbutton.c
+
+05/24. Fixed bug of Pinyin IME: maxDupSel member variable is used to limit the
+count of words return to user. In mgncs's ime, it replace by mIMEIterator. del
+the using of this variable (dongjunjie)
+	* src/ime/pinyin-dict.c
+	* src/ime/mpinyin-ime.c
+
+05/21. Merge the bug fixed in the minigui/textedit/textedit.c (dongjunjie)
+	* src/mtextedit.c
+
+05/12. Fixed bug for button pushed, disable the auto-repeat-message in
+abstract button piece for pushbutton. (wangjian)
+	* M		include/pieces/mabstractbuttonpiece.h
+	* M		src/pieces/mabstractbuttonpiece.c
+	* M		src/mbutton.c
+
+05/11. Merge node. the textedit from minigui, disable mledit by default
+(dongjunjie)
+	* A       test/textedit.c
+	* A       include/mtexteditbase.h
+	* A       include/mbtree.h
+	* A       include/mtextedit.h
+	* A       src/mbtree.c
+	* A       src/mtextedit.c
+	* M       test/Makefile.am
+	* M       include/mobject.h
+	* M       include/mgncs.h
+	* M       include/Makefile.am
+	* M       configure.in
+	* M       ChangeLog
+	* M       src/mmledit.c
+	* M       src/mctrls.c
+	* M       src/Makefile.am
+
+
+05/11. Merge node, list and list layout implementation to trunk.(xwyan)
+	* include/mabstractlist.h
+	* include/mchecknode.h
+	* include/mlist.h
+	* include/mlist_layout.h
+	* include/mnode.h
+	* include/mradionode.h
+	* 
+	* src/mabstractlist.c
+	* src/mchecknode.c
+	* src/mlist.c
+	* src/mlist_layout.c
+	* src/mnode.c
+	* src/mradionode.c
+	* 
+	* test/listfolder.png
+	* test/list.c
+	* test/list_group.c
+	* include/mgncs.h
+	* include/Makefile.am
+	* src/mctrls.c
+	* src/Makefile.am
+	* test/Makefile.am
+	* Makefile.am
+
+
+04/07. Enhancement Add Macro NCSR_CONTINUE_MSG, NCSR_STOP_MSG to replace TRUE
+and FALSE at widget's event callback
+	* src/mwidget.h
+
+03/19. Enhancement Add Interface support and multi construct params support
+	* src/mobject.c
+	* include/mobject.h
+
+02/09. Fixed#? mMlEdit class miss RELEASEDC when processing MSG_FONTCHANGED
+	* src/mmledit.c
+
+02/08. Fixed# 4505 4506 memory leak when exit(dongjunjie)
+	* src/mrect.c
+	* src/renderer/fashion/fashion_common.c
+	* src/pieces/mimagelabelpiece.c
+
+02/07. Fixed# 4502 ini datasource crash(dongjunjie)
+	* src/datasource/minids.c
+
+02/04. Fixed# 4468 ini datasource deleteRecord don't work(dongjunjie)
+	* src/datasource/minids.c
+
+02/04. Fixed# 4466 text datasource newRecord cause crash (dongjunjie)
+	* src/datasource/mtextds.c
+
+01/27. Fixed# 4419 listview onClicked event occurs two times each
+one click action.(xwyan)
+	* src/mlistview.c
+
+12/30. Fixed# 4288 fixed the minids: update (dongjunjie)
+	* src/datasource/minids.c
+
+12/29. Fixed# 4327 fixed spelting error: SIGNALE->SINGLE (dongjunjie)
+	* include/mdatabinding.h
+	* samples/src/spinner.c
+
+12/29: Fixed# 4285 mTextDataSource cannot del the record.(dongjunjie)
+	* src/datasource/mtextds.c
+	* src/datasource/mtextds.h
+
+12/29: Fixed Bug of mTextDataSource : don't stop when found the end of a filed(bug 4281) dongjunjie
+	* src/datasource/mtextds.c	
+
+12/28: Add NCSS_EX_UNNEEDIME for edit control, and fixed a bug of pinyin(dongjunjie)
+	M       include/medit.h
+	M       include/mime.h
+	M       src/ime/mpinyin-ime.c
+	M       src/medit.c
+
+
+12/25: Fixed the bug of mginit (hejia)
+      M      include/mime.h
+	  M      ChangeLog
+	  M      src/ime/mpti-ime.c
+	  M      src/ime/mime.c
+	  M      src/ime/digit_ime.c
+
+
+12/25: Add the IME Test(dongjunjie)
+	M       test/Makefile.am
+	M       configure.in
+	M       src/ime/mime.c
+	A       test/imetest
+	A       test/imetest/include
+	A       test/imetest/include/ncs-window-types.h
+	A       test/imetest/include/ncs-windows.h
+	A       test/imetest/include/mobile-ime.h
+	A       test/imetest/include/resource.h
+	A       test/imetest/.project
+	A       test/imetest/src
+	A       test/imetest/src/imetest_main.c
+	A       test/imetest/src/mobile-ime.c
+	A       test/imetest/src/ime-view.c
+	A       test/imetest/src/imetest.c
+	A       test/imetest/.cproject
+	A       test/imetest/res
+	A       test/imetest/res/image
+	A       test/imetest/res/text
+	A       test/imetest/res/text/text-config.xml
+	A       test/imetest/res/text/en_US.txt
+	A       test/imetest/res/text/id.xml
+	A       test/imetest/res/renderer
+	A       test/imetest/res/renderer/rdr.xml
+	A       test/imetest/res/ui
+	A       test/imetest/res/ui/ime-view.xml
+	A       test/imetest/res/ui/imetest.xml
+	A       test/imetest/res/ui/id.xml
+	A       test/imetest/res/res.project
+	A       test/imetest/Makefile.am
+	A       test/imetest/ReadMe
+
+
+12/25: Add the IME support
+	A       include/mime-wordsel.h
+	A       include/pieces/msimplelistpiece.h
+	A       include/mime.h
+	A       src/mime-wordsel.c
+	A       src/ime
+	A       src/ime/mpti-ime.c
+	A       src/ime/mgpti_dict.c
+	A       src/ime/mime.c
+	A       src/ime/pinyin-dict.c
+	A       src/ime/Makefile.am
+	A       src/ime/pinyin-idx.c
+	A       src/ime/digit_ime.c
+	A       src/ime/mpinyin-ime.c
+	A       src/pieces/msimplelistpiece.c
+	M       include/pieces/mlinelayoutpiece.h
+	M       include/pieces/piece-id.h
+	M       include/pieces/Makefile.am
+	M       include/mcomponent.h
+	M       include/piece.h
+	M       include/mgncs.h
+	M       include/Makefile.am
+	M       configure.in
+	M       src/mwidget.c
+	M       src/pieces/piece.c
+	M       src/pieces/mlinelayoutpiece.c
+	M       src/pieces/Makefile.am
+	M       src/mctrls.c
+	M       src/Makefile.am
+
+
+
+11/23: Fixed 4078 
+	* src/pieces/piece-event.c
+
+11/13: Fixed 4073 mMonthCalendar get the wrong index of grid when date is
+2009/11, because the the 2009/11/1 is sunday
+	* src/pieces/mdaygridpiece.c
+	* src/pieces/mgridboxpiece.c
+
+11/13: Fixed 4076 mCombobox setItem and removeItem didn't changed when user
+call them
+	* src/mcombobox.c
+
+11/11: Reimplmement of led
+	* src/pieces/mledstaticpiece.c
+
+11/4: Add the file for mobile plateform (dongjunjie)
+	* src/mcomponent.c
+	* include/mcomponent.h
+	* include/mregmgr.h
+	* include/mmainwnd.h 
+	* include/mgncs.h
+	* include/mmainwnd.h
+	* include/mdatabinding.h
+	* include/Makefile.am
+	* include/mobject.h
+	* configure.in
+	* ChangeLog
+	* src/renderer/classic/classic_boxpieces.c
+	* src/renderer/skin/skin_boxpieces.c
+	* src/renderer/flat/flat_boxpieces.c
+	* src/renderer/flat/flat_widget.c
+	* src/renderer/fashion/fashion_boxpieces.c
+	* src/mbmparrayanimateframes.c
+	* src/mresmanager.c
+	* src/minvisible-component.c
+	* src/mobject.c
+	* src/pieces/mcheckbuttonpiece.c
+	* src/pieces/Makefile.am
+	* src/mmemanimateframes.c
+	* src/mgifanimateframes.c
+	* src/mcomponent.c
+	* src/mmainwnd.c
+
+	Make the piece can be seen
+	* include/pieces
+	* include/pieces/mscrollthumbboxpiece.h
+	* include/pieces/mradioboxpiece.h
+	* include/pieces/mpushbuttonpiece.h
+	* include/pieces/mvboxlayoutpiece.h
+	* include/pieces/mlayoutpiece.h
+	* include/pieces/mweekheadpiece.h
+	* include/pieces/mspinnerpiece.h
+	* include/pieces/mlabelpiece.h
+	* include/pieces/mnumspinnedpiece.h
+	* include/pieces/mspinboxpiece.h
+	* include/pieces/mdownarrowpiece.h
+	* include/pieces/mcontainerpiece.h
+	* include/pieces/mdaygridpiece.h
+	* include/pieces/mwidgetwrapperpiece.h
+	* include/pieces/mbuttonboxpiece.h
+	* include/pieces/mmonthpiece.h
+	* include/pieces/mcheckboxpiece.h
+	* include/pieces/mstaticpiece.h
+	* include/pieces/mrightarrowpiece.h
+	* include/pieces/mtrackbarpiece.h
+	* include/pieces/mhotpiece.h
+	* include/pieces/mhspinboxpiece.h
+	* include/pieces/mlistspinnedpiece.h
+	* include/pieces/mabstractbuttonpiece.h
+	* include/pieces/piece.h
+	* include/pieces/mleftarrowpiece.h
+	* include/pieces/mvspinboxpiece.h
+	* include/pieces/mcheckbuttonpiece.h
+	* include/pieces/mtoolimgpiece.h
+	* include/pieces/mledstaticpiece.h
+	* include/pieces/manimatepiece.h
+	* include/pieces/mimagepiece.h
+	* include/pieces/msliderpiece.h
+	* include/pieces/mimagelabelpiece.h
+	* include/pieces/mscrollbarpiece.h
+	* include/pieces/mlinelayoutpiece.h
+	* include/pieces/mboxlayoutpiece.h
+	* include/pieces/marrowbuttonpiece.h
+	* include/pieces/mthumbboxpiece.h
+	* include/pieces/marrowpiece.h
+	* include/pieces/mradiobuttonpiece.h
+	* include/pieces/mpairpiece.h
+	* include/pieces/piece-id.h
+	* include/pieces/mrectpiece.h
+	* include/pieces/mgridboxpiece.h
+	* include/pieces/mhboxlayoutpiece.h
+	* include/pieces/muparrowpiece.h
+	* include/pieces/Makefile.am
+	* include/pieces/mseparatorpiece.h
+	* include/pieces/mrenderablepiece.h
+	* include/pieces/mprogresspiece.h
+
+	Delete Files
+	* src/pieces/mradioboxpiece.h
+	* src/pieces/mscrollthumbboxpiece.h
+	* src/pieces/mpushbuttonpiece.h
+	* src/pieces/mlayoutpiece.h
+	* src/pieces/mweekheadpiece.h
+	* src/pieces/mdownarrowpiece.h
+	* src/pieces/mspinboxpiece.h
+	* src/pieces/mbuttonboxpiece.h
+	* src/pieces/mwidgetwrapperpiece.h
+	* src/pieces/mrightarrowpiece.h
+	* src/pieces/mtrackbarpiece.h
+	* src/pieces/mhspinboxpiece.h
+	* src/pieces/mabstractbuttonpiece.h
+	* src/pieces/mvspinboxpiece.h
+	* src/pieces/mcheckbuttonpiece.h
+	* src/pieces/mledstaticpiece.h
+	* src/pieces/manimatepiece.h
+	* src/pieces/mscrollbarpiece.h
+	* src/pieces/mlinelayoutpiece.h
+	* src/pieces/mboxlayoutpiece.h
+	* src/pieces/mthumbboxpiece.h
+	* src/pieces/mradiobuttonpiece.h
+	* src/pieces/marrowpiece.h
+	* src/pieces/mpairpiece.h
+	* src/pieces/mhboxlayoutpiece.h
+	* src/pieces/mseparatorpiece.h
+	* src/pieces/mprogresspiece.h
+	* src/pieces/mvboxlayoutpiece.h
+	* src/pieces/mspinnerpiece.h
+	* src/pieces/mlabelpiece.h
+	* src/pieces/mnumspinnedpiece.h
+	* src/pieces/mcontainerpiece.h
+	* src/pieces/mdaygridpiece.h
+	* src/pieces/mmonthpiece.h
+	* src/pieces/mcheckboxpiece.h
+	* src/pieces/mstaticpiece.h
+	* src/pieces/mhotpiece.h
+	* src/pieces/mlistspinnedpiece.h
+	* src/pieces/piece.h
+	* src/pieces/mleftarrowpiece.h
+	* src/pieces/mtoolimgpiece.h
+	* src/pieces/mimagepiece.h
+	* src/pieces/mimagelabelpiece.h
+	* src/pieces/msliderpiece.h
+	* src/pieces/marrowbuttonpiece.h
+	* src/pieces/piece-id.h
+	* src/pieces/mrectpiece.h
+	* src/pieces/mgridboxpiece.h
+	* src/pieces/muparrowpiece.h
+	* src/pieces/mrenderablepiece.h
+
+
+
+
+08/28: BUGFIXED? bug of hash_delete and databiding, bug when free:(dongjunjie)
+	* src/hash.c
+	* src/mdatabinding.c
+	* include/mdatabinding.h
+
+08/28: BUGFIXED? LEDStatic: setProperty: color, width, height properties didnot
+Invalidate when set sucessed; LEDStatic: No getProperty; LedstaticPiece: No
+getProperty(dongjunjie(
+	* src/mledstatic.c
+	* src/piece/mledstaticpiece.c
+
+08/27: Add DataBinding and DataSource support and set/getSpecial
+interface(dongjunjie)
+	* mtype: type define and type translation
+			* include/mtype.h
+			* src/mtype.c
+	* databinding: support variable to component, component to component
+	databiding
+			* include/mdatabinding.h
+			* src/mdatabinding.c
+	* datasource: define the datasource interface and default datasource:
+	static datasource, text datasource and ini file datasource
+			* include/mdatasource.h
+			* src/mdatasource.c
+			* src/datasource
+			* src/datasource/mstaticds.h
+			* src/datasource/minids.c
+			* src/datasource/comm_parser.c
+			* src/datasource/str_expression.c
+			* src/datasource/Makefile.am
+			* src/datasource/mtextds.c
+			* src/datasource/minids.h
+			* src/datasource/mstaticds.c
+			* src/datasource/comm_parser.h
+			* src/datasource/mtextds.h
+	* set/getSpecial interfance and datasource support interface(combobox,
+	listbox, listview
+			* include/mwidget.h
+			* include/mrect.h
+			* include/mcombobox.h
+			* include/mmledit.h
+			* include/mlistbox.h
+			* include/msledit.h
+			* include/mgncs.h
+			* include/mreferencedobj.h
+			* include/mlistview.h
+			* include/Makefile.am
+			* include/mobject.h
+			* configure.in
+			* src/mwidget.c
+			* src/mrect.c
+			* src/mcombobox.c
+			* src/mlistbox.c
+			* src/mreferencedobj.c
+			* src/mobject.c
+			* src/pieces/mrectpiece.c
+			* src/pieces/mrectpiece.h
+			* src/mctrls.c
+			* src/msledit.c
+			* src/mlistview.c
+			* src/Makefile.am
+	* test for databinding and datasource
+			* test/bindtest.c
+			* test/staticds.c
+			* test/databinding
+			* test/databinding/controls.ini
+			* test/databinding/include
+			* test/databinding/include/ncs-window-types.h
+			* test/databinding/include/ncs-windows.h
+			* test/databinding/include/resource.h
+			* test/databinding/.project
+			* test/databinding/Debug
+			* test/databinding/Debug/objects.mk
+			* test/databinding/Debug/src
+			* test/databinding/Debug/src/subdir.mk
+			* test/databinding/Debug/sources.mk
+			* test/databinding/Debug/makefile
+			* test/databinding/src
+			* test/databinding/src/main.c
+			* test/databinding/src/databinding_main.c
+			* test/databinding/.cproject
+			* test/databinding/res
+			* test/databinding/res/image
+			* test/databinding/res/text
+			* test/databinding/res/text/text-config.xml
+			* test/databinding/res/text/en_US.txt
+			* test/databinding/res/text/id.xml
+			* test/databinding/res/renderer
+			* test/databinding/res/renderer/rdr.xml
+			* test/databinding/res/databinding.res
+			* test/databinding/res/ui
+			* test/databinding/res/ui/main.xml
+			* test/databinding/res/ui/id.xml
+			* test/databinding/res/res.project
+			* test/name2value.c
+			* test/Makefile.am
+			* test/trackbar.c
+
+
+
+
+05/23: Add BkImage support for mwidget(dongjunjie)
+
+04/20: Add mObject, mComponent, mInvsbComp, mTimer object (dongjunjie)
+		* test/commrdrtest.c
+		* test/rectangle.c
+		* test/groupbox.c
+		* test/combobox.c
+		* test/test.template
+		* test/propsheet.c
+		* test/radiogroup.c
+		* test/button.c
+		* test/spinner.c
+		* test/timer.c
+		* test/image.c
+		* test/spinbox.c
+		* test/listbox.c
+		* test/static.c
+		* test/Makefile.am
+		* test/progressbar.c
+		* test/trackbar.c
+		* test/mainwnd.c
+		* minictrlsconfig.h
+		* include/mpage.h
+		* include/mtimer.h
+		* include/mwidget.h
+		* include/mctrls.h
+		* include/mcomponent.h
+		* include/mresmanager.h
+		* include/minvisible-component.h
+		* include/mitem.h
+		* include/mobject.h
+		* include/Makefile.am
+		* configure.in
+		* src/mspinbox.c
+		* src/mcontainer.c
+		* src/mwidget.c
+		* src/mctrls.c
+		* src/mprogressbar.c
+		* src/mrect.c
+		* src/mscroll_widget.c
+		* src/mcomponent.c
+		* src/mgroupbox.c
+		* src/mcombobox.c
+		* src/renderer/classic/classic_groupbox.c
+		* src/renderer/classic/classic_combobox.c
+		* src/renderer/classic/classic_checkbutton.c
+		* src/renderer/classic/classic_propsheet.c
+		* src/renderer/classic/classic_button.c
+		* src/renderer/classic/classic_spinner.c
+		* src/renderer/classic/classic_slider.c
+		* src/renderer/classic/classic_spinbox.c
+		* src/renderer/classic/classic_widget.c
+		* src/renderer/classic/classic_static.c
+		* src/renderer/classic/classic_trackbar.c
+		* src/renderer/classic/classic_progressbar.c
+		* src/renderer/classic/classic_radiobutton.c
+		* src/renderer/skin/skin_button.c
+		* src/renderer/skin/skin_spinner.c
+		* src/renderer/skin/skin_spinbox.c
+		* src/renderer/skin/skin_widget.c
+		* src/renderer/skin/skin_combobox.c
+		* src/renderer/skin/skin_progressbar.c
+		* src/renderer/skin/skin_trackbar.c
+		* src/mpropsheet.c
+		* src/mslider.c
+		* src/mimage.c
+		* src/mlistbox.c
+		* src/minvisible-component.c
+		* src/mrdr.c
+		* src/mstatic.c
+		* src/mitem_manager.c
+		* src/mbuttongroup.c
+		* src/mtrackbar.c
+		* src/mradiobutton.c
+		* src/mmainwnd.c
+		* src/mitem.c
+		* src/mdialog.c
+		* src/mpanel.c
+		* src/mobject.c
+		* src/mcheckbutton.c
+		* src/Makefile.am
+		* src/mbutton.c
+		* src/mpage.c
+		* src/mspinner.c
+		* src/mtimer.c
+
+
+03/12: Add the draw3dbox, drawItem, drawArrow, drawCheckbox, drawRadio support
+in the mWidgetRenderer and classic render
+	* include/miniWidget.h
+	* include/miniSpinbox.h
+	* include/miniRender.h
+	* src/miniRender.c
+	* src/miniCombobox.c
+	* src/miniSpinbox.c
+	* src/render/classic/classic_widget.c
+	* src/render/classic/classic_combobox.c
+	* src/render/classic/classic_propsheet.c
+	* src/render/classic/classic_spinbox.c
+
+03/06: Add the renderer support (dongjunjie)
+	M    trunks/test/Makefile.am
+	M    trunks/test/progressbar.c
+	M    trunks/include/miniRender.h
+	M    trunks/include/miniImage.h
+	M    trunks/include/miniWidget.h
+	M    trunks/include/miniStatic.h
+	M    trunks/include/minicommon.h
+	M    trunks/include/miniProgressBar.h
+	M    trunks/include/miniRectangle.h
+	M    trunks/include/miniCtrl.h
+	M    trunks/include/miniCombobox.h
+	M    trunks/src/render/classic/classic.c
+	M    trunks/src/render/classic/classic_widget.c
+	M    trunks/src/render/classic/Makefile.am
+	M    trunks/src/render/classic/classic_combobox.c
+	M    trunks/src/render/classic/classic_progressbar.c
+	M    trunks/src/miniImage.c
+	M    trunks/src/miniWidget.c
+	M    trunks/src/miniStatic.c
+	M    trunks/src/miniProgressBar.c
+	M    trunks/src/miniDialog.c
+	M    trunks/src/miniRectangle.c
+	M    trunks/src/miniRender.c
+
+
+03/05: Change for minictrls (dongjunjie)
+	* Add the EVENT HANDER
+	* change mCtrls -> ncs
+	* add mMainWnd and mDialog
+
+		* test/mainwnd.c
+		* include/miniMainWnd.h
+		* include/miniDialog.h
+		* src/miniMainWnd.c
+		* src/miniDialog.c
+		* test/static.c
+		* test/Makefile.am
+		* test/progressbar.c
+		* minictrlsconfig.h
+		* include/miniRender.h
+		* include/miniWidget.h
+		* include/miniEdit.h
+		* include/minicommon.h
+		* include/miniPanel.h
+		* include/miniScrollWidget.h
+		* include/miniCtrl.h
+		* include/Makefile.am
+		* include/miniButton.h
+		* configure.in
+		* src/render/classic/classic.c
+		* src/render/classic/classic_widget.c
+		* src/miniImage.c
+		* src/miniContainer.c
+		* src/miniWidget.c
+		* src/miniEdit.c
+		* src/minicommon.c
+		* src/miniProgressBar.c
+		* src/miniPanel.c
+		* src/minictrl.c
+		* src/miniButton.c
+		* src/Makefile.am
+		* src/miniRender.c
+
+
+02/24: Remove Some common code into minicommon.h (dongjunjie)
+		* include/miniRender.h
+		* include/miniWidget.h
+		* include/minicommon.h
+		* src/miniWidget.c
+		* src/miniRender.c
+
+02/24: Change the name of function, and Change the property frame(dongjunjie):
+	* mCtrl -> mCtrls
+	* Render -> Renderer
+	* PropertyEntry removed, changed to setProperty and getProperty in
+	mWidgetClass
+
+		* include/miniRender.h
+		* include/miniPanel.h
+		* include/miniImage.h
+		* include/miniScrollWidget.h
+		* include/miniContainer.h
+		* include/miniWidget.h
+		* include/miniRectangle.h
+		* include/miniStatic.h
+		* include/minicommon.h
+		* include/miniButton.h
+		* src/render/classic/classic.c
+		* src/render/classic/classic_widget.c
+		* src/miniImage.c
+		* src/miniWidget.c
+		* src/miniStatic.c
+		* src/minicommon.c
+		* src/miniScrollWidget.c
+		* src/miniRectangle.c
+		* src/minictrl.c
+		* src/miniRender.c
+
+
+02/16: Add the Render support and doxygen support(dongjunjie)
+		* minictrlsconfig.h
+		* include/miniRender.h
+		* src/render
+		* src/render/classic
+		* src/render/classic/classic.c
+		* src/render/classic/classic_widget.c
+		* src/render/classic/Makefile.am
+		* src/render/skin
+		* src/render/skin/Makefile.am
+		* src/render/fashion
+		* src/render/fashion/Makefile.am
+		* src/render/Makefile.am
+		* src/hashtable.h
+		* src/hashtable.c
+		* src/miniRender.c
+		* Makefile.in
+		* include/Makefile.in
+		* include/miniWidget.h
+		* include/Makefile.am
+		* configure.in
+		* src/Makefile.in
+		* src/minictrl.c
+		* src/Makefile.am
+	
+
+02/13: Upate the minictrl(dongjunjie)
+	Add the property set support
+	Add the Render support
+	Add the PreMessageProcess support
+	Change the WndProc of mClasses
+	Change the Configure.in : add ctrlprefix and propname enable
+	Add This ChangeLog
+
+		* test/static.c
+		* Makefile.in
+		* include/Makefile.in
+		* include/miniImage.h
+		* include/miniWidget.h
+		* include/miniCtrl.h
+		* include/Makefile.am
+		* include/miniStatic.h
+		* include/miniImageStatic.h
+		* configure.in
+		* src/miniImage.c
+		* src/miniWidget.c
+		* src/Makefile.in
+		* src/minictrl.c
+		* src/miniStatic.c
+		* src/miniImageStatic.c
+		* src/Makefile.am
+		* ChangeLog
+		* autogen.sh
+		* aclocal.m4

@@ -1,0 +1,49 @@
+<window class="window::MainWnd" serial-number="4114546688">
+	<ID>0x80003</ID>
+	<X>0</X>
+	<Y>0</Y>
+	<Width>325</Width>
+	<Height>98</Height>
+	<Text>0x00026B9C</Text>
+	<Border>True</Border>
+	<Visible>False</Visible>
+	<HasCaption>True</HasCaption>
+	<SystemMenu>True</SystemMenu>
+	<BorderType>DlgFrame</BorderType>
+	<MinimizeBox>True</MinimizeBox>
+	<MaximizeBox>True</MaximizeBox>
+	<onCreate>onCreate</onCreate>
+	<onKeyDown>onKeyDown</onKeyDown>
+	<onChar>onChar</onChar>
+	<onSetFocus>onSetFocus</onSetFocus>
+	<window class="window::Static" serial-number="3748093952">
+		<ID>0x4000000f</ID>
+		<X>2</X>
+		<Y>3</Y>
+		<Width>73</Width>
+		<Height>27</Height>
+		<Text>0x0002718A</Text>
+		<Font>*-unifont-rrn*nn-*-16-UTF-8</Font>
+	</window>
+	<window class="window::IMWordSel" serial-number="2102675456">
+		<ID>0x40000013</ID>
+		<X>9</X>
+		<Y>39</Y>
+		<Width>302</Width>
+		<Height>22</Height>
+		<Text>0x0002B64B</Text>
+		<listen>
+			<sender>1073741844</sender>
+			<event>4050</event>
+			<prototype>imwords_on_imkeys_selchanged</prototype>
+		</listen>
+	</window>
+	<window class="window::IMWordSel" serial-number="1505738752">
+		<ID>0x40000014</ID>
+		<X>84</X>
+		<Y>6</Y>
+		<Width>228</Width>
+		<Height>22</Height>
+		<Text>0x000249AB</Text>
+	</window>
+</window>

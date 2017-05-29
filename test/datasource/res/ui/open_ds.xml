@@ -1,0 +1,89 @@
+<window class="window::MainWnd" serial-number="3614941184">
+	<ID>0x80006</ID>
+	<X>0</X>
+	<Y>0</Y>
+	<Width>392</Width>
+	<Height>252</Height>
+	<Text>0x0002271A</Text>
+	<Border>True</Border>
+	<HasCaption>True</HasCaption>
+	<SystemMenu>True</SystemMenu>
+	<BorderType>DlgFrame</BorderType>
+	<MinimizeBox>True</MinimizeBox>
+	<MaximizeBox>True</MaximizeBox>
+	<onCreate>onCreate</onCreate>
+	<window class="window::Button" serial-number="3155369984">
+		<ID>0x40000001</ID>
+		<X>136</X>
+		<Y>168</Y>
+		<Width>80</Width>
+		<Height>32</Height>
+		<Text>0x0002271B</Text>
+		<Visible>True</Visible>
+	</window>
+	<window class="window::Button" serial-number="1072560128">
+		<ID>0x40000002</ID>
+		<X>256</X>
+		<Y>168</Y>
+		<Width>80</Width>
+		<Height>32</Height>
+		<Text>0x0002271C</Text>
+		<Visible>True</Visible>
+	</window>
+	<window class="window::Static" serial-number="3214385152">
+		<ID>0x40000010</ID>
+		<Align>Left</Align>
+		<X>16</X>
+		<Y>8</Y>
+		<Width>320</Width>
+		<Height>32</Height>
+		<Text>0x0002271D</Text>
+	</window>
+	<window class="window::Combobox" serial-number="3062816768">
+		<ID>0x40000011</ID>
+		<X>16</X>
+		<Y>44</Y>
+		<Width>320</Width>
+		<Height>24</Height>
+	</window>
+	<window class="window::Static" serial-number="2080325632">
+		<ID>0x40000012</ID>
+		<Align>Left</Align>
+		<X>16</X>
+		<Y>80</Y>
+		<Width>320</Width>
+		<Height>32</Height>
+		<Text>0x0002271E</Text>
+	</window>
+	<window class="window::SlEdit" serial-number="1752162304">
+		<ID>0x40000013</ID>
+		<X>16</X>
+		<Y>120</Y>
+		<Width>320</Width>
+		<Height>28</Height>
+		<Text>0x0002271F</Text>
+		<listen>
+			<sender>1073741844</sender>
+			<event>4050</event>
+			<prototype>dsfile_on_openfile_clicked</prototype>
+		</listen>
+	</window>
+	<window class="window::Button" serial-number="3644037120">
+		<ID>0x40000014</ID>
+		<X>340</X>
+		<Y>120</Y>
+		<Width>28</Width>
+		<Height>28</Height>
+		<Text>0x00022720</Text>
+	</window>
+	<listen>
+		<sender>1073741825</sender>
+		<event>4050</event>
+		<prototype>opends_on_ok_clicked</prototype>
+	</listen>
+	<listen>
+		<sender>1073741826</sender>
+		<event>4050</event>
+		<prototype>opends_on_cancel_clicked</prototype>
+	</listen>
+</window>

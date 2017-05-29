@@ -1,0 +1,36 @@
+This tool is used to translate the variable count args macro of C 
+for example: _M, _IM, _SUPER, NEWV
+it used to support lower version of gcc or the comipler which doest not support VA_ARGS
+
+use:
+    make -- to make tools vaargs_list
+    trans.sh -- the script to translate
+
+before use trans.sh, prepare a list of files to be translated:
+
+cat < _ACEOF > list.txt
+a.c
+b.c
+c.c
+...
+ _ACEOF 
+
+ ./trans.sh list.txt
+
+
+vaargs_trans whould not translate the code in comment or in string, but if the code is 
+bettween in "#if 0" and "#endif", it still translate them. 
+
+To ensure the code is right, can be compiler by the gcc, or I don't known what would be output
+
+
+You can support the new pattern for this vaargs_trans. 
+Open file trans.l, and find the variable "output_pattern", and append your pattern:
+    1. first string is the marco name
+    2. second string is pattern:
+        1) '$' + NUM is the param number, start with '1', for example, the express "_M(pobj, method, arg1)", the $1 indicate "pobj", $2 indicate "method"
+        2) '@' + NUM is the param list start with NUM, for example, @3 mean fill the param list from the thrid param to end of param list
+    3. end with "{NULL, NULL}"
+
+
+

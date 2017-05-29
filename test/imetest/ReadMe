@@ -1,0 +1,10 @@
+
+imetest -- test the ime
+
+this imetest is only test the digit input
+
+	1. select the PTI or Pinyin Radio Button 
+	2. input 2-9 to select the words
+    3. Make the MiniGUI.cfg include GB1830, GBK, GB2313 font support, or ime cannot support the charset translate
+
+

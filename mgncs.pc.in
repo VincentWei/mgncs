@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name : mGNCS
+Description: The New Control Set of MiniGUI
+Version: @mGNCS_VERSION@
+Libs: -L${libdir} -lmgncs@mGNCS_LIBSUFFIX@ @MGNCS_APP_LIBRARIES@
+libs.private:
+CFlags: -I${includedir} @MGNCS_INCLUDE_LIST@

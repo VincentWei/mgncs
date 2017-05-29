@@ -1,0 +1,8 @@
+drwxr-xr-x 3 dongjunjie dongjunjie 4096 2009-09-08 14:28 Debug 
+drwxr-xr-x 2 dongjunjie dongjunjie 4096 2009-09-07 17:38 includedd 
+-rw-r--r-- 1 dongjunjie dongjunjie 9415 2009-09-08 14:13 MiniGUI.cfg 
+drwxr-xr-x 6 dongjunjie dongjunjie 4096 2009-09-08 11:52 res 
+drwxr-xr-x 2 dongjunjie dongjunjie 4096 2009-09-08 14:13 src 
+-rw-r--r-- 1 dongjunjie dongjunjie 9415 2009-09-08 14:29 test.ini 
+-rw-r--r-- 1 dongjunjie dongjunjie 0 2009-09-08 14:29 test.txt 
+        

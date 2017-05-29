@@ -1,0 +1,57 @@
+list (APPEND pieces_srcs
+         mbuttonboxpiece.c 
+		mcontainerpiece.c 
+		mhotpiece.c 
+		piece-event.c 
+		mimagepiece.c
+		mlabelpiece.c
+		mrenderablepiece.c
+		mstaticpiece.c
+		mpairpiece.c
+		mabstractbuttonpiece.c
+		mlayoutpiece.c
+		piece.c
+		mpushbuttonpiece.c
+		mimagelabelpiece.c
+		msliderpiece.c
+		mthumbboxpiece.c
+		mtrackbarpiece.c
+		mcheckbuttonpiece.c
+		mcheckboxpiece.c
+		mradioboxpiece.c
+		mscrollbarpiece.c
+		marrowpiece.c
+		mleftarrowpiece.c
+		mrightarrowpiece.c
+		muparrowpiece.c
+		mdownarrowpiece.c
+		mboxlayoutpiece.c
+		mhboxlayoutpiece.c
+		mvboxlayoutpiece.c
+		marrowbuttonpiece.c
+		manimatepiece.c
+		mspinboxpiece.c
+		mspinnerpiece.c
+		mhspinboxpiece.c
+		mvspinboxpiece.c
+		mgridboxpiece.c
+		mdaygridpiece.c
+		mmonthpiece.c 
+		mnumspinnedpiece.c
+		mlistspinnedpiece.c
+		mweekheadpiece.c
+		mtoolimgpiece.c
+		mseparatorpiece.c
+		mlinelayoutpiece.c
+		mwidgetwrapperpiece.c
+		mrectpiece.c 
+		mprogresspiece.c
+		mscrollthumbboxpiece.c 
+		msimplelistpiece.c 
+		mledstaticpiece.c 
+      )
+
+  mg_add_source_files(${pieces_srcs})
+
+  mg_commit_source_files()
+

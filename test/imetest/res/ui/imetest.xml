@@ -1,0 +1,64 @@
+<window class="window::MainWnd" serial-number="1442562048">
+	<ID>0x80002</ID>
+	<Class>mainwnd</Class>
+	<X>0</X>
+	<Y>0</Y>
+	<Width>396</Width>
+	<Height>290</Height>
+	<Text>0x00026668</Text>
+	<Border>True</Border>
+	<HasCaption>True</HasCaption>
+	<SystemMenu>True</SystemMenu>
+	<BorderType>DlgFrame</BorderType>
+	<MinimizeBox>True</MinimizeBox>
+	<MaximizeBox>True</MaximizeBox>
+	<onCreate>onCreate</onCreate>
+	<window class="window::Static" serial-number="2247866368">
+		<ID>0x4000000a</ID>
+		<Align>Left</Align>
+		<X>6</X>
+		<Y>7</Y>
+		<Width>100</Width>
+		<Height>25</Height>
+		<Text>0x00024ADA</Text>
+	</window>
+	<window class="window::ButtonGroup" serial-number="1230929920">
+		<ID>0x4000000b</ID>
+		<X>5</X>
+		<Y>162</Y>
+		<Width>212</Width>
+		<Height>92</Height>
+		<Text>0x00025A7C</Text>
+	</window>
+	<window class="window::RadioButton" serial-number="1924872192">
+		<ID>0x4000000d</ID>
+		<GroupId>0x4000000B</GroupId>
+		<X>16</X>
+		<Y>189</Y>
+		<Width>160</Width>
+		<Height>25</Height>
+		<Text>0x000248BB</Text>
+	</window>
+	<window class="window::RadioButton" serial-number="3615178752">
+		<ID>0x4000000e</ID>
+		<GroupId>0x4000000B</GroupId>
+		<X>16</X>
+		<Y>213</Y>
+		<Width>160</Width>
+		<Height>25</Height>
+		<Text>0x0002B38C</Text>
+	</window>
+	<window class="window::MlEdit" serial-number="1898754048">
+		<ID>0x40000009</ID>
+		<X>4</X>
+		<Y>34</Y>
+		<Width>374</Width>
+		<Height>127</Height>
+		<Text>0x0002463A</Text>
+	</window>
+	<listen>
+		<sender>1073741835</sender>
+		<event>4050</event>
+		<prototype>mainwnd1_on_imegroup_radiobuttonchanged</prototype>
+	</listen>
+</window>

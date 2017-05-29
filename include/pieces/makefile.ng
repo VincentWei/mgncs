@@ -1,0 +1,9 @@
+# Makefile defines for building the MiniGUI DLL with Microsoft VC
+
+abs_top_srcdir=../..
+
+include Makefile.am
+include ../../rules.make
+install::
+	@for i in $(libmgncsinclude_HEADERS); do $(CP) $$i $(libmgncsincludedir)/pieces/; done
+

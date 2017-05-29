@@ -1,0 +1,80 @@
+# Makefile for building the libminigui with GNU Make
+# Use: make -f makefile.ng
+
+#TOPLIBALL = 1
+# have sub directories
+TOPLOOP = 1
+abs_top_srcdir=..
+
+MGNCS_VER=1.0.6
+MGNCSLIB=libmgncs-$(MGNCS_VER)
+
+################################################################
+#compile source code in current directory.
+include Makefile.am
+################################################################
+
+################################################################
+# specific defines
+
+COMM_LDADD=						\
+    datasource/libdatasource.$(LIBA) \
+    pieces/libpieces.$(LIBA) \
+    renderer/classic/libclassic.$(LIBA) \
+    renderer/fashion/libfashion.$(LIBA) \
+    renderer/flat/libflat.$(LIBA) \
+    renderer/skin/libskin.$(LIBA) \
+    ime/libime.$(LIBA)
+
+CUR_LDADD=libsrc.$(LIBA)
+SUB_LDADD=$(COMM_LDADD)
+SUB_DIRS=$(dir $(SUB_LDADD))
+
+SUB_LDOBJS=*.$(OBJ)
+SUB_LDOBJS+=$(addsuffix *.$(OBJ), $(SUB_DIRS)) 
+
+################################################################
+# includes common defines
+
+include $(abs_top_srcdir)/rules.make
+
+################################################################
+# specific targets and commands
+
+ifeq (1, $(DLL))
+all :: $(MGNCS).dll libmgncs.$(LIBA)
+else
+all :: libmgncs.$(LIBA) 
+endif
+
+$(MGNCSLIB).dll : $(SUB_LDADD) $(CUR_LDADD)
+	$(CC) -LD $(CRUNTIME) -Fe$(MGNCSLIB).dll $(SUB_LDOBJS) $(PTHREAD_LIBS) kernel32.lib shell32.lib user32.lib $(LDFLAGS)
+
+libmgncs.$(LIBA) : $(SUB_LDADD) $(CUR_LDADD)
+	$(AR) $(ARFLAGS) $(ARFLAGS_OUT)$@ $(SUB_LDOBJS)
+	$(RANLIB) $@
+
+$(SUB_LDADD) : 
+	$(MAKE) -C $(dir $@) -f makefile.ng
+
+cleanall : clean
+
+install::
+ifeq (1, $(DLL))
+	$(CP) $(MGNCSLIB).dll $(libdir)/$(MGNCSLIB).dll
+	$(CP) $(MGNCSLIB).lib $(libdir)/$(MGNCSLIB).lib
+endif
+	$(CP) libmgncs.$(LIBA) $(libdir)/libmgncs.$(LIBA)
+
+installdirs :: force
+	@-mkdir $(prefix)
+	@-mkdir $(exec_prefix)
+	@-mkdir $(libdir)
+
+uninstall :: force
+ifeq (1, $(DLL))
+	$(RM) $(libdir)/$(MGNCSLIB).dll
+endif
+	$(RM) $(libdir)/$(MGNCSLIB).$(LIBA)
+
+

@@ -1,0 +1,60 @@
+<window class="window::MainWnd" serial-number="2028552192">
+	<ID>0x80004</ID>
+	<X>0</X>
+	<Y>0</Y>
+	<Width>300</Width>
+	<Height>248</Height>
+	<Text>141091</Text>
+	<Border>True</Border>
+	<HasCaption>True</HasCaption>
+	<SystemMenu>True</SystemMenu>
+	<BorderType>DlgFrame</BorderType>
+	<MinimizeBox>True</MinimizeBox>
+	<MaximizeBox>True</MaximizeBox>
+	<onCreate>onCreate</onCreate>
+	<window class="window::Button" serial-number="4189794304">
+		<ID>0x40000001</ID>
+		<X>76</X>
+		<Y>168</Y>
+		<Width>80</Width>
+		<Height>30</Height>
+		<Text>141092</Text>
+		<Visible>True</Visible>
+	</window>
+	<window class="window::Button" serial-number="4177477632">
+		<ID>0x40000002</ID>
+		<X>196</X>
+		<Y>168</Y>
+		<Width>80</Width>
+		<Height>30</Height>
+		<Text>141093</Text>
+		<Visible>True</Visible>
+	</window>
+	<window class="window::Static" serial-number="1980702720">
+		<ID>0x40000017</ID>
+		<Align>Left</Align>
+		<X>12</X>
+		<Y>8</Y>
+		<Width>261</Width>
+		<Height>32</Height>
+		<Text>141095</Text>
+	</window>
+	<window class="window::MlEdit" serial-number="4235925504">
+		<ID>0x40000018</ID>
+		<X>12</X>
+		<Y>40</Y>
+		<Width>264</Width>
+		<Height>108</Height>
+		<Text>141096</Text>
+	</window>
+	<listen>
+		<sender>1073741825</sender>
+		<event>4050</event>
+		<prototype>mainselect_on_ok_clicked</prototype>
+	</listen>
+	<listen>
+		<sender>1073741826</sender>
+		<event>4050</event>
+		<prototype>mainselect_on_cancel_clicked</prototype>
+	</listen>
+</window>
