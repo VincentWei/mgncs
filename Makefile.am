@@ -9,3 +9,5 @@ libmgncsincludedir=$(includedir)/mgncs
 
 libmgncsinclude_HEADERS = mgncsconfig.h
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA=mgncs.pc

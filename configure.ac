@@ -704,7 +704,7 @@ fi
 
 AC_SUBST(APP_LIBS)
 
-AC_CONFIG_FILES([Makefile
+AC_CONFIG_FILES([Makefile mgncs.pc
                  include/Makefile
                  include/pieces/Makefile
                  src/Makefile
