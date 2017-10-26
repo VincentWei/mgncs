@@ -14,7 +14,7 @@
 #include "mobject.h"
 #include "mtype.h"
 #include "mcomponent.h"
-#if _MGNCS_DATASOURCE
+//#if _MGNCSDB_DATASOURCE
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #include "mstaticds.h"
@@ -22,6 +22,8 @@
 #include "mem-slab.h"
 
 #include "comm_parser.h"
+
+#ifdef _MGNCSDB_STATIC
 
 static mStaticDataSource gStaticDS;
 mDataSource * g_pStaticDS = NULL;
@@ -58,7 +60,7 @@ static mStaticDataNode * find_child_node(mStaticDataNode* pnode, const char* nam
 			return pcur;
 		}
 	}
-	
+
 	return NULL;
 }
 #endif
@@ -71,10 +73,10 @@ static int on_find_node_name(void* ppcur_org, const char* name_org)
 
 	mStaticDataNode **ppcur = (mStaticDataNode **)ppcur_org;
 	char* name = (char *)name_org;
-	
+
 	if(!ppcur || !*ppcur || !name || (*ppcur)->type != NCS_SDT_TREE)
 		return 0;
-	
+
 	name = ncsStrStrip(name);
 
 	str = strchr(name,'[');
@@ -87,7 +89,7 @@ static int on_find_node_name(void* ppcur_org, const char* name_org)
 	pcur = *ppcur;
 
 	pcur = ((mStaticDataTreeNode*)pcur)->children;
-	
+
 	while(pcur)
 	{
 		if(strcmp(pcur->name, name) == 0)
@@ -97,7 +99,7 @@ static int on_find_node_name(void* ppcur_org, const char* name_org)
 		}
 		pcur = pcur->next;
 	}
-	
+
 	*ppcur = NULL;
 
 	return 0;
@@ -157,15 +159,15 @@ DWORD mStaticDataSource_getValue(mStaticDataSource* self, const char* mql, BOOL 
 	head.children = self->head;
 	head.type = NCS_SDT_TREE;
 	pnode =  (mStaticDataNode *)(void *)&head;
-	
+
 	strcpy(szText, mql);
 
 	ncsStrSpliterCallback(szText, on_find_node_name, '/', &pnode);
-	
+
 	if(pnode == (mStaticDataNode *)(void *)&head || pnode ==NULL)
 		return 0;
 
-	
+
 	if(pok)
 		*pok = TRUE;
 
@@ -185,7 +187,7 @@ DWORD mStaticDataSource_getValue(mStaticDataSource* self, const char* mql, BOOL 
 		if(pok)
 			*pok = FALSE;
 	}
-	
+
 	return 0;
 
 }
@@ -205,14 +207,14 @@ static mBindProp* mStaticDataSource_getBindProp(mStaticDataSource* self, const c
 	head.children = self->head;
 	head.type = NCS_SDT_TREE;
 	pnode =  (mStaticDataNode *)(void *)&head;
-	
+
 	strcpy(szText, ql);
 
 	ncsStrSpliterCallback(szText, on_find_node_name, '/', &pnode);
-	
+
 	if(pnode == (mStaticDataNode *)(void *)&head || pnode ==NULL)
 		return 0;
-	
+
 
 	switch((pnode)->type)
 	{
@@ -231,7 +233,7 @@ static mBindProp* mStaticDataSource_getBindProp(mStaticDataSource* self, const c
 					ptn->field_types[col],bp_type, NCS_RSE_VALUE_UPATED);
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -296,10 +298,10 @@ static BOOL register_node(mStaticDataSource* self, const char* pvalue_path, mSta
 		else
 			break;
 	}
-	
+
 	if(strHead == NULL || *strHead == '\0')
 		return FALSE;
-	
+
 	//create the table node
 	str = (char*)strrchr(strHead, '/');
 	if(!str)
@@ -336,15 +338,15 @@ static BOOL register_node(mStaticDataSource* self, const char* pvalue_path, mSta
 		node->next = ((mStaticDataTreeNode*)parent)->children;
 		((mStaticDataTreeNode*)parent)->children = node;
 	}
-	
+
 	return TRUE;
 }
 
 
 struct _create_table_node_info {
 	void ** array;
-	int array_count; 
-	int field_count; 
+	int array_count;
+	int field_count;
 	int field_width;
 	const unsigned char* field_types ;
 };
@@ -362,14 +364,14 @@ mStaticDataNode* _create_table_node(void* pci_org, const char* name)
 	tn->record_count = pci->array_count;
 	tn->field_types = pci->field_types;
 	tn->table = pci->array;
-	
+
 	return (mStaticDataNode*)tn;
 }
 
-BOOL ncsRegisterStaticData(const char* pvalue_path, 
-	void ** array, 
-	int array_count, 
-	int field_count, 
+BOOL ncsRegisterStaticData(const char* pvalue_path,
+	void ** array,
+	int array_count,
+	int field_count,
 	int field_width,
 	const unsigned char* field_types)
 {
@@ -381,7 +383,7 @@ BOOL ncsRegisterStaticData(const char* pvalue_path,
 		|| field_count <= 0
 		|| field_width <= 1)
 		return FALSE;
-	
+
 	ci.array = array;
 	ci.array_count = array_count;
 	ci.field_count = field_count;
@@ -429,7 +431,7 @@ BOOL ncsRegisterStaticValue(const char* pvalue_path, DWORD value, int type)
 
 static void mStaticRecordSet_construct(mStaticRecordSet* self, DWORD param)
 {
-	Class(mRecordSet).construct((mRecordSet*)self, param);	
+	Class(mRecordSet).construct((mRecordSet*)self, param);
 }
 
 static DWORD mStaticRecordSet_getCursor(mStaticRecordSet* self)
@@ -478,7 +480,7 @@ static int mStaticRecordSet_getFieldCount(mStaticRecordSet* self)
 {
 	if(!self->node)
 		return 0;
-	
+
 	if(self->field_list)
 	{
 		return strlen((char *)self->field_list);
@@ -535,7 +537,7 @@ static DWORD mStaticRecordSet_seekCursor(mStaticRecordSet* self, int seek, int o
 			for(node = ((mStaticDataTreeNode*)(self->node))->children;
 				node && i < count; node = node->next, i++);
 		}
-		cursor = (DWORD)node;	
+		cursor = (DWORD)node;
 	}
 	else
 	{
@@ -543,7 +545,7 @@ static DWORD mStaticRecordSet_seekCursor(mStaticRecordSet* self, int seek, int o
 		switch(seek)
 		{
 		case NCS_RS_CURSOR_BEGIN:
-			cursor = offset; 
+			cursor = offset;
 			break;
 		case NCS_RS_CURSOR_CUR:
 			cursor = self->cursor + offset;
@@ -556,17 +558,17 @@ static DWORD mStaticRecordSet_seekCursor(mStaticRecordSet* self, int seek, int o
 			cursor = 0;
 		else if(cursor >= count)
 			cursor = count;
-		
+
 	}
-	
+
 	if( cursor != self->cursor)
 	{
-		//raise 
+		//raise
 		ncsRaiseDataSourceBindProps((mObject*)self, NCS_RSE_CURSOR_UPDATE);
 	}
 
 	self->cursor = cursor;
-	
+
 	return (DWORD)cursor;
 }
 
@@ -627,7 +629,7 @@ static BOOL mStaticRecordSet_isEnd(mStaticRecordSet* self)
 {
 	if(!self->node)
 		return TRUE;
-	
+
 	if(self->node->type == NCS_SDT_TREE)
 		return self->cursor == 0;
 	else
@@ -646,7 +648,7 @@ static int mStaticRecordSet_getFieldType(mStaticRecordSet* self, int field_idx)
 	if(field_idx < 0)
 		return -1;
 
-	switch(self->node->type) 
+	switch(self->node->type)
 	{
 	case NCS_SDT_TABLE:
 		{
@@ -684,6 +686,6 @@ void ncsInitStaticDataSource()
 	g_pStaticDS = (mDataSource*)(void *)(&gStaticDS);
 }
 
-#endif
-
+#endif //_MGNCSDB_STATIC
+//#endif
 

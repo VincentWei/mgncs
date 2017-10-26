@@ -44,7 +44,10 @@ static void set_check(mAbstractButtonPiece* self)
 	if(!mAbstractButtonPiece_isAutoCheck(self))
 	{
 		if(self->check_state == NCS_ABP_UNCHECKED)
+		{
 			self->check_state = NCS_ABP_CHECKED;
+			RAISE_EVENT(self, NCSN_ABP_STATE_CHANGED, self->check_state);
+		}
 		return ;
 	}
 	

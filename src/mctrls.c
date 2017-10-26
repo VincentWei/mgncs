@@ -23,7 +23,7 @@ extern void ncsUninitFashionRenderers(void);
 extern BOOL ncsInitFlatRenderers(void);
 #endif
 
-#ifdef _MGNCS_DATASOURCE
+#ifdef _MGNCSDB_DATASOURCE
 extern BOOL ncsInitDefaultDataSource(void);
 
 extern BOOL ncsInitDataBinding(void);
@@ -31,7 +31,9 @@ extern BOOL ncsInitDataBinding(void);
 
 extern void free_comp_class(void);
 
+#ifdef _MGNCSENGINE_IME
 extern BOOL ncsInitIMEClasses(void);
+#endif
 
 extern void deinit_widget_info(void);
 extern void init_widget_info(void);
@@ -41,7 +43,7 @@ extern void deinit_piece_event_info(void);
 //////////////////////////////////////////////////////////
 static void _init_classes(void)
 {
-#ifdef _MGNCS_DATASOURCE
+#ifdef _MGNCSDB_DATASOURCE
 	ncsInitDataBinding();
 #endif
 	MGNCS_INIT_CLASS(mObject);
@@ -71,16 +73,22 @@ static void _init_classes(void)
 	MGNCS_INIT_CLASS(mCheckNode);
 	MGNCS_INIT_CLASS(mRadioNode);
 	MGNCS_INIT_CLASS(mAbstractList);
+
+#ifdef _MGNCSCTRL_LIST
 	MGNCS_INIT_CLASS(mListLayout);
 	MGNCS_INIT_CLASS(mLVIconLayout);
 	MGNCS_INIT_CLASS(mLHIconLayout);
 	MGNCS_INIT_CLASS(mLHCenterBoxLayout);
 	MGNCS_INIT_CLASS(mLGroupLayout);
-#ifdef _MGNCS_DATASOURCE
+#endif
+
+#ifdef _MGNCSDB_DATASOURCE
 	ncsInitDefaultDataSource();
 #endif
 
+#ifdef _MGNCSENGINE_IME
 	ncsInitIMEClasses();
+#endif
 
 }
 
@@ -88,7 +96,7 @@ static void _init_classes(void)
 static void init_pre_proc(void);
 #endif
 
-#ifdef _MGNCS_TEXTEDITOR
+#ifdef _MGNCSCTRL_TEXTEDITOR
 ///////////////////////////////////////////
 static BOOL init_textedit(void)
 {
@@ -102,7 +110,7 @@ static BOOL init_textedit(void)
 	MGNCS_INIT_CLASS(mTextLayoutNode);
 	MGNCS_INIT_CLASS(mTextRender);
 
-	MGNCS_REGISTER_COMPONENT_EX(mTextEditor, NCSS_TE_AUTOHSCROLL|NCSS_TE_AUTOVSCROLL |WS_HSCROLL | WS_VSCROLL, 
+	MGNCS_REGISTER_COMPONENT_EX(mTextEditor, NCSS_TE_AUTOHSCROLL|NCSS_TE_AUTOVSCROLL |WS_HSCROLL | WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
     return TRUE;
 }
@@ -123,9 +131,9 @@ BOOL ncsInitialize(void)
 {
     static const char* renderer[] =
     {
-        "classic", 
-        "fashion", 
-        "skin", 
+        "classic",
+        "fashion",
+        "skin",
 		"flat",
     };
 
@@ -141,7 +149,7 @@ BOOL ncsInitialize(void)
     }
     else
     {
-        g_ncsEtcHandle = 
+        g_ncsEtcHandle =
             ncsLoadRdrEtcFile(MGNCS_ETCFILENAME, renderer, sizeof(renderer)/sizeof(char*));
         _prev_defined_ncs_etc = FALSE;
         if (!g_ncsEtcHandle) {
@@ -162,12 +170,17 @@ BOOL ncsInitialize(void)
 
 	//Register mStatic
 	MGNCS_REGISTER_COMPONENT(mStatic);
+
+#ifdef _MGNCSCTRL_LEDLABEL
 	MGNCS_REGISTER_COMPONENT(mLEDLabel);
+#endif
 
 	//Register mImage
 	MGNCS_REGISTER_COMPONENT(mImage);
 
+#ifdef _MGNCSCTRL_RECTANGLE
 	MGNCS_REGISTER_COMPONENT(mRectangle);
+#endif
 
 	MGNCS_REGISTER_COMPONENT(mGroupBox);
 
@@ -179,45 +192,78 @@ BOOL ncsInitialize(void)
 
 	MGNCS_REGISTER_COMPONENT_EX(mRadioButton, 0/*NCSS_BUTTON_AUTOCHECK*/, WS_EX_NONE, IDC_ARROW, NCS_BGC_3DBODY);
 
+#ifdef _MGNCSCTRL_MENUBUTTON
 	MGNCS_REGISTER_COMPONENT(mMenuButton);
+#endif
+
+#ifdef _MGNCSCTRL_IMAGEBUTTON
+	MGNCS_REGISTER_COMPONENT(mImageButton);
+#endif
 
 	MGNCS_REGISTER_COMPONENT(mPanel);
 
+#ifdef _MGNCSCTRL_PROGRESSBAR
     MGNCS_REGISTER_COMPONENT(mProgressBar);
+#endif
 
+#ifdef _MGNCSCTRL_COMBOBOX
     MGNCS_REGISTER_COMPONENT(mCombobox);
+#endif
 
+#ifdef _MGNCSCTRL_SPINNER
     MGNCS_REGISTER_COMPONENT(mSpinner);
+#endif
 
+#ifdef _MGNCSCTRL_SPINBOX
     MGNCS_REGISTER_COMPONENT(mSpinBox);
+#endif
 
+#ifdef _MGNCSCTRL_SLIDER
     MGNCS_REGISTER_COMPONENT(mSlider);
+#endif
 
+#ifdef _MGNCSCTRL_TRACKBAR
     MGNCS_REGISTER_COMPONENT(mTrackBar);
+#endif
 
+#ifdef _MGNCSCTRL_CONTAINER
 	MGNCS_REGISTER_COMPONENT_EX(mContainer, WS_HSCROLL | WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_3DBODY);
+#endif
 
+#ifdef _MGNCSCTRL_PAGE
     MGNCS_REGISTER_COMPONENT_EX(mPage, WS_HSCROLL | WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_3DBODY);
+#endif
 
-    MGNCS_REGISTER_COMPONENT_EX(mPropSheet, WS_NONE, 
+#ifdef _MGNCSCTRL_PROPSHEET
+    MGNCS_REGISTER_COMPONENT_EX(mPropSheet, WS_NONE,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_3DBODY);
+#endif
 
-	MGNCS_REGISTER_COMPONENT_EX(mScrollView, WS_HSCROLL | WS_VSCROLL,
+    MGNCS_REGISTER_COMPONENT_EX(mScrollView, WS_HSCROLL | WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
 
+#ifdef _MGNCSCTRL_ICONVIEW
 	MGNCS_REGISTER_COMPONENT_EX(mIconView, WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
+#endif
 
-	MGNCS_REGISTER_COMPONENT_EX(mListView, WS_HSCROLL | WS_VSCROLL,
+#ifdef _MGNCSCTRL_LISTVIEW
+MGNCS_REGISTER_COMPONENT_EX(mListView, WS_HSCROLL | WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
+#endif
 
+#ifdef _MGNCSCTRL_LISTBOX
 	MGNCS_REGISTER_COMPONENT_EX(mListBox, WS_HSCROLL | WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
+#endif
 
 	MGNCS_REGISTER_COMPONENT_EX(mMainWnd, 0, 0, IDC_ARROW, NCS_BGC_3DBODY);
+
+#ifdef _MGNCSCTRL_DIALOGBOX
 	MGNCS_REGISTER_COMPONENT_EX(mDialogBox, 0, 0, IDC_ARROW, NCS_BGC_3DBODY);
+#endif
 
 	MGNCS_REGISTER_COMPONENT(mTimer);
 
@@ -225,28 +271,43 @@ BOOL ncsInitialize(void)
 
 	MGNCS_REGISTER_COMPONENT_EX(mSlEdit, WS_NONE, WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
 
-#ifdef _MGNCS_OLD_MLEDIT
-	MGNCS_REGISTER_COMPONENT_EX(mMlEdit, WS_HSCROLL | WS_VSCROLL, 
+#ifdef _MGNCSCTRL_OLD_MLEDIT
+	MGNCS_REGISTER_COMPONENT_EX(mMlEdit, WS_HSCROLL | WS_VSCROLL,
             WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
 #endif
 
+#ifdef _MGNCSCTRL_SCROLLBAR
 	MGNCS_REGISTER_COMPONENT(mScrollBar);
+#endif
+
+#ifdef _MGNCSCTRL_ANIMATE
 	MGNCS_REGISTER_COMPONENT(mAnimate);
+#endif
 
+#ifdef _MGNCSCTRL_MONTHCALENDAR
 	MGNCS_REGISTER_COMPONENT(mMonthCalendar);
+#endif
 
+#ifdef _MGNCSCTRL_TOOLBAR
 	MGNCS_REGISTER_COMPONENT(mToolBar);
+#endif
 
+#ifdef _MGNCSCTRL_COLORBUTTON
 	MGNCS_REGISTER_COMPONENT(mColorButton);
+#endif
 
 	MGNCS_REGISTER_COMPONENT(mSeparator);
 
-	MGNCS_REGISTER_COMPONENT_EX(mIMWordSel, 0, 
-            WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
+#ifdef _MGNCSCTRL_IMWORDSEL
+	MGNCS_REGISTER_COMPONENT_EX(mIMWordSel, 0,
+		WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
+#endif
 
     //for list control
-	MGNCS_REGISTER_COMPONENT_EX(mList, WS_VSCROLL, 
-            WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
+#ifdef _MGNCSCTRL_LIST
+	MGNCS_REGISTER_COMPONENT_EX(mList, WS_VSCROLL,
+			WS_EX_NONE, IDC_ARROW, NCS_BGC_WINDOW);
+#endif
 
 	init_textedit();
 
@@ -271,61 +332,141 @@ BOOL ncsInitialize(void)
 void ncsUninitialize(void)
 {
 	MGNCS_UNREG_COMPONENT(mStatic);
+
+#ifdef _MGNCSCTRL_LEDLABEL
 	MGNCS_UNREG_COMPONENT(mLEDLabel);
+#endif
+
 	MGNCS_UNREG_COMPONENT(mImage);
+
+#ifdef _MGNCSCTRL_RECTANGLE
 	MGNCS_UNREG_COMPONENT(mRectangle);
+#endif
+
 	MGNCS_UNREG_COMPONENT(mGroupBox);
 	MGNCS_UNREG_COMPONENT(mButtonGroup);
 	MGNCS_UNREG_COMPONENT(mButton);
 	MGNCS_UNREG_COMPONENT(mCheckButton);
 	MGNCS_UNREG_COMPONENT(mRadioButton);
+
+#ifdef _MGNCSCTRL_MENUBUTTON
 	MGNCS_UNREG_COMPONENT(mMenuButton);
+#endif
+
+#ifdef _MGNCSCTRL_IMAGEBUTTON
+	MGNCS_UNREG_COMPONENT(mImageButton);
+#endif
+
 	MGNCS_UNREG_COMPONENT(mPanel);
+
+#ifdef _MGNCSCTRL_PROGRESSBAR
 	MGNCS_UNREG_COMPONENT(mProgressBar);
+#endif
+
+#ifdef _MGNCSCTRL_COMBOBOX
 	MGNCS_UNREG_COMPONENT(mCombobox);
+#endif
+
+#ifdef _MGNCSCTRL_SPINNER
 	MGNCS_UNREG_COMPONENT(mSpinner);
+#endif
+
+#ifdef _MGNCSCTRL_SPINBOX
 	MGNCS_UNREG_COMPONENT(mSpinBox);
+#endif
+
+#ifdef _MGNCSCTRL_SLIDER
 	MGNCS_UNREG_COMPONENT(mSlider);
+#endif
+
+#ifdef _MGNCSCTRL_TRACKBAR
 	MGNCS_UNREG_COMPONENT(mTrackBar);
+#endif
+
+#ifdef _MGNCSCTRL_CONTAINER
 	MGNCS_UNREG_COMPONENT(mContainer);
+#endif
+
+#ifdef _MGNCSCTRL_PAGE
 	MGNCS_UNREG_COMPONENT(mPage);
+#endif
+
+#ifdef _MGNCSCTRL_PROPSHEET
 	MGNCS_UNREG_COMPONENT(mPropSheet);
+#endif
+
 	MGNCS_UNREG_COMPONENT(mScrollView);
+
+#ifdef _MGNCSCTRL_ICONVIEW
 	MGNCS_UNREG_COMPONENT(mIconView);
+#endif
+
+#ifdef _MGNCSCTRL_LISTVIEW
 	MGNCS_UNREG_COMPONENT(mListView);
+#endif
+
+#ifdef _MGNCSCTRL_LISTBOX
 	MGNCS_UNREG_COMPONENT(mListBox);
+#endif
+
 	MGNCS_UNREG_COMPONENT(mMainWnd);
+
+#ifdef _MGNCSCTRL_DIALOGBOX
 	MGNCS_UNREG_COMPONENT(mDialogBox);
+#endif
+
     MGNCS_UNREG_COMPONENT(mTimer);
 	MGNCS_UNREG_COMPONENT(mEdit);
 	MGNCS_UNREG_COMPONENT(mSlEdit);
-#ifdef _MGNCS_OLD_MLEDIT
+#ifdef _MGNCSCTRL_OLD_MLEDIT
 	MGNCS_UNREG_COMPONENT(mMlEdit);
 #endif
+
+#ifdef _MGNCSCTRL_SCROLLBAR
 	MGNCS_UNREG_COMPONENT(mScrollBar);
+#endif
+
+#ifdef _MGNCSCTRL_ANIMATE
 	MGNCS_UNREG_COMPONENT(mAnimate);
+#endif
+
+#ifdef _MGNCSCTRL_MONTHCALENDAR
 	MGNCS_UNREG_COMPONENT(mMonthCalendar);
+#endif
+
+#ifdef _MGNCSCTRL_TOOLBAR
 	MGNCS_UNREG_COMPONENT(mToolBar);
+#endif
+
+#ifdef _MGNCSCTRL_COLORBUTTON
 	MGNCS_UNREG_COMPONENT(mColorButton);
+#endif
+
+#ifdef _MGNCSCTRL_IMWORDSEL
 	MGNCS_UNREG_COMPONENT(mIMWordSel);
-    MGNCS_UNREG_COMPONENT(mSeparator);
+#endif
+
+	MGNCS_UNREG_COMPONENT(mSeparator);
 
 	uninit_textedit();
 
     //for list
+#ifdef _MGNCSCTRL_LIST
     MGNCS_UNREG_COMPONENT(mList);
-    free_comp_class(); 
+#endif
+
+    free_comp_class();
 	//unregister ctrl rdr
-	ncsUnregisterCtrlRDRs(NULL,NULL);	
+	ncsUnregisterCtrlRDRs(NULL,NULL);
 
 #ifdef _MGNCS_RDR_FASHION
 	ncsUninitFashionRenderers();
 #endif
 
 	//unload etc info
-	ncsUnloadRdrEtcFile(_prev_defined_ncs_etc? (GHANDLE)0 : g_ncsEtcHandle);	
+	ncsUnloadRdrEtcFile(_prev_defined_ncs_etc? (GHANDLE)0 : g_ncsEtcHandle);
     g_ncsEtcHandle = 0;
-	
+
 	//uninit default deap
 	slab_unit_default_heap();
     deinit_piece_event_info();
@@ -348,7 +489,7 @@ typedef struct _syncreq_callcreate{
 
 MGNCS_EXPORT mMainWnd* ncsSyncCallCreate(HWND host, PNCS_CREATE_MAIN pCreateMain,
 		HPACKAGE hPack,
-		HICON h_icon, 
+		HICON h_icon,
 		HMENU h_menu,
 		DWORD user)
 {
@@ -381,7 +522,7 @@ static int _my_default_proc (HWND hwnd, int message, WPARAM wParam, LPARAM lPara
 		{
 			syncreq_callcreate * pcc = (syncreq_callcreate*)lParam;
 			if(pcc && pcc->createMain){
-				return (int)(pcc->createMain)(pcc->h_pack, hwnd, 
+				return (int)(pcc->createMain)(pcc->h_pack, hwnd,
 						pcc->h_icon, pcc->h_menu, pcc->user);
             }
 		}

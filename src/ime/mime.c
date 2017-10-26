@@ -17,6 +17,8 @@
 
 #include "mime.h"
 
+#ifdef _MGNCSENGINE_IME
+
 static int sb_len_first_char (const unsigned char* mstr, int len);
 static int single_retrieve_char(const char*word);
 
@@ -704,7 +706,7 @@ static BOOL immanger_set_cur_ime(mIMManager* self, mIME *ime)
 		_c(self->cur_ime)->hideIME(self->cur_ime);
         self->cur_ime = ime;
 		// don't unregister the IMEWindow, and don't set self->cur_ime = NULL
-		return TRUE; 
+		return TRUE;
 	}
 
 	if(self->cur_ime)
@@ -770,7 +772,7 @@ static BOOL mIMManager_nextIME(mIMManager* self)
 				ime = self->header;
 		}
 	}
-	
+
     if(immanger_set_cur_ime(self, ime))
     {
         ncsRaiseEvent((mObject*)self, NCSN_IMM_IMECHANGED, (DWORD)ime );
@@ -810,17 +812,27 @@ BOOL ncsInitIMEClasses(void)
 	MGNCS_INIT_CLASS(mIMEngine);
 	MGNCS_INIT_CLASS(mIME);
 	MGNCS_INIT_CLASS(mIMManager);
+#ifdef _MGNCSENGINE_DIGIT
 	MGNCS_INIT_CLASS(mDigitIterator);
 	MGNCS_INIT_CLASS(mDigitEngine);
 	MGNCS_INIT_CLASS(mDigitIME);
+#endif
+#ifdef _MGNCSENGINE_PTI
 	MGNCS_INIT_CLASS(mPtiIterator);
 	MGNCS_INIT_CLASS(mPtiEngine);
+#endif
+#ifdef _MGNCSENGINE_PINYIN
 	MGNCS_INIT_CLASS(mPinyinIterator);
 	MGNCS_INIT_CLASS(mPinyinEngine);
+#endif
+#ifdef _MGNCSENGINE_DIGITPTI
 	MGNCS_INIT_CLASS(mDigitPtiIterator);
 	MGNCS_INIT_CLASS(mDigitPtiEngine);
+#endif
+#ifdef _MGNCSENGINE_DIGITPY
 	MGNCS_INIT_CLASS(mDigitPyIterator);
 	MGNCS_INIT_CLASS(mDigitPyEngine);
+#endif
 	return TRUE;
 }
 
@@ -830,4 +842,5 @@ BOOL ncsInitIMEClasses(void)
 #include "charset-convert.c"
 
 ////////////////////////////////////////////////////////
+#endif //_MGNCSENGINE_IME
 

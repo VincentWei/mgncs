@@ -17,7 +17,7 @@
 
 #include "comm_parser.h"
 
-#if _MGNCS_DATASOURCE
+#if _MGNCSDB_DATASOURCE
 
 #define IsSpace(ch)  ((ch) == ' ' || (ch)=='\t' || (ch)=='\n' || (ch)=='\r')
 
@@ -46,7 +46,7 @@ char* ncsStrStrip(char*str)
 	while(str_end > str && IsSpace(*str_end)) str_end--;
 
 	str_end[1] = 0;
-	
+
 	return str;
 }
 
@@ -128,7 +128,7 @@ char* ncsStrGetSurround(char* str, int ch_start, int ch_end)
 	char *str_end;
 	if(str == NULL)
 		return NULL;
-	
+
 	while(*str && *str != ch_start) str ++;
 	if(!*str)
 		return NULL;
@@ -147,7 +147,7 @@ char* ncsGetVarName(char* str)
 	char *str_end;
 	if(str==NULL)
 		return str;
-	
+
 	while(*str && *str != '$') str ++;
 
 	if(*str != '$')
@@ -160,8 +160,8 @@ char* ncsGetVarName(char* str)
 
 	str_end = str;
 
-	while(*str_end && *str_end!=','  
-				&& *str_end !=':' 
+	while(*str_end && *str_end!=','
+				&& *str_end !=':'
 				&& *str_end !=';'
 				&& *str_end !='<'
 				&& *str_end !='>'
@@ -190,11 +190,11 @@ unsigned char* ncsGetFieldList(char** pstr, int* pfield_count)
 		field_name  = str;
 
 		field_count = ncsStrSpliter(str,NULL, ',');
-		
+
 		if(field_count > 0)
 		{
 			int idx = 0;
-			field_list = (unsigned char*)calloc(field_count+1,1);	
+			field_list = (unsigned char*)calloc(field_count+1,1);
 			while(field_name < list_end){
 				char * var = ncsGetVarName(field_name);
 				if(var == NULL)

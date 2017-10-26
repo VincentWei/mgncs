@@ -17,7 +17,10 @@
 
 #include "mime.h"
 
+#ifdef _MGNCSENGINE_PINYIN
+
 #include "pinyin-dict.c"
+
 
 static void mPinyinIterator_empty(mPinyinIterator* self)
 {
@@ -348,7 +351,7 @@ BOOL mPinyinEngine_findWords(mPinyinEngine* self,       \
 		py_find_match_keys(it, self->ime_table, input_keys, start);
 	}
 
-	
+
 	if(py_find_words(it, self->ime_table, len))
 	{
 		it->isAssociate = FALSE;
@@ -420,4 +423,4 @@ BEGIN_MINI_CLASS(mPinyinEngine, mIMEngine)
 	CLASS_METHOD_MAP(mPinyinEngine, newAssocIterator)
 END_MINI_CLASS
 
-
+#endif //_MGNCSENGINE_PINYIN

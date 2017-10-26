@@ -6,13 +6,12 @@
  * This file include the main window defines
  *
  * \verbatim
- * 	
+ *
  * 	This file is part of mgncs, new control of MiniGUI
  *
  * 	\endverbatim
  *
  */
-
 #ifndef _MGUI_CTRL_MNWND_H
 #define _MGUI_CTRL_MNWND_H
 
@@ -67,7 +66,7 @@ struct _mMainWnd {
 	mMainWndHeader(mMainWnd)
 };
 
-#define MSG_MNWND_ENDDIALOG   MSG_LASTUSERMSG + 4 
+#define MSG_MNWND_ENDDIALOG   MSG_LASTUSERMSG + 4
 //lParam is exit code
 //wParam is the special flag, used by interal
 

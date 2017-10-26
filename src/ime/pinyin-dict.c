@@ -1,3 +1,5 @@
+#ifdef _MGNCSENGINE_PINYIN
+
 #ifndef _PINYIN_DICT_
 #define _PINYIN_DICT_
 
@@ -55366,3 +55368,5 @@ static NCS_PINYIN_IME_TABLE* init_pinyin_dict(void)
 }
 
 #endif
+#endif //_MGNCSENGINE_PINYIN
+

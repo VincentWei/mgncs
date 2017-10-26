@@ -32,6 +32,8 @@
 #include "mcombobox.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_COMBOBOX
+
 #ifdef _MGNCS_RDR_FLAT
 
 extern mWidgetRenderer flat_widget_renderer;
@@ -40,19 +42,19 @@ static void flat_drawDropDownBtn (mCombobox *self, HDC hdc, const RECT *rect)
 {
 	DWORD fgc_3d;
     DWORD status;
-    
+
     fgc_3d = ncsGetElement(self, NCS_BGC_3DBODY);
 
     if (IS_SET (self, NCSF_CMBOX_HILIGHT)) {
 		status = NCSRS_HIGHLIGHT;
-    } else { 
+    } else {
 		status = NCSRS_NORMAL;
     }
 
 	//draw 3dbox
-	self->renderer->draw3dbox(self, hdc, rect, fgc_3d, status|NCSRF_FILL);	
+	self->renderer->draw3dbox(self, hdc, rect, fgc_3d, status|NCSRF_FILL);
 	//draw arrow
-	self->renderer->drawArrow(self, hdc, rect, NCSR_ARROW_DOWN, 
+	self->renderer->drawArrow(self, hdc, rect, NCSR_ARROW_DOWN,
 		ncsGetElement(self, NCS_FGC_WINDOW), NCSRF_FILL);
 }
 
@@ -70,4 +72,5 @@ mComboboxRenderer flat_combobox_renderer =
 };
 
 #endif
+#endif //_MGNCSCTRL_COMBOBOX
 

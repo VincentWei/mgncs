@@ -1,3 +1,4 @@
+#if defined (_MGNCSCTRL_IMWORDSEL) || defined (_MGNCSCTRL_SPINNER) || defined (_MGNCSCTRL_SCROLLBAR)
 
 #ifndef _MGUI_NCSCTRL_ARROWBUTTONPIECE_H
 #define _MGUI_NCSCTRL_ARROWBUTTONPIECE_H
@@ -20,8 +21,8 @@ struct _mArrowButtonPieceClass
 MGNCS_EXPORT extern mArrowButtonPieceClass g_stmArrowButtonPieceCls;
 
 #define mArrowButtonPieceHeader(clss) \
-	mAbstractButtonPieceHeader(clss) 
-	
+	mAbstractButtonPieceHeader(clss)
+
 struct _mArrowButtonPiece
 {
 	mArrowButtonPieceHeader(mArrowButtonPiece)
@@ -39,4 +40,5 @@ struct _mArrowButtonPiece
 #endif
 
 #endif
+#endif		//_MGNCSCTRL_IMWORDSEL
 

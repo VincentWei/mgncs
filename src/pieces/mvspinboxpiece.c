@@ -24,6 +24,8 @@
 #include "mabstractbuttonpiece.h"
 #include "marrowbuttonpiece.h"
 
+#ifdef _MGNCSCTRL_SPINBOX
+
 #define ARROW_SIZE 12
 
 static void mVSpinBoxPiece_construct(mVSpinBoxPiece *self, DWORD add_data)
@@ -53,7 +55,7 @@ static mHotPiece * mVSpinBoxPiece_getIncPiece(mVSpinBoxPiece*self)
 	if(!pair)
 		return NULL;
 	pair = ((mPairPiece*)(pair->first));
-	return pair?pair->second:NULL;
+	return pair ? pair->first : NULL;
 }
 
 static mHotPiece * mVSpinBoxPiece_getDecPiece(mVSpinBoxPiece*self)
@@ -62,7 +64,7 @@ static mHotPiece * mVSpinBoxPiece_getDecPiece(mVSpinBoxPiece*self)
 	if(!pair)
 		return NULL;
 	pair = ((mPairPiece*)(pair->first));
-	return pair?pair->first:NULL;
+	return pair ? pair->second : NULL;
 }
 
 static mHotPiece * mVSpinBoxPiece_getSpinnedPiece(mVSpinBoxPiece*self)
@@ -77,4 +79,4 @@ BEGIN_MINI_CLASS(mVSpinBoxPiece, mSpinBoxPiece)
 	CLASS_METHOD_MAP(mVSpinBoxPiece, getSpinnedPiece )
 END_MINI_CLASS
 
-
+#endif //_MGNCSCTRL_SPINBOX

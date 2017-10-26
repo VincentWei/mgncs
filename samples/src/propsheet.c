@@ -1,5 +1,5 @@
 /*
-** $Id: propsheet.c 1116 2010-12-02 04:03:35Z dongjunjie $
+** $Id: propsheet.c 1683 2017-10-26 06:52:09Z weiym $
 **
 ** Listing P2C11.1
 **
@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 // END_OF_INCS
+
+#if defined _MGNCSCTRL_PROPSHEET && defined _MGNCSCTRL_DIALOGBOX
 
 #define PAGE_VERSION	1
 #define PAGE_CPU        2
@@ -126,9 +128,9 @@ static NCS_EVENT_HANDLER page_handlers[] = {
 
 static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
 {
-    mPropSheet *obj = 
+    mPropSheet *obj =
         (mPropSheet *)ncsGetChildObj(GetParent(self->hwnd), IDC_PROPSHEET);
-    
+
     if (obj) {
         _c(obj)->broadCastMsg(obj, IDC_REFRESH, 0);
     }
@@ -136,7 +138,7 @@ static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
 
 static NCS_EVENT_HANDLER btn_handlers [] = {
     NCS_MAP_NOTIFY(NCSN_BUTTON_PUSHED, btn_notify),
-	{0, NULL}	
+	{0, NULL}
 };
 
 static NCS_RDR_INFO btn_rdr_info[] =
@@ -146,32 +148,32 @@ static NCS_RDR_INFO btn_rdr_info[] =
 
 static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 	{
-		NCSCTRL_BUTTON, 
-        IDC_REFRESH, 
+		NCSCTRL_BUTTON,
+        IDC_REFRESH,
         10, 240, 70, 25,
         WS_VISIBLE | WS_TABSTOP,
 		WS_EX_NONE,
         "Refresh",
-		NULL, 
+		NULL,
 		btn_rdr_info,
 		btn_handlers,
 		NULL,
 		0,
-		0 
+		0
 	},
 	{
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
         IDCANCEL,
         330, 240, 70, 25,
         WS_VISIBLE | WS_TABSTOP,
 		WS_EX_NONE,
         "Close",
-		NULL, 
-		NULL, 
+		NULL,
+		NULL,
 		NULL,
 		NULL,
 		0,
-		0 
+		0
 	},
 };
 
@@ -187,10 +189,10 @@ static DLGTEMPLATE PageSysInfo =
 };
 
 static CTRLDATA CtrlSysInfo [] =
-{ 
+{
     {
         CTRL_STATIC,
-        WS_VISIBLE | SS_LEFT, 
+        WS_VISIBLE | SS_LEFT,
         10, 10, 370, 180,
         IDC_SYSINFO,
         "test",
@@ -206,11 +208,11 @@ static NCS_RDR_INFO prop_rdr_info[] =
 static int init_propsheet (mDialogBox* self)
 {
 // START_OF_CREATEPRPSHT
-    mPropSheet *propsheet =  
+    mPropSheet *propsheet =
         (mPropSheet*) ncsCreateWindow (NCSCTRL_PROPSHEET,
-                       "", WS_VISIBLE | NCSS_PRPSHT_SCROLLABLE, WS_EX_NONE, 
-                       IDC_PROPSHEET, 
-                       10, 10, 390, 225, self->hwnd, 
+                       "", WS_VISIBLE | NCSS_PRPSHT_SCROLLABLE, WS_EX_NONE,
+                       IDC_PROPSHEET,
+                       10, 10, 390, 225, self->hwnd,
                        NULL, prop_rdr_info, NULL, 0);
 // END_OF_CREATEPRPSHT
 
@@ -246,7 +248,7 @@ static int init_propsheet (mDialogBox* self)
 }
 
 static NCS_MNWND_TEMPLATE dialog_tmpl = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 420, 305,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -263,8 +265,13 @@ static NCS_MNWND_TEMPLATE dialog_tmpl = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
+	if (argc > 1) {
+		btn_rdr_info[0].glb_rdr = argv[1];
+		btn_rdr_info[0].ctl_rdr = argv[1];
+	}
+
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&dialog_tmpl, HWND_DESKTOP);
 
     init_propsheet(mydlg);
@@ -273,3 +280,16 @@ int MiniGUIMain(int argc, const char* argv[])
 	ncsUninitialize();
 	return 0;
 }
+
+#else //_MGNCSCTRL_PROPSHEET _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the propsheet, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-propsheet --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_PROPSHEET _MGNCSCTRL_DIALOGBOX

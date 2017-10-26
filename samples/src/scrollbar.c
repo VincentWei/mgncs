@@ -10,6 +10,8 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined _MGNCSCTRL_SCROLLBAR && defined _MGNCSCTRL_DIALOGBOX
+
 #define ID_SB1  100
 #define ID_SB2  101
 
@@ -32,7 +34,7 @@ static void mymain_onPaint(mWidget* self, HDC hdc, const PCLIPRGN clip_rgn)
 	ClipRectIntersect(hdc, &rcCircle);
 	Ellipse(hdc, 130, 200, radius_x, radius_y);
 }
-	
+
 //define the progress properites
 static NCS_PROP_ENTRY scrollbar_props [] = {
 	{NCSP_SCRLBR_MAXPOS, 255},
@@ -46,13 +48,13 @@ static NCS_PROP_ENTRY scrollbar_props [] = {
 static void scrollbar_notify(mScrollBar* self, int id, int code, DWORD add_data)
 {
 	HWND hWnd = GetParent(self->hwnd);
-	
-	if(id == ID_SB1)	
+
+	if(id == ID_SB1)
 		radius_x = _c(self)->getProperty(self, NCSP_SCRLBR_CURPOS);
 
-	if(id == ID_SB2)	
+	if(id == ID_SB2)
 		radius_y = _c(self)->getProperty(self, NCSP_SCRLBR_CURPOS);
-	
+
 	InvalidateRect(hWnd, &rcCircle, TRUE);
 }
 
@@ -71,7 +73,7 @@ static NCS_RDR_INFO sb_rdr_info[] =
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SB1,
 		0, 440, 270, 25,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_ARROWS,
@@ -85,7 +87,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SB2,
 		270, 10, 20, 430,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE \
@@ -111,7 +113,7 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 300, 500,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -135,11 +137,25 @@ int MiniGUIMain(int argc, const char* argv[])
 	}
 
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
+
+#else //_MGNCSCTRL_SCROLLBAR _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the scrollbar dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-scrollbar --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_SCROLLBAR _MGNCSCTRL_DIALOGBOX

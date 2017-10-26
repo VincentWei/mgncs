@@ -19,6 +19,8 @@
 #include "mlinelayoutpiece.h"
 #include "../mem-slab.h"
 
+#if defined (_MGNCSCTRL_TOOLBAR) || defined (_MGNCSCTRL_IMWORDSEL)
+
 static void mLineLayoutPiece_construct(mLineLayoutPiece* self, DWORD add_data)
 {
 	Class(mLayoutPiece).construct((mLayoutPiece*)self, add_data);
@@ -435,13 +437,14 @@ static BOOL mLineLayoutPiece_addPiece(mLineLayoutPiece *self, mHotPiece *piece, 
 	node = test_and_new_lineLayoutPiece(self, piece, type, min_size, max_size);
 	if(!node)
 		return FALSE;
-	node->next = self->node;
-	if(self->node)
-		self->node->prev = node;
-	node->prev = NULL;
-	if(self->tail_node == NULL )
-		self->tail_node = node;
-	self->node = node;
+
+	node->next = NULL;
+	node->prev = self->tail_node;
+	if(self->tail_node)
+		self->tail_node->next = node;
+	self->tail_node = node;
+	if(self->node == NULL)
+		self->node = node;
 	return TRUE;
 }
 
@@ -516,4 +519,4 @@ BEGIN_MINI_CLASS(mLineLayoutPiece, mLayoutPiece)
 	CLASS_METHOD_MAP(mLineLayoutPiece, reset      )
 END_MINI_CLASS
 
-
+#endif //_MGNCSCTRL_TOOLBAR

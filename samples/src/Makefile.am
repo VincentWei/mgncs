@@ -1,3 +1,9 @@
+AUTOMAKE_OPTIONS=foreign
+
+TOP_DIR=../..
+
+INCLUDES=-I$(TOP_DIR) -I$(TOP_DIR)/include -I.
+
 SUBDIRS=res
 
 COMMON_LADD= -lmgncs -lmgplus -lmgutils $(APP_LIBS) -lstdc++
@@ -7,14 +13,10 @@ noinst_PROGRAMS=helloworld helloworld_domodal helloworld_dlgbox \
     button checkbutton radiogroup menubutton colorbutton \
 	spinner spinbox progressbar resmgr edit panel container \
 	propsheet scrollview listview iconview listbox trackbar \
-	scrollbar timer combobox newbutton monthcalender
+	scrollbar timer combobox monthcalender
 
-resmgr_SOURCES=resmgr.c resmgr_main.c
+resmgr_SOURCES=resmgr.c resmgr_main.c resource.h
 resmgr_LDFLAGS=$(COMMON_LADD)
-
-newbutton_SOURCES=newbutton.c
-newbutton_LDFLAGS=$(COMMON_LADD)
-
 
 monthcalender_SOURCES=monthcalender.c
 monthcalender_LDFLAGS=$(COMMON_LADD)

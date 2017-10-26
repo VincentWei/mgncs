@@ -27,6 +27,8 @@
 
 #include "piece.h"
 
+#ifdef _MGNCSCTRL_TRACKBAR
+
 #define NCSTRB_DEF_MIN          0
 #define NCSTRB_DEF_MAX          10
 #define NCSTRB_DEF_CUR          0
@@ -63,7 +65,7 @@ static mObject * mTrackBar_createBody(mTrackBar *self)
 {
 	RECT rc_thumb={0, 0};
 	int event_ids[] = {
-		NCSN_SLIDERPIECE_POSCHANGED, 
+		NCSN_SLIDERPIECE_POSCHANGED,
 		NCSN_SLIDERPIECE_REACHMAX,
 		NCSN_SLIDERPIECE_REACHMIN,
 		0
@@ -72,11 +74,11 @@ static mObject * mTrackBar_createBody(mTrackBar *self)
 
 	mSliderPiece * sliderPiece = NEWPIECE(mSliderPiece);
 	mSliderPiece_setCenterThumb(sliderPiece);
-	
+
 	sliderPiece->body = (mHotPiece*)NEWPIECE(mTrackBarPiece);
 	sliderPiece->thumb = (mHotPiece*)NEWPIECE(mThumbBoxPiece);
 
-	
+
 	if(dwStyle & NCSS_TRKBAR_VERTICAL)
 	{
 		rc_thumb.right = VERT_SLIDER_W;
@@ -140,7 +142,7 @@ static int get_thumb_size(mTrackBar *self, BOOL bwidth)
 		return RECTW(rc);
 	else
 		return RECTH(rc);
-	
+
 }
 
 
@@ -168,7 +170,7 @@ static DWORD mTrackBar_getProperty (mTrackBar* self, int id)
 {
 	if (id >= NCSP_TRKBAR_MAX)
 		return 0;
-	
+
 	switch(id)
 	{
 	case NCSP_TRKBAR_THUMB_WIDTH:
@@ -180,9 +182,10 @@ static DWORD mTrackBar_getProperty (mTrackBar* self, int id)
 	return Class(mSlider).getProperty ((mSlider*)self, id);
 }
 
-BEGIN_CMPT_CLASS (mTrackBar, mSlider)	
+BEGIN_CMPT_CLASS (mTrackBar, mSlider)
     CLASS_METHOD_MAP (mTrackBar, createBody )
 	CLASS_METHOD_MAP (mTrackBar, setProperty)
 	CLASS_METHOD_MAP (mTrackBar, getProperty)
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_TRACKBAR

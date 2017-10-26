@@ -1,3 +1,4 @@
+#ifdef _MGNCSDB_INI
 
 #ifndef MGNCS_INI_DATASOURCE_H
 #define MGNCS_INI_DATASOURCE_H
@@ -20,7 +21,7 @@ typedef struct _mIniValueBindProp mIniValueBindProp;
 /////////////////////////////////////////////////////////
 
 #define mIniDataSourceClassHeader(clss, superCls) \
-	mDataSourceClassHeader(clss, superCls) 
+	mDataSourceClassHeader(clss, superCls)
 
 struct _mIniDataSourceClass{
 	mIniDataSourceClassHeader(mIniDataSource, mDataSource)
@@ -36,7 +37,7 @@ extern mIniDataSourceClass g_mIniDataSourceCls;
 	FILE *fp; /*EtcFileHandler*/\
 	ETC_S * etc; \
 	mIniRecordSet* sets; \
-	mBindProp * props; 
+	mBindProp * props;
 
 struct _mIniDataSource{
 	mIniDataSourceHeader(mIniDataSource)
@@ -85,7 +86,7 @@ extern mIniSectionRecordSetClass g_stmIniSectionRecordSetCls;
 	(((((self)->flags&(NCS_ISRS_KEY_FIELD|NCS_ISRS_VALUE_FIELD))>>8)+1)/2)
 #define mIniSectionRecordSetHeader(clss) \
 	mIniRecordSetHeader(clss) \
-	int cursor; 
+	int cursor;
 
 struct _mIniSectionRecordSet{
 	mIniSectionRecordSetHeader(mIniSectionRecordSet)
@@ -116,7 +117,7 @@ struct _mIniArrRecordSet{
 
 ///////////////
 #define mIniValueBindPropClassHeader(clss, superCls) \
-	mBindPropClassHeader(clss, superCls) 
+	mBindPropClassHeader(clss, superCls)
 
 struct _mIniValueBindPropClass{
 	mIniValueBindPropClassHeader(mIniValueBindProp, mBindProp)
@@ -135,4 +136,4 @@ struct _mIniValueBindProp {
 };
 
 #endif
-
+#endif //_MGNCSDB_INI

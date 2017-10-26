@@ -32,25 +32,27 @@
 #include "mcombobox.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_COMBOBOX
+
 extern mWidgetRenderer classic_widget_renderer;
 
 static void classic_drawDropDownBtn (mCombobox *self, HDC hdc, const RECT *rect)
 {
 	DWORD fgc_3d;
     DWORD status;
-    
+
     fgc_3d = ncsGetElement(self, NCS_BGC_3DBODY);
 
     if (IS_SET (self, NCSF_CMBOX_HILIGHT)) {
 		status = NCSRS_HIGHLIGHT;
-    } else { 
+    } else {
 		status = NCSRS_NORMAL;
     }
 
 	//draw 3dbox
-	self->renderer->draw3dbox(self, hdc, rect, fgc_3d, status|NCSRF_FILL);	
+	self->renderer->draw3dbox(self, hdc, rect, fgc_3d, status|NCSRF_FILL);
 	//draw arrow
-	self->renderer->drawArrow(self, hdc, rect, NCSR_ARROW_DOWN, 
+	self->renderer->drawArrow(self, hdc, rect, NCSR_ARROW_DOWN,
 		ncsGetElement(self, NCS_FGC_WINDOW), NCSRF_FILL);
 }
 
@@ -67,3 +69,4 @@ mComboboxRenderer classic_combobox_renderer =
 	(void*)&classic_widget_renderer
 };
 
+#endif //_MGNCSCTRL_COMBOBOX

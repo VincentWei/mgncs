@@ -45,7 +45,7 @@ static BOOL mButton_onPiece(mButton* self, mHotPiece *piece, int event_id, DWORD
 	else if(event_id == NCSN_ABP_STATE_CHANGED)
 	{
 		if(self->group)
-			_c((mButtonGroup*)(self->group))->checkBtn((mButtonGroup*)(self->group), (mWidget*)self);
+			_M((mButtonGroup*)(self->group), checkBtn, (mWidget*)self);
 
 		ncsNotifyParent((mWidget*)self,NCSN_BUTTON_STATE_CHANGED);
 	}	

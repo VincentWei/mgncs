@@ -1,5 +1,5 @@
-/* 
- ** $Id: classic_propsheet.c 635 2009-10-28 02:19:04Z wangjian $
+/*
+ ** $Id: classic_propsheet.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The classic renderer implementation of mPropsheet control.
  **
@@ -28,11 +28,13 @@
 #include "mpropsheet.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_PROPSHEET
+
 #define ICON_OFFSET 2
 
 extern mWidgetRenderer classic_widget_renderer;
 
-static void classic_resetHeadArea (mPropSheet *self, 
+static void classic_resetHeadArea (mPropSheet *self,
         RECT* rcClient, DWORD style)
 {
     int defHeight = 16 + 4 + 2* ICON_OFFSET;
@@ -53,7 +55,7 @@ static void classic_resetHeadArea (mPropSheet *self,
     self->scrollTabWidth = RECTW(self->headRect) - 2*16;
 }
 
-static void classic_getRect(mPropSheet *self, 
+static void classic_getRect(mPropSheet *self,
         RECT* rcClient, RECT* rcResult, int which)
 {
     int     btnSize = 16;
@@ -68,7 +70,7 @@ static void classic_getRect(mPropSheet *self,
 
             if ((style & NCSS_PRPSHT_TABMASK) == NCSS_PRPSHT_BOTTOM) {
                 rcResult->top = rcClient->top + 1;
-                rcResult->bottom = 
+                rcResult->bottom =
                     rcResult->top + RECTHP(rcClient) - RECTH(self->headRect);
             }
             else {
@@ -131,13 +133,13 @@ static void classic_getRect(mPropSheet *self,
                 SetRectEmpty(rcResult);
             }
             break;
-            
+
         default:
             break;
     }
 }
 
-static void classic_drawBorder(mPropSheet *self, 
+static void classic_drawBorder(mPropSheet *self,
         HDC hdc, RECT* rcBorder)
 {
     DWORD light_c, bgc;
@@ -153,17 +155,17 @@ static void classic_drawBorder(mPropSheet *self,
     SetPenColor(hdc, pen_color);
 }
 
-static void classic_drawScrollBtn(mPropSheet *self, HDC hdc, 
+static void classic_drawScrollBtn(mPropSheet *self, HDC hdc,
         RECT* rcBtn, int which)
 {
-    DWORD color; 
+    DWORD color;
 
     color = ncsGetElement ((mWidget*)self, NCS_FGC_WINDOW);
 
 	self->renderer->drawArrow(self, hdc, rcBtn, which, color, NCSRF_FILL);
 }
 
-static void classic_drawTab(mPropSheet *self, HDC hdc, 
+static void classic_drawTab(mPropSheet *self, HDC hdc,
         RECT* rcTab, const char* title, HICON hIcon, BOOL active)
 {
     DWORD light_c, fgcolor, bgcolor;
@@ -178,7 +180,7 @@ static void classic_drawTab(mPropSheet *self, HDC hdc,
     x = rcTab->left;
     ty = rcTab->top;
     by = rcTab->bottom;
-    
+
     GetClientRect(self->hwnd, &rc);
     if (rcTab->right >= rc.right)
         rcTab->right = rc.right - 1;
@@ -257,13 +259,13 @@ static void classic_drawTab(mPropSheet *self, HDC hdc,
         int icon_x, icon_y;
         icon_x = RECTHP(rcTab) - 8;
         icon_y = icon_x;
-        
+
         x += 2;
         DrawIcon (hdc, x, ty + 4, icon_x, icon_y, hIcon);
         x += icon_x;
         x += 2;
     }
-        
+
     if (title) {
         /* draw the TEXT */
         SetBkMode (hdc, BM_TRANSPARENT);
@@ -288,4 +290,5 @@ mPropSheetRenderer classic_propsheet_renderer = {
 	&classic_widget_renderer
 };
 
+#endif //_MGNCSCTRL_PROPSHEET
 

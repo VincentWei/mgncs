@@ -23,7 +23,7 @@ static void mHBoxLayoutPiece_recalcBox(mHBoxLayoutPiece *self)
 	int *sizes;
 	if(self->count <= 0)
 		return;
-	
+
 	if(self->count < sizeof(_sizes)/sizeof(int))
 		sizes = _sizes;
 	else
@@ -54,7 +54,7 @@ static void mHBoxLayoutPiece_recalcBox(mHBoxLayoutPiece *self)
 	{
 		free(sizes);
 	}
-#endif	
+#endif
 }
 
 static int mHBoxLayoutPiece_getCellAutoSize(mHBoxLayoutPiece *self, int i)
@@ -62,7 +62,7 @@ static int mHBoxLayoutPiece_getCellAutoSize(mHBoxLayoutPiece *self, int i)
 	RECT rc;
 	if(i < 0 || i >= self->count || self->cells[i] == NULL)
 		return 0;
-	
+
 	if(!_c(self->cells[i])->getRect(self->cells[i], &rc))
 		return 0;
 	return RECTW(rc);
@@ -72,5 +72,4 @@ BEGIN_MINI_CLASS(mHBoxLayoutPiece, mBoxLayoutPiece)
 	CLASS_METHOD_MAP(mHBoxLayoutPiece, recalcBox)
 	CLASS_METHOD_MAP(mHBoxLayoutPiece, getCellAutoSize)
 END_MINI_CLASS
-
 

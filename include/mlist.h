@@ -11,7 +11,7 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
@@ -22,10 +22,11 @@
  *
  *      Copyright (C) 2009~2010 Feynman Software.
  */
+#ifdef _MGNCSCTRL_LIST
 
 #ifndef _MGUI_NCSCTRL_LIST_H
 #define _MGUI_NCSCTRL_LIST_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,20 +63,21 @@ typedef struct _mListRenderer mListRenderer;
  * \def NCSS_LIST_SHIFT
  * \brief The bits used by mList in style.
  */
-#define NCSS_LIST_SHIFT             (NCSS_ASTLST_SHIFT+2) 
+#define NCSS_LIST_SHIFT             (NCSS_ASTLST_SHIFT+2)
 
 #define mListHeader(clsName)        \
 	mAbstractListHeader(clsName)    \
     list_t  selList;                \
     mListLayout *layout;            \
     mNode   *hiliteNode;            \
-    Uint16  nodesHeight;
+    Uint16  nodesHeight;			\
+    Uint16  nodesWidth;
 
 /**
  * \struct mList
  *
  * \brief The structure of mList, which derived from mAbstractList.
- *        It is the normal list control that can show nodes in 
+ *        It is the normal list control that can show nodes in
  *        different layout.
  *
  *  - hiliteNode\n
@@ -85,7 +87,7 @@ typedef struct _mListRenderer mListRenderer;
  *    The layout function ops.
  *
  *  - nodesHeight\n
- *    The total height of children directly. 
+ *    The total height of children directly.
  */
 struct _mList
 {
@@ -101,36 +103,36 @@ struct _mList
     BOOL (*setNodeDefSize)(clsName*, int defW,int defH);\
     BOOL (*setLayout)(clsName*, mListLayout* layout, int defNodeW, int defNodeH); \
     mListLayout* (*getLayout)(clsName*);
-    
+
 /**
  * \struct mListClass
  * \brief The virtual function table of mList, which derived from
  *        mAbstractListClass.
  *
- *  - void (*\b resetContent)(mList *self);\n                     
+ *  - void (*\b resetContent)(mList *self);\n
  *    Reset all property and remove all nodes.
  *
- *  - void (*\b removeAll)(mList *self);\n                        
+ *  - void (*\b removeAll)(mList *self);\n
  *    Remove all nodes.
  *
- *  - BOOL (*\b selectNode)(mList *self, mNode *node, BOOL select);\n 
+ *  - BOOL (*\b selectNode)(mList *self, mNode *node, BOOL select);\n
  *    Select of deselect the specified nodes.
  *      \param node     The specified node.
  *      \param select   Whether select node or not.
  *      \return TRUE on success, otherwise FALSE.
  *
- *  - BOOL (*\b setCurSel)(mList *self, int index);\n             
+ *  - BOOL (*\b setCurSel)(mList *self, int index);\n
  *    Hilight the specified node.
  *      \param index    The index of the specified node.
  *      \return TRUE on success, otherwise FALSE.
  *
- *  - mNode* (*\b getCurSel)(mList *self);\n                      
+ *  - mNode* (*\b getCurSel)(mList *self);\n
  *    Get the hilight node.
  *
- *  - void (*\b enterSubList)(mList *self, mNode *selNode);\n 
+ *  - void (*\b enterSubList)(mList *self, mNode *selNode);\n
  *    Enter sub list.
  *
- *  - void (*\b backUpList)(mList *self, mNode *selNode);\n 
+ *  - void (*\b backUpList)(mList *self, mNode *selNode);\n
  *    Back upper list.
  */
 struct _mListClass
@@ -232,7 +234,7 @@ enum mListProp
 enum mListNotify
 {
     /**
-     * Selected node changed. 
+     * Selected node changed.
      * - param : mNode*, the pointer to selected node.
      */
     NCSN_LIST_SELCHANGED = NCSN_ASTLST_MAX + 1,
@@ -253,7 +255,7 @@ enum mListNotify
      * It will enter sub list.
      * - param : mNode*, current selected node.
      */
-    NCSN_LIST_ENTERSUBLIST, 
+    NCSN_LIST_ENTERSUBLIST,
 
     /**
      * It will back upper list.
@@ -289,4 +291,4 @@ MGNCS_EXPORT void mList_foreachNode(mList *list, void (*foreach)(mNode *node, vo
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_LIST_H */
-
+#endif //_MGNCSCTRL_LIST

@@ -1,5 +1,5 @@
 
-/* 
+/*
  ** $Id: flat_listview.c 303 2009-07-03 02:24:38Z xwyan $
  **
  ** The flat renderer implementation of mListView control.
@@ -34,6 +34,8 @@
 #include "mlistview.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_LISTVIEW
+
 #ifdef _MGNCS_RDR_FLAT
 
 extern mWidgetRenderer flat_widget_renderer;
@@ -56,7 +58,7 @@ static char* _get_icon_file(const char* rdr_name, char* file, char* _szValue)
     return _szValue;
 }
 
-static void flat_drawFold (mListView *self, HDC hdc, 
+static void flat_drawFold (mListView *self, HDC hdc,
         const RECT* pRect, DWORD color, HICON icon, int status, int next)
 {
     int i;
@@ -75,9 +77,9 @@ static void flat_drawFold (mListView *self, HDC hdc,
 
     if (status & LFRDR_TREE_WITHICON) {
         char szValue[255];
-        HICON hFoldIcon   = 
+        HICON hFoldIcon   =
             (HICON)RetrieveRes (_get_icon_file("flat", (char*)SYSICON_TREEFOLD, szValue));
-        HICON hUnFoldIcon = 
+        HICON hUnFoldIcon =
             (HICON)RetrieveRes (_get_icon_file("flat", (char*)SYSICON_TREEUNFOLD, szValue));
 
         if (status & LFRDR_TREE_CHILD) {
@@ -126,17 +128,17 @@ static void flat_drawFold (mListView *self, HDC hdc,
 
         for(i = 0; i < pen_width; i++)
         {
-            Rectangle(hdc, centerX - minSize + i, centerY - minSize + i, 
+            Rectangle(hdc, centerX - minSize + i, centerY - minSize + i,
                     centerX + minSize - 1 - i, centerY + minSize - 1 - i);
 
-            MoveTo(hdc, centerX - minSize + 2 * pen_width, 
+            MoveTo(hdc, centerX - minSize + 2 * pen_width,
                     centerY - (pen_width>>1) + i);
-            LineTo(hdc, centerX + minSize -1 - 2 * pen_width, 
+            LineTo(hdc, centerX + minSize -1 - 2 * pen_width,
                     centerY - (pen_width>>1) + i);
 
             if(status & LFRDR_TREE_FOLD)
             {
-                MoveTo(hdc, centerX - (pen_width>>1) + i, 
+                MoveTo(hdc, centerX - (pen_width>>1) + i,
                         centerY - minSize + 2 * pen_width);
                 LineTo(hdc, centerX - (pen_width>>1) + i,
                         centerY + minSize - 1 - 2 * pen_width);
@@ -172,4 +174,5 @@ mListViewRenderer flat_listview_renderer = {
 };
 
 #endif
+#endif //_MGNCSCTRL_LISTVIEW
 

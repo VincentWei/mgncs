@@ -27,7 +27,7 @@
 static void skin_buttonbox_paint(mButtonBoxPiece *self, HDC hdc, mWidget * owner, DWORD add_data)
 {
 	RECT rc;
-    DWORD key; 
+    DWORD key;
     DRAWINFO di;
 	int state = add_data&NCS_PIECE_PAINT_STATE_MASK;
 	int check_state = NCS_PIECE_PAINT_GET_CHECK(add_data);
@@ -144,7 +144,7 @@ static void skin_thumbbox_paint(mThumbBoxPiece *self, HDC hdc, mWidget *owner, D
 static void skin_trackbar_paint(mTrackBarPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
 {
     /*
-     * the data struct of add_data 
+     * the data struct of add_data
      *
      * bits 0x0000FFFF  : the tick
      * bits 0x00FF0000  : horz or vert
@@ -241,7 +241,7 @@ static void skin_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int ch
 	int style = 0;
 
 	key = ncsGetElement(owner, eid);
-	check_bmp = GetBitmapFromRes(key); 
+	check_bmp = GetBitmapFromRes(key);
 	if(!check_bmp)
 		return;
 
@@ -263,7 +263,7 @@ static void skin_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int ch
 
 		if (h & 0x1)
 			box_t += 1;
-	
+
 		FillBoxWithBitmapPart (hdc, box_l, box_t, style, style, 0, 0, check_bmp, 0, index * check_bmp->bmHeight / 8);
 	}
 	else {
@@ -277,25 +277,27 @@ static void skin_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int ch
 static void skin_checkbox_paint(mCheckBoxPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	RECT rc;
-	
+
 	if(!_c(self)->getRect(self, &rc))
 		return ;
-	
+
 	skin_draw_check(hdc, &rc, NCSRF_FILL, add_data&NCS_PIECE_PAINT_STATE_MASK, NCS_PIECE_PAINT_GET_CHECK(add_data), owner, NCS_IMAGE_CHKBTN);
 }
-#if 1 
+#if 1
 //////////////////////////////////
 //radiobox
 static void skin_radiobox_paint(mCheckBoxPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	RECT rc;
-	
+
 	if(!_c(self)->getRect(self, &rc))
 		return ;
-	
+
 	skin_draw_check(hdc, &rc, NCSRF_FILL, add_data&NCS_PIECE_PAINT_STATE_MASK, NCS_PIECE_PAINT_GET_CHECK(add_data), owner, NCS_IMAGE_RDOBTN);
 }
 #endif
+
+#ifdef _MGNCSCTRL_SCROLLBAR
 //////////////////////
 //scrollbar
 
@@ -409,17 +411,17 @@ static void skin_arrow_paint(mScrollBarPiece *self, HDC hdc, mWidget * owner, DW
 
 	switch(add_data&NCS_PIECE_PAINT_STATE_MASK){
 	case PIECE_STATE_DISABLE:
-		arrow_state_idx = 3; 
+		arrow_state_idx = 3;
 		break;
 	case PIECE_STATE_HILIGHT:
-		arrow_state_idx = 1; 
+		arrow_state_idx = 1;
 		break;
 	case PIECE_STATE_PUSHED:
-		arrow_state_idx = 2; 
+		arrow_state_idx = 2;
 		break;
 	case PIECE_STATE_NORMAL:
 	default:
-		arrow_state_idx = 0; 
+		arrow_state_idx = 0;
 		break;
 	}
 
@@ -454,6 +456,7 @@ static void skin_arrow_paint(mScrollBarPiece *self, HDC hdc, mWidget * owner, DW
 	//draw arrow
 	ncsSkinDraw(hdc, &rc_arrow, &di);
 }
+#endif //_MGNCSCTRL_SCROLLBAR
 
 ///////////////////////////////////////////
 //grid box
@@ -739,6 +742,7 @@ static void skin_weekhead_paint(mWeekHeadPiece *self, HDC hdc, mWidget * owner, 
 
 ///////////////////////////////////////
 //progresspiece
+#ifdef _MGNCSCTRL_PROGRESSBAR
 #define NCSPB_BLOCK 8
 #define NCSPB_INNER 2
 static void skin_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
@@ -758,15 +762,15 @@ static void skin_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, D
 	//calc rc_prog;
 	if(add_data & NCS_PIECE_PAINT_VERT)
 	{
-		int height = RECTH(rc_prog) * (self->cur - self->min) / (self->max - self->min);	
+		int height = RECTH(rc_prog) * (self->cur - self->min) / (self->max - self->min);
 		rc_prog.top = rc_prog.bottom - height;
-		bmp_prog = GetBitmapFromRes(ncsGetElement(owner, NCS_IMAGE_PRGBAR_VCHUNK)); 
+		bmp_prog = GetBitmapFromRes(ncsGetElement(owner, NCS_IMAGE_PRGBAR_VCHUNK));
 	}
 	else
 	{
 		int width = RECTW(rc_prog) * (self->cur - self->min) / (self->max - self->min);
 		rc_prog.right = rc_prog.left + width;
-		bmp_prog = GetBitmapFromRes(ncsGetElement(owner, NCS_IMAGE_PRGBAR_HCHUNK)); 
+		bmp_prog = GetBitmapFromRes(ncsGetElement(owner, NCS_IMAGE_PRGBAR_HCHUNK));
 	}
 
 	if(IsRectEmpty(&rc_prog))
@@ -781,7 +785,7 @@ static void skin_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, D
 		if(add_data & NCS_PIECE_PAINT_VERT)
 		{
 			int width = RECTW(rc_prog);
-			i=rc_prog.bottom; 
+			i=rc_prog.bottom;
 			while(i > rc_prog.top)
 			{
                 int height = MIN(NCSPB_BLOCK, (i - rc_prog.top));
@@ -840,7 +844,7 @@ static void skin_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, D
 			rc_text.right = rc_text.left + size.cx;
 			rc.left = rc_prog.right;
 		}
-		// draw 
+		// draw
 		if(IntersectRect(&rc_tmp, &rc_text, &rc_prog))
 		{
 			SelectClipRect(hdc, &rc_tmp);
@@ -861,7 +865,7 @@ static void skin_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, D
 	}
 
 }
-
+#endif
 
 //////////////////////////////////
 //init boxpiece
@@ -870,18 +874,24 @@ void skin_init_boxpiece_renderer(void)
 	NCS_RDR_ENTRY entries [] = {
 		{Class(mButtonBoxPiece).typeName, (mWidgetRenderer*)(void*)skin_buttonbox_paint},
 		{Class(mThumbBoxPiece).typeName, (mWidgetRenderer*)(void*)skin_thumbbox_paint},
+#ifdef _MGNCSCTRL_SCROLLBAR
 		{Class(mScrollThumbBoxPiece).typeName, (mWidgetRenderer*)(void*)skin_scrollthumbbox_paint},
+#endif
 		{Class(mTrackBarPiece).typeName, (mWidgetRenderer*)(void*)skin_trackbar_paint},
 		{Class(mCheckBoxPiece).typeName, (mWidgetRenderer*)(void*)skin_checkbox_paint},
 		{Class(mRadioBoxPiece).typeName, (mWidgetRenderer*)(void*)skin_radiobox_paint},
+#ifdef _MGNCSCTRL_SCROLLBAR
 		{Class(mScrollBarPiece).typeName, (mWidgetRenderer*)(void*)skin_scrollbar_paint},
 		{Class(mLeftArrowPiece).typeName, (mWidgetRenderer*)(void*)skin_arrow_paint},
 		{Class(mRightArrowPiece).typeName, (mWidgetRenderer*)(void*)skin_arrow_paint},
 		{Class(mUpArrowPiece).typeName, (mWidgetRenderer*)(void*)skin_arrow_paint},
 		{Class(mDownArrowPiece).typeName, (mWidgetRenderer*)(void*)skin_arrow_paint},
+#endif
 		{Class(mDayGridPiece).typeName, (mWidgetRenderer*)(void*)skin_daygrid_paint},
 		{Class(mWeekHeadPiece).typeName, (mWidgetRenderer*)(void*)skin_weekhead_paint},
+#ifdef _MGNCSCTRL_PROGRESSBAR
 		{Class(mProgressPiece).typeName, (mWidgetRenderer*)(void*)skin_progress_paint}
+#endif
 	};
 
 	ncsRegisterCtrlRDRs("skin",

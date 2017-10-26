@@ -41,6 +41,7 @@ HEAD_FILES= mbuttonboxpiece.h \
 			mlistspinnedpiece.h \
 			mweekheadpiece.h \
 			mtoolimgpiece.h \
+			mtoolimgitempiece.h \
 			mseparatorpiece.h \
 			mlinelayoutpiece.h \
 			mwidgetwrapperpiece.h \

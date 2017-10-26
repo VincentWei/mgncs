@@ -12,10 +12,12 @@
 #include <mgncs/mgncs.h>
 #include <time.h>
 
+#ifdef _MGNCSCTRL_DIALOGBOX
+
 //START_UPDATE_TIME
 static BOOL update_time(mStatic *listener,
 		mTimer* sender,
-		int id, 
+		int id,
 		DWORD total_count)
 {
 	char szText[100];
@@ -26,10 +28,10 @@ static BOOL update_time(mStatic *listener,
 	time(&tim);
 	ptm = localtime(&tim);
 
-	sprintf(szText, 
+	sprintf(szText,
 			"%02d:%02d:%d",
-			ptm->tm_hour, 
-			ptm->tm_min, 
+			ptm->tm_hour,
+			ptm->tm_min,
             ptm->tm_sec);
 	old_count = total_count;
 
@@ -45,13 +47,13 @@ static BOOL update_time(mStatic *listener,
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 {
 	//TODO : initialize
-	mTimer * timer = SAFE_CAST(mTimer, 
+	mTimer * timer = SAFE_CAST(mTimer,
 					_c(self)->getChild(self, 100));
 	if(timer)
 	{
-		ncsAddEventListener((mObject*)timer, 
-						(mObject*)ncsGetChildObj(self->hwnd, 101), 
-						(NCS_CB_ONPIECEEVENT)update_time, 
+		ncsAddEventListener((mObject*)timer,
+						(mObject*)ncsGetChildObj(self->hwnd, 101),
+						(NCS_CB_ONPIECEEVENT)update_time,
 						MSG_TIMER);
 		_c(timer)->start(timer);
 	}
@@ -69,7 +71,7 @@ static void mymain_onClose(mWidget* self, int message)
 //START_DECLARE_TIMER
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_TIMER, 
+		NCSCTRL_TIMER,
 		100,
 		10, 10, 0, 0,
 		WS_BORDER | WS_VISIBLE,
@@ -108,7 +110,7 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 150, 80,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -126,16 +128,25 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 int MiniGUIMain(int argc, const char* argv[])
 {
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+#else //_MGNCSCTRL_DIALOGBOX
 
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_DIALOGBOX

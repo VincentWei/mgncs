@@ -1,3 +1,5 @@
+#ifdef _MGNCSDB_TEXT
+
 #ifndef MGNCS_TEXT_DATASOURCE_H
 #define MGNCS_TEXT_DATASOURCE_H
 
@@ -27,7 +29,7 @@ extern mTextDataSourceClass g_mTextDataSourceCls;
 typedef struct _mTextRecordNode {
 	DWORD pos; //the pos of line
 	DWORD flags; // write flags
-	char  ** fields; 
+	char  ** fields;
 	struct _mTextRecordNode * next, *prev;
 }mTextRecordNode;
 
@@ -54,7 +56,7 @@ struct _mTextDataSource
 /////////////////////////////////////////////////
 //
 #define mTextRecordSetClassHeader(clss, superCls) \
-	mRecordSetClassHeader(clss, superCls) 
+	mRecordSetClassHeader(clss, superCls)
 
 struct _mTextRecordSetClass
 {
@@ -82,7 +84,7 @@ struct _mTextRecordSet
 ///////////////////////////////////////////////////
 
 #define mTextDataBindPropClassHeader(clss, superCls) \
-	mDataBindPropClassHeader(clss, superCls) 
+	mDataBindPropClassHeader(clss, superCls)
 
 struct _mTextDataBindPropClass{
 	mTextDataBindPropClassHeader(mTextDataBindProp, mDataBindProp)
@@ -101,4 +103,4 @@ struct _mTextDataBindProp {
 
 
 #endif
-
+#endif //_MGNCSDB_TEXT

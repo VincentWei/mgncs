@@ -69,8 +69,6 @@ int MiniGUIMain (int argc, const char* argv[])
     }
 // END_OF_MSGLOOP
     
-    MainWindowThreadCleanup (mymain->hwnd);
-    
     ncsUninitialize ();
 
     return 0;

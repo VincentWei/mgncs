@@ -28,6 +28,8 @@
 #include "mrightarrowpiece.h"
 #include "mdownarrowpiece.h"
 
+#if defined (_MGNCSCTRL_IMWORDSEL) || defined (_MGNCSCTRL_SPINNER) || defined (_MGNCSCTRL_SCROLLBAR)
+
 static void mArrowButtonPiece_construct(mArrowButtonPiece *self, DWORD add_data)
 {
 	Class(mAbstractButtonPiece).construct((mAbstractButtonPiece*)self, add_data);
@@ -35,17 +37,17 @@ static void mArrowButtonPiece_construct(mArrowButtonPiece *self, DWORD add_data)
 	switch((int)add_data)
 	{
 	case NCS_ARROWPIECE_RIGHT:
-		self->body = (mHotPiece*)NEWPIECE(mRightArrowPiece);	
+		self->body = (mHotPiece*)NEWPIECE(mRightArrowPiece);
 		break;
 	case NCS_ARROWPIECE_UP:
-		self->body = (mHotPiece*)NEWPIECE(mUpArrowPiece);	
+		self->body = (mHotPiece*)NEWPIECE(mUpArrowPiece);
 		break;
 	case NCS_ARROWPIECE_DOWN:
-		self->body = (mHotPiece*)NEWPIECE(mDownArrowPiece);	
+		self->body = (mHotPiece*)NEWPIECE(mDownArrowPiece);
 		break;
 	case NCS_ARROWPIECE_LEFT:
 	default:
-		self->body = (mHotPiece*)NEWPIECE(mLeftArrowPiece);	
+		self->body = (mHotPiece*)NEWPIECE(mLeftArrowPiece);
 		break;
 	}
 }
@@ -61,4 +63,5 @@ BEGIN_MINI_CLASS(mArrowButtonPiece, mAbstractButtonPiece)
 	CLASS_METHOD_MAP(mArrowButtonPiece, paint)
 END_MINI_CLASS
 
+#endif		//_MGNCSCTRL_IMWORDSEL
 

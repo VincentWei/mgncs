@@ -45,6 +45,7 @@ COMMON_SRCS= mbuttonboxpiece.c \
 		mlistspinnedpiece.c \
 		mweekheadpiece.c \
 		mtoolimgpiece.c \
+		mtoolimgitempiece.c \
 		mseparatorpiece.c \
 		mlinelayoutpiece.c \
 		mwidgetwrapperpiece.c \

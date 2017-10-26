@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined _MGNCSCTRL_PROGRESSBAR && defined _MGNCSCTRL_DIALOGBOX
+
 #define ID_BTN  101
 #define ID_PROG 200
 
@@ -56,7 +58,7 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 // END_OF_HANDLERS
 
 // START_OF_RDRINFO
-static NCS_RDR_ELEMENT btn_rdr_elements[] = 
+static NCS_RDR_ELEMENT btn_rdr_elements[] =
 {
     { NCS_MODE_USEFLAT, 1},
     { -1, 0 }
@@ -86,7 +88,7 @@ static NCS_PROP_ENTRY progress_props [] = {
 // START_OF_TEMPLATE
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
     {
-        NCSCTRL_PROGRESSBAR, 
+        NCSCTRL_PROGRESSBAR,
         ID_PROG,
         10, 10, 290, 30,
         WS_BORDER | WS_VISIBLE,
@@ -97,7 +99,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_BUTTON, 
+        NCSCTRL_BUTTON,
         ID_BTN,
         10, 50, 100, 25,
         WS_BORDER | WS_VISIBLE,
@@ -108,7 +110,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_BUTTON, 
+        NCSCTRL_BUTTON,
         ID_BTN,
         200, 50, 100, 25,
         WS_VISIBLE,
@@ -118,11 +120,11 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         btn2_rdr_info,
         NULL, NULL, 0, 0
     },
-    
+
 };
 
 static NCS_MNWND_TEMPLATE mymain_templ = {
-    NCSCTRL_DIALOGBOX, 
+    NCSCTRL_DIALOGBOX,
     1,
     0, 0, 320, 110,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -140,15 +142,33 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 
 int MiniGUIMain (int argc, const char* argv[])
 {
+	if (argc > 1) {
+		btn1_rdr_info[0].glb_rdr = argv[1];
+		btn1_rdr_info[0].ctl_rdr = argv[1];
+		btn2_rdr_info[0].glb_rdr = argv[1];
+		btn2_rdr_info[0].ctl_rdr = argv[1];
+	}
+
     ncsInitialize ();
 
-    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                 (&mymain_templ, HWND_DESKTOP);
 
     _c(mydlg)->doModal (mydlg, TRUE);
- 
+
     ncsUninitialize ();
 
     return 0;
 }
+#else //_MGNCSCTRL_PROGRESSBAR && defined _MGNCSCTRL_DIALOGBOX
 
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the progressbar and dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-progressbar --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_PROGRESSBAR _MGNCSCTRL_DIALOGBOX

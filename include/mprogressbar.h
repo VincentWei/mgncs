@@ -12,14 +12,14 @@
     All rights reserved by Feynman Software.
 
     This file is part of mgncs, which is new control set of MiniGUI.
- 
+
  \endverbatim
  */
-
+#ifdef _MGNCSCTRL_PROGRESSBAR
 
 #ifndef _MGUI_NCSCTRL_PROGRESSBAR_H
 #define _MGUI_NCSCTRL_PROGRESSBAR_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -41,9 +41,9 @@ typedef struct _mProgressBarClass       mProgressBarClass;
 typedef struct _mProgressBarRenderer    mProgressBarRenderer;
 
 #define mProgressBarHeader(Class)   \
-    mWidgetHeader(Class)      
+    mWidgetHeader(Class)
 
- /** 
+ /**
  * \struct mProgressBar
  * \brief the control to indicate the processing of a work, derived from \ref mWidget.
  *
@@ -59,22 +59,22 @@ struct _mProgressBar
     int (*increase)(clsName *self, int delta);       \
     int (*stepIncrease)(clsName *self);
 
-/** 
+/**
  * \struct mProgressBarClass
  * \brief the VTable of \a mProgressBar, derived from \ref mWidgetClass.
  *
  * \sa mWidgetClass
- *   
+ *
  *   - int \b increase (mProgressBar *self, int delta);\n
  *       increase the progressbar position.
- *       \param delta - the increase value 
+ *       \param delta - the increase value
  *       \return 0 for succeed, other for failed.\n
  *
  *   - int \b stepIncrease (mProgressBar *self);\n
  *       increase the progressbar position by step.
  *       \return 0 for succeed, other for failed.\n
  *
- */ 
+ */
 struct _mProgressBarClass
 {
 	mProgressBarClassHeader(mProgressBar, mWidget)
@@ -97,7 +97,7 @@ MGNCS_EXPORT extern mProgressBarClass g_stmProgressBarCls;
  * \brief ProgressBar class's Renderer interface, derived from \ref mWidgetRenderer.
  *
  * \sa mProgressBar, mProgressBarClass
- * 
+ *
  * - void \b drawProgress(\a mProgressBar *self, HDC hdc, const RECT *rc);\n
  *    draw progressbar
  *    \param hdc - the DC in which draw progressbar
@@ -122,7 +122,7 @@ struct _mProgressBarRenderer
  * \brief ProgressBar Properties define
  *
  */
-enum mProgressBarProp 
+enum mProgressBarProp
 {
 	/**
 	 * The max pos of progress
@@ -148,7 +148,7 @@ enum mProgressBarProp
 	 *	- ReadWrite
 	 */
     NCSP_PROG_LINESTEP,                     /**< step length */
-    NCSP_PROG_MAX 
+    NCSP_PROG_MAX
 };
 
 /**
@@ -190,4 +190,4 @@ enum mProgressBarProp
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_PROGRESSBAR_H */
-
+#endif //_MGNCSCTRL_PROGRESSBAR

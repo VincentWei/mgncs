@@ -22,13 +22,15 @@
 #include "mrdr.h"
 #include "fashion_common.h"
 
+#ifdef _MGNCSCTRL_PROPSHEET
+
 #ifdef _MGNCS_RDR_FASHION
 
 #define ICON_OFFSET 2
 
 extern mWidgetRenderer fashion_widget_renderer;
 
-static void fashion_resetHeadArea (mPropSheet *self, 
+static void fashion_resetHeadArea (mPropSheet *self,
         RECT* rcClient, DWORD style)
 {
     int defHeight = 16 + 4 + 2* ICON_OFFSET;
@@ -49,7 +51,7 @@ static void fashion_resetHeadArea (mPropSheet *self,
     self->scrollTabWidth = RECTW(self->headRect) - 2*16;
 }
 
-static void fashion_getRect(mPropSheet *self, 
+static void fashion_getRect(mPropSheet *self,
         RECT* rcClient, RECT* rcResult, int which)
 {
     int     btnSize = 16;
@@ -121,13 +123,13 @@ static void fashion_getRect(mPropSheet *self,
                 SetRectEmpty(rcResult);
             }
             return;
-            
+
         default:
             break;
     }
 }
 
-static void fashion_drawBorder(mPropSheet *self, 
+static void fashion_drawBorder(mPropSheet *self,
         HDC hdc, RECT* rcBorder)
 {
    	DWORD color, round_corners, style;
@@ -152,17 +154,17 @@ static void fashion_drawBorder(mPropSheet *self,
     ncsCommRDRDrawHalfRoundRect(hdc, rcBorder, rx, ry, color, round_corners);
 }
 
-static void fashion_drawScrollBtn(mPropSheet *self, HDC hdc, 
+static void fashion_drawScrollBtn(mPropSheet *self, HDC hdc,
         RECT* rcBtn, int which)
 {
-    DWORD color; 
+    DWORD color;
 
     color = ncsGetElement((mWidget*)self, NCS_FGC_WINDOW);
 
-	self->renderer->drawArrow(self, hdc, rcBtn, which, color, TRUE);	
+	self->renderer->drawArrow(self, hdc, rcBtn, which, color, TRUE);
 }
 
-static void fashion_drawTab(mPropSheet *self, HDC hdc, 
+static void fashion_drawTab(mPropSheet *self, HDC hdc,
         RECT* rcTab, const char* title, HICON hIcon, BOOL active)
 {
     DWORD   style = GetWindowStyle (self->hwnd);
@@ -185,11 +187,11 @@ static void fashion_drawTab(mPropSheet *self, HDC hdc,
 
     if (!active) {
         if ((style&NCSS_PRPSHT_TABMASK) == NCSS_PRPSHT_BOTTOM) {
-			rt.bottom -= 2;		
+			rt.bottom -= 2;
         } else {
 			rt.top += 2;
         }
-    } 
+    }
 	else
 	{
 		if ((style&NCSS_PRPSHT_TABMASK) == NCSS_PRPSHT_BOTTOM) {
@@ -211,7 +213,7 @@ static void fashion_drawTab(mPropSheet *self, HDC hdc,
 		round_flag);
 
 	ncsCommRDRDrawHalfRoundRect(hdc, &rt, rx, ry, color, round_flag|border_flag);
- 
+
     /* draw the ICON */
     if (hIcon) {
         int icon_x, icon_y;
@@ -221,14 +223,14 @@ static void fashion_drawTab(mPropSheet *self, HDC hdc,
 			icon_x = RECTW(rt) ;
 		if(icon_y > RECTH(rt))
 			icon_y = RECTH(rt) ;
-		
+
 		y = (rt.top + rt.bottom - icon_y) / 2;
-        
+
         DrawIcon (hdc, rt.left , y , icon_x, icon_y, hIcon);
 		rt.left = rt.left + 2 + icon_x;
     }
 
-        
+
     /* draw the TEXT */
 	SetBkMode(hdc, BM_TRANSPARENT);
 	DrawText(hdc, title, -1, &rt, DT_CENTER|DT_SINGLELINE|DT_VCENTER);
@@ -254,4 +256,4 @@ mPropSheetRenderer fashion_propsheet_renderer = {
 
 
 #endif
-
+#endif //_MGNCSCTRL_PROPSHEET

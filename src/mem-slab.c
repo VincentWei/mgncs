@@ -171,7 +171,7 @@ static void slab_release_mem(MemSlabHeap * heap, void *p)
 {
     unsigned char *pmem = (unsigned char*)p;
     MemSlabNode * node;
-    MemSlabFreeCell *cell;
+    MemSlabFreeCell *cell, *tempcell;
     MemSlabNode * prev, *next;
     int i;
 
@@ -195,6 +195,17 @@ static void slab_release_mem(MemSlabHeap * heap, void *p)
     return ;
 
 FOUND:
+	//check double free
+	tempcell = node->free_header;
+	while(tempcell) {
+		if((void*)tempcell == (void*)pmem) {
+			fprintf(stderr, "the %p is double freed\n", pmem);
+			abort();
+			return;
+		}
+		tempcell = tempcell->next;
+	}
+
     cell = (MemSlabFreeCell*)pmem;
 
     cell->next = node->free_header;

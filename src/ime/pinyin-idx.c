@@ -2,6 +2,7 @@
 /* genrate by tools, don't change it            */
 /* this file is pinyin index hash table         */
 /************************************************/
+#ifdef _MGNCSENGINE_DIGITPY
 
 #ifndef PINYIN_INDEX_HASH_TABLED
 #define PINYIN_INDEX_HASH_TABLED
@@ -829,9 +830,10 @@ static const char* _pinyins[] ={
 static PINYIN_HASH_TABLE _pinyin_hash_table = {
 	408,/*pinyin count*/
 	_pinyin_keys,
-	_pinyins 
+	_pinyins
 };
 #endif
 
 #endif
+#endif //_MGNCSENGINE_DIGITPY
 

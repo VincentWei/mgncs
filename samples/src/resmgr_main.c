@@ -1,5 +1,5 @@
 /*
-** $Id: resmgr_main.c 534 2009-09-22 05:37:46Z xwyan $
+** $Id: resmgr_main.c 1683 2017-10-26 06:52:09Z weiym $
 **
 ** Listing P2C2.2
 **
@@ -56,7 +56,6 @@ int MiniGUIMain(int argc, const char* argv[])
 		DispatchMessage(&Msg);
 	}
 
-	MainWindowThreadCleanup(mWin->hwnd);
 // START_OF_UNLOADPKG
 	ncsUnloadResPackage(hPackage);
 // END_OF_UNLOADPKG

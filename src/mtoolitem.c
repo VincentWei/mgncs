@@ -98,7 +98,7 @@ static void mPushToolItem_construct(mPushToolItem *self, DWORD add_data){
 
 	self->body = _c(self)->createContent(self, create_info);
 	self->flags = 0;
-//	self->flags |= NCSS_ABP_FLAT;
+	self->flags |= NCSS_ABP_FLAT;
 }
 
 static BOOL mPushToolItem_setCheck(mPushToolItem *self, int state)
@@ -129,7 +129,7 @@ static mHotPiece * mPushToolItem_createContent(mPushToolItem* self, mPushToolIte
 	if(create_info->str && create_info->toolImg){
 		//create a image label piece
 		mHotPiece *pieces[2];
-		pieces[0] = (mHotPiece*)NEWPIECEEX(mToolImagePiece, create_info->toolImg);
+		pieces[0] = (mHotPiece*)NEWPIECEEX(mToolImageItemPiece, create_info->toolImg);
 		pieces[1] = (mHotPiece*)NEWPIECEEX(mLabelPiece, create_info->str);
 		content = (mHotPiece*)NEWPIECEEX(mPairPiece, pieces);
 		_c(content)->setProperty(content,NCSP_PAIRPIECE_FIRST_SIZE_TYPE,NCS_PAIRPIECE_ST_AUTO);
@@ -138,8 +138,8 @@ static mHotPiece * mPushToolItem_createContent(mPushToolItem* self, mPushToolIte
 	{
 		//create a label only
 		content = (mHotPiece*)NEWPIECEEX(mLabelPiece, create_info->str);
-//		if(create_info->flags & NCS_TOOLITEM_FLAG_TEXT_LEFT)
-//			_c(content)->setProperty(content, NCSP_PAIRPIECE_SECOND_AS_FIRST, 1);
+		if(create_info->flags & NCS_TOOLITEM_FLAG_TEXT_LEFT)
+			_c(content)->setProperty(content, NCSP_PAIRPIECE_SECOND_AS_FIRST, 1);
 		if(create_info->flags & NCS_TOOLITEM_LABEL_TEXT_LEFT)
 			_c(content)->setProperty(content, NCSP_LABELPIECE_ALIGN, 0);
 		else if(create_info->flags & NCS_TOOLITEM_LABEL_TEXT_RIGHT)
@@ -152,31 +152,32 @@ static mHotPiece * mPushToolItem_createContent(mPushToolItem* self, mPushToolIte
 			_c(content)->setProperty(content, NCSP_LABELPIECE_VALIGN, 1);
 		else if(create_info->flags & NCS_TOOLITEM_LABEL_TEXT_VCENTER)
 			_c(content)->setProperty(content, NCSP_LABELPIECE_VALIGN, 2);
-//		if(create_info->flags & NCS_TOOLITEM_FLAG_VERT)
-//			_c(content)->setProperty(content, NCSP_PAIRPIECE_DIRECTION, 1);//vert
+		if(create_info->flags & NCS_TOOLITEM_FLAG_VERT)
+			_c(content)->setProperty(content, NCSP_PAIRPIECE_DIRECTION, 1);//vert
 	}
 	else if(create_info->toolImg)
 	{
 		//crete a tool image piece only
-		content = (mHotPiece*)NEWPIECEEX(mToolImagePiece, create_info->toolImg);
+		content = (mHotPiece*)NEWPIECEEX(mToolImageItemPiece, create_info->toolImg);
 	}
 	return content;
 }
 
 static BOOL mPushToolItem_setProperty(mPushToolItem *self, int id, DWORD value)
 {
-	if(self->body)
-	{
-		return Class(mLabelPiece).setProperty((mLabelPiece*)(self->body), id, value);
-	}
-	return TRUE;
+	if(Class(mAbstractButtonPiece).setProperty((mPushToolItem*)self, id, value))
+		return TRUE;
+
+	return self->body ? _c(self->body)->setProperty(self->body, id, value) : FALSE;
 }
 
 static DWORD mPushToolItem_getProperty(mPushToolItem *self, int id)
 {
+	if(id >= ABP_PROP_BEGIN && id <= ABP_PROP_END)
+		return Class(mAbstractButtonPiece).getProperty(self, id);
 	if(self->body)
 	{
-		return Class(mLabelPiece).getProperty((mLabelPiece*)(self->body), id);
+		return _c(self->body)->getProperty(self->body, id);
 	}
     return 0;
 }
@@ -185,6 +186,7 @@ static void mPushToolItem_paint(mPushToolItem *self, HDC hdc, mWidget* owner, DW
 {
 	if(self->body)
 	{
+		add_data = (add_data & (~NCS_PIECE_PAINT_CHECK_STATE_MASK) ) | NCS_PIECE_PAINT_MAKE_CHECK(self->check_state);
 		if(self->state == NCS_ABP_PUSHED)
 		{
 			mHotPiece* body = self->body;
@@ -302,6 +304,7 @@ void* ncsCreateCheckToolItem(int id, mToolImage *img, const char* str, UINT flag
 	{
 		_c(toolitem)->setProperty(toolitem, NCSP_ABP_CHECKABLE,1);
 		_c(toolitem)->setProperty(toolitem, NCSP_ABP_AUTOCHECK,1);
+		_c(toolitem)->setProperty(toolitem, NCSP_ABP_CHECKSTATE, state == NCS_TOOLITEM_CHECKED ? NCS_ABP_CHECKED : 0);
 	}
 	return toolitem;
 }

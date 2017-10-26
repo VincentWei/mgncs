@@ -205,7 +205,59 @@ static mBmpArrayAnimateFrame* add_frame_from_file(const char* file, mBmpArrayAni
 
 	pbmp = (PBITMAP)malloc(sizeof(BITMAP));
 	memcpy(pbmp, &bmp, sizeof(BITMAP));
+	
 	return add_one_frame(pbmp, current);
+}
+
+static inline const char* get_extension (const char* filename)
+{
+    const char* ext;
+
+    if (NULL != (ext = strrchr (filename, '.')))
+        return ext + 1;
+
+    return NULL;
+}
+
+static const char *bitmap_types [] =
+{
+   "bmp", 
+#ifdef _MGIMAGE_LBM
+   "lbm", 
+#endif
+#ifdef _MGIMAGE_PCX
+   "pcx",
+#endif
+#ifdef _MGIMAGE_TGA
+   "tga", 
+#endif
+#ifdef _MGIMAGE_GIF
+   "gif", 
+#endif
+#ifdef _MGIMAGE_JPG
+   "jpg",
+   "jpeg",
+#endif
+#ifdef _MGIMAGE_PNG
+   "png", 
+#endif
+};
+
+static inline BOOL is_image_file (const char *file)
+{
+	int i;
+	char *type = get_extension (file);
+	
+	if (type == NULL)
+		return FALSE;
+	
+	for (i = 0; i < TABLESIZE(bitmap_types); i++)
+	{
+		if (strcmp(type, bitmap_types[i]) == 0){
+			return TRUE;
+		}
+	}
+	return FALSE;
 }
 
 mBmpArrayAnimateFrames* ncsCreateAnimateFramesFromDIR(const char* path)
@@ -247,17 +299,20 @@ mBmpArrayAnimateFrames* ncsCreateAnimateFramesFromDIR(const char* path)
 	while((ent = readdir(dir)) != NULL) {
 		struct stat ftype;
 		if( strcmp(ent->d_name, ".") == 0
-			|| strcmp(ent->d_name, "..") == 0)
-			continue;
-
-		strcpy(szPath + len, ent->d_name);
-		
-		if(stat ( szPath, &ftype) < 0) {
+			|| strcmp(ent->d_name, "..") == 0
+			|| !is_image_file (ent->d_name)) {
 			continue;
 		}
 
-		if(!S_ISREG(ftype.st_mode))
+		strcpy(szPath + len, ent->d_name);
+		
+		if(stat(szPath, &ftype) < 0) {
 			continue;
+		}
+		if(!S_ISREG(ftype.st_mode)) {
+			continue;
+		}
+
 		current = add_frame_from_file(szPath, current);
 		if(current && frames == NULL)
 			frames = current;

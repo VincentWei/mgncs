@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_ANIMATE
 #ifndef _MGNCS_ANIMATEPIECE_H
 #define _MGNCS_ANIMATEPIECE_H
 
@@ -24,7 +25,7 @@ struct _mAnimatePiece
 	mStaticPieceClassHeader(clss, superCls) \
 	void (*reset)(mAnimatePiece *self); \
 	void (*autofit)(mAnimatePiece *self, int *width, int *height); \
-	
+
 struct _mAnimatePieceClass
 {
 	mAnimatePieceClassHeader(mAnimatePiece, mStaticPiece)
@@ -87,3 +88,5 @@ enum mAnimatePieceProps {
 #endif
 
 #endif
+#endif		//_MGNCSCTRL_ANIMATE
+

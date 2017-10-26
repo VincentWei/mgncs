@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_LEDLABEL
 
 #ifndef _MGUI_NCSCTRL_LEDLABELPIECE_H
 #define _MGUI_NCSCTRL_LEDLABELPIECE_H
@@ -55,4 +56,4 @@ enum mLedstaticPieceProps {
 #endif
 
 #endif
-
+#endif //_MGNCSCTRL_LEDLABEL

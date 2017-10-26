@@ -1,3 +1,4 @@
+#ifdef _MGNCSDB_STATIC
 
 #ifndef MGNCS_STATIC_DATASOURCE_H
 #define MGNCS_STATIC_DATASOURCE_H
@@ -54,15 +55,15 @@ static inline DWORD*  get_table_value(mStaticDataTableNode* t, int row, int col)
 		row = 0;
 	else if(row > t->record_count)
 		row = t->record_count - 1;
-	
+
 	if(col < 0)
 		col = 0;
 	else if(col >= t->field_count)
 		col = t->field_count - 1;
-	
+
 	table = (unsigned char*)(t->table);
 	table = (table + t->field_count * t->field_width * row);
-	
+
 	return ((DWORD*)(table+col*t->field_width));
 
 }
@@ -84,7 +85,7 @@ typedef struct _mStaticRecordSetClass mStaticRecordSetClass;
 typedef struct _mStaticRecordSet mStaticRecordSet;
 
 #define mStaticRecordSetClassHeader(clss, superCls) \
-	mRecordSetClassHeader(clss, superCls) 
+	mRecordSetClassHeader(clss, superCls)
 
 struct _mStaticRecordSetClass {
 	mStaticRecordSetClassHeader(mStaticRecordSet, mRecordSet)
@@ -108,4 +109,4 @@ struct _mStaticRecordSet{
 void ncsInitStaticDataSource(void);
 
 #endif
-
+#endif //_MGNCSDB_STATIC

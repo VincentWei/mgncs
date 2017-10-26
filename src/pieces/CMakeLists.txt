@@ -41,6 +41,7 @@ list (APPEND pieces_srcs
 		mlistspinnedpiece.c
 		mweekheadpiece.c
 		mtoolimgpiece.c
+		mtoolimgitempiece.c
 		mseparatorpiece.c
 		mlinelayoutpiece.c
 		mwidgetwrapperpiece.c

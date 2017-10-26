@@ -1,4 +1,4 @@
-/* 
+/*
  ** $Id: $
  **
  ** The implementation of mList class.
@@ -19,7 +19,7 @@
 
 #include "mgncsconfig.h"
 #include "mcommon.h"
-#include "mobject.h" 
+#include "mobject.h"
 #include "mcomponent.h"
 
 #include "mwidget.h"
@@ -33,6 +33,8 @@
 #include "mlist_layout.h"
 #include "mlist.h"
 
+#ifdef _MGNCSCTRL_LIST
+
 //NCSLIST_xxx for internal used macro.
 #define NCSLIST_FLAG_FOCUS     0x0010
 #define pListLayout  (self->layout)
@@ -44,7 +46,16 @@ BOOL mList_adjustNodesHeight(mList *self, int diff)
 {
     if (self && diff) {
         self->nodesHeight += diff;
-        return _c(self)->setProperty(self, NCSP_SWGT_CONTHEIGHT, self->nodesHeight);
+        return _M(self, setProperty, NCSP_SWGT_CONTHEIGHT, self->nodesHeight);
+    }
+    return FALSE;
+}
+
+BOOL mList_adjustNodesWidth(mList *self, int diff)
+{
+    if (self && diff) {
+        self->nodesWidth += diff;
+        return _M(self, setProperty, NCSP_SWGT_CONTWIDTH, self->nodesWidth);
     }
     return FALSE;
 }
@@ -62,7 +73,7 @@ void mList_drawFocusFrame(mList *self, mNode *node, HDC hdc, RECT *rcNode)
 static void mList_construct (mList *self, DWORD addData)
 {
 	g_stmAbstractListCls.construct((mAbstractList*)self, addData);
-    _c(self)->initMargins(self, 1, 1, 1, 1);
+    _M(self, initMargins, 1, 1, 1, 1);
 
     //reserved, selList for multiple selection
 	INIT_LIST_HEAD(&self->selList);
@@ -71,8 +82,7 @@ static void mList_construct (mList *self, DWORD addData)
 
     //default layout is mListLayout
     self->layout = NEW(mListLayout);
-    _c(pListLayout)->init(pListLayout,  (mAbstractList*)self, 
-            GetWindowFont(self->hwnd)->size + 2, 0);
+    _M(pListLayout, init,(mAbstractList*)self, GetWindowFont(self->hwnd)->size + 2, 0);
 
     self->textIndent = -1;
     self->imageIndent = -1;
@@ -80,9 +90,13 @@ static void mList_construct (mList *self, DWORD addData)
 
 static void mList_destroy(mList* self)
 {
-    _c(self)->resetContent(self);
+	_M(self, freeze, TRUE);
+    _M(self, resetContent);
+    _M(self, freeze, FALSE);
+    _M(pListLayout, release);
     DELETE(pListLayout);
-    _SUPER(mAbstractList, self, destroy);
+
+	Class(mAbstractList).destroy((mAbstractList *)self);
 }
 
 static void mList_resetContent(mList *self)
@@ -92,7 +106,7 @@ static void mList_resetContent(mList *self)
     if (self->drawMode == NCSID_SWGT_ALWAYS) {
         ShowScrollBar (self->hwnd, SB_HORZ, TRUE);
         ShowScrollBar (self->hwnd, SB_VERT, TRUE);
-    } 
+    }
 
     //reset viewport
     self->contX = 0;
@@ -124,8 +138,8 @@ static int mList_getRect(mList *self, mNode *node, RECT *rcNode, BOOL bConv)
 
 static void mList_onPaint(mList *self, HDC hdc, const PCLIPRGN pinv_clip)
 {
-	RECT    rcVis, rcCont;
-    if (_c(self)->isFrozen(self))
+	RECT rcVis, rcCont;
+    if (_M(self, isFrozen))
         return;
 
     _c(self)->getContRect(self, &rcCont);
@@ -137,16 +151,18 @@ static void mList_onPaint(mList *self, HDC hdc, const PCLIPRGN pinv_clip)
     _c(self)->getVisRect(self, &rcVis);
     ClipRectIntersect (hdc, &rcVis);
 
-    _c(pListLayout)->update(pListLayout, hdc, &rcVis, &rcCont);
+    _M(pListLayout, update, hdc, &rcVis, &rcCont);
 }
 
 static void mList_removeAll(mList *self)
 {
     _c(self->root)->removeAll(self->root);
     self->nodesHeight = 0;
+    self->nodesWidth = 0;
 
-    if (!_c(self)->isFrozen(self)) {
+    if (!_M(self, isFrozen)) {
         _c(self)->setProperty(self, NCSP_SWGT_CONTHEIGHT, self->nodesHeight);
+        _c(self)->setProperty(self, NCSP_SWGT_CONTWIDTH, self->nodesWidth);
     }
 }
 
@@ -207,8 +223,8 @@ static mNode* mList_setRoot(mList *self, mNode *newRoot)
         return NULL;
 
     //parent information
-    if ((INSTANCEOF(newRoot->parent, mList) && newRoot->parent != (mObject*)self) 
-        || (INSTANCEOF(newRoot->parent, mNode) 
+    if ((INSTANCEOF(newRoot->parent, mList) && newRoot->parent != (mObject*)self)
+        || (INSTANCEOF(newRoot->parent, mNode)
             && mAbstractList_getControl(newRoot) != (mAbstractList*)self))
         return NULL;
 
@@ -233,7 +249,7 @@ static mNode* mList_setRoot(mList *self, mNode *newRoot)
         node = _c(node)->getNext(node);
     }
 
-    //update layout 
+    //update layout
     _c(pListLayout)->nodeEvent(pListLayout, NCSE_LIST_ROOTCHANGED, (DWORD)newRoot);
 
     _c(self)->freeze(self, FALSE);
@@ -267,9 +283,9 @@ static void mList_backUpList(mList *self, mNode *selNode)
 
 	if(!selNode)
 		newRoot = (mNode*)_c(self)->getProperty(self, NCSP_ASTLST_ROOTNODE);
-	else 
+	else
 		newRoot = (mNode*)_c(selNode)->getProperty(selNode, NCSP_NODE_PARENTNODE);
-    
+
 	if (newRoot && INSTANCEOF(newRoot->parent, mNode)) {
         newRoot = (mNode*)newRoot->parent;
 
@@ -302,7 +318,7 @@ static void mList_notifyEvent(mList* self, int eventId, DWORD eventInfo)
         case NCSE_NODE_NODEADDED:
             //mAbstractList process sorted
             Class(mAbstractList).notifyEvent((mAbstractList*)self, eventId, eventInfo);
-            
+
             if (_is_visible_node(self, (mNode*)eventInfo))
                 _c(pListLayout)->nodeEvent(pListLayout, eventId, eventInfo);
             break;
@@ -368,7 +384,7 @@ static BOOL mList_setProperty(mList* self, int id, DWORD value)
     {
         case NCSP_ASTLST_CMPNODEFUNC:
             if (INSTANCEOF(pListLayout, mLGroupLayout)) {
-                self->nodeCmp = _c((mLGroupLayout*)pListLayout)->decorateNodeCmp((mLGroupLayout*)pListLayout,(NCS_CB_CMPNODE)value);
+                self->nodeCmp = _M((mLGroupLayout*)pListLayout, decorateNodeCmp, (NCS_CB_CMPNODE)value);
                 _c(self)->sortNodes(self, self->nodeCmp, NULL);
                 return TRUE;
             }
@@ -381,7 +397,17 @@ static BOOL mList_setProperty(mList* self, int id, DWORD value)
                 return FALSE;
             }
             self->nodesHeight = value;
-            if (_c(self)->isFrozen(self))
+            if (_M(self, isFrozen))
+                return FALSE;
+
+            break;
+        case NCSP_SWGT_CONTWIDTH:
+            if (value < 0) {
+                //value invalid
+                return FALSE;
+            }
+            self->nodesWidth = value;
+            if (_M(self, isFrozen))
                 return FALSE;
 
             break;
@@ -471,6 +497,7 @@ static void mList_freeze(mList *self, BOOL lock)
 
     if (!lock) {
         _c(self)->setProperty(self, NCSP_SWGT_CONTHEIGHT, self->nodesHeight);
+        _c(self)->setProperty(self, NCSP_SWGT_CONTWIDTH, self->nodesWidth);
         InvalidateRect(self->hwnd, NULL, TRUE);
     }
 }
@@ -490,12 +517,12 @@ static int mList_onKeyDown(mList* self, int scancode, DWORD key_flags)
     if (!self)
         return 1;
 
-    if (self->hiliteNode 
-        && _c(self->hiliteNode)->msgHandler(self->hiliteNode, MSG_KEYDOWN, scancode, key_flags, (mObject*)self) != 1)
+    if (self->hiliteNode
+        && _M(self->hiliteNode, msgHandler, MSG_KEYDOWN, scancode, key_flags, (mObject*)self) != 1)
         return 0;
 
     node = self->hiliteNode;
-   
+
     switch(scancode) {
         case SCANCODE_CURSORBLOCKDOWN:
             direct = NCSF_LIST_DOWN;
@@ -519,16 +546,16 @@ static int mList_onKeyDown(mList* self, int scancode, DWORD key_flags)
 
         case SCANCODE_BACKSPACE:
         {
-            ncsNotifyParentEx((mWidget*)self, NCSN_LIST_BACKSPACE, (DWORD)_c(self)->getCurSel(self));
-            mList_backUpList(self, _c(self)->getCurSel(self));
+            ncsNotifyParentEx((mWidget*)self, NCSN_LIST_BACKSPACE, (DWORD)_M(self, getCurSel));
+            mList_backUpList(self, _M(self, getCurSel));
             return 0;
         }
 
         case SCANCODE_KEYPADENTER:
         case SCANCODE_ENTER:
         {
-            ncsNotifyParentEx((mWidget*)self, NCSN_LIST_ENTER, (DWORD)_c(self)->getCurSel(self));
-            mList_enterSubList(self, _c(self)->getCurSel(self));
+            ncsNotifyParentEx((mWidget*)self, NCSN_LIST_ENTER, (DWORD)_M(self, getCurSel));
+            mList_enterSubList(self, _M(self, getCurSel));
             return 0;
         }
 
@@ -543,7 +570,7 @@ static int mList_onKeyDown(mList* self, int scancode, DWORD key_flags)
         if (direct != NCSF_LIST_HOME && direct != NCSF_LIST_END)
             loop = (GetWindowStyle(self->hwnd) & NCSS_LIST_LOOP) ? NCSF_LIST_LOOP : 0;
 
-        node = _c(pListLayout)->onDirKey(pListLayout, node, loop | direct);
+        node = _M(pListLayout, onDirKey, node, loop | direct);
 
         if (direct == NCSF_LIST_HOME) {
             direct = NCSF_LIST_RIGHT;
@@ -552,13 +579,13 @@ static int mList_onKeyDown(mList* self, int scancode, DWORD key_flags)
             direct = NCSF_LIST_LEFT;
         }
 
-        while (node &&  node != self->hiliteNode && !_c(node)->getProperty(node, NCSP_NODE_ENABLED)) {
-            node = _c(pListLayout)->onDirKey(pListLayout, node, loop | direct);
+        while (node &&  node != self->hiliteNode && !_M(node, getProperty, NCSP_NODE_ENABLED)) {
+            node = _M(pListLayout, onDirKey, node, loop | direct);
         }
 
         if (node &&  node != self->hiliteNode) {
-            _c(self)->selectNode(self, node, TRUE);
-            _c(self)->showNode(self, node);
+            _M(self, selectNode, node, TRUE);
+            _M(self, showNode, node);
         }
     }
 
@@ -571,23 +598,22 @@ static int mList_onLButtonDown(mList *self, int x, int y, DWORD key_flags)
     mNode *node = NULL;
     int mouseX = x, mouseY = y;
 
-    _c(self)->getVisRect(self, &rcVis);
+    _M(self, getVisRect, &rcVis);
     if (!PtInRect (&rcVis, mouseX, mouseY))
         return 1;
 
-    _c(self)->windowToContent(self, &mouseX, &mouseY);
+    _M(self, windowToContent, &mouseX, &mouseY);
 
-    node = _c(pListLayout)->onMouseHit(pListLayout, mouseX, mouseY);
+    node = _M(pListLayout, onMouseHit, mouseX, mouseY);
     if (node){
         ncsNotifyParentEx((mWidget*)self, NCSN_WIDGET_CLICKED, (DWORD)node);
 
         if (!(GetWindowStyle(self->hwnd) & NCSS_LIST_MULTIPLE)) {
             if (node != self->hiliteNode) {
-                _c(self)->selectNode(self, node, TRUE);
-                _c(self)->showNode(self, node);
-            }
-            else if (node){
-                _c(node)->msgHandler(node, MSG_LBUTTONDOWN, MAKELONG(x, y), key_flags, (mObject*)self);
+                _M(self, selectNode, node, TRUE);
+                _M(self, showNode, node);
+            } else if (node){
+                _M(node, msgHandler, MSG_LBUTTONDOWN, MAKELONG(x, y), key_flags, (mObject*)self);
             }
         }
     }
@@ -601,23 +627,25 @@ static int mList_onLButtonDBClk(mList *self, int x, int y, DWORD key_flags)
     mNode *node = NULL;
     int mouseX = x, mouseY = y;
 
-    _c(self)->getVisRect(self, &rcVis);
+    _M(self, getVisRect, &rcVis);
     if (!PtInRect (&rcVis, mouseX, mouseY))
         return 1;
 
-    _c(self)->windowToContent(self, &mouseX, &mouseY);
-    node = _c(pListLayout)->onMouseHit(pListLayout, mouseX, mouseY);
+    _M(self, windowToContent, &mouseX, &mouseY);
+    node = _M(pListLayout, onMouseHit, mouseX, mouseY);
 
-    if (node) _M(self, enterSubList, node);
+    if (node)
+        mList_enterSubList(self, node);
     return 1;
 }
 
 static int mList_onChar(mList* self, int asciiCode, DWORD keyFlags)
 {
-	unsigned char head [2];
-	int start = 0;
 	mNode* node;
-    if (HIBYTE (asciiCode))
+	int start = 0;
+	unsigned char head[2];
+
+	if (HIBYTE (asciiCode))
         return 1;
 
     head [0] = LOBYTE (asciiCode);
@@ -628,7 +656,7 @@ static int mList_onChar(mList* self, int asciiCode, DWORD keyFlags)
             return 1;
         }
 
-        if (!_c(self->hiliteNode)->isEnabled(self->hiliteNode))
+        if (!_M(self->hiliteNode, isEnabled))
             return 1;
 
         //TODO:for multiple, select or deselect
@@ -636,25 +664,24 @@ static int mList_onChar(mList* self, int asciiCode, DWORD keyFlags)
     }
 
     if (self->hiliteNode)
-        start = _c(self->hiliteNode)->indexOf(self->hiliteNode);
+        start = _M(self->hiliteNode, indexOf);
 
-    node = _c(self)->findNode(self, (DWORD)head, NCS_NODE_FTSTRING, FALSE, start);
+    node = _M(self, findNode, (DWORD)head, NCS_NODE_FTSTRING, FALSE, start);
 
     if (!node && start != 0) {
-        node = _c(self)->findNode(self, (DWORD)head, NCS_NODE_FTSTRING, FALSE, 0);
+        node = _M(self, findNode, (DWORD)head, NCS_NODE_FTSTRING, FALSE, 0);
     }
 
     if (node) {
-        if (_c(node)->isEnabled(node)) {
-            _c(self)->selectNode(self, node, TRUE);
-            _c(self)->showNode(self, node);
+        if (_M(node, isEnabled)) {
+            _M(self, selectNode, node, TRUE);
+            _M(self, showNode, node);
         }
     }
     return 1;
 }
 
-static int mList_wndProc(mList* self,
-            int message, WPARAM wParam, LPARAM lParam)
+static int mList_wndProc(mList* self, int message, WPARAM wParam, LPARAM lParam)
 {
     switch(message){
         case MSG_CHAR:
@@ -665,7 +692,7 @@ static int mList_wndProc(mList* self,
             if (!(self->flags & NCSLIST_FLAG_FOCUS)) {
                 self->flags |= NCSLIST_FLAG_FOCUS;
                 if (self->hiliteNode) {
-                    _c(self)->showNode(self, self->hiliteNode);
+                    _M(self, showNode, self->hiliteNode);
                 }
             }
             break;
@@ -677,16 +704,12 @@ static int mList_wndProc(mList* self,
             return mList_onLButtonDBClk(self, LOSWORD (lParam), HISWORD(lParam), (DWORD)wParam);
     }
 
-	//return _c(self)->super->wndProc((void*)self, message, wParam, lParam);
-    return Class(mAbstractList).wndProc((mAbstractList*)self, message, wParam, lParam);
+    return Class(mAbstractList).wndProc((mAbstractList *)self, message, wParam, lParam);
 }
 
 mListLayout* mList_getLayout(mList *self)
 {
-    if (self)
-        return pListLayout;
-
-    return NULL;
+	return self != NULL ? pListLayout : NULL;
 }
 
 BOOL mList_setLayout(mList *self, mListLayout *layout,
@@ -694,42 +717,42 @@ BOOL mList_setLayout(mList *self, mListLayout *layout,
 {
     BOOL resort = FALSE, frozen;
 
-    if (!self || !layout || 
+    if (!self || !layout ||
             pListLayout == layout || !INSTANCEOF(layout, mListLayout))
         return FALSE;
 
-    frozen = _c(self)->isFrozen(self);
-    if (!frozen)
-        _c(self)->freeze(self, TRUE);
+    if (!(frozen = _M(self, isFrozen)))
+        _M(self, freeze, TRUE);
 
     //release previous layout
     if (INSTANCEOF(pListLayout, mLGroupLayout)) {
         resort = TRUE;
-        self->nodeCmp = 
-            (NCS_CB_CMPNODE)_c(self)->getProperty(self, NCSP_ASTLST_CMPNODEFUNC);
+        self->nodeCmp = (NCS_CB_CMPNODE)_M(self, getProperty, NCSP_ASTLST_CMPNODEFUNC);
     }
-    _c(pListLayout)->release(pListLayout);
+
+    _M(pListLayout, release);
+	DELETE(pListLayout);
 
     //set new layout
     pListLayout = layout;
-    _c(pListLayout)->addRef(pListLayout);
-    _c(pListLayout)->init(pListLayout, (mAbstractList*)self, defNodeW, defNodeH);
+    _M(pListLayout, addRef);
+    _M(pListLayout, init, (mAbstractList*)self, defNodeW, defNodeH);
 
     if (resort && !INSTANCEOF(layout, mLGroupLayout)) {
-        NCS_CB_CMPNODE func = 
-            (NCS_CB_CMPNODE)_c(self)->getProperty(self, NCSP_ASTLST_CMPNODEFUNC);
-        //reset callback and update sorting 
-        _c(self)->sortNodes(self, func, NULL);
+        NCS_CB_CMPNODE func = (NCS_CB_CMPNODE)_M(self, getProperty, NCSP_ASTLST_CMPNODEFUNC);
+        //reset callback and update sorting
+        _M(self, sortNodes, func, NULL);
     }
     /*
     else
         InvalidateRect(self->hwnd, NULL, TRUE);
-        */
+    */
 
-    if (self->hiliteNode) _c(self)->showNode(self, self->hiliteNode);
+    if (self->hiliteNode)
+		_M(self, showNode, self->hiliteNode);
 
     if (!frozen)
-        _c(self)->freeze(self, FALSE);
+        _M(self, freeze, FALSE);
 
     return TRUE;
 }
@@ -764,12 +787,12 @@ static void foreach_node_children(mNode* node, void (*foreach)(mNode* node, void
 {
 	if(!node)
 		return;
-	node = _c(node)->getNode(node, 0);
+	node = _M(node, getNode, 0);
 	while(node)
 	{
 		foreach(node, param);
 		foreach_node_children(node, foreach, param);
-		node = _c(node)->getNext(node);
+		node = _M(node, getNext);
 	}
 }
 
@@ -778,8 +801,10 @@ void mList_foreachNode(mList *list, void (*foreach)(mNode *node, void* param), v
 	mNode *node;
 	if(!list || ! foreach)
 		return ;
-	
-	node = (mNode*)_c(list)->getProperty(list, NCSP_ASTLST_ROOTNODE);
-	
+
+	node = (mNode*)_M(list, getProperty, NCSP_ASTLST_ROOTNODE);
+
 	foreach_node_children(node, foreach, param);
 }
+
+#endif //_MGNCSCTRL_LIST

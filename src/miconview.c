@@ -1,5 +1,5 @@
-/* 
- ** $Id: miconview.c 1116 2010-12-02 04:03:35Z dongjunjie $
+/*
+ ** $Id: miconview.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of mIconView class.
  **
@@ -30,6 +30,8 @@
 #include "miconview.h"
 
 #include "mrdr.h"
+
+#ifdef _MGNCSCTRL_ICONVIEW
 
 #define DEF_ICON_WIDTH  48
 #define DEF_ICON_HEIGHT 48
@@ -63,7 +65,7 @@ static void mIconView_drawItem (mItemView *self, HITEM hItem, HDC hdc, RECT *rcD
     if (label && strcmp(label, "") != 0) {
         rcTxt = *rcDraw;
         rcTxt.top = rcTxt.bottom - GetWindowFont(iv_self->hwnd)->size - 2;
-        DrawText (hdc, label, -1, 
+        DrawText (hdc, label, -1,
                 &rcTxt, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     }
 
@@ -72,12 +74,12 @@ static void mIconView_drawItem (mItemView *self, HITEM hItem, HDC hdc, RECT *rcD
     if (bmp) {
         int bmpw = 0, bmph = 0;
 
-        x = rcDraw->left + (RECTWP(rcDraw) - (int)bmp->bmWidth ) / 2; 
+        x = rcDraw->left + (RECTWP(rcDraw) - (int)bmp->bmWidth ) / 2;
         if (x < rcDraw->left) {
             x = rcDraw->left;
             bmpw = RECTWP(rcDraw);
         }
-        y = rcDraw->top 
+        y = rcDraw->top
             + ( RECTHP(rcDraw) - RECTH(rcTxt) - (int)bmp->bmHeight) / 2;
         if (y < rcDraw->top) {
             y = rcDraw->top;
@@ -182,7 +184,7 @@ mIconView_onKeyDown(mIconView* self, int scancode, int state)
     return 1;
 }
 
-static int mIconView_inItem (mIconView *self, int mouseX, int mouseY, 
+static int mIconView_inItem (mIconView *self, int mouseX, int mouseY,
                      HITEM *pRet, POINT *pt)
 {
     int row, col, index;
@@ -209,7 +211,7 @@ static int mIconView_inItem (mIconView *self, int mouseX, int mouseY,
     return index;
 }
 
-static int mIconView_getRect (mIconView *self, 
+static int mIconView_getRect (mIconView *self,
         HITEM hItem, RECT *rcItem, BOOL bConv)
 {
     int index = _c(self)->indexOf(self, hItem);
@@ -230,7 +232,7 @@ static int mIconView_getRect (mIconView *self,
     return 0;
 }
 
-static HITEM mIconView_addItem(mIconView *self, 
+static HITEM mIconView_addItem(mIconView *self,
         NCS_ICONV_ITEMINFO *info, int *pos)
 {
     HITEM   hItem;
@@ -239,9 +241,9 @@ static HITEM mIconView_addItem(mIconView *self,
     if (!info)
         return 0;
 
-    hItem = _c(self)->createItem(self, 0, 0, info->index, 
+    hItem = _c(self)->createItem(self, 0, 0, info->index,
             self->defItemHeight, info->label, info->addData, &idx, FALSE);
-    
+
     if (!hItem) {
         return 0;
     }
@@ -252,11 +254,11 @@ static HITEM mIconView_addItem(mIconView *self,
     //set image
     if (info && info->bmp)
         _c(self)->setImage(self, hItem, ((DWORD)info->bmp));
-    
+
     if (self->nrCol == 1 || _c(self)->getItemCount(self)%self->nrCol == 1) {
         _c(self)->adjustItemsHeight(self, self->defItemHeight);
     }
-    else 
+    else
         _c(self)->refreshItem(self, hItem, NULL);
 
     return hItem;
@@ -270,7 +272,7 @@ static int mIconView_onSizeChanged(mIconView* self, RECT *rcClient)
 
     oldH = _c(self)->getTotalHeight(self);
 
-    self->contWidth = self->visWidth; 
+    self->contWidth = self->visWidth;
     self->nrCol = self->contWidth / self->defItemWidth;
 
     if (self->nrCol <= 0)
@@ -291,12 +293,12 @@ static void mIconView_setIconSize(mIconView *self, int width, int height)
 	RECT rc;
     if (width <= 0)
         self->defItemWidth = DEF_ICON_WIDTH;
-    else 
+    else
         self->defItemWidth = width;
 
     if (height <= 0)
         self->defItemHeight = DEF_ICON_HEIGHT;
-    else 
+    else
         self->defItemHeight = height;
 
     self->nrCol = self->contWidth/self->defItemWidth;
@@ -313,7 +315,7 @@ static void mIconView_setIconSize(mIconView *self, int width, int height)
 static int mIconView_getFirstVisItem(mIconView *self)
 {
     int i = 0;
-    int top = 0, bottom = 0; 
+    int top = 0, bottom = 0;
     list_t *me, *first;
 
     first = _c(self)->getQueue(self);
@@ -456,3 +458,5 @@ BEGIN_CMPT_CLASS(mIconView, mItemView)
     CLASS_METHOD_MAP(mIconView, getItemHeight);
 	SET_DLGCODE(DLGC_WANTARROWS);
 END_CMPT_CLASS
+
+#endif		//_MGNCSCTRL_ICONVIEW

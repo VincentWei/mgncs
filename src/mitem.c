@@ -1,5 +1,5 @@
 /* 
- ** $Id: mitem.c 767 2009-12-29 02:02:46Z xwyan $
+ ** $Id: mitem.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of mItem class.
  **
@@ -101,7 +101,7 @@ static void mItem_construct(mItem *self, DWORD addData)
     self->editor = HWND_NULL;
     self->string = NULL;
     self->image = 0;
-    self->flags = 0;
+    self->flags = NCSF_ITEM_NORMAL;
 }
 
 static void mItem_destroy(mItem *self)

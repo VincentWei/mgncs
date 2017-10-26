@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_MONTHCALENDAR
 
 #ifndef _MGUI_NCSCTRL_CDR_H
 #define _MGUI_NCSCTRL_CDR_H
@@ -30,7 +31,7 @@ struct _mMonthCalendarRenderer
 };
 
 #define mMonthCalendarClassHeader(clss, superCls) \
-	mWidgetClassHeader(clss, superCls) 
+	mWidgetClassHeader(clss, superCls)
 
 /**
  * struct mMonthCalendarClass
@@ -45,13 +46,13 @@ struct _mMonthCalendarClass
 MGNCS_EXPORT extern mMonthCalendarClass g_stmMonthCalendarCls;
 
 #define mMonthCalendarHeader(clss) \
-	mWidgetHeader(clss) 
+	mWidgetHeader(clss)
 
 /**
  * \struct mMonthCalender
  * \brief the member of mMonthCalendar Control derived from \ref mWidget
  */
-	
+
 struct _mMonthCalendar
 {
 	mMonthCalendarHeader(mMonthCalendar)
@@ -116,4 +117,5 @@ enum mMonthCalendarEvents{
 #endif
 
 #endif
+#endif //_MGNCSCTRL_MONTHCALENDAR
 

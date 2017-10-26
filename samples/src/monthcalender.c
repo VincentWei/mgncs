@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined _MGNCSCTRL_MONTHCALENDAR && defined _MGNCSCTRL_DIALOGBOX
+
 #define ID_CALENDER      100
 #define ID_EDIT_YEAR     101
 #define ID_EDIT_MONTH    102
@@ -31,11 +33,11 @@
 #define ID_STATIC_MONTH  106
 #define ID_STATIC_DAY    107
 
-#define SLEDIT_W  35 
+#define SLEDIT_W  35
 #define SLEDIT_H  20
 #define STATIC_H SLEDIT_H
 #define STATIC_W 30
-	
+
 static char buff[20];
 
 static BOOL input_restrict (mWidget* self, int max_num, int scancode)
@@ -56,7 +58,7 @@ static BOOL input_restrict (mWidget* self, int max_num, int scancode)
 
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 {
-	int year, month, day;	
+	int year, month, day;
 
 	mMonthCalendar* calender = (mMonthCalendar *)ncsGetChildObj(self->hwnd, ID_CALENDER);
 	year  = _c(calender)->getProperty(calender, NCSP_CDR_YEAR);
@@ -64,13 +66,13 @@ static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 	day   = _c(calender)->getProperty(calender, NCSP_CDR_DAY);
 
 
-	sprintf (buff, "%d", year);	
+	sprintf (buff, "%d", year);
 	SetWindowText (GetDlgItem(self->hwnd, ID_EDIT_YEAR), buff);
-	
-	sprintf (buff, "%d", month);	
+
+	sprintf (buff, "%d", month);
 	SetWindowText (GetDlgItem(self->hwnd, ID_EDIT_MONTH), buff);
-	
-	sprintf (buff, "%d", day);	
+
+	sprintf (buff, "%d", day);
 	SetWindowText (GetDlgItem(self->hwnd, ID_EDIT_DAY), buff);
 
 
@@ -98,7 +100,7 @@ static BOOL mymain_oncsizechanged(mWidget *self, int cx, int cy)
 
 	hwnd = GetDlgItem(self->hwnd, ID_CALENDER);
 	MoveWindow(hwnd, 0, 0, cx, cy*0.8,TRUE);
-	
+
 	hwnd = GetDlgItem(self->hwnd, ID_EDIT_YEAR);
 	MoveWindow(hwnd, year_x, global_y, SLEDIT_W, SLEDIT_H,TRUE);
 	hwnd = GetDlgItem(self->hwnd, ID_STATIC_YEAR);
@@ -113,7 +115,7 @@ static BOOL mymain_oncsizechanged(mWidget *self, int cx, int cy)
 	MoveWindow(hwnd, day_x, global_y, SLEDIT_W, SLEDIT_H,TRUE);
 	hwnd = GetDlgItem(self->hwnd, ID_STATIC_DAY);
 	MoveWindow(hwnd, day_x + SLEDIT_W, global_y, STATIC_W, STATIC_H,TRUE);
-	
+
 	hwnd = GetDlgItem(self->hwnd, ID_BUTTON_SET);
 	MoveWindow(hwnd, set_x + SLEDIT_W, global_y, STATIC_W, STATIC_H,TRUE);
 
@@ -184,11 +186,11 @@ static void Button_onPushed (mButton* self, int id, int nc)
 
 	GetWindowText (GetDlgItem (GetParent (self->hwnd), ID_EDIT_MONTH), buff, sizeof (buff));
 	month = atoi (buff);
-	
+
 	GetWindowText (GetDlgItem (GetParent (self->hwnd), ID_EDIT_DAY), buff, sizeof (buff));
 	day = atoi (buff);
 
-	
+
 	mMonthCalendar* calender = (mMonthCalendar *)ncsGetChildObj(GetParent (self->hwnd), ID_CALENDER);
 	year  = _c(calender)->setProperty(calender, NCSP_CDR_YEAR, year);
 	month = _c(calender)->setProperty(calender, NCSP_CDR_MONTH, month);
@@ -200,7 +202,7 @@ static void year_changed (mButton* self, int id, int nc, DWORD add_data)
 	int year;
 	mMonthCalendar* calender = (mMonthCalendar *)ncsGetChildObj(GetParent (self->hwnd), ID_CALENDER);
 	year  = _c(calender)->getProperty(calender, NCSP_CDR_YEAR);
-	sprintf (buff, "%d", year);	
+	sprintf (buff, "%d", year);
 	SetWindowText (GetDlgItem(GetParent (self->hwnd), ID_EDIT_YEAR), buff);
 
 }
@@ -210,7 +212,7 @@ static void month_changed (mButton* self, int id, int nc, DWORD add_data)
 	int month;
 	mMonthCalendar* calender = (mMonthCalendar *)ncsGetChildObj(GetParent (self->hwnd), ID_CALENDER);
 	month = _c(calender)->getProperty(calender, NCSP_CDR_MONTH);
-	sprintf (buff, "%d", month);	
+	sprintf (buff, "%d", month);
 	SetWindowText (GetDlgItem(GetParent (self->hwnd), ID_EDIT_MONTH), buff);
 }
 
@@ -219,7 +221,7 @@ static void day_changed (mButton* self, int id, int nc, DWORD add_data)
 	int day;
 	mMonthCalendar* calender = (mMonthCalendar *)ncsGetChildObj(GetParent (self->hwnd), ID_CALENDER);
 	day   = _c(calender)->getProperty(calender, NCSP_CDR_DAY);
-	sprintf (buff, "%d", day);	
+	sprintf (buff, "%d", day);
 	SetWindowText (GetDlgItem(GetParent (self->hwnd), ID_EDIT_DAY), buff);
 }
 
@@ -253,7 +255,7 @@ static NCS_EVENT_HANDLER calender_handlers [] ={
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_MONTHCALENDAR, 
+		NCSCTRL_MONTHCALENDAR,
 		ID_CALENDER,
 		10, 10, 320, 200,
 		WS_BORDER | WS_VISIBLE | NCSS_NOTIFY,
@@ -347,7 +349,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 320, 240,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -370,15 +372,29 @@ int MiniGUIMain(int argc, const char* argv[])
 	}
 
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
 
 #ifdef _MGRM_THREADS
 #include <minigui/dti.c>
 #endif
+
+#else //_MGNCSCTRL_MONTHCALENDAR _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the monthcalendar dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-monthcalendar --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_MONTHCALENDAR _MGNCSCTRL_DIALOGBOX

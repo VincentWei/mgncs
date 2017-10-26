@@ -38,52 +38,16 @@ static void mToolImagePiece_destroy(mToolImagePiece *self)
 
 static void mToolImagePiece_paint(mToolImagePiece *self, HDC hdc, mWidget *owner, DWORD add_data)
 {
-	//accept the state
-	//RECT rc_img;
 	RECT rc;
-	int idx = 0;
-	if(!self->toolImg || !self->toolImg->pbmp)
-		return;
-
-	if(self->toolImg->cell_count > 0)
-	{
-		int check_state = NCS_PIECE_PAINT_GET_CHECK(add_data);
-		if((add_data & NCS_PIECE_PAINT_STATE_MASK) == PIECE_STATE_DISABLE)
-		{
-			idx = 3;
-		}
-		else
-		{
-			if(check_state == PIECE_CHECKSTATE_CHECKED)
-			{
-				idx = 2;
-			}
-			else
-			{
-				switch(add_data&NCS_PIECE_PAINT_STATE_MASK){
-				case PIECE_STATE_NORMAL:
-				case PIECE_STATE_CAPTURED:
-					idx = 0; break;
-				case PIECE_STATE_HILIGHT:
-					idx = 1; break;
-				case PIECE_STATE_PUSHED:
-					idx = 2; break;
-				case PIECE_STATE_DISABLE:
-					idx = 3; break;
-				}
-			}
-		}
-		if(idx >= self->toolImg->cell_count)
+	int idx = (int)add_data;
+	if(idx >= self->toolImg->cell_count)
 			idx = self->toolImg->cell_count - 1;
-
-	}
 
 	_c(self)->getRect(self, &rc);
 	//printf("ToolImage RC:%d,%d,%d,%d\n",rc.left, rc.top, rc.right, rc.bottom);
 
 	//draw part image
 	ncsDrawToolImageCell(self->toolImg, hdc, idx, &rc);
-
 }
 
 static BOOL mToolImagePiece_setProperty(mToolImagePiece *self, int id, DWORD value)

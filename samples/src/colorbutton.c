@@ -22,10 +22,12 @@
 #include <mgncs/mgncs.h>
 // END_OF_INCS
 
+#if defined _MGNCSCTRL_COLORBUTTON && defined _MGNCSCTRL_DIALOGBOX
+
 #define ID_BTN  101
 
 // START_OF_HANDLERS
-static BOOL mymain_oncolorchanged(mMainWnd* self, mColorButton *sender, 
+static BOOL mymain_oncolorchanged(mMainWnd* self, mColorButton *sender,
         int id, DWORD param)
 {
     SetWindowBkColor(self->hwnd, DWORD2PIXEL(HDC_SCREEN, param));
@@ -41,11 +43,11 @@ static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
     {
         _c(btn)->setProperty(btn, NCSP_CLRBTN_CURCOLOR, PIXEL2DWORD(HDC_SCREEN,
             GetWindowBkColor(self->hwnd)));
-        ncsAddEventListener((mObject*)btn, (mObject*)self, 
-            (NCS_CB_ONPIECEEVENT)mymain_oncolorchanged, 
+        ncsAddEventListener((mObject*)btn, (mObject*)self,
+            (NCS_CB_ONPIECEEVENT)mymain_oncolorchanged,
             NCSN_CLRBTN_COLORCHANGED);
     }
-    
+
     return TRUE;
 }
 
@@ -72,7 +74,7 @@ static NCS_RDR_INFO btn_rdr_info[] =
 // START_OF_TEMPLATE
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
     {
-        NCSCTRL_COLORBUTTON, 
+        NCSCTRL_COLORBUTTON,
         ID_BTN,
         40, 40, 80, 30,
         WS_VISIBLE|NCSS_NOTIFY,
@@ -88,7 +90,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 };
 
 static NCS_MNWND_TEMPLATE mymain_templ = {
-    NCSCTRL_MAINWND, 
+    NCSCTRL_MAINWND,
     1,
     0, 0, 180, 140,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -108,7 +110,7 @@ int MiniGUIMain(int argc, const char* argv[])
 {
     ncsInitialize();
 
-    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                 (&mymain_templ, HWND_DESKTOP);
 
     _c(mydlg)->doModal(mydlg, TRUE);
@@ -116,7 +118,21 @@ int MiniGUIMain(int argc, const char* argv[])
     MainWindowThreadCleanup(mydlg->hwnd);
 
     ncsUninitialize ();
- 
+
     return 0;
 }
+
+
+#else // _MGNCSCTRL_COLORBUTTON _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the colorbutton, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-colorbutton --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	// _MGNCSCTRL_COLORBUTTON _MGNCSCTRL_DIALOGBOX
 

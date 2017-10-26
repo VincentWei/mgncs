@@ -11,21 +11,22 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
- 
+
   	\endverbatim
  */
 
 /**
- * $Id: mpage.h 635 2009-10-28 02:19:04Z wangjian $
+ * $Id: mpage.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *          Copyright (C) 2009 Feynman Software.
  */
+#ifdef _MGNCSCTRL_PAGE
 
 #ifndef _MGUI_NCSCTRL_PAGE_H
 #define _MGUI_NCSCTRL_PAGE_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -47,7 +48,7 @@ typedef struct _mPageRenderer mPageRenderer;
 
 /**
  * \def NCSS_PAGE_SHIFT
- * \brief The bits used by mPage in style. 
+ * \brief The bits used by mPage in style.
  */
 #define NCSS_PAGE_SHIFT NCSS_CTNR_SHIFT
 
@@ -55,7 +56,7 @@ typedef struct _mPageRenderer mPageRenderer;
 	mContainerHeader(className) \
     int     titleWidth;         \
     HICON   hIcon;
-    
+
 
 /**
  * \struct mPage
@@ -128,11 +129,11 @@ struct _mPageClass
 
 /**
  * \var typedef void (*NCS_CB_ONINITPAGE)(mPage *self, DWORD addData);
- * \brief the callback of the event MSG_INITPAGE. Initialize the 
+ * \brief the callback of the event MSG_INITPAGE. Initialize the
  *        controls in page.
  *
  * \param self     The pointer to mContainer.
- * \param addData   The additional data in DLGTEMPLATE structure 
+ * \param addData   The additional data in DLGTEMPLATE structure
  *                  passed through addPage in mPageClass.
  *
  * \note It need to be implemented by user.
@@ -144,7 +145,7 @@ typedef void (*NCS_CB_ONINITPAGE)(mPage *self, DWORD addData);
  * \brief the callback of the event MSG_SHOWPAGE. Shows or hides page.
  *
  * \param self      The pointer to mContainer.
- * \param focusChild The handle to the child which will gain the 
+ * \param focusChild The handle to the child which will gain the
  *                   input focus when showing the page.
  * \param showCmd    The show command, can be one of the following values:
  *                      - SW_SHOW\n The page will be shown.
@@ -163,7 +164,7 @@ typedef int (*NCS_CB_ONSHOWPAGE)(mPage *self, HWND focusChild, int showCmd);
  * \param param1     The param info1 of function broadCastMsg in mPageClass.
  * \param param2     The param info2 of function broadCastMsg in mPageClass.
  *
- * \return           zero for broadcasting message for other pages continuing, 
+ * \return           zero for broadcasting message for other pages continuing,
  *                   Nonzero for end of broadcasting message.
  *
  * \note It need to be implemented by user.
@@ -196,3 +197,4 @@ MGNCS_EXPORT extern mPageClass g_stmPageCls;
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_PAGE_H */
+#endif //_MGNCSCTRL_PAGE

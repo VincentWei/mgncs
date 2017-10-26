@@ -18,6 +18,8 @@
 #include "mrdr.h"
 #include "piece.h"
 
+#ifdef _MGNCSCTRL_COLORBUTTON
+
 typedef struct _my_color_dlg_data {
 	COLORDLGDATA data;
 	const char* rdr_name;
@@ -74,8 +76,8 @@ static BOOL mColorButton_onPiece(mColorButton* self, mHotPiece *piece, int event
 
 static mObject * mColorButton_createBody(mColorButton *self)
 {
-	mRectPiece *piece = NEW(mRectPiece);
-	mPushButtonPiece *push = NEW(mPushButtonPiece);
+	mRectPiece *piece = NEWPIECE(mRectPiece);
+	mPushButtonPiece *push = NEWPIECE(mPushButtonPiece);
 	push->content = (mHotPiece*)piece;
 	//add event
 	ncsAddEventListener((mObject*)push,(mObject*)self, (NCS_CB_ONPIECEEVENT)mColorButton_onPiece, NCSN_ABP_CLICKED);
@@ -146,5 +148,4 @@ BEGIN_CMPT_CLASS(mColorButton, mWidget)
 	CLASS_METHOD_MAP(mColorButton, onSizeChanged);
 END_CMPT_CLASS
 
-
-
+#endif		//_MGNCSCTRL_COLORBUTTON

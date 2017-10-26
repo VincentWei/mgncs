@@ -19,14 +19,16 @@
 
 #include "piece.h"
 
+#ifdef _MGNCSCTRL_MONTHCALENDAR
+
 static const char *chMon_ES[] = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
                             "Sep", "Oct", "Nov", "Dec"};
 #if 0
 static const char *chMon_EL[] = {"January", "Febuary", "March", "April", "May", "June",
                             "July", "August", "September", "October", "November", "December"};
-static const char *chMon_C[] = {"Ò»ÔÂ", "¶þÔÂ", "ÈýÔÂ", "ËÄÔÂ", "ÎåÔÂ", "ÁùÔÂ", "ÆßÔÂ", "°ËÔÂ", 
+static const char *chMon_C[] = {"Ò»ÔÂ", "¶þÔÂ", "ÈýÔÂ", "ËÄÔÂ", "ÎåÔÂ", "ÁùÔÂ", "ÆßÔÂ", "°ËÔÂ",
                             "¾ÅÔÂ", "Ê®ÔÂ", "Ê®Ò»ÔÂ", "Ê®¶þÔÂ"};
-static const char *chWeek_C[] = {"ÈÕ", "Ò»", "¶þ", "Èý", "ËÄ", "Îå", "Áù"}; 
+static const char *chWeek_C[] = {"ÈÕ", "Ò»", "¶þ", "Èý", "ËÄ", "Îå", "Áù"};
 static const char *chWeek_E[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 static const char *chWeek_E_S[] = {"S", "1", "2", "3", "4", "5", "6"};
 #endif
@@ -34,16 +36,16 @@ static const char *chWeek_E_S[] = {"S", "1", "2", "3", "4", "5", "6"};
 #define MINWNDRECT_W    200
 #define MINWNDRECT_H    120
 
-#define MONFIELD_W       70 
+#define MONFIELD_W       70
 #define YEARFIELD_W      70
 #define WEEKFIELD_W      30
 #define WEEKFIELD_H(hwnd)      (GetWindowFont(hwnd)->size+4)
 #define WEEK_BORDER      5
 #define WEEK_VBORDER1    2
 #define WEEK_VBORDER2    3
-#define TEXT_BORDER      5 
+#define TEXT_BORDER      5
 #define LINE_D           2
-#define HEADER_HEIGHT    25 
+#define HEADER_HEIGHT    25
 
 // --------------------------------------------------------------------------
 
@@ -88,10 +90,10 @@ static int MyGetWeekDay (int year, int month, int day)
     }
     for (i = 1; i < month; i++)    {
         daylen += GetMonLen (year, i);
-    }    
+    }
     daylen += day;
     weekday = (weekday1 + daylen) - (int)((weekday1 + daylen) / 7)*7;
-    return weekday;    
+    return weekday;
 }
 
 // get weekday from date
@@ -102,7 +104,7 @@ static int GetWeekDay (int year, int month, int day)
     if (year < 1970) return -1;
     if (month < 1 || month > 12) return -1;
     if (day < 1 || day > 31) return -1;
-    
+
     if (year >= 2037) return MyGetWeekDay (year, month, day);
     memset (&nowday, 0, sizeof (nowday));
     nowday.tm_sec = 0;
@@ -116,7 +118,7 @@ static int GetWeekDay (int year, int month, int day)
         return -1;
     }
     else
-        return nowday.tm_wday;    
+        return nowday.tm_wday;
 }
 
 
@@ -190,10 +192,10 @@ static void update_day(mMonthCalendar *self, mHotPiece *monthgrid, int year, int
 	if(!monthgrid)
 		return;
 
-	_c(monthgrid)->setProperty(monthgrid, NCSP_DAYGRIDPIECE_MONTH_DAYS, GetMonLen(year, month));	
-	_c(monthgrid)->setProperty(monthgrid, NCSP_DAYGRIDPIECE_LASTMONTH_DAYS, GetPMonLen(year, month));	
-	_c(monthgrid)->setProperty(monthgrid, NCSP_DAYGRIDPIECE_WEEKDAY_OF_FIRSTDAY, GetWeekDay(year, month, 1));	
-	
+	_c(monthgrid)->setProperty(monthgrid, NCSP_DAYGRIDPIECE_MONTH_DAYS, GetMonLen(year, month));
+	_c(monthgrid)->setProperty(monthgrid, NCSP_DAYGRIDPIECE_LASTMONTH_DAYS, GetPMonLen(year, month));
+	_c(monthgrid)->setProperty(monthgrid, NCSP_DAYGRIDPIECE_WEEKDAY_OF_FIRSTDAY, GetWeekDay(year, month, 1));
+
 	if(bredraw)
 		mHotPiece_update((mHotPiece*)monthgrid, (mObject*)self, TRUE);
 }
@@ -278,7 +280,7 @@ static void set_year_month_day(mMonthCalendar *self, int iyear, int imonth, int 
 
 	if(day >= 0 && day <= 31)
 		set_day(self,monthgrid, day);
-	
+
 }
 
 static void set_year_month_from_localtime(mMonthCalendar * self)
@@ -300,7 +302,7 @@ static BOOL mMonthCalendar_onYearChanged(mMonthCalendar* self, mHotPiece *sender
 	//mHotPiece * monthgrid = get_monthgrid_piece(self);
 
 	int month = get_month(self);
-	//TODO	
+	//TODO
 	update_day(self, NULL, (int)param, month, TRUE);
 
 	mHotPiece_update((mHotPiece*)sender, (mObject*)self, TRUE);
@@ -364,7 +366,7 @@ static void next_prev_month(mMonthCalendar *self, BOOL bprev )
 	}
 	ncsNotifyParent((mWidget*)self, NCSN_CDR_MONTH_CHANGED);
 
-	
+
 	//set monthgrid
 	update_day(self, NULL, iyear, imonth, TRUE);
 
@@ -439,7 +441,7 @@ static mObject * mMonthCalendar_createBody(mMonthCalendar *self)
 	pair_month->second = (mHotPiece*)NEWPIECE(mMonthPiece);
 	_c(pair_month)->setProperty(pair_month, NCSP_PAIRPIECE_FIRST_SIZE, WEEKFIELD_H(self->hwnd));
 	ncsAddEventListeners((mObject*) pair_month->second, (mObject*)self, (NCS_CB_ONPIECEEVENT)mMonthCalendar_onDayChanged, event_ids);
-	
+
 	//create total
 	pair_total = NEWPIECE(mPairPiece);
 	_c(pair_total)->setProperty(pair_total, NCSP_PAIRPIECE_DIRECTION, 1);
@@ -500,4 +502,5 @@ BEGIN_MINI_CLASS(mMonthCalendar, mWidget)
 	CLASS_METHOD_MAP(mMonthCalendar, getProperty)
 END_MINI_CLASS
 
+#endif //_MGNCSCTRL_MONTHCALENDAR
 

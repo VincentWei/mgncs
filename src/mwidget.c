@@ -125,6 +125,7 @@ static void mWidget_destroy(mWidget *self)
 	if(self)
 	{
         PLOGFONT font = GetWindowFont(self->hwnd);
+		mComponent* comp = self->comps;
 		if(mWidget_getCapturedHotPiece(self))
 			mWidget_releaseCapturedHotPiece();
 		if(mWidget_getHoveringFocus(self))
@@ -136,6 +137,16 @@ static void mWidget_destroy(mWidget *self)
             ReleaseRes(((FONT_RES *)font)->key);
 		DELPIECE(self->body);
 		ncsCleanImageDrawInfo(&self->bkimg);
+
+		//release components
+		while(comp)
+		{
+			mComponent *tcomp = comp;
+			comp = _c(comp)->getReleated(comp, NCS_CMPT_NEXT);
+			DELETE(tcomp);
+		}
+		self->comps = NULL;
+
 		Class(mComponent).destroy((mComponent*)self);
 	}
 }
@@ -253,9 +264,7 @@ static int _default_wnd_proc(HWND hWnd, int message, WPARAM wParam, LPARAM lPara
 
     if(message == MSG_NCDESTROY){
         if(IsMainWindow(hWnd))
-		{
             DestroyMainWindow(hWnd);
-		}
         else
             DestroyWindow(hWnd);
         return 0;
@@ -308,6 +317,7 @@ static int ncsWndProc(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
 {
     mWidget *self = NULL;
     int ret;
+    BOOL cleanMainWnd = FALSE;
 
 	if(message == MSG_NCCREATE){
 		//call msg hanlder processor
@@ -321,8 +331,20 @@ static int ncsWndProc(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
         return 0;
 
     _c(self)->addRef(self);
+
+    if (message == MSG_NCDESTROY && IsMainWindow(hWnd)) {
+        cleanMainWnd = TRUE;
+    }
+
     ret = _default_wnd_proc(hWnd, message, wParam, lParam);
     _c(self)->release(self);
+
+    //Note: for main window, we should cleanup to avoid memory leak.
+    //please don't process it in _default_wnd_proc£¬it will cause
+    //invalid read when release widget.
+    if (cleanMainWnd) {
+        MainWindowCleanup(hWnd);
+    }
     return ret;
 }
 

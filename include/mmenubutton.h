@@ -1,7 +1,8 @@
+#ifdef _MGNCSCTRL_MENUBUTTON
 
 #ifndef _MGUI_NCSCTRL_MNUBTN_H
 #define _MGUI_NCSCTRL_MNUBTN_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,20 +44,20 @@ struct _mMenuButton
 };
 
 #define mMenuButtonClassHeader(className, parentClass) \
-	mButtonClassHeader(className, parentClass) 
+	mButtonClassHeader(className, parentClass)
 
 /**
  * \struct mMenuButtonClass
  * \brief MenuButton class , derived from mButtonClass
  */
- 
+
 struct _mMenuButtonClass
 {
 	mMenuButtonClassHeader(mMenuButton, mButton)
 };
 
 #define mMenuButtonRendererHeader(clsName, parentClass) \
-	mButtonRendererHeader(clsName, parentClass) 
+	mButtonRendererHeader(clsName, parentClass)
 
 /**
  * \struct mMenuButtonRenderer
@@ -110,7 +111,7 @@ enum eMenuButtonNotify{
 	/**
 	 * \brief Event raised when MenuButton's item changed
 	 * \param the new menu item id
-	 * 
+	 *
 	 */
 	NCSN_MNUBTN_ITEMCHANGED = NCSN_BUTTON_MAX + 1,
 	NCSN_MNUBTN_MAX
@@ -127,4 +128,4 @@ enum eMenuButtonNotify{
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_RECTANGLE_H */
-
+#endif //_MGNCSCTRL_MENUBUTTON

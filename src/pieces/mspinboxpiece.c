@@ -17,6 +17,8 @@
 #include "mspinnerpiece.h"
 #include "mspinboxpiece.h"
 
+#ifdef _MGNCSCTRL_SPINBOX
+
 static void mSpinBoxPiece_onPosChanged(mSpinBoxPiece *self)
 {
 	mHotPiece * spinned = _c(self)->getSpinnedPiece(self);
@@ -47,4 +49,4 @@ BEGIN_MINI_CLASS(mSpinBoxPiece, mSpinnerPiece)
 	CLASS_METHOD_MAP(mSpinBoxPiece, setProperty )
 END_MINI_CLASS
 
-
+#endif //_MGNCSCTRL_SPINBOX

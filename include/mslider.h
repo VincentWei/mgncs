@@ -12,14 +12,14 @@
     All rights reserved by Feynman Software.
 
     This file is part of mgncs, which is new control set of MiniGUI.
- 
+
  \endverbatim
  */
-
+#ifdef _MGNCSCTRL_SLIDER
 
 #ifndef _MGUI_NCSCTRL_SLIDER_H
 #define _MGUI_NCSCTRL_SLIDER_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -41,9 +41,9 @@ typedef struct _mSliderClass       mSliderClass;
 typedef struct _mSliderRenderer    mSliderRenderer;
 
 #define mSliderHeader(Class) \
-    mWidgetHeader(Class) 
+    mWidgetHeader(Class)
 
-/** 
+/**
  * \struct mSlider
  * \brief the slider struct of slider control, derived from \ref mWidget.
  *
@@ -55,14 +55,14 @@ struct _mSlider
 };
 
 #define mSliderClassHeader(clsName, parentClass) \
-	mWidgetClassHeader(clsName, parentClass) 
+	mWidgetClassHeader(clsName, parentClass)
 
-/** 
+/**
  * \struct mSliderClass
  * \brief the VTable of \a mSlider, derived from \ref mWidgetClass.
  *
  * \sa mWidgetClass
- */ 
+ */
 struct _mSliderClass
 {
 	mSliderClassHeader(mSlider, mWidget)
@@ -102,10 +102,10 @@ struct _mSliderRenderer
 	mSliderRendererHeader(mSlider, mWidget)
 };
 
-/** 
+/**
  * \enum mSliderProp
  * Slider Properties define
- * 
+ *
  */
 enum mSliderProp {
 	/**
@@ -186,7 +186,7 @@ enum enumSliderNotify {
 enum mSliderHitTest{
 	NCSSLIDER_HT_NONE = 0,
 	NCSSLIDER_HT_SLIDER ,
-	NCSSLIDER_HT_TRACK, 
+	NCSSLIDER_HT_TRACK,
 	NCSSLIDER_HT_INCARROW,
 	NCSSLIDER_HT_DECARROW
 };
@@ -195,4 +195,4 @@ enum mSliderHitTest{
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_SLIDER_H */
-
+#endif //_MGNCSCTRL_SLIDER

@@ -22,6 +22,8 @@
 #include <mgncs/mgncs.h>
 // END_OF_INCS
 
+#ifdef _MGNCSCTRL_DIALOGBOX
+
 // START_OF_HANDLERS
 static BOOL mymain_onCreate(mWidget* _this, DWORD add_data)
 {
@@ -42,7 +44,7 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 // END_OF_HANDLERS
 
 // START_OF_RDRINFO
-NCS_RDR_ELEMENT btn_rdr_elements[] = 
+NCS_RDR_ELEMENT btn_rdr_elements[] =
 {
     { NCS_MODE_USEFLAT, 1},
     { -1, 0 }
@@ -60,7 +62,7 @@ static NCS_RDR_INFO btn_rdr_info[] =
 #define ID_BTN2 103
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
     {
-        NCSCTRL_CHECKBUTTON, 
+        NCSCTRL_CHECKBUTTON,
         ID_BTN,
         20, 30, 120, 25,
         WS_BORDER | WS_VISIBLE,
@@ -74,7 +76,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         0             //add data
     },
     {
-        NCSCTRL_CHECKBUTTON, 
+        NCSCTRL_CHECKBUTTON,
         ID_BTN1,
         20, 60, 120, 25,
         WS_BORDER | WS_VISIBLE | NCSS_BUTTON_AUTOCHECK,
@@ -88,7 +90,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         0             //add data
     },
     {
-        NCSCTRL_CHECKBUTTON, 
+        NCSCTRL_CHECKBUTTON,
         ID_BTN2,
         20, 90, 120, 25,
         WS_BORDER | WS_VISIBLE |NCSS_BUTTON_AUTOCHECK | NCSS_BUTTON_3DCHECK,
@@ -104,7 +106,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 };
 
 static NCS_MNWND_TEMPLATE mymain_templ = {
-    NCSCTRL_DIALOGBOX, 
+    NCSCTRL_DIALOGBOX,
     1,
     0, 0, 260, 180,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -122,15 +124,34 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
+	if (argc > 1) {
+		btn_rdr_info[0].glb_rdr = argv[1];
+		btn_rdr_info[0].ctl_rdr = argv[1];
+	}
+
     ncsInitialize();
 
-    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                 (&mymain_templ, HWND_DESKTOP);
-    
+
     _c(mydlg)->doModal(mydlg, TRUE);
 
     ncsUninitialize ();
 
     return 0;
 }
+
+#else //_MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+
+}
+#endif	//_MGNCSCTRL_DIALOGBOX
 

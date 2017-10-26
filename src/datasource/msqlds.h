@@ -1,3 +1,5 @@
+#ifdef _MGNCSDB_SQLITE
+
 #ifndef MGNCS_SQLITE_DATASOURCE_H
 #define MGNCS_SQLITE_DATASOURCE_H
 
@@ -31,7 +33,7 @@ struct _mSQLiteDataSource
 /////////////////////////////////////////////////
 //
 #define mSQLiteRecordSetClassHeader(clss, superCls) \
-	mRecordSetClassHeader(clss, superCls) 
+	mRecordSetClassHeader(clss, superCls)
 
 struct _mSQLiteRecordSetClass
 {
@@ -56,4 +58,4 @@ struct _mSQLiteRecordSet
 };
 
 #endif
-
+#endif // _MGNCSDB_SQLITE

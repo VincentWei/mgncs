@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_IMWORDSEL
 
 #ifndef _MGUI_IM_WORDSEL_H
 #define _MGUI_IM_WORDSEL_H
@@ -17,7 +18,7 @@ typedef struct _mIMWordSelRenderer mIMWordSelRenderer;
 	BOOL  (*nextPage)(clss*);                           \
 	BOOL  (*prevPage)(clss*);                           \
 	BOOL  (*selNext)(clss*);                            \
-	BOOL  (*selPrev)(clss*); 
+	BOOL  (*selPrev)(clss*);
 
 #define mIMWordSelHeader(clss)                              \
 	mWidgetHeader(clss)                                 \
@@ -79,5 +80,5 @@ enum mIMWordSelEvent {
 #endif
 
 #endif
-
+#endif		//_MGNCSCTRL_IMWORDSEL
 

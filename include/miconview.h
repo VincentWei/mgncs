@@ -11,21 +11,22 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
  */
 
 /**
- * $Id: miconview.h 726 2009-12-21 01:57:37Z xwyan $
+ * $Id: miconview.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *      Copyright (C) 2009 Feynman Software.
  */
+#ifdef _MGNCSCTRL_ICONVIEW
 
 #ifndef _MGUI_CTRL_ICONV_H
 #define _MGUI_CTRL_ICONV_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,9 +37,9 @@ extern "C" {
  * @{
  */
 
-/** 
+/**
  * Structure of the iconview item info, contains information about an item.
- * This structure is used for creating or retrieving an item. 
+ * This structure is used for creating or retrieving an item.
  */
 typedef struct _NCS_ICONV_ITEMINFO
 {
@@ -201,3 +202,4 @@ MGNCS_EXPORT extern mIconViewClass g_stmIconViewCls;
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_CTRL_ICONV_H */
+#endif		//_MGNCSCTRL_ICONVIEW

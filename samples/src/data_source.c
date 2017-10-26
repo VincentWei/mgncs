@@ -20,6 +20,9 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined (_MGNCSCTRL_LISTVIEW) && defined (_MGNCSCTRL_DIALOGBOX) && defined (_MGNCSCTRL_TRACKBAR) && defined _MGNCSDB_DATASOURCE
+
+
 #define IDC_LISTVIEW 100
 
 // START_OF_DEFINEDS
@@ -43,14 +46,14 @@ static BOOL mymain_onCreate (mWidget* self, DWORD add_data)
 
     if (lv) {
         mRecordSet *rs;
-        rs = _c(g_pStaticDS)->selectRecordSet (g_pStaticDS, 
+        rs = _c(g_pStaticDS)->selectRecordSet (g_pStaticDS,
                     "/listview/header", NCS_DS_SELECT_READ);
         _c(lv)->setSpecificData (lv, NCSSPEC_LISTV_HDR, (DWORD)rs, NULL);
-        rs = _c(g_pStaticDS)->selectRecordSet (g_pStaticDS, 
+        rs = _c(g_pStaticDS)->selectRecordSet (g_pStaticDS,
                     "/listview/content", NCS_DS_SELECT_READ);
         _c(lv)->setSpecificData (lv, NCSSPEC_OBJ_CONTENT, (DWORD)rs, NULL);
     }
-    
+
     return TRUE;
 }
 // END_OF_SETDATA
@@ -69,10 +72,10 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
     {
-        NCSCTRL_LISTVIEW, 
+        NCSCTRL_LISTVIEW,
         IDC_LISTVIEW,
         10, 10, 320, 190,
-        WS_BORDER | WS_VISIBLE | NCSS_LISTV_SORT 
+        WS_BORDER | WS_VISIBLE | NCSS_LISTV_SORT
             | NCSS_LISTV_LOOP,
         WS_EX_NONE,
         "",
@@ -81,7 +84,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 };
 
 static NCS_MNWND_TEMPLATE mymain_templ = {
-    NCSCTRL_MAINWND, 
+    NCSCTRL_MAINWND,
     1,
     0, 0, 350, 240,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -102,22 +105,33 @@ int MiniGUIMain (int argc, const  char* argv[])
     ncsInitialize ();
 
 // START_OF_REGDS
-    ncsRegisterStaticData ("/listview/header", (void*)_header, 3, 
-            sizeof(NCS_LISTV_CLMRD)/sizeof(DWORD), sizeof(DWORD), 
+    ncsRegisterStaticData ("/listview/header", (void*)_header, 3,
+            sizeof(NCS_LISTV_CLMRD)/sizeof(DWORD), sizeof(DWORD),
             gListVColumnRecordTypes);
-    ncsRegisterStaticData ("/listview/content", (void*)_content, 3,  
+    ncsRegisterStaticData ("/listview/content", (void*)_content, 3,
             3, sizeof(char*), NULL);
 // END_OF_REGDS
 
-    mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+    mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mymain_templ, HWND_DESKTOP);
 
     _c(mydlg)->doModal (mydlg, TRUE);
-
-    MainWindowThreadCleanup (mydlg->hwnd);
 
     ncsUninitialize ();
 
     return 0;
 }
+
+#else //_MGNCSCTRL_LISTVIEW && defined _MGNCSCTRL_DIALOGBOX && _MGNCSCTRL_TRACKBAR
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the listview, dialogbox, trackbar contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-listview --enable-dialogbox --enable-trackbar==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//
 

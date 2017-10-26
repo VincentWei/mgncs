@@ -25,7 +25,7 @@ static int close_horvering_captured_piece(mWidget*self, int flags)
 	mHotPiece *piece;
 	if(flags == 0)
 		return 0;
-	
+
 	if(flags & 1)
 	{
 		if((piece=(mHotPiece*)mWidget_getCapturedHotPiece(self)))
@@ -60,7 +60,7 @@ static int close_horvering_captured_piece(mWidget*self, int flags)
 	}
 
 	hChild = GetNextChild(self->hwnd, HWND_NULL);
-	
+
 	while(hChild != HWND_INVALID && hChild != HWND_NULL)
 	{
 		mWidget* child = ncsObjFromHandle(hChild);
@@ -84,7 +84,7 @@ static int mMainWnd_wndProc(mMainWnd *self, int message, WPARAM wParam, LPARAM l
 		return DefaultMainWinProc(self->hwnd, message, wParam, lParam);
 
 	case MSG_KILLFOCUS:
-		close_horvering_captured_piece((mWidget*)self,3);	
+		close_horvering_captured_piece((mWidget*)self,3);
 		break;
 
 	case MSG_CLOSE:
@@ -125,7 +125,7 @@ static DWORD mMainWnd_doModal(mMainWnd*self, BOOL bAutoDestroy)
 			 MSG_KEYDOWN, MSG_KEYUP, PM_REMOVE));
 	}
 
-	hwnd = self->hwnd; 
+	hwnd = self->hwnd;
 	/*
 		VERY IMPORTANT: In windows, when user call DestroyMainWindow, the memory pointed by "self"
 		would be free. and self's memory would be pad by unknown values. so we should save hwnd to
@@ -148,7 +148,7 @@ static DWORD mMainWnd_doModal(mMainWnd*self, BOOL bAutoDestroy)
 				break;
 			}
 		}
-		else 
+		else
 		{
 			if(Msg.message == MSG_NCDESTROY)
 			{
@@ -181,9 +181,9 @@ static DWORD mMainWnd_doModal(mMainWnd*self, BOOL bAutoDestroy)
 			ExcludeWindowExStyle (hOwner, WS_EX_MODALDISABLED);
 			if (isActive && IsWindowVisible (hOwner)) {
 				ShowWindow (hOwner, SW_SHOWNORMAL);
-				SetActiveWindow (hOwner); 
-			}    
-		}    
+				SetActiveWindow (hOwner);
+			}
+		}
 	}
 
 	if((GetWindowStyle(self->hwnd)&NCSS_MNWND_MODE) && bAutoDestroy)
@@ -197,7 +197,7 @@ static DWORD mMainWnd_doModal(mMainWnd*self, BOOL bAutoDestroy)
 	{
 		ExcludeWindowStyle(self->hwnd, NCSS_MNWND_MODE);
 	}
-	
+
 	return ret;
 }
 
@@ -206,7 +206,7 @@ static DWORD mMainWnd_doModal(mMainWnd*self, BOOL bAutoDestroy)
 static BOOL mMainWnd_endDialog(mMainWnd* self, int code)
 {
     SendNotifyMessage(self->hwnd, MSG_MNWND_ENDDIALOG, 0, (LPARAM)code);
-	return TRUE; 
+	return TRUE;
 }
 
 static BOOL mMainWnd_isMainObj(mMainWnd* self)
@@ -217,7 +217,7 @@ static BOOL mMainWnd_isMainObj(mMainWnd* self)
 static mComponent * mMainWnd_setReleated(mMainWnd* self, mComponent* comp, int releated)
 {
 	mComponent* old = NULL;
-	
+
 	switch(releated)
 	{
 	case NCS_CMPT_PARENT:
@@ -261,7 +261,7 @@ static void mMainWnd_destroy(mMainWnd* self)
 	if(self->parentCmp)
 	{
 		//remove from parent
-		_c(self->parentCmp)->removeChild(self->parentCmp, (mComponent*)self);	
+		_c(self->parentCmp)->removeChild(self->parentCmp, (mComponent*)self);
 	}
 	return Class(mPanel).destroy((mPanel*)self);
 }
@@ -278,4 +278,3 @@ END_CMPT_CLASS
 
 
 mMainWndClass * gpMainWndClass = &Class(mMainWnd);
-

@@ -11,14 +11,14 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
  */
 
 /**
- * $Id: mresmgr.h 1116 2010-12-02 04:03:35Z dongjunjie $
+ * $Id: mresmgr.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *      Copyright (C) 2009 Feynman Software.
  */
@@ -49,7 +49,7 @@ typedef unsigned int        HPACKAGE;
 
 #define NCSRT_MASK             0x0FFF
 
-#define NCSRT_STRING           0x0001 
+#define NCSRT_STRING           0x0001
 #define NCSRT_TEXT             0x0002
 #define NCSRT_IMAGE            0x0004
 #define NCSRT_UI               0x0008
@@ -79,7 +79,7 @@ typedef unsigned int        HPACKAGE;
  * \def NCSRT_EXT_LEN
  * \brief The maximum length of resource extension.
  */
-#define NCSRT_EXT_LEN        15 
+#define NCSRT_EXT_LEN        15
 
 /**
  * \def NCSRM_VERSION_LEN
@@ -207,7 +207,7 @@ typedef struct _NCSRM_WINHEADER
 	/** Reserved. The font id of window. */
 	Uint32  font_id;
 
-    /** The size of window information, which contains properties, 
+    /** The size of window information, which contains properties,
      *  additional data  and sub controls. */
     Uint32  size;
 
@@ -269,7 +269,7 @@ typedef struct _NCSRM_LOCALEITEM
 typedef struct _NCSRM_INCORE_IMAGE
 {
     /** The size of incore real image data, not include header. */
-    int     size; 
+    int     size;
 
     /** The extended name of image data. \sa NCSRT_EXT_LEN */
     char    ext[NCSRT_EXT_LEN + 1];
@@ -394,7 +394,7 @@ MGNCS_EXPORT void ncsUnloadResPackage (HPACKAGE package);
 
 /**
  * \fn HPACKAGE ncsLoadResPackageFromMem (const void* mem, int size)
- * \brief Load a resource package from memory. User get the information 
+ * \brief Load a resource package from memory. User get the information
  *        of incore resource package by \a getIncoreResPackInfo firstly,
  *        then call this function to load resource package.
  *
@@ -487,7 +487,7 @@ MGNCS_EXPORT const char* ncsGetString (HPACKAGE package, Uint32 resId);
  * \fn BOOL ncsSetSysRdr(HPACKAGE package, Uint32 rdrSetId)
  * \brief Set system renderer.
  *
- * This function set system renderer according to the specified renderer 
+ * This function set system renderer according to the specified renderer
  * set id \a rdrSetId.
  *
  * \param package    The handle of resource package.
@@ -501,7 +501,7 @@ MGNCS_EXPORT BOOL ncsSetSysRdr(HPACKAGE package, Uint32 rdrSetId);
  * \fn BOOL ncsSetWinRdr(HWND hWnd, HPACKAGE package, Uint32 rdrId)
  * \brief Set window renderer.
  *
- * This function set window renderer according to the specified renderer 
+ * This function set window renderer according to the specified renderer
  * id \a rdrId.
  *
  * \param hWnd       The handle of window.
@@ -540,12 +540,13 @@ typedef struct _NCS_EVENT_HANDLER_INFO
  *
  * \return window class on success, otherwise NULL.
  */
-MGNCS_EXPORT mMainWnd* ncsCreateMainWindowIndirectFromID (HPACKAGE package, 
-                    Uint32 wndId, HWND owner, HICON hIcon, 
-                    HMENU hMenu, NCS_EVENT_HANDLER_INFO* handlers, 
+MGNCS_EXPORT mMainWnd* ncsCreateMainWindowIndirectFromID (HPACKAGE package,
+                    Uint32 wndId, HWND owner, HICON hIcon,
+                    HMENU hMenu, NCS_EVENT_HANDLER_INFO* handlers,
 					NCS_EVENT_CONNECT_INFO *connects,
 					DWORD user_data);
 
+#ifdef _MGNCSCTRL_DIALOGBOX
 /**
  * \fn int ncsCreateModalDialogFromID (HPACKAGE package, Uint32 dlgId,\
                     HWND owner, HICON hIcon, HMENU hMenu,\
@@ -570,12 +571,14 @@ MGNCS_EXPORT mMainWnd* ncsCreateMainWindowIndirectFromID (HPACKAGE package,
 MGNCS_EXPORT int ncsCreateModalDialogFromID (HPACKAGE package, Uint32 dlgId,
                     HWND owner, HICON hIcon, HMENU hMenu,
                     NCS_EVENT_HANDLER_INFO* handlers, NCS_EVENT_CONNECT_INFO *connects);
+#endif
+
 
 /**
  * \fn BOOL ncsGetWndTemplFromID(HPACKAGE package, Uint32 wndId, \
                  NCS_MNWND_TEMPLATE* ptempl, NCS_EVENT_HANDLER_INFO* handlers);
  * \brief get the window template from package
- * 
+ *
  * This function get the info from package. It will create the memory to save the children controls and properties.
  *
  * \param package  The handler of resource package

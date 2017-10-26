@@ -20,6 +20,8 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined (_MGNCSCTRL_DIALOGBOX) && (_MGNCSCTRL_TRACKBAR)
+
 #define IDC_TRACKBAR     101
 #define IDC_SLEDIT       102
 
@@ -29,11 +31,11 @@ static BOOL mymain_onCreate (mWidget* self, DWORD add_data)
     mTrackBar * tb = (mTrackBar*)_c(self)->getChild (self, IDC_TRACKBAR);
     mSlEdit   * se = (mSlEdit*) _c(self)->getChild (self, IDC_SLEDIT);
 
-    ncsConnectBindProps (NCS_CMPT_PROP (tb, NCSN_TRKBAR_CHANGED, 
-            NCSP_TRKBAR_CURPOS, NCS_BT_INT, 
+    ncsConnectBindProps (NCS_CMPT_PROP (tb, NCSN_TRKBAR_CHANGED,
+            NCSP_TRKBAR_CURPOS, NCS_BT_INT,
             NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
-        NCS_CMPT_PROP (se, NCSN_EDIT_CHANGE, 
-            NCSP_WIDGET_TEXT, NCS_BT_STR, 
+        NCS_CMPT_PROP (se, NCSN_EDIT_CHANGE,
+            NCSP_WIDGET_TEXT, NCS_BT_STR,
             NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
         NCS_BPT_DBL);
 
@@ -70,7 +72,7 @@ static NCS_RDR_INFO trackbar_rdr_info[] =
 
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
     {
-        NCSCTRL_TRACKBAR, 
+        NCSCTRL_TRACKBAR,
         IDC_TRACKBAR,
         10, 10, 240, 40,
         WS_BORDER | WS_VISIBLE | NCSS_TRKBAR_NOTICK | NCSS_NOTIFY,
@@ -82,7 +84,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         MakeRGBA(255,0,0,255)
     },
     {
-        NCSCTRL_SLEDIT, 
+        NCSCTRL_SLEDIT,
         IDC_SLEDIT,
         10, 60, 240, 30,
         WS_BORDER | WS_VISIBLE | NCSS_EDIT_CENTER | NCSS_NOTIFY,
@@ -93,7 +95,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 };
 
 static NCS_MNWND_TEMPLATE mymain_templ = {
-    NCSCTRL_DIALOGBOX, 
+    NCSCTRL_DIALOGBOX,
     1,
     0, 0, 268, 130,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -119,15 +121,25 @@ int MiniGUIMain(int argc, const char* argv[])
 
     ncsInitialize ();
 
-    mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+    mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mymain_templ, HWND_DESKTOP);
 
     _c(mydlg)->doModal (mydlg, TRUE);
-
-    MainWindowThreadCleanup (mydlg->hwnd);
 
     ncsUninitialize ();
 
     return 0;
 }
+#else //defined _MGNCSCTRL_DIALOGBOX && _MGNCSCTRL_TRACKBAR
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox, trackbar contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox --enable-trackbar==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//
 

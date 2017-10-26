@@ -1,5 +1,5 @@
 /**
- * $Id: listbox.c 1116 2010-12-02 04:03:35Z dongjunjie $
+ * $Id: listbox.c 1683 2017-10-26 06:52:09Z weiym $
  *
  * Listing P2C14.2
  *
@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 // END_OF_INCS
+
+#if defined _MGNCSCTRL_LISTBOX && defined _MGNCSCTRL_DIALOGBOX
 
 #define IDC_LIST    100
 #define IDC_DELETE  200
@@ -56,7 +58,7 @@ static void lstbox_init(mDialogBox *dialog)
 // START_OF_BTNHANDLERS
 static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
 {
-    mListBox    *lstboxObj = 
+    mListBox    *lstboxObj =
         (mListBox *)ncsGetChildObj(GetParent(self->hwnd), IDC_LIST);
 // START_OF_DELITEMS
     int sel     = _c(lstboxObj)->getCurSel(lstboxObj);
@@ -75,12 +77,12 @@ static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
 
 static NCS_EVENT_HANDLER btn_handlers [] = {
     NCS_MAP_NOTIFY(NCSN_BUTTON_PUSHED, btn_notify),
-	{0, NULL}	
+	{0, NULL}
 };
 // END_OF_BTNHANDLERS
 static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 	{
-		NCSCTRL_LISTBOX, 
+		NCSCTRL_LISTBOX,
 		IDC_LIST,
 		20, 15, 170, 200,
 		WS_BORDER | WS_VISIBLE | NCSS_NOTIFY,
@@ -91,10 +93,10 @@ static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 		NULL,
 		NULL,
 		0,
-		0 
+		0
 	},
 	{
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_DELETE,
         15, 230, 80, 30,
         WS_VISIBLE | WS_TABSTOP,
@@ -102,19 +104,19 @@ static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 		"Delete",
 		NULL,
 		NULL,
-		btn_handlers, 
+		btn_handlers,
 		NULL,
 		0,
-		0 
+		0
 	},
 	{
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDCANCEL,
         115, 230, 80, 30,
         WS_VISIBLE | WS_TABSTOP,
 		WS_EX_NONE,
 		"Cancel",
-		NULL, 
+		NULL,
 		NULL,
 		NULL,
 		NULL,
@@ -125,7 +127,7 @@ static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 
 
 static NCS_MNWND_TEMPLATE mainwnd_tmpl = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	100, 100, 220, 300,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -144,7 +146,7 @@ int MiniGUIMain(int argc, const char* argv[])
 {
 	ncsInitialize();
 
-	mDialogBox* dialog = 
+	mDialogBox* dialog =
         (mDialogBox *)ncsCreateMainWindowIndirect (&mainwnd_tmpl, HWND_DESKTOP);
 
     lstbox_init(dialog);
@@ -153,3 +155,15 @@ int MiniGUIMain(int argc, const char* argv[])
 	ncsUninitialize();
 	return 0;
 }
+#else //_MGNCSCTRL_LISTBOX _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the listbox, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-listbox --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_LISTBOX _MGNCSCTRL_DIALOGBOX

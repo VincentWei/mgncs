@@ -1,6 +1,7 @@
-
 #ifndef _MGUI_IME_H
 #define _MGUI_IME_H
+
+#ifdef _MGNCSENGINE_IME
 
 #ifdef __cplusplus
 extern "C" {
@@ -12,7 +13,7 @@ extern "C" {
 typedef int (*NCSCB_LEN_FIRST_CHAR)(const  unsigned char*, int len);
 
 typedef int (*NCSCB_RETRIEVE_CHAR)(const char*);
-typedef struct _CHARSET_CONVERTER 
+typedef struct _CHARSET_CONVERTER
 {
 	//get a char who has a special code
 	NCSCB_RETRIEVE_CHAR retrieve_char;
@@ -84,7 +85,7 @@ MGNCS_EXPORT extern mIMIteratorClass g_stmIMIteratorCls;
 	BOOL         (*findAssociate)(clss*, mIMIterator* it, const char* input);
 
 #define mIMEngineHeader(clss)                                  \
-	mObjectHeader(clss)     
+	mObjectHeader(clss)
 
 struct _mIMEngineClass{
 	mIMEngineClassHeader(mIMEngine, mObject)
@@ -218,9 +219,12 @@ struct _mIMManager {
 
 MGNCS_EXPORT extern mIMManagerClass g_stmIMManagerCls;
 
+#endif //_MGNCSENGINE_IME
+
 /**
  * IME implement for mobile or phone, who only has a phone keybord
  */
+#ifdef _MGNCSENGINE_DIGIT
 
 #define NCS_DIGIT_MAX_FINDS   32
 
@@ -261,6 +265,9 @@ DECLARE_CLASS(mDigitIME, mIME)
 
 DECLARE_CLASS(mDigitEngine, mIMEngine)
 
+#endif //_MGNCSENGINE_DIGIT
+
+#ifdef _MGNCSENGINE_DIGITPTI
 ////////////////////////////
 //digitpti
 #define mDigitPtiEngineClassHeader(clss, super)              \
@@ -268,7 +275,7 @@ DECLARE_CLASS(mDigitEngine, mIMEngine)
 
 #define mDigitPtiEngineHeader(clss)                          \
 	mDigitEngineHeader(clss)    \
-    int case_type;              
+    int case_type;
 
 DECLARE_CLASS(mDigitPtiEngine, mDigitEngine)
 
@@ -281,8 +288,12 @@ DECLARE_CLASS(mDigitPtiEngine, mDigitEngine)
 
 DECLARE_CLASS(mDigitPtiIterator, mDigitIterator)
 
+#endif //_MGNCSENGINE_DIGITPTI
+
 //////////////////////////////
 //digit pinyin
+
+#ifdef _MGNCSENGINE_DIGITPY
 
 #define mDigitPyEngineClassHeader(clss, super)             \
 	mDigitEngineClassHeader(clss, super)
@@ -305,11 +316,12 @@ DECLARE_CLASS(mDigitPyEngine, mDigitEngine)
 
 DECLARE_CLASS(mDigitPyIterator, mDigitIterator)
 
-
-
+#endif //_MGNCSENGINE_DIGITPY
 
 ////////////////////////////////////////
 // pti engine
+#ifdef _MGNCSENGINE_PTI
+
 #define mPtiIteratorClassHeader(clss, super)                  \
 	mIMIteratorClassHeader(clss, super)
 
@@ -357,9 +369,12 @@ DECLARE_CLASS(mPtiEngine, mIMEngine)
 
 MGNCS_EXPORT BOOL mPtiEngine_findWordRange(mPtiEngine* self, int* pbegin, int* pend, const char* input, int start, int len);
 
+#endif //_MGNCSENGINE_PTI
 
 ///////////////////////////////////////
 // pinyin engine
+#ifdef _MGNCSENGINE_PINYIN
+
 #define PINYIN_MAGIC_NUMBER          "CCEGB"
 #define PINYIN_ENAME_LENGTH          24
 #define PINYIN_CNAME_LENGTH          16
@@ -455,6 +470,7 @@ DECLARE_CLASS(mPinyinIterator, mIMIterator)
 }
 #endif
 
+#endif //_MGNCSENGINE_PINYIN
 #endif
 
 

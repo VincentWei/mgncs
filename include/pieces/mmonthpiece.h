@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_MONTHCALENDAR
 
 #ifndef _MGUI_NCSCTRL_MONTHPIECEPIECE_H
 #define _MGUI_NCSCTRL_MONTHPIECEPIECE_H
@@ -10,7 +11,7 @@ typedef struct _mMonthPieceClass mMonthPieceClass;
 typedef struct _mMonthPiece mMonthPiece;
 
 #define mMonthPieceClassHeader(clss, superCls) \
-	mContainerPieceClassHeader(clss, superCls) 
+	mContainerPieceClassHeader(clss, superCls)
 
 struct _mMonthPieceClass
 {
@@ -24,7 +25,7 @@ MGNCS_EXPORT extern mMonthPieceClass g_stmMonthPieceCls;
 	unsigned char cur_day; \
 	unsigned char hot_row; \
 	unsigned char hot_col;
-	
+
 struct _mMonthPiece
 {
 	mMonthPieceHeader(mMonthPiece)
@@ -45,4 +46,4 @@ enum mMonthPieceEvent {
 #endif
 
 #endif
-
+#endif //_MGNCSCTRL_MONTHCALENDAR

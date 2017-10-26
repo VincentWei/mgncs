@@ -9,7 +9,7 @@ add_definitions (-D__MGNCS_LIB__)
 
 set (MGNCS_MAJOR_VERSION 1)
 set (MGNCS_MINOR_VERSION 0)
-set (MGNCS_MICRO_VERSION 6)
+set (MGNCS_MICRO_VERSION 8)
 
 set (MGNCS_NAME "mgncs")
 set (MGNCS_LIBSUFFIX "")
@@ -28,12 +28,13 @@ mg_declare_option_and_set_value(_MGNCS_RDR_FASHION  rdr_fashion BOOL ON "include
 mg_declare_option_and_set_value(_MGNCS_RDR_FLAT     rdr_flat    BOOL ON "include the flat renderer")
 mg_declare_option(ctrl_suffix STRING "_" "set the control suffix")
 mg_set_value(_MGNCS_CLASS_SUFFIX ${ctrl_suffix})
-mg_declare_option_and_set_value(_MGNCS_PROP_NAME    property_name BOOL OFF "eanble the property name support")
 mg_declare_option_and_set_value(_MGNCS_USE_DBEDIT   dbuffer_edit BOOL OFF "enable the double buffer for edit")
 mg_declare_option_and_set_value(_MGNCS_GUIBUILDER_SUPPORT guibuilder_support BOOL OFF "used to support guibuilder")
-mg_declare_option_and_set_value(_MGNCS_OLD_MLEDIT   oldedit_support BOOL OFF "support the old multiline editor")
-mg_declare_option_and_set_value(_MGNCS_TEXTEDITOR   newtexteditor_support BOOL ON "support the new texteditor")
-mg_declare_option_and_set_value(_MGNCS_TEXTEDITTITLE texteditor_title_support BOOL OFF "support the title of new texteditor")
+mg_declare_option_and_set_value(_MGNCSCTRL_OLD_MLEDIT   ctrl_oldedit BOOL OFF "support the old multiline editor")
+mg_declare_option_and_set_value(_MGNCSCTRL_TEXTEDITOR   ctrl_newtexteditor BOOL ON "support the new texteditor")
+mg_declare_option_and_set_value(_MGNCSCTRL_TEXTEDITTITLE ctrl_texteditor_title BOOL OFF "support the title of new texteditor")
+mg_declare_option_and_set_value(_MGNCS_CHARSET_ICONV charset_iconv BOOL OFF "use iconv as charset convertor")
+
 
 
 
@@ -47,10 +48,120 @@ endif (NOT with_libsuffix STREQUAL "")
 mg_set_value (MGNCS_ETCFILENAME "mgncs.cfg")
 ##########################################################
 
-mg_declare_option_and_set_value(_MGNCS_DATASOURCE datasource_support BOOL ON "support the datasource")
-mg_declare_option_and_set_value(_MGNCS_SQLITE     sqlite_support BOOL OFF "support the sqlite datasource")
-mg_declare_option_and_set_value(_MGNCS_XML        xml_support BOOL OFF "support the xml datasource")
+mg_declare_option_and_set_value(_MGNCSDB_DATASOURCE db_datasource BOOL ON "support the datasource")
+mg_declare_option_and_set_value(_MGNCSDB_SQLITE     db_sqlite BOOL OFF "support the sqlite datasource")
+if (_MGNCSDB_SQLITE)
+set (_MGNCSDB_DATASOURCE ON)
+endif(_MGNCSDB_SQLITE)
 
+mg_declare_option_and_set_value(_MGNCSDB_XML        db_xml BOOL OFF "support the xml datasource")
+if (_MGNCSDB_XML)
+set (_MGNCSDB_DATASOURCE ON)
+endif(_MGNCSDB_XML)
+
+mg_declare_option_and_set_value(_MGNCSDB_STATIC db_static BOOL ON "enable staticdatasource support")
+if (_MGNCSDB_STATIC)
+set (_MGNCSDB_DATASOURCE ON)
+endif(_MGNCSDB_STATIC)
+
+mg_declare_option_and_set_value(_MGNCSDB_TEXT db_text BOOL ON "enable textdatasource support")
+if (_MGNCSDB_TEXT)
+set (_MGNCSDB_DATASOURCE ON)
+endif(_MGNCSDB_TEXT)
+
+mg_declare_option_and_set_value(_MGNCSDB_INI db_ini BOOL ON "enable inidatasource support")
+if (_MGNCSDB_INI)
+set (_MGNCSDB_DATASOURCE ON)
+endif(_MGNCSDB_INI)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_ANIMATE ctrl_animate BOOL ON "enable animate support")
+mg_declare_option_and_set_value(_MGNCSCTRL_COLORBUTTON ctrl_colorbutton BOOL ON "enable colorbutton support")
+mg_declare_option_and_set_value(_MGNCSCTRL_CONTAINER ctrl_container BOOL ON "enable container support")
+mg_declare_option_and_set_value(_MGNCSCTRL_PAGE ctrl_page BOOL ON "enable page support")
+if (_MGNCSCTRL_PAGE)
+set (_MGNCSCTRL_CONTAINER ON)
+endif(_MGNCSCTRL_PAGE)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_PROPSHEET ctrl_propsheet BOOL ON "enable propsheet support")
+if (_MGNCSCTRL_PROPSHEET)
+set (_MGNCSCTRL_CONTAINER ON)
+set (_MGNCSCTRL_PAGE ON)
+endif(_MGNCSCTRL_PROPSHEET)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_DIALOGBOX ctrl_dialogbox BOOL ON "enable dialogbox support")
+
+mg_declare_option_and_set_value(_MGNCSCTRL_ICONVIEW ctrl_iconview BOOL ON "enable iconview support")
+mg_declare_option_and_set_value(_MGNCSCTRL_IMAGEBUTTON ctrl_imagebutton BOOL ON "enable imagebutton support")
+mg_declare_option_and_set_value(_MGNCSCTRL_LEDLABEL ctrl_ledlabel BOOL ON "enable ledlabel support")
+mg_declare_option_and_set_value(_MGNCSCTRL_LIST ctrl_list BOOL ON "enable list support")
+mg_declare_option_and_set_value(_MGNCSCTRL_LISTBOX ctrl_listbox BOOL ON "enable listbox support")
+mg_declare_option_and_set_value(_MGNCSCTRL_COMBOBOX ctrl_combobox BOOL ON "enable combobox support")
+if (_MGNCSCTRL_COMBOBOX)
+set (_MGNCSCTRL_LISTBOX ON)
+endif(_MGNCSCTRL_COMBOBOX)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_LISTVIEW ctrl_listview BOOL ON "enable listview support")
+mg_declare_option_and_set_value(_MGNCSCTRL_MENUBUTTON ctrl_menubutton BOOL ON "enable menubutton support")
+mg_declare_option_and_set_value(_MGNCSCTRL_PROGRESSBAR ctrl_progressbar BOOL ON "enable progressbar support")
+mg_declare_option_and_set_value(_MGNCSCTRL_RECTANGLE ctrl_rectangle BOOL ON "enable rectangle support")
+mg_declare_option_and_set_value(_MGNCSCTRL_SPINNER ctrl_spinner BOOL ON "enable spinner support")
+mg_declare_option_and_set_value(_MGNCSCTRL_SPINBOX ctrl_spinbox BOOL ON "enable spinbox support")
+if (_MGNCSCTRL_SPINBOX)
+set (_MGNCSCTRL_SPINNER ON)
+endif(_MGNCSCTRL_SPINBOX)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_MONTHCALENDAR ctrl_monthcalendar BOOL ON "enable monthcalendar support")
+if (_MGNCSCTRL_MONTHCALENDAR)
+set (_MGNCSCTRL_SPINNER ON)
+set (_MGNCSCTRL_SPINBOX ON)
+endif(_MGNCSCTRL_MONTHCALENDAR)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_SLIDER ctrl_slider BOOL ON "enable slider support")
+mg_declare_option_and_set_value(_MGNCSCTRL_SCROLLBAR ctrl_scrollbar BOOL ON "enable scrollbar support")
+if (_MGNCSCTRL_SCROLLBAR)
+set (_MGNCSCTRL_SLIDER ON)
+endif(_MGNCSCTRL_SCROLLBAR)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_TRACKBAR ctrl_trackbar BOOL ON "enable trackbar support")
+if (_MGNCSCTRL_TRACKBAR)
+set (_MGNCSCTRL_SLIDER ON)
+endif(_MGNCSCTRL_TRACKBAR)
+
+mg_declare_option_and_set_value(_MGNCSCTRL_TOOLBAR ctrl_toolbar BOOL ON "enable toolbar support")
+mg_declare_option_and_set_value(_MGNCSENGINE_IME engine_ime BOOL ON "enable imeengine support")
+mg_declare_option_and_set_value(_MGNCSCTRL_IMWORDSEL ctrl_imwordsel BOOL ON "enable imwordsel support")
+if (_MGNCSCTRL_IMWORDSEL)
+set (_MGNCSENGINE_IME ON)
+endif (_MGNCSCTRL_IMWORDSEL)
+
+mg_declare_option_and_set_value(_MGNCSENGINE_PINYIN engine_pinyin BOOL ON "enable pinyinengine support")
+if (_MGNCSENGINE_PINYIN)
+set (_MGNCSENGINE_IME ON)
+endif(_MGNCSENGINE_PINYIN)
+
+mg_declare_option_and_set_value(_MGNCSENGINE_DIGIT engine_digit BOOL ON "enable digitengine support")
+if (_MGNCSENGINE_DIGIT)
+set (_MGNCSENGINE_IME ON)
+endif(_MGNCSENGINE_DIGIT)
+
+mg_declare_option_and_set_value(_MGNCSENGINE_PTI engine_pti BOOL ON "enable ptiengine support")
+if (_MGNCSENGINE_PTI)
+set (_MGNCSENGINE_IME ON)
+endif(_MGNCSENGINE_PTI)
+
+mg_declare_option_and_set_value(_MGNCSENGINE_DIGITPTI engine_digitpti BOOL ON "enable digitptiengine support")
+if (_MGNCSENGINE_DIGITPTI)
+set (_MGNCSENGINE_IME ON)
+set (_MGNCSENGINE_PTI ON)
+set (_MGNCSENGINE_DIGIT ON)
+endif(_MGNCSENGINE_DIGITPTI)
+
+mg_declare_option_and_set_value(_MGNCSENGINE_DIGITPY engine_digitpy BOOL ON "enable digitpyengine support")
+if (_MGNCSENGINE_DIGITPY)
+set (_MGNCSENGINE_IME ON)
+set (_MGNCSENGINE_DIGIT ON)
+set (_MGNCSENGINE_PINYIN ON)
+endif(_MGNCSENGINE_DIGITPY)
 
 ############## check header files ################
 include (CheckIncludeFiles) 
@@ -102,13 +213,13 @@ macro(mgncs_find_add_path _file)
     endif(_path_find)
 endmacro(mgncs_find_add_path)
 
-if (_MGNCS_XML)
+if (_MGNCSDB_XML)
     mgncs_find_add_path(libxml/parse.h)
-endif(_MGNCS_XML)
+endif(_MGNCSDB_XML)
 
-if (_MGNCS_SQLITE)
+if (_MGNCSDB_SQLITE)
     mgncs_find_add_path(sqlite3.h)
-endif(_MGNCS_SQLITE)
+endif(_MGNCSDB_SQLITE)
 
 
 #########################################################################
@@ -184,9 +295,9 @@ if (build_test)
     add_subdirectory (test)
 endif(build_test)
 
-mg_declare_option(build_samples BOOL OFF "build samles or not")
+mg_declare_option(build_samples BOOL ON "build samles or not")
 if (build_samples)
-    add_subdirectory (test)
+    add_subdirectory (samples)
 endif(build_samples)
 
 

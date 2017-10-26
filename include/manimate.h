@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_ANIMATE
 
 #ifndef _MGUI_NCSCTRL_ANIMATESTATIC_H
 #define _MGUI_NCSCTRL_ANIMATESTATIC_H
@@ -65,7 +66,7 @@ enum mAnimateProp {
 
 #define NCSS_ANMT_AUTOFIT	(0x4<<NCSS_ANMT_SHIFT)
 
-#define NCSS_ANMT_AUTOPLAY   (0x8<<NCSS_ANMT_SHIFT) 
+#define NCSS_ANMT_AUTOPLAY   (0x8<<NCSS_ANMT_SHIFT)
 
 enum enumAnimateNotify{
 	NCSN_ANMT_MAX = NCSN_STATIC_MAX + 1
@@ -88,4 +89,5 @@ enum enumAnimateNotify{
 }
 #endif  /* __cplusplus */
 
-#endif 
+#endif
+#endif		//_MGNCSCTRL_ANIMATE

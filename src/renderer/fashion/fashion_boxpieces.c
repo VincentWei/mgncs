@@ -36,7 +36,7 @@ static void get_color_flag(DWORD *pcolor, int *pflag, int state, int check_state
 {
 	DWORD fgcolor;
 	int flag = 0;
-	
+
 	switch(state) //state
 	{
 	case NCS_ABP_NORMAL:
@@ -92,12 +92,12 @@ void fashion_draw_3dbox(HDC hdc, const RECT *rc, int flag ,int state, int check_
 	fgcolor_top = ncsCommRDRCalc3dboxColor(fgcolor, 200);
 	fgcolor_bottom = ncsCommRDRCalc3dboxColor(fgcolor, 100);
 
-	fashion_fillMiddleGradientRountRect(hdc, 
-		fgcolor, 
-		fgcolor_top, 
-		fgcolor_bottom, 
-		mode, rc, 
-		round_x, round_y, 
+	fashion_fillMiddleGradientRountRect(hdc,
+		fgcolor,
+		fgcolor_top,
+		fgcolor_bottom,
+		mode, rc,
+		round_x, round_y,
 		NCS_ROUND_CORNER_ALL);
 
 
@@ -197,7 +197,7 @@ static void fashion_thumbbox_paint(mThumbBoxPiece *self, HDC hdc, mWidget *owner
 static void fashion_trackbar_paint(mTrackBarPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
 {
     /*
-     * the data struct of add_data 
+     * the data struct of add_data
      *
      * bits 0x0000FFFF  : the tick
      * bits 0x00FF0000  : horz or vert
@@ -304,7 +304,7 @@ static void fashion_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 
 		if (h & 0x1)
 			box_t += 1;
-	
+
 		FillBoxWithBitmapPart (hdc, box_l, box_t, style, style, 0, 0, check_bmp, 0, index * check_bmp->bmHeight / 8);
 	}
 	else {
@@ -318,25 +318,27 @@ static void fashion_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 static void fashion_checkbox_paint(mCheckBoxPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	RECT rc;
-	
+
 	if(!_c(self)->getRect(self, &rc))
 		return ;
-	
+
 	fashion_draw_check(hdc, &rc, NCSRF_FILL, add_data&NCS_PIECE_PAINT_STATE_MASK, NCS_PIECE_PAINT_GET_CHECK(add_data), owner, 0);
 }
-#if 1 
+#if 1
 //////////////////////////////////
 //radiobox
 static void fashion_radiobox_paint(mCheckBoxPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	RECT rc;
-	
+
 	if(!_c(self)->getRect(self, &rc))
 		return ;
-	
+
 	fashion_draw_check(hdc, &rc, NCSRF_FILL, add_data&NCS_PIECE_PAINT_STATE_MASK, NCS_PIECE_PAINT_GET_CHECK(add_data), owner, 1);
 }
 #endif
+
+#ifdef _MGNCSCTRL_SCROLLBAR
 //////////////////////
 //scrollbar
 static void fashion_scrollbar_paint(mScrollBarPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
@@ -348,7 +350,7 @@ static void fashion_scrollbar_paint(mScrollBarPiece* self, HDC hdc, mWidget *own
 
 	if(!_c(self)->getRect(self, &rc))
 		return ;
-	
+
 	//barcolor = ncsCommRDRCalc3dboxColor(barcolor,80);
 	barcolor_top = ncsCommRDRCalc3dboxColor(barcolor, 120);
 	barcolor_bottom = ncsCommRDRCalc3dboxColor(barcolor, 70);
@@ -405,6 +407,7 @@ static void fashion_arrow_paint(mScrollBarPiece *self, HDC hdc, mWidget * owner,
 	//draw arrow
 	ncsCommRDRDrawArrow(hdc, &rc, arrow, arrow_color, NCSRF_FILL);
 }
+#endif // _MGNCSCTRL_SCROLLBAR
 
 ///////////////////////////////////////////
 //grid box
@@ -534,7 +537,7 @@ static void fashion_daygrid_paint_content(mDayGridPiece *self,
 
 	//fill RECT
 	FillBox(hdc, rc->left, rc->top, RECTWP(rc), RECTHP(rc));
-	
+
 	//draw Text
 	if(day>=10)
 	{
@@ -688,6 +691,7 @@ static void fashion_weekhead_paint(mWeekHeadPiece *self, HDC hdc, mWidget * owne
 
 ///////////////////////////////////////
 //progresspiece
+#ifdef _MGNCSCTRL_PROGRESSBAR
 #define NCSPB_BLOCK 8
 #define NCSPB_INNER 2
 static void fashion_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
@@ -709,7 +713,7 @@ static void fashion_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 	//calc rc_prog;
 	if(add_data & NCS_PIECE_PAINT_VERT)
 	{
-		int height = RECTH(rc_prog) * (self->cur - self->min) / (self->max - self->min);	
+		int height = RECTH(rc_prog) * (self->cur - self->min) / (self->max - self->min);
 		rc_prog.top = rc_prog.bottom - height;
 	}
 	else
@@ -725,7 +729,7 @@ static void fashion_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 	chunk_color_top = ncsCommRDRCalc3dboxColor(chunk_color, 150);
 	chunk_color_bottom = ncsCommRDRCalc3dboxColor(chunk_color, 60);
 
-    
+
 	if(add_data & NCS_PIECE_PAINT_BLOCK)
 	{
 		HBRUSH hbrush = 0;
@@ -740,7 +744,7 @@ static void fashion_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 		if(add_data & NCS_PIECE_PAINT_VERT)
 		{
 			int width = RECTW(rc_prog);
-			i=rc_prog.bottom; 
+			i=rc_prog.bottom;
 
 			hgraphics = fashion_getGraphics(width, NCSPB_BLOCK);
 			rctmp.left = rctmp.top = 0;
@@ -841,7 +845,7 @@ static void fashion_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 			rc_text.right = rc_text.left + size.cx;
 			rc.left = rc_prog.right;
 		}
-		// draw 
+		// draw
 		if(IntersectRect(&rc_tmp, &rc_text, &rc_prog))
 		{
 			SelectClipRect(hdc, &rc_tmp);
@@ -862,6 +866,7 @@ static void fashion_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 	}
 
 }
+#endif //_MGNCSCTRL_PROGRESSBAR
 
 
 //////////////////////////////////
@@ -871,18 +876,24 @@ void fashion_init_boxpiece_renderer(void)
 	NCS_RDR_ENTRY entries [] = {
 		{Class(mButtonBoxPiece).typeName, (mWidgetRenderer*)(void*)fashion_buttonbox_paint},
 		{Class(mThumbBoxPiece).typeName, (mWidgetRenderer*)(void*)fashion_thumbbox_paint},
+#ifdef _MGNCSCTRL_SCROLLBAR
 		{Class(mScrollThumbBoxPiece).typeName, (mWidgetRenderer*)(void*)fashion_thumbbox_paint},
+#endif
 		{Class(mTrackBarPiece).typeName, (mWidgetRenderer*)(void*)fashion_trackbar_paint},
 		{Class(mCheckBoxPiece).typeName, (mWidgetRenderer*)(void*)fashion_checkbox_paint},
 		{Class(mRadioBoxPiece).typeName, (mWidgetRenderer*)(void*)fashion_radiobox_paint},
+#ifdef _MGNCSCTRL_SCROLLBAR
 		{Class(mScrollBarPiece).typeName, (mWidgetRenderer*)(void*)fashion_scrollbar_paint},
 		{Class(mLeftArrowPiece).typeName, (mWidgetRenderer*)(void*)fashion_arrow_paint},
 		{Class(mRightArrowPiece).typeName, (mWidgetRenderer*)(void*)fashion_arrow_paint},
 		{Class(mUpArrowPiece).typeName, (mWidgetRenderer*)(void*)fashion_arrow_paint},
 		{Class(mDownArrowPiece).typeName, (mWidgetRenderer*)(void*)fashion_arrow_paint},
+#endif
 		{Class(mDayGridPiece).typeName, (mWidgetRenderer*)(void*)fashion_daygrid_paint},
 		{Class(mWeekHeadPiece).typeName, (mWidgetRenderer*)(void*)fashion_weekhead_paint},
+#ifdef _MGNCSCTRL_PROGRESSBAR
 		{Class(mProgressPiece).typeName, (mWidgetRenderer*)(void*)fashion_progress_paint}
+#endif
 	};
 
 	ncsRegisterCtrlRDRs("fashion",

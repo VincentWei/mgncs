@@ -21,6 +21,9 @@
 #include "mrenderablepiece.h"
 #include "mscrollbarpiece.h"
 
+#ifdef _MGNCSCTRL_SCROLLBAR
+
 BEGIN_MINI_CLASS(mScrollBarPiece, mRenderablePiece)
 END_MINI_CLASS
 
+#endif //_MGNCSCTRL_SCROLLBAR

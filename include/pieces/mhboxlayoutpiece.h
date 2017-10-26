@@ -1,4 +1,3 @@
-
 #ifndef _MGUI_NCSCTRL_HBOXLAYOUTPIECE_H
 #define _MGUI_NCSCTRL_HBOXLAYOUTPIECE_H
 
@@ -10,7 +9,7 @@ typedef struct _mHBoxLayoutPieceClass mHBoxLayoutPieceClass;
 typedef struct _mHBoxLayoutPiece mHBoxLayoutPiece;
 
 #define mHBoxLayoutPieceClassHeader(clss, superCls) \
-	mBoxLayoutPieceClassHeader(clss, superCls) 
+	mBoxLayoutPieceClassHeader(clss, superCls)
 
 struct _mHBoxLayoutPieceClass
 {
@@ -20,8 +19,8 @@ struct _mHBoxLayoutPieceClass
 MGNCS_EXPORT extern mHBoxLayoutPieceClass g_stmHBoxLayoutPieceCls;
 
 #define mHBoxLayoutPieceHeader(clss) \
-	mBoxLayoutPieceHeader(clss) 
-	
+	mBoxLayoutPieceHeader(clss)
+
 struct _mHBoxLayoutPiece
 {
 	mHBoxLayoutPieceHeader(mHBoxLayoutPiece)

@@ -1,4 +1,4 @@
-/* 
+/*
  ** $Id: flat_propsheet.c 303 2009-07-03 02:24:38Z xwyan $
  **
  ** The flat renderer implementation of mPropsheet control.
@@ -28,12 +28,14 @@
 #include "mpropsheet.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_PROPSHEET
+
 #define ICON_OFFSET 2
 #ifdef _MGNCS_RDR_FLAT
 
 extern mWidgetRenderer flat_widget_renderer;
 
-static void flat_resetHeadArea (mPropSheet *self, 
+static void flat_resetHeadArea (mPropSheet *self,
         RECT* rcClient, DWORD style)
 {
     int defHeight = 16 + 4 + 2* ICON_OFFSET;
@@ -54,7 +56,7 @@ static void flat_resetHeadArea (mPropSheet *self,
     self->scrollTabWidth = RECTW(self->headRect) - 2*16;
 }
 
-static void flat_getRect(mPropSheet *self, 
+static void flat_getRect(mPropSheet *self,
         RECT* rcClient, RECT* rcResult, int which)
 {
     int     tabBorder = 1;
@@ -72,7 +74,7 @@ static void flat_getRect(mPropSheet *self,
 
             if ((style & NCSS_PRPSHT_TABMASK) == NCSS_PRPSHT_BOTTOM) {
                 rcResult->top = 0;
-                rcResult->bottom = RECTH(rcWin) 
+                rcResult->bottom = RECTH(rcWin)
                     - RECTH(self->headRect) + tabBorder;
             }
             else {
@@ -92,7 +94,7 @@ static void flat_getRect(mPropSheet *self,
             else {
                 rcResult->top = self->headRect.bottom;
             }
-            rcResult->bottom = rcResult->top + RECTHP(rcClient) 
+            rcResult->bottom = rcResult->top + RECTHP(rcClient)
                 - RECTH(self->headRect) - 2 * tabBorder;
             return;
         }
@@ -138,14 +140,14 @@ static void flat_getRect(mPropSheet *self,
                 SetRectEmpty(rcResult);
             }
             return;
-            
+
         default:
             break;
     }
     return;
 }
 
-static void flat_drawBorder(mPropSheet *self, 
+static void flat_drawBorder(mPropSheet *self,
         HDC hdc, RECT* rcBorder)
 {
     DWORD color;
@@ -154,23 +156,23 @@ static void flat_drawBorder(mPropSheet *self,
     color = ncsGetElement((mWidget*)self, NCS_FGC_3DBODY);
     old = SetPenColor (hdc, DWORD2PIXEL(hdc, color));
 
-    Rectangle (hdc, rcBorder->left, rcBorder->top, 
+    Rectangle (hdc, rcBorder->left, rcBorder->top,
             rcBorder->right - 1, rcBorder->bottom - 2);
     SetPenColor(hdc, old);
     return;
 }
 
-static void flat_drawScrollBtn(mPropSheet *self, HDC hdc, 
+static void flat_drawScrollBtn(mPropSheet *self, HDC hdc,
         RECT* rcBtn, int which)
 {
-    DWORD color; 
+    DWORD color;
 
     color = ncsGetElement((mWidget*)self, NCS_FGC_WINDOW);
 
-	self->renderer->drawArrow(self, hdc, rcBtn, which, color, TRUE);	
+	self->renderer->drawArrow(self, hdc, rcBtn, which, color, TRUE);
 }
 
-static void flat_drawTab(mPropSheet *self, HDC hdc, 
+static void flat_drawTab(mPropSheet *self, HDC hdc,
         RECT* rcTab, const char* title, HICON hIcon, BOOL active)
 {
     DWORD   style = GetWindowStyle (self->hwnd);
@@ -185,7 +187,7 @@ static void flat_drawTab(mPropSheet *self, HDC hdc,
     x = rcTab->left;
     ty = rcTab->top;
     by = rcTab->bottom;
-    
+
     GetClientRect(self->hwnd, &rc);
     if (rcTab->right >= rc.right)
         rcTab->right = rc.right - 1;
@@ -196,7 +198,7 @@ static void flat_drawTab(mPropSheet *self, HDC hdc,
     else {
         ty += 2;
     }
-	
+
     if (active) {
         if ((style&NCSS_PRPSHT_TABMASK) == NCSS_PRPSHT_BOTTOM) {
             FillBox (hdc, rcTab->left, ty, RECTWP(rcTab), 1);
@@ -265,16 +267,16 @@ static void flat_drawTab(mPropSheet *self, HDC hdc,
         int icon_x, icon_y;
         icon_x = RECTHP(rcTab) - 8;
         icon_y = icon_x;
-        
+
         x += 2;
         DrawIcon (hdc, x, ty + 4, icon_x, icon_y, hIcon);
         x += icon_x;
         x += 2;
     }
-        
+
     if (title) {
         /* draw the TEXT */
-        SetBkColor (hdc, DWORD2PIXEL (hdc, fgcolor)); 
+        SetBkColor (hdc, DWORD2PIXEL (hdc, fgcolor));
         SetBkMode (hdc, BM_TRANSPARENT);
         SetRect(&rc, x, ty, rcTab->right, by);
         DrawText(hdc, title, -1, &rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
@@ -298,4 +300,4 @@ mPropSheetRenderer flat_propsheet_renderer = {
 };
 
 #endif
-
+#endif // _MGNCSCTRL_PROPSHEET

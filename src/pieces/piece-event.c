@@ -64,9 +64,9 @@ typedef struct EventNode {
 	int handle_to_del; //used when to delete node
 }EventNode;
 
+/////////////////////////
 static HashTable * ht_event_source = NULL;
 
-/////////////////////////
 void init_piece_event_info(void)
 {
 #ifdef _MGRM_THREADS
@@ -81,6 +81,8 @@ void deinit_piece_event_info(void)
 #ifdef _MGRM_THREADS
     pthread_mutex_destroy(&_event_locker);
 #endif
+    hash_free(ht_event_source);
+    ht_event_source = NULL;
 }
 
 static void free_event_handler_list(EventHandlerList *list)
@@ -112,6 +114,7 @@ static void free_event_node(EventNode* node)
 		list = list->next;
 		free_event_handler_list(tl);
 	}
+    FREE(node);
 }
 
 static EventNode * get_event_node(mObject *source, BOOL bnew)
@@ -153,7 +156,7 @@ static void mark_node_delete(EventNode* node)
 {
 	EventHandlerList* list;
 	EventHandlerEntry* entry;
-	if(node)
+	if(!node)
 		return;
 
 	list = node->lists;
@@ -332,12 +335,12 @@ void ncsRaiseEvent(mObject *sender, int event_id, DWORD param)
 		return ;
 
 	EVENT_LOCK();
-    _c(sender)->addRef(sender);
+    _M(sender, addRef);
 	list = get_event_handler_list(sender, event_id);
 
 	if(!list)
 	{
-        _c(sender)->release(sender);
+        _M(sender, release);
 		EVENT_UNLOCK();
 		return;
 	}
@@ -346,41 +349,39 @@ void ncsRaiseEvent(mObject *sender, int event_id, DWORD param)
 
 	_event_raising ++;
 
-
 	while(entry)
 	{
-		NCS_CB_ONPIECEEVENT event_handler = entry->flags&EVENT_DEL_FLAGS ? NULL : entry->event_handler;
-		mObject*  listener = entry->listener;
-        _c(listener)->addRef(listener);
+		NCS_CB_ONPIECEEVENT event_handler = 
+			entry->flags & EVENT_DEL_FLAGS ? NULL : entry->event_handler;
 
 		if(event_handler)
 		{
+			mObject *listener = entry->listener;
+			_M(listener, addRef);
+
 			EVENT_UNLOCK();
-			if(!(event_handler(listener,
-							sender,
-							event_id,
-							param)))
+			if(!(event_handler(listener, sender, event_id, param))) 
 			{
-                _c(listener)->release(listener);
+                _M(listener, release);
 				EVENT_LOCK();
 				break;
 			}
 
-            _c(listener)->release(listener);
+            _M(listener, release);
 			EVENT_LOCK();
 		}
 		entry = entry->next;
 	}
-    _c(sender)->release(sender);
+    _M(sender, release);
 
 	_event_raising --;
+
 	if(_event_raising <= 0)
 	{
 		_event_raising = 0;
 		process_all_mark_del_nodes();
 	}
 	EVENT_UNLOCK();
-
 }
 
 static int each_event_node(void *user, EventNode * node)

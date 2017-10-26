@@ -6,12 +6,13 @@
 * This file include the dialog defines
 *
 * \verbatim
-* 	
+*
 * 	This file is part of mgncs, new control of MiniGUI
 *
 * 	\endverbatim
 *
 */
+#ifdef _MGNCSCTRL_DIALOGBOX
 
 #ifndef _MGUI_CTRL_DLGBOX_H
 #define _MGUI_CTRL_DLGBOX_H
@@ -52,7 +53,7 @@ struct _mDialogBoxRenderer {
 
 /* define mDialogBox */
 #define mDialogBoxHeader(className) \
-	mMainWndHeader(className) 
+	mMainWndHeader(className)
 
 /**
  * \struct mDialogBox
@@ -104,4 +105,4 @@ enum enumDialogBoxNotify {
 #endif
 
 #endif
-
+#endif

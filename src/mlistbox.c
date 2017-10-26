@@ -1,5 +1,5 @@
 /*
- ** $Id: mlistbox.c 1116 2010-12-02 04:03:35Z dongjunjie $
+ ** $Id: mlistbox.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of mListBox class.
  **
@@ -30,12 +30,14 @@
 
 #include "mtype.h"
 
-#ifdef _MGNCS_DATASOURCE
+#ifdef _MGNCSDB_DATASOURCE
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #endif
 
 #include "mrdr.h"
+
+#ifdef _MGNCSCTRL_LISTBOX
 
 //for listbox flag
 #define NCSF_LSTBOX_FOCUS   0x0001
@@ -62,6 +64,7 @@ static void mListBox_destroy(mListBox *self)
     if (self->font != INV_LOGFONT)
         DestroyLogFont(self->font);
 
+	self->hwnd = HWND_NULL;
     Class(mItemView).destroy((mItemView*)self);
 }
 
@@ -91,7 +94,7 @@ static void getCheckMarkSize(mListBox *self, int checkMarkHeight, RECT *checkBox
 }
 
 
-static int getItemWidth(mListBox* self, HDC hdc, mItem* item, DWORD style)
+static inline int getItemWidth(mListBox* self, HDC hdc, mItem* item, DWORD style)
 {
     int width = LST_INTER_BMPTEXT;
 
@@ -119,7 +122,7 @@ static int getItemWidth(mListBox* self, HDC hdc, mItem* item, DWORD style)
             }
         }
 
-        GetTabbedTextExtent (client_dc, item->string, -1, &size);
+        GetTextExtent (client_dc, item->string, -1, &size);
         width += size.cx + LST_INTER_BMPTEXT;
 
         if (hdc == 0) {
@@ -130,7 +133,7 @@ static int getItemWidth(mListBox* self, HDC hdc, mItem* item, DWORD style)
     return width;
 }
 
-static int recalcContWidth(mListBox* self)
+static inline int recalcContWidth(mListBox* self)
 {
     DWORD style = GetWindowStyle(self->hwnd);
     list_t *me, *first;
@@ -158,6 +161,8 @@ static int recalcContWidth(mListBox* self)
 static int mListBox_getRectByIdx(mListBox *self,
         int index, RECT *rcItem, BOOL bConv)
 {
+    RECT rcVis;
+
     if (!self || !rcItem)
         return -1;
 
@@ -173,6 +178,10 @@ static int mListBox_getRectByIdx(mListBox *self,
         _c(self)->contentToWindow(self, &(rcItem->left), &(rcItem->top));
         _c(self)->contentToWindow(self, &(rcItem->right), &(rcItem->bottom));
     }
+	
+	_M(self, getVisRect, &rcVis);
+	IntersectRect(rcItem, rcItem, &rcVis);
+
     return 0;
 }
 
@@ -386,7 +395,7 @@ static BOOL invalidateUnderItem (mListBox *self, int index, BOOL multi)
 }
 
 //internal function
-static int insert(mListBox* self, const char* string,
+static inline int insert(mListBox* self, const char* string,
         DWORD addData, DWORD flag, DWORD image,
         int index, BOOL refresh)
 {
@@ -442,14 +451,59 @@ static int insert(mListBox* self, const char* string,
     return itemIndex;
 }
 
+static void mListBox_freeze(mListBox *self, BOOL lock)
+{
+    _c(pItemList)->freeze(pItemList, lock);
+
+    if (!lock) {
+        int width = 0;
+
+        _c(self)->setProperty(self,
+                NCSP_SWGT_CONTHEIGHT, _c(self)->getTotalHeight(self));
+
+        //update items width
+        width = recalcContWidth(self);
+        if (width > self->realContWidth)
+            _c(self)->setProperty(self, NCSP_LSTBOX_ITEMWIDTH, width);
+
+        InvalidateRect(self->hwnd, NULL, TRUE);
+    }
+}
+
 static int
 mListBox_insertString(mListBox* self,
-        const char* string, DWORD addData,
-        int index)
+        const char* string, DWORD addData, int index)
 {
-    return insert(self, string,
-            addData, 0, 0, index, TRUE);
+    HITEM   item;
+    int     itemWidth, itemIndex;
+
+    if (string == NULL || string[0] == '\0')
+        return -1;
+
+    item = _c(self)->createItem(self, 0, 0, index, -1,
+            string, addData, &itemIndex, TRUE);
+
+    if (!item) {
+        return -2;
+    }
+
+    if (!_c(self)->isFrozen(self)) {
+        itemWidth = getItemWidth(self, 0, (mItem*)item, GetWindowStyle(self->hwnd));
+
+        if (self->realContWidth < itemWidth) {
+            _c(self)->setProperty(self, NCSP_LSTBOX_ITEMWIDTH, itemWidth);
+        }
+
+        invalidateUnderItem (self, itemIndex, TRUE);
+        _c(self)->setScrollInfo(self, TRUE);
+    }
+	else {
+        invalidateUnderItem (self, itemIndex, TRUE);
+	}
+
+    return itemIndex;
 }
+
 
 static int mListBox_addString(mListBox* self,
         const char* string, DWORD addData)
@@ -461,29 +515,59 @@ static void mListBox_addItems(mListBox* self,
         NCS_LSTBOX_ITEMINFO *info, int count)
 {
     int i = 0;
-    int start, end = 0;
+    BOOL didFrozen;
+    HITEM   item;
+    DWORD   style, flags;
+    BOOL    isString = TRUE;
+    int     itemIndex;
 
     if (self == NULL || info == NULL || count ==0)
         return;
 
-    start = _c(self)->getItemCount(self);
-#if 1
-    for (i = 0; i < count; i++) {
-        end = insert(self, info->string, info->addData,
-                info->flag, info->image, -1, TRUE);
-        info++;
-    }
-#else
+    didFrozen = _c(self)->isFrozen(self);
+    _c(self)->freeze(self, TRUE);
 
-    for (i = 0; i < count; i++) {
-        end = insert(self, info->string, info->addData,
-                info->flag, info->image, -1, FALSE);
-        info++;
+    style = GetWindowStyle (self->hwnd);
+    if (style & NCSS_LSTBOX_CHECKBOX
+            || style & NCSS_LSTBOX_USEBITMAP) {
+        isString = FALSE;
+    }
+    else {
+        isString = TRUE;
     }
 
-    invalidateUnderMultiItem(self, start, end);
-    _c(self)->setScrollInfo(self, TRUE);
-#endif
+    for (i = 0; i < count; i++) {
+        //insert(self, info->string, info->addData, info->flag, info->image, -1, TRUE);
+
+        //we don't add null string item
+        if (isString && (info->string == NULL || info->string[0] == '\0'))
+            continue;
+
+        item = _c(self)->createItem(self, 0, 0, -1, -1,
+                info->string, info->addData, &itemIndex, TRUE);
+
+        if (!item) {
+            continue;
+        }
+
+        //set flags
+        flags = NCSF_ITEM_NORMAL;
+        if (!isString) {
+            flags |= (info->flag & NCSF_ITEM_MASK);
+        }
+        flags |= (info->flag & NCSF_ITEM_IMAGEMASK);
+        _c(self)->setFlags(self, item, flags);
+
+        //set image
+        if (info->image && (style & NCSS_LSTBOX_USEBITMAP)) {
+            _c(self)->setImage(self, item, info->image);
+        }
+
+        info++;
+    }
+
+    if (!didFrozen)
+        _c(self)->freeze(self, FALSE);
 }
 
 #define ITEM_BOTTOM(x)  (TOPITEM + x->itemVisibles - 1)
@@ -550,7 +634,7 @@ static int mListBox_setItemHeight (mListBox *self, HITEM hItem, int height)
         self->itemVisibles = self->visHeight/self->defItemHeight;
 
         //update content height
-        _c(self)->setProperty(self, 
+        _c(self)->setProperty(self,
                 NCSP_SWGT_CONTHEIGHT, self->defItemHeight*_c(self)->getItemCount(self));
 
         _c(self)->setScrollInfo(self, TRUE);
@@ -675,7 +759,6 @@ static DWORD mListBox_setProperty(mListBox* self,
 
         case NCSP_LSTBOX_HILIGHTEDITEM:
             return _c(self)->setCurSel(self, value);
-
     }
 
 	return Class(mItemView).setProperty((mItemView*)self, id, value);
@@ -712,17 +795,32 @@ static int mListBox_removeItemByIdx(mListBox* self, int index)
 
 static int mListBox_removeItem(mListBox* self, HITEM hItem)
 {
-    int width;
+    int width, itemWidth = 0;
     int count, top = TOPITEM;
 
     if (!hItem)
         return -1;
 
+    //get the item width of deleted item.
+    if (self->hwnd) {
+        itemWidth = getItemWidth(self, 0, (mItem*)hItem, GetWindowStyle(self->hwnd));
+    }
+
     Class(mItemView).removeItem((mItemView*)self, hItem);
 
-    width = recalcContWidth(self);
-    if (width > self->realContWidth)
-        _c(self)->setProperty(self, NCSP_LSTBOX_ITEMWIDTH, width);
+    //window has been destroied, return directly.
+    if (self->hwnd == HWND_NULL)
+        return 0;
+
+    //if deleted item is the item of maximum width, we need recalculate item width.
+    if (!_c(self)->isFrozen(self)) {
+        width = _c(self)->getProperty(self, NCSP_LSTBOX_ITEMWIDTH);
+        if (width <= itemWidth) {
+            width = recalcContWidth(self);
+            if (width > self->realContWidth)
+                _c(self)->setProperty(self, NCSP_LSTBOX_ITEMWIDTH, width);
+        }
+    }
 
     //change hilight and select hItem
     count = _c(self)->getItemCount(self);
@@ -992,7 +1090,7 @@ static int procMouseMsg (mListBox* self,
         OffsetRect(&checkBoxRect, itemRect.left, itemRect.top);
 
         if (mouseX >= checkBoxRect.left && mouseX <= checkBoxRect.right
-                && mouseY >= checkBoxRect.top && mouseY <= checkBoxRect.bottom) {
+               /* && mouseY >= checkBoxRect.top && mouseY <= checkBoxRect.bottom*/) {
             click_mark = TRUE;
             if (message == MSG_LBUTTONUP)
                 ncsNotifyParent ((mWidget*)self, NCSN_LSTBOX_CLKCHKMARK);
@@ -1023,8 +1121,8 @@ static int procMouseMsg (mListBox* self,
     if (oldSel >= 0 && oldSel != hit)
         _c(self)->refreshItem(self, _c(self)->getItem(self, oldSel), NULL);
 
-    if (message != MSG_MOUSEMOVE 
-            || ((dwStyle & NCSS_LSTBOX_MOUSEFOLLOW) && message == MSG_MOUSEMOVE)) 
+    if (message != MSG_MOUSEMOVE
+            || ((dwStyle & NCSS_LSTBOX_MOUSEFOLLOW) && message == MSG_MOUSEMOVE))
         _c(self)->showItemByIdx (self, self->itemHilighted);
 
     _c(self)->setScrollInfo (self, TRUE);
@@ -1551,7 +1649,7 @@ static BOOL mListBox_getSelection(mListBox* self,
     return TRUE;
 }
 
-#ifdef _MGNCS_DATASOURCE
+#ifdef _MGNCSDB_DATASOURCE
 static BOOL mListBox_setSpecificData(mListBox* self, DWORD key, DWORD value, PFreeSpecificData free_special)
 {
 	if(key == NCSSPEC_OBJ_CONTENT)
@@ -1635,10 +1733,12 @@ BEGIN_CMPT_CLASS(mListBox, mItemView)
 	CLASS_METHOD_MAP(mListBox, getItemHeight)
 	CLASS_METHOD_MAP(mListBox, getSelection)
 	CLASS_METHOD_MAP(mListBox, getSelectionCount)
-#ifdef _MGNCS_DATASOURCE
+	CLASS_METHOD_MAP(mListBox, freeze)
+#ifdef _MGNCSDB_DATASOURCE
 	CLASS_METHOD_MAP(mListBox, setSpecificData)
 #endif
 	CLASS_METHOD_MAP(mListBox, getRect)
 	SET_DLGCODE(DLGC_WANTARROWS | DLGC_WANTCHARS | DLGC_WANTENTER);
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_LISTBOX

@@ -248,7 +248,7 @@ MGNCS_EXPORT mComponent *ncsCompGetRoot(mComponent* self);
 		else  \
 			cmp = _c(self)->getChild(self, id_path[0]); \
 		if(!cmp && base_check(cmp,baseclass)) return err_ret; \
-		return _c(baseclass*)->cmp(baseclass*, func, ++id_path, ##__VA_ARGS__); \
+		return _c(baseclass*)->func((baseclass*)cmp, ++id_path, ##__VA_ARGS__); \
 	} \
 	finaly_func_ex(self, id_path[0], ##__VA_ARGS__); \
 }while(0)

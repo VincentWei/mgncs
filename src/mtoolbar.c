@@ -19,6 +19,7 @@
 #include "mpopmenumgr.h"
 #include "mtoolitem.h"
 
+#ifdef _MGNCSCTRL_TOOLBAR
 
 static mObject* mToolBar_createBody(mToolBar *self)
 {
@@ -100,7 +101,7 @@ static BOOL mToolBar_onPiece(mToolBar *self, mHotPiece *sender, int event_id, DW
 	case NCSN_TOOLITEM_STATE_CHANGED:
 		//TODO:
 		ncsNotifyParentEx((mWidget*)self,NCSN_TLBAR_ITEMCHAGED, ncsToolItem_getId(sender));
-		if(!(_c(sender)->getProperty(sender, NCSP_ABP_AUTOCHECK)) 
+		if(!(_c(sender)->getProperty(sender, NCSP_ABP_AUTOCHECK))
 			&& _c(sender)->getProperty(sender,NCSP_ABP_CHECKSTATE)==NCS_ABP_CHECKED)
 		{
 			mLineLayoutPiece *linelayout = (mLineLayoutPiece*)(self->body);
@@ -201,7 +202,7 @@ static int mToolBar_checkItem(mToolBar* self, int id, int state)
 	{
 		if(_c(node->piece)->getProperty(node->piece, NCSP_ABP_AUTOCHECK))
 		{
-			if(_c(node->piece)->setProperty(node->piece, NCSP_ABP_CHECKSTATE, 
+			if(_c(node->piece)->setProperty(node->piece, NCSP_ABP_CHECKSTATE,
 				state == NCS_TOOLITEM_CHECKED? NCS_ABP_CHECKED:NCS_ABP_UNCHECKED))
 				mHotPiece_update(node->piece, (mObject*)self, TRUE);
 		}
@@ -210,7 +211,7 @@ static int mToolBar_checkItem(mToolBar* self, int id, int state)
 			if(NCS_TOOLITEM_CHECKED != state)
 				return 0;
 
-			if(_c(node->piece)->setProperty(node->piece, NCSP_ABP_CHECKSTATE, 
+			if(_c(node->piece)->setProperty(node->piece, NCSP_ABP_CHECKSTATE,
 				state == NCS_TOOLITEM_CHECKED? NCS_ABP_CHECKED:NCS_ABP_UNCHECKED))
 			{
 				mHotPiece_update(node->piece, (mObject*)self, TRUE);
@@ -242,4 +243,4 @@ BEGIN_CMPT_CLASS(mToolBar, mWidget)
 	CLASS_METHOD_MAP(mToolBar, checkItem)
 END_CMPT_CLASS
 
-
+#endif //_MGNCSCTRL_TOOLBAR

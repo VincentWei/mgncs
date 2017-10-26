@@ -17,9 +17,10 @@
 
 #include "mime.h"
 
-
+#ifdef _MGNCSENGINE_PTI
 
 #include "mgpti_dict.c"
+
 
 inline static int word_1st_hash(int letter)
 {
@@ -336,4 +337,5 @@ BEGIN_MINI_CLASS(mPtiIterator, mIMIterator)
     CLASS_METHOD_MAP(mPtiIterator, getProperty)
 END_MINI_CLASS
 
+#endif //_MGNCSENGINE_PTI
 

@@ -1,5 +1,5 @@
 /*
-** $Id: panel.c 624 2009-10-20 03:22:23Z dongjunjie $
+** $Id: panel.c 1683 2017-10-26 06:52:09Z weiym $
 **
 ** Listing P2C6.1
 **
@@ -174,7 +174,6 @@ int MiniGUIMain(int argc, const char* argv[])
     }
 // END_OF_MSGLOOP
     
-    MainWindowThreadCleanup (mainwnd->hwnd);
     ncsUninitialize ();
 
     return 0;

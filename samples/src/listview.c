@@ -1,5 +1,5 @@
 /**
- * $Id: listview.c 1116 2010-12-02 04:03:35Z dongjunjie $
+ * $Id: listview.c 1683 2017-10-26 06:52:09Z weiym $
  *
  * Listing P2C14.4
  *
@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 // END_OF_INCS
+
+#if defined _MGNCSCTRL_LISTVIEW && defined _MGNCSCTRL_DIALOGBOX
 
 #define IDC_LISTVIEW    100
 #define IDC_BTN1        101
@@ -54,8 +56,8 @@ static SCORE scores[] =
     {"Bob",     {79, 88, 89}},
 };
 
-static NCS_RDR_INFO rdr_info = {
-	"classic","classic",NULL
+static NCS_RDR_INFO rdr_info[] = {
+	{ "classic", "classic", NULL },
 };
 
 static void btn_notify(mWidget *button, int id, int nc, DWORD add_data)
@@ -91,40 +93,40 @@ static void btn_notify(mWidget *button, int id, int nc, DWORD add_data)
 
 static NCS_EVENT_HANDLER btn_handlers [] = {
     NCS_MAP_NOTIFY(NCSN_WIDGET_CLICKED, btn_notify),
-	{0, NULL}	
+	{0, NULL}
 };
 
 static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 	{
-		NCSCTRL_LISTVIEW, 
+		NCSCTRL_LISTVIEW,
 		IDC_LISTVIEW,
         10, 10, 320, 220,
         WS_BORDER | WS_VISIBLE | NCSS_LISTV_SORT | NCSS_LISTV_LOOP,
 		WS_EX_NONE,
 		"score table",
-		NULL, 
-		&rdr_info,
-		NULL, 
 		NULL,
-		0,
-		0 
-	},
-	{
-		NCSCTRL_BUTTON, 
-		IDC_BTN1,
-        240, 255, 80, 30,
-        WS_VISIBLE | NCSS_NOTIFY,
-		WS_EX_NONE,
-		"everage score",
-		NULL, 
+		rdr_info,
 		NULL,
-		btn_handlers, 
 		NULL,
 		0,
 		0
 	},
 	{
-		NCSCTRL_SLEDIT, 
+		NCSCTRL_BUTTON,
+		IDC_BTN1,
+        240, 255, 80, 30,
+        WS_VISIBLE | NCSS_NOTIFY,
+		WS_EX_NONE,
+		"everage score",
+		NULL,
+		NULL,
+		btn_handlers,
+		NULL,
+		0,
+		0
+	},
+	{
+		NCSCTRL_SLEDIT,
 		IDC_SLEDIT,
 		100, 256, 80, 28,
 		WS_BORDER | WS_VISIBLE,
@@ -144,14 +146,14 @@ static NCS_EVENT_HANDLER mainwnd_handlers[] = {
 };
 
 static NCS_MNWND_TEMPLATE mainwnd_tmpl = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	7,
 	0, 0, 350, 340,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
     "ListView Demo",
 	NULL,
-    &rdr_info,
+    rdr_info,
 	mainwnd_handlers,
 	_ctrl_tmpl,
 	sizeof(_ctrl_tmpl)/sizeof(NCS_WND_TEMPLATE),
@@ -208,7 +210,7 @@ static HITEM add_score_item (mListView *self, NCS_LISTV_ITEMINFO *info)
                 subdata[j].textColor = 0;
         }
     }
-    
+
     info->dataSize = SCORE_NUM;
     info->data = subdata;
 
@@ -229,7 +231,7 @@ static BOOL lstv_init(mDialogBox* self)
     HWND    lstvWnd = GetDlgItem (self->hwnd, IDC_LISTVIEW);
     mListView *lstvObj;
     NCS_LISTV_ITEMINFO  info;
-    NCS_LISTV_CLMINFO   lstv_clminfo; 
+    NCS_LISTV_CLMINFO   lstv_clminfo;
     lstvObj = (mListView*)ncsObjFromHandle(lstvWnd);
 
     if (!lstvObj)
@@ -283,8 +285,13 @@ static BOOL lstv_init(mDialogBox* self)
 
 int MiniGUIMain(int argc, const char* argv[])
 {
+	if (argc > 1) {
+		rdr_info[0].glb_rdr = argv[1];
+		rdr_info[0].ctl_rdr = argv[1];
+	}
+
 	ncsInitialize();
-	mDialogBox* dialog = 
+	mDialogBox* dialog =
         (mDialogBox *)ncsCreateMainWindowIndirect (&mainwnd_tmpl, HWND_DESKTOP);
 
     lstv_init(dialog);
@@ -293,3 +300,15 @@ int MiniGUIMain(int argc, const char* argv[])
 	ncsUninitialize();
 	return 0;
 }
+#else //_MGNCSCTRL_LISTVIEW _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the listview, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-listview --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_LISTVIEW _MGNCSCTRL_DIALOGBOX

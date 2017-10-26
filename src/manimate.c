@@ -17,6 +17,8 @@
 #include "piece.h"
 #include "manimate.h"
 
+#ifdef _MGNCSCTRL_ANIMATE
+
 #define ID_TIMER 10001
 
 #define DEBUG() fprintf(stderr, "line: %d, func: %s\n", __LINE__, __func__)
@@ -35,19 +37,19 @@ static PBITMAP* get_default_bmparray(void) {
 static void mAnimate_construct(mAnimate *self, DWORD addData)
 {
 	self->path = NULL;
-	self->interval = 100; 
+	self->interval = 100;
 	self->mem_dc = 0;
 	Class(mStatic).construct((mStatic*)self, addData);
 }
 
 static void mAnimate_destroy(mAnimate *self)
 {
-	if(self->path != NULL)
-		free(self->path);
+//	if(self->path != NULL)
+//		free(self->path);
 
 	if(self->mem_dc)
 		DeleteMemDC(self->mem_dc);
-		
+
 	Class(mStatic).destroy((mStatic*)self);
 }
 
@@ -55,7 +57,7 @@ static mStaticPiece* mAnimate_createBody(mAnimate *self)
 {
 	DWORD dwStyle = GetWindowStyle(self->hwnd);
 	mAnimatePiece *body = NEWPIECE(mAnimatePiece);
-	
+
 	if(dwStyle & NCSS_ANMT_AUTOLOOP)
 		_c(body)->setProperty(body, NCSP_ANIMATEPIECE_AUTOLOOP, 1);
 	if(dwStyle & NCSS_ANMT_SCALE)
@@ -76,7 +78,7 @@ static mStaticPiece* mAnimate_createBody(mAnimate *self)
 static BOOL set_animate_source(mAnimate* self, int id, DWORD value)
 {
 	if(_c((mAnimatePiece*)(self->body))->setProperty((mAnimatePiece*)(self->body), id, value)){
-		
+
 		if (mAnimatePiece_isAutofit((mAnimatePiece*)(self->body))) {
 			RECT rc;
 			GetWindowRect(self->hwnd, &rc);
@@ -101,8 +103,10 @@ static BOOL mAnimate_setProperty(mAnimate *self, int id, DWORD value)
 		case NCSP_ANMT_MEM:
 			return set_animate_source(self, NCSP_ANIMATEPIECE_MEM, value);
 		case NCSP_ANMT_GIFFILE:
+			self->path = (char *)value;
 			return set_animate_source(self, NCSP_ANIMATEPIECE_GIFFILE, value);
 		case NCSP_ANMT_DIR:
+			self->path = (char *)value;
 			return set_animate_source(self, NCSP_ANIMATEPIECE_DIR, value);
 		case NCSP_ANMT_BMPARRAY:
 			return set_animate_source(self, NCSP_ANIMATEPIECE_BMPARRAY, value);
@@ -144,7 +148,7 @@ static DWORD mAnimate_getProperty(mAnimate *self, int id)
 
 static int mAnimate_wndProc(mAnimate* self, int message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message) {   
+	switch (message) {
 		case MSG_CREATE:
 			SetTimer (self->hwnd, ID_TIMER, self->interval);
 			break;
@@ -223,7 +227,7 @@ static BOOL mAnimate_stop(mAnimate* self)
 	InvalidateRect(self->hwnd, NULL, FALSE);
 	return TRUE;
 }
-	
+
 static BOOL mAnimate_onEraseBkgnd(mAnimate* self, HDC hdc, const RECT *pinv)
 {
 	if(self->mem_dc)
@@ -255,7 +259,7 @@ static int mAnimate_onSizeChanged(mAnimate* self, RECT *rtClient)
 		goto END;
 
 	self->mem_dc = CreateCompatibleDCEx(HDC_SCREEN, width, height);
-	
+
 END:
 	return Class(mStatic).onSizeChanged((mStatic*)self, rtClient);
 }
@@ -298,7 +302,7 @@ static BOOL mAnimate_refresh(mAnimate* self)
 	dwStyle = GetWindowStyle(self->hwnd);
 
 	_c(Body)->setProperty(Body, NCSP_ANIMATEPIECE_AUTOLOOP, (dwStyle & NCSS_ANMT_AUTOLOOP));
-	_c(Body)->setProperty(Body, NCSP_ANIMATEPIECE_SCALE, (dwStyle & NCSS_ANMT_SCALE)); 
+	_c(Body)->setProperty(Body, NCSP_ANIMATEPIECE_SCALE, (dwStyle & NCSS_ANMT_SCALE));
 	if(dwStyle & NCSS_ANMT_AUTOFIT)
 	{
 		RECT rc;
@@ -306,7 +310,7 @@ static BOOL mAnimate_refresh(mAnimate* self)
 		GetWindowRect(self->hwnd, &rc);
 		MoveWindow(self->hwnd, rc.left, rc.top, 0, 0, TRUE);
 	}
-	else 
+	else
 		_c(Body)->setProperty(Body, NCSP_ANIMATEPIECE_AUTOFIT, 0);
 
 	if(dwStyle & NCSS_ANMT_AUTOPLAY)
@@ -346,3 +350,4 @@ BEGIN_CMPT_CLASS(mAnimate, mStatic)
 #endif
 END_CMPT_CLASS
 
+#endif		//_MGNCSCTRL_ANIMATE

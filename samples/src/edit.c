@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined _MGNCSCTRL_DIALOGBOX && defined _MGNCSCTRL_SPINBOX
+
 #define ID_NAME     104
 #define ID_COUN     105
 #define ID_CITY     106
@@ -62,7 +64,7 @@ static void btn_onClicked(mWidget* _this, int id, int nc, HWND hCtrl)
     }
 };
 
-static NCS_EVENT_HANDLER btn_handlers[] = 
+static NCS_EVENT_HANDLER btn_handlers[] =
 {
     {NCS_NOTIFY_CODE(NCSN_WIDGET_CLICKED), btn_onClicked},
     {0, NULL}
@@ -79,7 +81,7 @@ static NCS_PROP_ENTRY static_props[] =
     {0, 0}
 };
 
-static NCS_PROP_ENTRY spin_props [] = 
+static NCS_PROP_ENTRY spin_props [] =
 {
 	{NCSP_SPNBOX_MAXPOS, 99},
 	{NCSP_SPNBOX_MINPOS, 0},
@@ -92,10 +94,10 @@ static NCS_PROP_ENTRY spin_props [] =
 #define HSPACE  40
 
 //START_OF_TEMPLATE
-static NCS_WND_TEMPLATE _ctrl_templ[] = 
+static NCS_WND_TEMPLATE _ctrl_templ[] =
 {
     {
-        NCSCTRL_STATIC, 
+        NCSCTRL_STATIC,
         0,
         10, HSTART, 70, 25,
         WS_VISIBLE,
@@ -106,7 +108,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_SLEDIT, 
+        NCSCTRL_SLEDIT,
         ID_NAME,
         100, HSTART, 150, 25,
         WS_BORDER | WS_VISIBLE | NCSS_EDIT_LEFT,
@@ -117,7 +119,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_STATIC, 
+        NCSCTRL_STATIC,
         0,
         10, HSTART + HSPACE, 70, 25,
         WS_VISIBLE,
@@ -128,7 +130,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_SPINBOX, 
+        NCSCTRL_SPINBOX,
         ID_SPIN,
         100, HSTART + HSPACE, 70, 25,
         WS_VISIBLE | NCSS_SPNBOX_NUMBER | NCSS_SPNBOX_AUTOLOOP,
@@ -138,9 +140,9 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL,
         NULL, NULL, 0, 0
     },
- 
+
     {
-        NCSCTRL_STATIC, 
+        NCSCTRL_STATIC,
         0,
         10, HSTART + 2 * HSPACE, 70, 25,
         WS_VISIBLE,
@@ -151,7 +153,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_SLEDIT, 
+        NCSCTRL_SLEDIT,
         ID_COUN,
         100, HSTART + 2 * HSPACE, 130, 25,
         WS_BORDER | WS_VISIBLE | NCSS_EDIT_CENTER | NCSS_EDIT_UPPERCASE,
@@ -162,7 +164,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_STATIC, 
+        NCSCTRL_STATIC,
         0,
         10, HSTART + 3 * HSPACE, 70, 25,
         WS_VISIBLE,
@@ -173,7 +175,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_SLEDIT, 
+        NCSCTRL_SLEDIT,
         ID_CITY,
         100, HSTART + 3 * HSPACE, 150, 25,
         WS_BORDER | WS_VISIBLE | NCSS_EDIT_LOWERCASE,
@@ -184,7 +186,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_STATIC, 
+        NCSCTRL_STATIC,
         0,
         10, HSTART + 4 * HSPACE, 70, 25,
         WS_VISIBLE,
@@ -195,7 +197,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_SLEDIT, 
+        NCSCTRL_SLEDIT,
         ID_PSWD,
         100, HSTART + 4 * HSPACE, 150, 25,
         WS_BORDER | WS_VISIBLE | NCSS_SLEDIT_PASSWORD,
@@ -206,7 +208,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_STATIC, 
+        NCSCTRL_STATIC,
         0,
         10, HSTART + 5 * HSPACE, 70, 25,
         WS_VISIBLE,
@@ -217,10 +219,10 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_MLEDIT, 
+        NCSCTRL_MLEDIT,
         ID_INFO,
         100, HSTART + 5 * HSPACE, 200, 160,
-        WS_BORDER | WS_VISIBLE | WS_VSCROLL | NCSS_EDIT_BASELINE, 
+        WS_BORDER | WS_VISIBLE | WS_VSCROLL | NCSS_EDIT_BASELINE,
         WS_EX_NONE,
         "",
         NULL,
@@ -229,7 +231,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
     },
 
     {
-        NCSCTRL_BUTTON, 
+        NCSCTRL_BUTTON,
         ID_REG,
         240, 400, 80, 25,
         WS_VISIBLE | NCSS_NOTIFY,
@@ -240,7 +242,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         btn_handlers, NULL, 0, 0
     },
     {
-        NCSCTRL_BUTTON, 
+        NCSCTRL_BUTTON,
         ID_CAN,
         120, 400, 80, 25,
         WS_VISIBLE | NCSS_NOTIFY,
@@ -255,7 +257,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
 
 static NCS_MNWND_TEMPLATE mymain_templ =
 {
-    NCSCTRL_DIALOGBOX, 
+    NCSCTRL_DIALOGBOX,
     1,
     0, 0, 360, 480,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -272,15 +274,32 @@ static NCS_MNWND_TEMPLATE mymain_templ =
 
 int MiniGUIMain (int argc, const char* argv[])
 {
+	if (argc > 1) {
+		btn_rdr_info[0].glb_rdr = argv[1];
+		btn_rdr_info[0].ctl_rdr = argv[1];
+	}
+
     ncsInitialize ();
 
-    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                 (&mymain_templ, HWND_DESKTOP);
 
     _c(mydlg)->doModal (mydlg, TRUE);
- 
+
     ncsUninitialize ();
 
     return 0;
 }
 
+#else //_MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox spinbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox --enable-spinbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_DIALOGBOX

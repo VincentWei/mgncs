@@ -1,5 +1,5 @@
 /*
-** $Id: scrollview.c 1116 2010-12-02 04:03:35Z dongjunjie $
+** $Id: scrollview.c 1683 2017-10-26 06:52:09Z weiym $
 **
 ** Listing P2C14.1
 **
@@ -22,6 +22,8 @@
 #include <mgncs/mgncs.h>
 // END_OF_INCS
 
+#if defined _MGNCSCTRL_DIALOGBOX && defined _MGNCSCTRL_ICONVIEW
+
 #define IDC_SCROLLVIEW  100
 
 static const char *people[] =
@@ -35,8 +37,8 @@ static const char *people[] =
     "si ma yu",
 };
 
-static NCS_RDR_INFO rdr_info = {
-	"classic","classic",NULL
+static NCS_RDR_INFO rdr_info[] = {
+	{ "classic", "classic", NULL },
 };
 
 // START_OF_HANDLERS
@@ -63,14 +65,14 @@ static NCS_EVENT_HANDLER scrlv_handlers[] = {
 
 static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 	{
-		NCSCTRL_SCROLLVIEW, 
+		NCSCTRL_SCROLLVIEW,
 		IDC_SCROLLVIEW,
         10, 10, 320, 150,
         WS_BORDER | WS_VISIBLE | NCSS_NOTIFY | NCSS_SCRLV_SORT,
 		WS_EX_NONE,
 		"",
 		NULL,
-		&rdr_info,
+		rdr_info,
 		scrlv_handlers,
 		NULL,
 		0,
@@ -78,7 +80,7 @@ static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 	},
 };
 
-static BOOL dialog_onKeyDown(mWidget* self, 
+static BOOL dialog_onKeyDown(mWidget* self,
         int message, int code, DWORD key_status)
 {
     if (message == MSG_KEYDOWN) {
@@ -87,7 +89,7 @@ static BOOL dialog_onKeyDown(mWidget* self,
             int         curSel, count;
             HITEM       delItem;
 
-            scrlvObj = 
+            scrlvObj =
                 (mScrollView*)ncsObjFromHandle(GetDlgItem(self->hwnd, IDC_SCROLLVIEW));
             count = _c(scrlvObj)->getItemCount(scrlvObj);
 
@@ -113,14 +115,14 @@ static NCS_EVENT_HANDLER dialog_handlers[] = {
 };
 
 static NCS_MNWND_TEMPLATE dialog_tmpl = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	7,
 	0, 0, 350, 200,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
     "ScrollView Demo",
 	NULL,
-    &rdr_info,
+    rdr_info,
 	dialog_handlers,
 	_ctrl_tmpl,
 	sizeof(_ctrl_tmpl)/sizeof(NCS_WND_TEMPLATE),
@@ -161,7 +163,7 @@ static void scrlv_draw_item (mItemView *self, HITEM hItem, HDC hdc, RECT *rcDraw
     if (_c(self)->isHilight(self, hItem)) {
         isHilite = TRUE;
         oldBrushClr = SetBrushColor (hdc, PIXEL_blue);
-        FillBox (hdc, rcDraw->left + 1, 
+        FillBox (hdc, rcDraw->left + 1,
                 top + 1, RECTWP(rcDraw) - 2, RECTHP(rcDraw) - 1);
         oldTextClr = SetTextColor (hdc, PIXEL_lightwhite);
     }
@@ -210,13 +212,30 @@ static BOOL scrlv_init(mDialogBox* self)
 
 int MiniGUIMain(int argc, const char* argv[])
 {
+	if (argc > 1) {
+		rdr_info[0].glb_rdr = argv[1];
+		rdr_info[0].ctl_rdr = argv[1];
+	}
+
 	ncsInitialize();
-	mDialogBox* mydlg = 
+	mDialogBox* mydlg =
         (mDialogBox *)ncsCreateMainWindowIndirect (&dialog_tmpl, HWND_DESKTOP);
-	
+
     scrlv_init(mydlg);
 	_c(mydlg)->doModal(mydlg, TRUE);
 
 	ncsUninitialize();
 	return 0;
 }
+#else //_MGNCSCTRL_DIALOGBOX _MGNCSCTRL_ICONVIEW
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox, iconview contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox --enable-iconview ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_DIALOGBOX _MGNCSCTRL_ICONVIEW

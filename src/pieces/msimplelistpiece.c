@@ -1,6 +1,4 @@
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +20,8 @@
 #include "mlayoutpiece.h"
 #include "mlinelayoutpiece.h"
 #include "msimplelistpiece.h"
+
+#ifdef _MGNCSCTRL_IMWORDSEL
 
 #define LAYOUT_PIECE(self)   ((mLineLayoutPiece*)(self->body))
 
@@ -207,4 +207,5 @@ BEGIN_MINI_CLASS(mSimpleListPiece, mContainerPiece)
 	CLASS_METHOD_MAP(mSimpleListPiece, reset)
 END_MINI_CLASS
 
+#endif		//_MGNCSCTRL_IMWORDSEL
 

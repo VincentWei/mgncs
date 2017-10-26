@@ -21,6 +21,8 @@
 #include "mrenderablepiece.h"
 #include "mprogresspiece.h"
 
+#ifdef _MGNCSCTRL_PROGRESSBAR
+
 static void mProgressPiece_construct(mProgressPiece *self, DWORD add_data)
 {
 	Class(mRenderablePiece).construct((mRenderablePiece*)self, add_data);
@@ -122,3 +124,4 @@ BEGIN_MINI_CLASS(mProgressPiece, mRenderablePiece)
 	CLASS_METHOD_MAP(mProgressPiece, step)
 END_MINI_CLASS
 
+#endif //_MGNCSCTRL_PROGRESSBAR

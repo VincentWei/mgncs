@@ -23,6 +23,8 @@
 #include "mbmparrayanimateframes.h"
 #include "mmemanimateframes.h"
 
+#ifdef _MGNCSCTRL_ANIMATE
+
 static void mAnimatePiece_construct(mAnimatePiece *self, DWORD add_data)
 {
 	Class(mStaticPiece).construct((mStaticPiece*)self, add_data);
@@ -192,3 +194,5 @@ BEGIN_MINI_CLASS(mAnimatePiece, mStaticPiece)
 	CLASS_METHOD_MAP(mAnimatePiece, getProperty)
 	CLASS_METHOD_MAP(mAnimatePiece, setProperty)
 END_MINI_CLASS
+
+#endif		//_MGNCSCTRL_ANIMATE

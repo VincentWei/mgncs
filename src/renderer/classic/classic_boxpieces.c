@@ -24,7 +24,7 @@ static void get_color_flag(DWORD *pcolor, int *pflag, int state, int check_state
 {
 	DWORD fgcolor;
 	int flag = 0;
-	
+
 	switch(state) //state
 	{
 	case NCS_ABP_NORMAL:
@@ -154,7 +154,7 @@ static void classic_thumbbox_paint(mThumbBoxPiece *self, HDC hdc, mWidget *owner
 static void classic_trackbar_paint(mTrackBarPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
 {
     /*
-     * the data struct of add_data 
+     * the data struct of add_data
      *
      * bits 0x0000FFFF  : the tick
      * bits 0x00FF0000  : horz or vert
@@ -234,7 +234,7 @@ static void classic_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 
 //	if(add_data&0x10000)
 	if(type == 0)
-	{	
+	{
 		style = 13;
 		check_bmp = GetSystemBitmapEx ("classic", SYSBMP_CHECKBUTTON);
 		if(check_state)
@@ -244,7 +244,7 @@ static void classic_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 	}
 //	else if(add_data&0x100000)
 	else if (type == 1)
-	{   
+	{
 		style = 12;
 		check_bmp = GetSystemBitmapEx ("classic", SYSBMP_RADIOBUTTON);
 		if(check_state)
@@ -258,7 +258,7 @@ static void classic_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
     h = rc->bottom - rc->top;
 
 	if( w >= style && h >= style){
-	
+
 		box_l = rc->left + (w>>1)-6;
 		box_t = rc->top + (h>>1)-6;
 
@@ -268,7 +268,7 @@ static void classic_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 
 		if (h & 0x1)
 			box_t += 1;
-	
+
 		FillBoxWithBitmapPart (hdc, box_l, box_t, style, style, 0, 0, check_bmp, full_state, 0);
 	}
 	else {
@@ -282,33 +282,34 @@ static void classic_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 static void classic_checkbox_paint(mCheckBoxPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	RECT rc;
-	
+
 	if(!_c(self)->getRect(self, &rc))
 		return ;
-	
+
 	classic_draw_check(hdc, &rc, NCSRF_FILL, add_data&NCS_PIECE_PAINT_STATE_MASK, NCS_PIECE_PAINT_GET_CHECK(add_data), owner, 0);
 }
-#if 1 
+#if 1
 //////////////////////////////////
 //radiobox
 static void classic_radiobox_paint(mCheckBoxPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	RECT rc;
-	
+
 	if(!_c(self)->getRect(self, &rc))
 		return ;
-	
+
 	classic_draw_check(hdc, &rc, NCSRF_FILL, add_data&NCS_PIECE_PAINT_STATE_MASK, NCS_PIECE_PAINT_GET_CHECK(add_data), owner, 1);
 }
 #endif
 //////////////////////
+#ifdef _MGNCSCTRL_SCROLLBAR
 //scrollbar
 static void classic_scrollbar_paint(mScrollBarPiece* self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	RECT rc;
 	gal_pixel old_brush;
 	DWORD barcolor;
-	
+
 	barcolor= ncsGetElement(owner, NCS_BGC_3DBODY);
 	barcolor = ncsCommRDRCalc3dboxColor(barcolor, 15);
 	old_brush = SetBrushColor(hdc, ncsColor2Pixel(hdc, barcolor));
@@ -362,6 +363,7 @@ static void classic_arrow_paint(mScrollBarPiece *self, HDC hdc, mWidget * owner,
 	//draw arrow
 	ncsCommRDRDrawArrow(hdc, &rc, arrow, arrow_color, NCSRF_FILL);
 }
+#endif //_MGNCSCTRL_SCROLLBAR
 
 ///////////////////////////////////////////
 //grid box
@@ -493,7 +495,7 @@ static void classic_daygrid_paint_content(mDayGridPiece *self,
 
 	//fill RECT
 	FillBox(hdc, rc->left, rc->top, RECTWP(rc), RECTHP(rc));
-	
+
 	//draw Text
 	if(day>=10)
 	{
@@ -647,6 +649,7 @@ static void classic_weekhead_paint(mWeekHeadPiece *self, HDC hdc, mWidget * owne
 
 ///////////////////////////////////////
 //progresspiece
+#ifdef _MGNCSCTRL_PROGRESSBAR
 #define NCSPB_BLOCK 8
 #define NCSPB_INNER 2
 static void classic_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
@@ -667,7 +670,7 @@ static void classic_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 	//calc rc_prog;
 	if(add_data & NCS_PIECE_PAINT_VERT)
 	{
-		int height = RECTH(rc_prog) * (self->cur - self->min) / (self->max - self->min);	
+		int height = RECTH(rc_prog) * (self->cur - self->min) / (self->max - self->min);
 		rc_prog.top = rc_prog.bottom - height;
 	}
 	else
@@ -682,13 +685,13 @@ static void classic_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 	prog_color = ncsColor2Pixel(hdc, ncsGetElement(owner, NCS_BGC_HILIGHT_ITEM));
 
     old_color = SetBrushColor (hdc, prog_color);
-    
+
 	if(add_data & NCS_PIECE_PAINT_BLOCK)
 	{
 		if(add_data & NCS_PIECE_PAINT_VERT)
 		{
 			int width = RECTW(rc_prog);
-			i=rc_prog.bottom; 
+			i=rc_prog.bottom;
 			while(i > rc_prog.top)
 			{
 				FillBox(hdc, rc_prog.left, i - NCSPB_BLOCK, width, MIN(NCSPB_BLOCK, (i - rc_prog.top)));
@@ -740,7 +743,7 @@ static void classic_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 			rc_text.right = rc_text.left + size.cx;
 			rc.left = rc_prog.right;
 		}
-		// draw 
+		// draw
 		if(IntersectRect(&rc_tmp, &rc_text, &rc_prog))
 		{
 			SelectClipRect(hdc, &rc_tmp);
@@ -761,7 +764,7 @@ static void classic_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner
 
 	SetBrushColor(hdc, old_color);
 }
-
+#endif
 
 //////////////////////////////////
 //init boxpiece
@@ -770,19 +773,25 @@ void classic_init_boxpiece_renderer(void)
 	NCS_RDR_ENTRY entries [] = {
 		{Class(mButtonBoxPiece).typeName, (mWidgetRenderer*)(void*)classic_buttonbox_paint},
 		{Class(mThumbBoxPiece).typeName, (mWidgetRenderer*)(void*)classic_thumbbox_paint},
+#ifdef _MGNCSCTRL_SCROLLBAR
 		{Class(mScrollThumbBoxPiece).typeName, (mWidgetRenderer*)(void*)classic_thumbbox_paint},
+#endif
 		{Class(mTrackBarPiece).typeName, (mWidgetRenderer*)(void*)classic_trackbar_paint},
 		{Class(mCheckBoxPiece).typeName, (mWidgetRenderer*)(void*)classic_checkbox_paint},
 		{Class(mRadioBoxPiece).typeName, (mWidgetRenderer*)(void*)classic_radiobox_paint},
+#ifdef _MGNCSCTRL_SCROLLBAR
 		{Class(mScrollBarPiece).typeName, (mWidgetRenderer*)(void*)classic_scrollbar_paint},
 		{Class(mLeftArrowPiece).typeName, (mWidgetRenderer*)(void*)classic_arrow_paint},
 		{Class(mRightArrowPiece).typeName, (mWidgetRenderer*)(void*)classic_arrow_paint},
 		{Class(mUpArrowPiece).typeName, (mWidgetRenderer*)(void*)classic_arrow_paint},
 		{Class(mDownArrowPiece).typeName, (mWidgetRenderer*)(void*)classic_arrow_paint},
+#endif
 		{Class(mDayGridPiece).typeName, (mWidgetRenderer*)(void*)classic_daygrid_paint},
 		{Class(mWeekHeadPiece).typeName, (mWidgetRenderer*)(void*)classic_weekhead_paint},
+#ifdef _MGNCSCTRL_PROGRESSBAR
 		{Class(mProgressPiece).typeName, (mWidgetRenderer*)(void*)classic_progress_paint}
-	};
+#endif
+		};
 
 	ncsRegisterCtrlRDRs("classic",
 		entries,

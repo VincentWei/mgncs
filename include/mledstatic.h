@@ -1,7 +1,8 @@
+#ifdef _MGNCSCTRL_LEDLABEL
 
 #ifndef _MGUI_NCSCTRL_LEDLABEL_H
 #define _MGUI_NCSCTRL_LEDLABEL_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -18,7 +19,7 @@ extern "C" {
  * \brief the name of mLEDLabel
  */
 
-#define NCSCTRL_LEDLABEL   NCSCLASSNAME("ledlabel") 
+#define NCSCTRL_LEDLABEL   NCSCLASSNAME("ledlabel")
 
 
 typedef struct _mLEDLabel mLEDLabel;
@@ -27,7 +28,7 @@ typedef struct _mLEDLabelRenderer mLEDLabelRenderer;
 
 /* define mLEDLabel */
 #define mLEDLabelHeader(clsName)  \
-	mStaticHeader(clsName) 
+	mStaticHeader(clsName)
 
 /**
  * \struct mLEDLabel
@@ -41,7 +42,7 @@ struct _mLEDLabel
 
 /* define mLEDLabelClass */
 #define mLEDLabelClassHeader(clsName, parentClass)    \
-	mStaticClassHeader(clsName, parentClass) 
+	mStaticClassHeader(clsName, parentClass)
 
 /**
  * \struct mLEDLabelClass
@@ -105,4 +106,4 @@ enum enumLEDLabelNotify {
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_LEDLABEL_H */
-
+#endif //_MGNCSCTRL_LEDLABEL

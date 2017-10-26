@@ -11,7 +11,7 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
@@ -25,7 +25,8 @@
 
 #ifndef _MGUI_WIDGET_LAYOUT_H
 #define _MGUI_WIDGET_LAYOUT_H
- 
+
+#ifdef _MGNCSCTRL_LIST
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,7 +44,7 @@ typedef struct _mListLayoutClass mListLayoutClass;
 	mObjectHeader(className) \
     mAbstractList *list;            \
     Uint16  itemHeight;             \
-    Uint16  itemWidth;  
+    Uint16  itemWidth;
 
 struct _mListLayout
 {
@@ -127,7 +128,7 @@ typedef struct _mLHIconLayoutClass mLHIconLayoutClass;
 
 #define mLHIconLayoutHeader(className)  \
     mListLayoutHeader(className)        \
-    Uint16 nrRow; 
+    Uint16 nrRow;
 
 struct _mLHIconLayout
 {
@@ -194,7 +195,7 @@ typedef struct _NCS_GROUP_INFO
 typedef struct _mLGroupLayout mLGroupLayout;
 typedef struct _mLGroupLayoutClass mLGroupLayoutClass;
 
-#define NCSID_UNNAMED_GROUP         0 
+#define NCSID_UNNAMED_GROUP         0
 #define NCSID_UNNAMED_GROUPTEXT     "Unnamed"
 //return group id, if no group return NCSID_UNNAMED_GROUP
 typedef int (*NCS_CB_INGROUP)(mNode *node);
@@ -249,4 +250,5 @@ MGNCS_EXPORT extern mLGroupLayoutClass g_stmLGroupLayoutCls;
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_WIDGET_LAYOUT_H */
+#endif //_MGNCSCTRL_LIST
 

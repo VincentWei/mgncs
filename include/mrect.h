@@ -1,7 +1,8 @@
+#ifdef _MGNCSCTRL_RECTANGLE
 
 #ifndef _MGUI_NCSCTRL_RECTANGLE_H
 #define _MGUI_NCSCTRL_RECTANGLE_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,7 +24,7 @@ typedef struct _mRectangleClass mRectangleClass;
 typedef struct _mRectangleRenderer mRectangleRenderer;
 
 #define mRectangleHeader(clsName)   \
-	mWidgetHeader(clsName)          
+	mWidgetHeader(clsName)
 
 /**
  * \struct mRectangle
@@ -121,7 +122,7 @@ enum mRectangleProp {
 	 *  - set the color value to fill in rect
 	 *
 	 */
-	NCSP_RECTANGLE_FILLCLR_RED, 
+	NCSP_RECTANGLE_FILLCLR_RED,
 	/**
 	 * \brief Set the green color to fill in rect
 	 *  - Type int (0 - 255)
@@ -153,7 +154,7 @@ enum mRectangleProp {
 	 *  - set the color value to fill in rect
 	 *
 	 */
-	NCSP_RECTANGLE_BRDCLR_RED, 
+	NCSP_RECTANGLE_BRDCLR_RED,
 	/**
 	 * \brief Set the green color value of the border
 	 *  - Type int (0 - 255)
@@ -199,4 +200,4 @@ enum enumRectNotify{
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_RECTANGLE_H */
-
+#endif //_MGNCSCTRL_RECTANGLE

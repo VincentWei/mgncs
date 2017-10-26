@@ -480,163 +480,100 @@ static void mGIFAnimateFrames_construct(mGIFAnimateFrames *self, DWORD addData)
     unsigned char c;
     int ok = 0;
     MYBITMAP mybmp;
-	//BITMAP testbmp;
     GIFSCREEN GifScreen;
     IMAGEDESC ImageDesc;
 	HCURSOR old;
     mGIFAnimateFrame *frame, *current = NULL;
 	MG_RWops* area = (MG_RWops*) addData;
 
-	Class(mAnimateFrames).construct((mAnimateFrames*)self, addData);
-		
-    if (self == NULL)
-	{
+    if (self == NULL) {
 		return;
 	}
 	
+	Class(mAnimateFrames).construct((mAnimateFrames*)self, addData);
+		
 	old = SetCursor(GetSystemCursor(IDC_BUSY));	
    
-	if (ReadGIFGlobal (area, &GifScreen) < 0)
+	if (ReadGIFGlobal (area, &GifScreen) < 0) {
 		goto error;
-   /*if (GifScreen.Background >= 0) {
+	}
+#if 0
+	if (GifScreen.Background >= 0) {
         self->bk = GifScreen.ColorMap [GifScreen.Background];
         self->bk.a = 1;
     }
     else {
         self->bk.r = self->bk.g = self->bk.b = 255;
         self->bk.a = 0;
-    }*/
+    }
+#endif
 
     if ((ok = ReadOK (area, &c, 1)) == 0) {
         goto error;
     }
 
-	while (c != ';' && ok > 0) {
-		switch (c) {
-			case '!':
-				if ( (ok = ReadOK (area, &c, 1)) == 0) {
-					goto error;
-				}
-				DoExtension (area, c, &GifScreen);
-				break;
+	for (; c != ';' && ok > 0; ok = ReadOK (area, &c, 1)) {
+		if (c == '!') {
+			if ((ok = ReadOK (area, &c, 1)) == 0) {
+				goto error;
+			}
+			DoExtension (area, c, &GifScreen);
+		} else if (c == ',') {
+			mybmp.bits = NULL;
+			if (ReadImageDesc (area, &ImageDesc, &GifScreen) < 0) {
+				goto error;
+			}
+			if (ReadImage (area, &mybmp, &ImageDesc, &GifScreen, 0) < 0) {
+				goto error;
+			}
 
-			case ',':
-				if (ReadImageDesc (area, &ImageDesc, &GifScreen) < 0) {
-					goto error;
-				}
-				else {
-					if (ReadImage (area, &mybmp, &ImageDesc, &GifScreen, 0) < 0)
-						goto error;
-				}
+			frame = (mGIFAnimateFrame*) calloc(1, sizeof(mGIFAnimateFrame));
+			if(!frame){
+				UnloadMyBitmap (&mybmp);
+				goto error;
+			}
+			frame->next = NULL;
+			frame->off_y = ImageDesc.Left;
+			frame->off_x = ImageDesc.Top;
+			frame->disposal = GifScreen.disposal;
 
-				frame = (mGIFAnimateFrame*) calloc(1, sizeof(mGIFAnimateFrame));
+			frame->delay_time = (GifScreen.delayTime>10)?GifScreen.delayTime:10;
 
-				if(!frame)
-					goto error;
+			if(ExpandMyBitmap(HDC_SCREEN, &frame->bmp, &mybmp, ImageDesc.ColorMap, 0) != 0)
+			{
+				UnloadMyBitmap (&mybmp);
+				free(frame);
+				goto error;
+			}
 
-				frame->next = NULL;
-				frame->off_y = ImageDesc.Left;
-				frame->off_x = ImageDesc.Top;
-				frame->disposal = GifScreen.disposal;
+			if(self->frames == NULL) {
+				self->frames = frame;
+				current = frame;
+				current->prev = NULL;
+			} else {
+				frame->prev = current;
+				current->next = frame;
+				current = current->next;
+			}
 
-				frame->delay_time = (GifScreen.delayTime>10)?GifScreen.delayTime:10;
-
-				if(ExpandMyBitmap(HDC_SCREEN, &frame->bmp, &mybmp, ImageDesc.ColorMap, 0) != 0)
-				{
-					free(frame);
-					free(mybmp.bits);
-					goto error;
-				}
-
-			
-				if(self->frames == NULL)
-				{
-					self->frames = frame;
-					current = frame;
-					current->prev = NULL;
-				}
-				else
-				{
-					frame->prev = current;
-					current->next = frame;
-					current = current->next;
-				}
-
-				self->nr_frames++;
-				break;
+			self->nr_frames++;
+			UnloadMyBitmap (&mybmp);
 		}
-        ok = ReadOK (area, &c, 1);
 	}
-	SetCursor(old);
-	self->cur_frame = self->frames;
-	self->max_width = GifScreen.Width;
-	self->max_height = GifScreen.Height;
-	self->mem_dc = CreateCompatibleDCEx(HDC_SCREEN, self->max_width, self->max_height);
 	
+	self->cur_frame  = self->frames;
+	self->max_width  = GifScreen.Width;
+	self->max_height = GifScreen.Height;
+	self->mem_dc 	 = CreateCompatibleDCEx(HDC_SCREEN, self->max_width, self->max_height);
+	
+	SetCursor(old);
 	return;
+
 error:
 	SetCursor(old);
-	fprintf(stderr, "read gif error\n");
-	_c(self)->destroy((void*)self);
-}
-
-mGIFAnimateFrames* ncsCreateAnimateFramesFromGIFFile (const char* file)
-{
-    MG_RWops* area;
-    mGIFAnimateFrames* gaf;
-    //GIFSCREEN GifScreen;
-	if (!(area = MGUI_RWFromFile (file, "rb"))) {
-	
-		const char *str = file?strrchr(file, '/'):NULL;
-		char local_file[256];
-		
-		if (str == NULL)
-		{		
-			fprintf(stderr, "read giffile error\n");
-			return NULL;
-		}
-		memset(local_file, 0, sizeof(local_file));
-		sprintf(local_file, "./res/image/%s", str);
-		if (!(area = MGUI_RWFromFile(local_file, "rb"))) {	
-			fprintf(stderr, "read local giffile error\n");
-
-			return NULL;
-		}
-
-		return NULL;
-    }
-
-	gaf = NEWEX(mGIFAnimateFrames, (int)area);
-
-	if(gaf->frames == NULL)
-		return NULL;
-	
-    MGUI_RWclose (area);
-
-    return gaf;
-}
-
-mGIFAnimateFrames* ncsCreateAnimateFramesFromGIFMem (const void* mem, int size)
-{
-    MG_RWops* area;
-    mGIFAnimateFrames* gaf ;
-
-    if (!(area = MGUI_RWFromMem ((void*)mem, size))) {
-        return NULL;
-    }
-
-	gaf = NEWEX(mGIFAnimateFrames, (int)area);
-
-    MGUI_RWclose (area);
-
-    return gaf;
-}
-
-BOOL mGIFAnimateFrames_getMaxFrameSize(mGIFAnimateFrames* self, int *pwidth, int *pheight)
-{
-	*pwidth = self->max_width;
-	*pheight = self->max_height;
-	return TRUE;
+	Class(mAnimateFrames).destroy((mAnimateFrames*)self);
+	fprintf(stderr, "[mAnimateFrames ] Error: read gif file error\n");
+	return;
 }
 
 static void mGIFAnimateFrames_destroy (mGIFAnimateFrames* self)
@@ -659,7 +596,6 @@ static void mGIFAnimateFrames_destroy (mGIFAnimateFrames* self)
 
 static void paint_one_frame(mGIFAnimateFrames* self, mGIFAnimateFrame* frame)
 {
-
 	if(!frame)
 		return;
 
@@ -672,32 +608,27 @@ static void restore_bk_color(mGIFAnimateFrames* self, mGIFAnimateFrame* frame, m
 	gal_pixel bg_color;
 	gal_pixel old_color;
 
-
-	if(owner && IsWindow(owner->hwnd))
-	{
+	if(owner && IsWindow(owner->hwnd)) {
 		bTransparent = GetWindowExStyle(owner->hwnd) & WS_EX_TRANSPARENT;
 		if(!bTransparent)
 			bTransparent = (owner->bkimg.img.pbmp != NULL);
 
 		bg_color = GetWindowBkColor(owner->hwnd);
-	}
-	else {
+	} else {
 		bg_color = GetWindowElementPixel(HWND_DESKTOP, WE_BGC_DESKTOP);
 	}
 	
-	if(bTransparent)
-	{
+	if(bTransparent) {
 		SetMemDCColorKey(self->mem_dc, MEMDC_FLAG_SRCCOLORKEY, bg_color);
-	}
-	else 
-	{
+	} else {
 		SetMemDCColorKey(self->mem_dc, 0, 0);
 	}
 
 	old_color = SetBrushColor(self->mem_dc, bg_color);
 
 	if(frame)
-		FillBox(self->mem_dc, frame->off_x, frame->off_y, frame->bmp.bmWidth, frame->bmp.bmHeight);
+		FillBox(self->mem_dc, frame->off_x, 
+				frame->off_y, frame->bmp.bmWidth, frame->bmp.bmHeight);
 	else
 		FillBox(self->mem_dc, 0, 0, self->max_width, self->max_height);
 
@@ -710,74 +641,63 @@ static void restore_prev_frame(mGIFAnimateFrames* self, mGIFAnimateFrame* frame,
 		return;
 
 	switch(frame->disposal) {
-	case 2:
-		restore_bk_color(self, frame, owner);
-		break;
-	case 3:
-		restore_prev_frame(self, frame->prev, owner);
-		break;
+		case 2:
+			restore_bk_color(self, frame, owner);
+			break;
+		case 3:
+			restore_prev_frame(self, frame->prev, owner);
+			break;
 	}
+
 	paint_one_frame(self, frame);
 }
 
 static void disposal_handle(mGIFAnimateFrames* self, mGIFAnimateFrame* frame, mWidget* owner)
 {
-	int disposal = -1;
-	if(frame)
-		disposal = frame->disposal;
-	else 
-	{
+	if(NULL == frame) {
 		restore_bk_color(self, NULL, owner);
 		return;
 	}
 
-	switch(disposal) {
-	case 2:
-		restore_bk_color(self, frame, owner);
-		break;
-	case 3:
-		restore_prev_frame(self, frame->prev, owner);
-		break;
+	switch(frame->disposal) {
+		case 2:
+			restore_bk_color(self, frame, owner);
+			break;
+		case 3:
+			restore_prev_frame(self, frame->prev, owner);
+			break;
 	}
 }
 
 
-int mGIFAnimateFrames_drawFrame(mGIFAnimateFrames* self, HDC hdc, mWidget *owner, RECT *pRect, int align, int valign, BOOL bScale)
+static int mGIFAnimateFrames_drawFrame(mGIFAnimateFrames* self, 
+		HDC hdc, mWidget *owner, RECT *pRect, int align, int valign, BOOL bScale)
 {
 	mGIFAnimateFrame* frame = NULL;
 
 	if(!self->mem_dc)
 		return NCSR_ANIMATEFRAME_FAILED;
 
-	if(self->frames)
-	{
-		if(self->cur_frame == NULL)
-		{
+	if(self->frames) {
+		if(self->cur_frame == NULL) {
 			self->cur_frame = self->frames;
 		}
 	}
-		
 	
 	frame = (mGIFAnimateFrame*)self->cur_frame;
 
-	if(frame)
-	{
+	if(frame) {
 		disposal_handle(self, frame->prev, owner);
 		paint_one_frame(self, frame);
-	}
-	else
-	{
+	} else {
 		if(self->mem_dc)
 			disposal_handle(self, NULL, owner);
 	}
 
-
-	if(bScale)
-	{
-		StretchBlt(self->mem_dc, 0, 0, self->max_width, self->max_height, hdc, pRect->left, pRect->top, RECTWP(pRect), RECTHP(pRect), 0);
-	}
-	else
-	{
+	if(bScale) {
+		StretchBlt(self->mem_dc, 0, 0, self->max_width, self->max_height, 
+				hdc, pRect->left, pRect->top, RECTWP(pRect), RECTHP(pRect), 0);
+	} else {
 		int x, y;
 		int w, h;
 		w = self->max_width;
@@ -822,10 +742,16 @@ int mGIFAnimateFrames_drawFrame(mGIFAnimateFrames* self, HDC hdc, mWidget *owner
 	return NCSR_ANIMATEFRAME_OK;
 }
 
+static BOOL mGIFAnimateFrames_getMaxFrameSize(mGIFAnimateFrames* self, int *pwidth, int *pheight)
+{
+	*pwidth = self->max_width;
+	*pheight = self->max_height;
+	return TRUE;
+}
+
 static int mGIFAnimateFrames_nextFrame(mGIFAnimateFrames* self)
 {
-	if(self->cur_frame == NULL)
-	{
+	if(self->cur_frame == NULL) {
 		self->cur_frame = self->frames;
 		return NCSR_ANIMATEFRAME_OK;
 	}
@@ -842,3 +768,56 @@ BEGIN_MINI_CLASS(mGIFAnimateFrames, mAnimateFrames)
 	CLASS_METHOD_MAP(mGIFAnimateFrames, getMaxFrameSize)
 	CLASS_METHOD_MAP(mGIFAnimateFrames, nextFrame)
 END_MINI_CLASS
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+mGIFAnimateFrames* ncsCreateAnimateFramesFromGIFFile (const char* file)
+{
+    MG_RWops* area;
+    mGIFAnimateFrames* gaf;
+    
+	//GIFSCREEN GifScreen;
+	if (NULL == (area = MGUI_RWFromFile (file, "rb"))) 
+	{
+		char local_file[256];
+		const char *str = file ? strrchr(file, '/') : NULL;
+		
+		if (str == NULL) {		
+			fprintf(stderr, "read giffile error\n");
+			return NULL;
+		}
+		memset(local_file, 0, sizeof(local_file));
+		sprintf(local_file, "./res/image/%s", str);
+		if (NULL == (area = MGUI_RWFromFile(local_file, "rb"))) {	
+			fprintf(stderr, "read local giffile error\n");
+			return NULL;
+		}
+    }
+
+	gaf = NEWEX(mGIFAnimateFrames, (int)area);
+
+	if(gaf == NULL || gaf->frames == NULL)
+		return NULL;
+	
+    MGUI_RWclose (area);
+
+    return gaf;
+}
+
+mGIFAnimateFrames* ncsCreateAnimateFramesFromGIFMem (const void* mem, int size)
+{
+    MG_RWops* area;
+    mGIFAnimateFrames* gaf ;
+
+    if (!(area = MGUI_RWFromMem ((void*)mem, size))) {
+        return NULL;
+    }
+
+	gaf = NEWEX(mGIFAnimateFrames, (int)area);
+
+    MGUI_RWclose (area);
+
+    return gaf;
+}
+
+

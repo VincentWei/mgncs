@@ -22,6 +22,8 @@
 #include "mlabelpiece.h"
 #include "mledstaticpiece.h"
 
+#ifdef _MGNCSCTRL_LEDLABEL
+
 typedef struct _led_size_info{
 	int width;
 	int height;
@@ -103,7 +105,7 @@ static int fill_mid_led_point(led_size_info* pled_info, int x, int y, POINT *pt)
 	SET_LED_POS(pt[2], x + pled_info->width - 1, y + (pled_info->height >>1));
 	SET_LED_POS(pt[3], x + pled_info->width - pled_info->w_border - 1, y + ((pled_info->height + pled_info->h_border)>>1));
 	SET_LED_POS(pt[4], x + pled_info->w_border + 1, y + ((pled_info->height + pled_info->h_border)>>1));
-	
+
 	SET_LED_POS(pt[5], x + 1, y + (pled_info->height >>1));
 
 	return 6;
@@ -125,7 +127,7 @@ static int fill_up_colon_point(led_size_info* pled_info, int x, int y, POINT *pt
 	int min = led_min(pled_info->w_border, pled_info->h_border);
 	x = x + ((pled_info->width - min) >> 1);
 	y = y + (pled_info->height>>2);
-	
+
 	SET_LED_POS(pt[0], x, y);
 	SET_LED_POS(pt[1], x + min, y);
 	SET_LED_POS(pt[2], x + min, y + min);
@@ -139,7 +141,7 @@ static int fill_down_colon_point(led_size_info* pled_info, int x, int y, POINT *
 	int min = led_min(pled_info->w_border, pled_info->h_border);
 	x = x + ((pled_info->width - min) >> 1);
 	y = y + ((pled_info->height>>2)*3);
-	
+
 	SET_LED_POS(pt[0], x, y);
 	SET_LED_POS(pt[1], x + min, y);
 	SET_LED_POS(pt[2], x + min, y + min);
@@ -309,7 +311,7 @@ BOOL ncsLedDrawText(HDC hdc, char *str, int len, RECT *rect, unsigned int format
 	if(len <= 0)
 		len = strlen(str);
 
-	init_led_info(&led_info, width, height);	
+	init_led_info(&led_info, width, height);
 
 	old_brush = SetBrushColor(hdc, ncsColor2Pixel(hdc, color));
 
@@ -380,7 +382,7 @@ BOOL ncsLedDrawText(HDC hdc, char *str, int len, RECT *rect, unsigned int format
 			if(i >= len)
 				break;
 			draw_len = len - i;
-			x = cacl_text_start(str + i, &draw_len, align, width, RECTWP(rect), rect->left, char_space); 
+			x = cacl_text_start(str + i, &draw_len, align, width, RECTWP(rect), rect->left, char_space);
 			y += (height + LED_LINE_SPACE);
 		}
 	}
@@ -393,9 +395,9 @@ BOOL ncsLedDrawText(HDC hdc, char *str, int len, RECT *rect, unsigned int format
 static void mLedstaticPiece_paint(mLedstaticPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	unsigned int style = 0;
-	RECT rcClient;	
+	RECT rcClient;
 	unsigned int color;
-		
+
 	if ( self->text == NULL)
 	{
 		return;
@@ -416,12 +418,12 @@ static void mLedstaticPiece_paint(mLedstaticPiece *self, HDC hdc, mWidget *owner
 		style |= DT_BOTTOM;
 	} else
 		style |= DT_TOP;
-	
+
 	if (!mLedstaticPiece_isAutoWrap(self))
 		style |= DT_SINGLELINE;
 
 	style |= (self->format & 0xFF) << 16;
-	
+
 	if (add_data & WS_DISABLED)
 		color = ncsGetElement(owner, NCS_FGC_DISABLED_ITEM);
 	else
@@ -504,4 +506,6 @@ BEGIN_MINI_CLASS(mLedstaticPiece, mStaticPiece)
 	CLASS_METHOD_MAP(mLedstaticPiece, setProperty)
 	CLASS_METHOD_MAP(mLedstaticPiece, getProperty)
 END_MINI_CLASS
+
+#endif //_MGNCSCTRL_LEDLABEL
 

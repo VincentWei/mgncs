@@ -1,5 +1,5 @@
-/* 
- ** $Id: mscrollview.c 680 2009-11-26 05:14:04Z xwyan $
+/*
+ ** $Id: mscrollview.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of mScrollView class.
  **
@@ -42,7 +42,7 @@ static HITEM mScrollView_addItem(mScrollView *self, NCS_SCRLV_ITEMINFO *info, in
     if (!info)
         return 0;
 
-    return _c(self)->createItem(self, 0, 0, info->index, 
+    return _c(self)->createItem(self, 0, 0, info->index,
             info->height, NULL, info->addData, pos, TRUE);
 }
 
@@ -52,3 +52,4 @@ BEGIN_CMPT_CLASS(mScrollView, mItemView)
     CLASS_METHOD_MAP(mScrollView, addItem);
 	SET_DLGCODE(DLGC_WANTARROWS);
 END_CMPT_CLASS
+

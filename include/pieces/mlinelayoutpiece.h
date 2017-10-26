@@ -1,3 +1,4 @@
+#if defined (_MGNCSCTRL_TOOLBAR) || defined (_MGNCSCTRL_IMWORDSEL)
 
 #ifndef _MGUI_NCSCTRL_LINELAYOUTPIECE_H
 #define _MGUI_NCSCTRL_LINELAYOUTPIECE_H
@@ -68,4 +69,4 @@ enum mLineLayoutPieceProps{
 #endif
 
 #endif
-
+#endif //_MGNCSCTRL_TOOLBAR

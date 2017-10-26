@@ -1,5 +1,5 @@
 /**
- * $Id: list.c 1116 2010-12-02 04:03:35Z dongjunjie $
+ * $Id: list.c 1683 2017-10-26 06:52:09Z weiym $
  *
  * Listing P2C18.1
  *
@@ -19,8 +19,10 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include <mgncs/mgncs.h> 
+#include <mgncs/mgncs.h>
 // END_OF_INCS
+
+#ifdef _MGNCSCTRL_LIST
 
 #define IDL_DIR     100
 
@@ -102,18 +104,18 @@ static void list_notify(mWidget *self, int id, int nc, DWORD add_data)
 static NCS_EVENT_HANDLER list_handlers [] = {
     NCS_MAP_NOTIFY(NCSN_LIST_ENTERSUBLIST, list_notify),
     NCS_MAP_NOTIFY(NCSN_LIST_BACKUPLIST, list_notify),
-	{0, NULL}	
+	{0, NULL}
 };
 
 static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 	{
-		NCSCTRL_STATIC, 
+		NCSCTRL_STATIC,
 		IDC_STATIC,
 		0, 0, 160, 15,
 		WS_VISIBLE,
 		WS_EX_NONE,
 		caption,
-		static_props, 
+		static_props,
 		NULL,
 		NULL,
 		NULL,
@@ -121,24 +123,24 @@ static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 		0
 	},
 	{
-		NCSCTRL_LIST, 
+		NCSCTRL_LIST,
 		IDL_DIR,
 		0, 20, 166, 188,
-		WS_BORDER | WS_TABSTOP | WS_VISIBLE 
-            | NCSS_NOTIFY | NCSS_LIST_LOOP | NCSS_ASTLST_AUTOSORT, 
+		WS_BORDER | WS_TABSTOP | WS_VISIBLE
+            | NCSS_NOTIFY | NCSS_LIST_LOOP | NCSS_ASTLST_AUTOSORT,
 		WS_EX_NONE,
 		"",
-		NULL, 
-		NULL, 
-		list_handlers, 
-		NULL, 
+		NULL,
+		NULL,
+		list_handlers,
+		NULL,
 		0,
-		0 
+		0
 	}
 };
 
 static NCS_MNWND_TEMPLATE mainwnd_tmpl = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	7,
 	100, 100, 176, 250,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -150,7 +152,7 @@ static NCS_MNWND_TEMPLATE mainwnd_tmpl = {
 	_ctrl_tmpl,
 	sizeof(_ctrl_tmpl)/sizeof(NCS_WND_TEMPLATE),
 	0,
-	0, 
+	0,
     0,
 };
 
@@ -158,10 +160,10 @@ int MiniGUIMain(int argc, const char* argv[])
 {
 	ncsInitialize();
 
-	mDialogBox* dialog = 
+	mDialogBox* dialog =
         (mDialogBox *)ncsCreateMainWindowIndirect (&mainwnd_tmpl, HWND_DESKTOP);
 
-    LoadBitmap(HDC_SCREEN, &demoBmp, "listfolder.png"); 
+    LoadBitmap(HDC_SCREEN, &demoBmp, "./res/listfolder.png");
     list_init (dialog, &demoBmp);
 
 	_c(dialog)->doModal(dialog, TRUE);
@@ -171,3 +173,15 @@ int MiniGUIMain(int argc, const char* argv[])
 
 	return 0;
 }
+#else //_MGNCSCTRL_LIST
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the list contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-list ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_LIST

@@ -1,6 +1,6 @@
 
-/* 
- ** $Id: classic_listview.c 641 2009-11-10 01:48:49Z xwyan $
+/*
+ ** $Id: classic_listview.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The classic renderer implementation of mListView control.
  **
@@ -34,6 +34,8 @@
 #include "mlistview.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_LISTVIEW
+
 extern mWidgetRenderer classic_widget_renderer;
 
 static char* _get_icon_file(const char* rdr_name, char* file, char* _szValue)
@@ -54,7 +56,7 @@ static char* _get_icon_file(const char* rdr_name, char* file, char* _szValue)
     return _szValue;
 }
 
-static void classic_drawFold (mListView *self, HDC hdc, 
+static void classic_drawFold (mListView *self, HDC hdc,
         const RECT* pRect, DWORD color, HICON icon, int status, int next)
 {
     int i;
@@ -73,9 +75,9 @@ static void classic_drawFold (mListView *self, HDC hdc,
 
     if (status & LFRDR_TREE_WITHICON) {
         char szValue[255];
-        HICON hFoldIcon   = 
+        HICON hFoldIcon   =
             (HICON)RetrieveRes (_get_icon_file("classic", (char*)SYSICON_TREEFOLD, szValue));
-        HICON hUnFoldIcon = 
+        HICON hUnFoldIcon =
             (HICON)RetrieveRes (_get_icon_file("classic", (char*)SYSICON_TREEUNFOLD, szValue));
 
         if (status & LFRDR_TREE_CHILD) {
@@ -124,17 +126,17 @@ static void classic_drawFold (mListView *self, HDC hdc,
 
         for(i = 0; i < pen_width; i++)
         {
-            Rectangle(hdc, centerX - minSize + i, centerY - minSize + i, 
+            Rectangle(hdc, centerX - minSize + i, centerY - minSize + i,
                     centerX + minSize - 1 - i, centerY + minSize - 1 - i);
 
-            MoveTo(hdc, centerX - minSize + 2 * pen_width, 
+            MoveTo(hdc, centerX - minSize + 2 * pen_width,
                     centerY - (pen_width>>1) + i);
-            LineTo(hdc, centerX + minSize -1 - 2 * pen_width, 
+            LineTo(hdc, centerX + minSize -1 - 2 * pen_width,
                     centerY - (pen_width>>1) + i);
 
             if(status & LFRDR_TREE_FOLD)
             {
-                MoveTo(hdc, centerX - (pen_width>>1) + i, 
+                MoveTo(hdc, centerX - (pen_width>>1) + i,
                         centerY - minSize + 2 * pen_width);
                 LineTo(hdc, centerX - (pen_width>>1) + i,
                         centerY + minSize - 1 - 2 * pen_width);
@@ -169,4 +171,5 @@ mListViewRenderer classic_listview_renderer = {
 	(mItemViewRenderer*)(void *)&classic_widget_renderer
 };
 
+#endif //_MGNCSCTRL_LISTVIEW
 

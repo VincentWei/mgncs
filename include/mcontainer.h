@@ -12,22 +12,23 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
- 
+
   	\endverbatim
  */
 
 
 /**
- * $Id: mcontainer.h 844 2010-02-26 03:05:57Z dongjunjie $
+ * $Id: mcontainer.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *          Copyright (C) 2009 Feynman Software.
  */
+#ifdef _MGNCSCTRL_CONTAINER
 
 #ifndef _MGUI_WIDGET_CTNR_H
 #define _MGUI_WIDGET_CTNR_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,7 +56,7 @@ typedef struct _mContainerRenderer mContainerRenderer;
 /**
  * \struct mContainer
  * \brief The structure of mContainer, which derived from \a mScrollWidget.
- *        It is a control with scrollbars which is capable of containing other 
+ *        It is a control with scrollbars which is capable of containing other
  *        controls. When the user uses the scrollbars, it will scroll its content
  *        automatically.
  *
@@ -77,7 +78,7 @@ struct _mContainer
 
 /**
  * \struct mContainerClass
- * \brief The virtual function table of mContainer, which derived from 
+ * \brief The virtual function table of mContainer, which derived from
  *        mScrollWidgetClass.
  *
  *  - BOOL (*\b addIntrinsicControls)(mContainer *self, const PCTRLDATA pCtrl, int nCount); \n
@@ -112,7 +113,7 @@ struct _mContainerClass
 
 /**
  * \struct mContainerRenderer
- * \brief The renderer structure of mContainer, which inheried from 
+ * \brief The renderer structure of mContainer, which inheried from
  *        mScrollWidgetRenderer.
  */
 struct  _mContainerRenderer {
@@ -130,7 +131,7 @@ MGNCS_EXPORT extern mContainerClass g_stmContainerCls;
 
 /**
  * \def NCSS_CTNR_SHIFT
- * \brief The bits used by mContainer in style. 
+ * \brief The bits used by mContainer in style.
  */
 #define NCSS_CTNR_SHIFT NCSS_SWGT_SHIFT
 
@@ -151,3 +152,4 @@ enum mContainerNotify {
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_WIDGET_CTNR_H */
+#endif 	//_MGNCSCTRL_CONTAINER

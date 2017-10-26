@@ -12,14 +12,15 @@
     All rights reserved by Feynman Software.
 
     This file is part of mgncs, which is new control set of MiniGUI.
- 
+
  \endverbatim
  */
 
+#ifdef _MGNCSCTRL_COMBOBOX
 
 #ifndef _MGUI_PANEL_COMBOBOX_H
 #define _MGUI_PANEL_COMBOBOX_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,7 +42,7 @@ typedef struct _mComboboxClass      mComboboxClass;
 typedef struct _mComboboxRenderer   mComboboxRenderer;
 
 #define mComboboxHeader(clsName) \
-	mPanelHeader(clsName) \
+	 mPanelHeader(clsName) \
     mListBox *listbox; \
     mSlEdit *edit; \
     RECT rcList; \
@@ -50,7 +51,7 @@ typedef struct _mComboboxRenderer   mComboboxRenderer;
     unsigned int flag; \
     int dropWidth;
 
-/** 
+/**
  * \struct mCombobox
  * \brief the struct of combobox control, derived from \ref mPanel.
  *
@@ -85,7 +86,7 @@ struct _mCombobox
     void (*setAddData)(clsName *self, int index, DWORD addData); \
     DWORD (*getAddData)(clsName *self, int index);
 
-/** 
+/**
  * \struct mComboboxClass
  * \brief the VTable of \a mCombobox, derived from \ref mPanelClass.
  *
@@ -101,15 +102,15 @@ struct _mCombobox
  *    \param index - the item index to remove
  *
  *  - BOOL \b setItem(\a mCombobox *self, int index, const char *item); \n
- *    set the content of one item 
+ *    set the content of one item
  *    \param index - the item index to set
  *    \param item - the content to set
  *
  *  - char * \b getItem(\a mCombobox *self, int index); \n
- *    get the content of one item 
+ *    get the content of one item
  *    \param index - the item index to get
- *       
- */ 
+ *
+ */
 struct _mComboboxClass
 {
 	mComboboxClassHeader(mCombobox, mPanel)
@@ -119,7 +120,7 @@ MGNCS_EXPORT extern mComboboxClass g_stmComboboxCls;
 
 #define mComboboxRendererHeader(clsName, parentClass) \
 	mPanelRendererHeader(clsName, parentClass) \
-	void (*drawDropDownBtn)(clsName* self, HDC, const RECT*); 
+	void (*drawDropDownBtn)(clsName* self, HDC, const RECT*);
 
 /**
  * \struct mComboboxRenderer
@@ -128,7 +129,7 @@ MGNCS_EXPORT extern mComboboxClass g_stmComboboxCls;
  * \sa mCombobox, mComboboxClass
  *
  *  - void \b drawDropDownBtn(\a mCombobox *self, HDC hdc, const RECT *rc);\n
- *    draw the drop down button 
+ *    draw the drop down button
  *    \param hdc - the DC in which draw button
  *    \param rc- the Rectange of the button
  *
@@ -147,20 +148,20 @@ enum mComboboxProp {
 	 *  - Type int
 	 *  - Read Write
 	 */
-    NCSP_COMB_ITEMHEIGHT = NCSP_LSTBOX_ITEMHEIGHT, 
+    NCSP_COMB_ITEMHEIGHT = NCSP_LSTBOX_ITEMHEIGHT,
 	/**
 	 * \brief Get the count of list items
 	 *  - Type int
 	 *  - ReadOnly
 	 */
-    NCSP_COMB_ITEMCOUNT = NCSP_LSTBOX_ITEMCOUNT,   
+    NCSP_COMB_ITEMCOUNT = NCSP_LSTBOX_ITEMCOUNT,
 	/**
 	 * \brief Get/Set the height of dropdown list
 	 *  - Type int
 	 *  - Read Write
 	 *  - the dropdown list height
 	 */
-	NCSP_COMB_DROPDOWNHEIGHT = NCSP_PANEL_MAX + 1, 
+	NCSP_COMB_DROPDOWNHEIGHT = NCSP_PANEL_MAX + 1,
 	/**
 	 * \brief Get/Set the Text limit of edit
 	 *  - Type int
@@ -270,3 +271,4 @@ enum enumComboboxNotify {
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_PANEL_COMBOBOX_H */
+#endif		//_MGNCSCTRL_COMBOBOX

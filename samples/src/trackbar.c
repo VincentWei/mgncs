@@ -10,6 +10,8 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined _MGNCSCTRL_TRACKBAR && defined _MGNCSCTRL_RECTANGLE && _MGNCSCTRL_DIALOGBOX
+
 #define ID_TRB1     101
 #define ID_TRB2     102
 #define ID_RECT		200
@@ -56,7 +58,7 @@ static void trackbar_notify(mTrackBar* self, int id, int code, DWORD add_data)
 		}
 
 		fill_color = MakeRGBA(r, g, b,255);
-		
+
 		const RECT rc = {10, 10, 230, 230};
 
 		_c(rect)->setProperty(rect, NCSP_RECTANGLE_FILLCOLOR, fill_color);
@@ -101,7 +103,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	},
 
 	{
-		NCSCTRL_TRACKBAR, 
+		NCSCTRL_TRACKBAR,
 		ID_TRB1,
 		10, 260, 240, 40,
 		WS_BORDER | WS_VISIBLE | NCSS_TRKBAR_NOTICK | NCSS_NOTIFY ,
@@ -116,7 +118,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		MakeRGBA(255,0,0,255)
 	},
     {
-		NCSCTRL_TRACKBAR, 
+		NCSCTRL_TRACKBAR,
 		ID_TRB2,
 		260, 10, 40, 240,
 		WS_BORDER | WS_VISIBLE | NCSS_NOTIFY | NCSS_TRKBAR_VERTICAL,
@@ -140,7 +142,7 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 320, 330,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -165,16 +167,25 @@ int MiniGUIMain(int argc, const char* argv[])
 
 
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+#else //_MGNCSCTRL_TRACKBAR _MGNCSCTRL_RECTANGLE
 
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the trackbar, rectangle, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-trackbar --enable-rectangle --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_TRACKBAR

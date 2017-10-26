@@ -1,5 +1,5 @@
-/* 
- ** $Id: fashion_combobox.c 690 2009-12-01 05:18:46Z hejia $
+/*
+ ** $Id: fashion_combobox.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The fashion renderer implementation of mCombobox.
  **
@@ -35,6 +35,8 @@
 #include "mcombobox.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_COMBOBOX
+
 #ifdef _MGNCS_RDR_FASHION
 
 extern mWidgetRenderer fashion_widget_renderer;
@@ -43,19 +45,19 @@ static void fashion_drawDropDownBtn (mCombobox *self, HDC hdc, const RECT *rect)
 {
 	DWORD fgc_3d;
     DWORD status;
-    
+
     fgc_3d = ncsGetElement(self, NCS_BGC_3DBODY);
 
     if (IS_SET (self, NCSF_CMBOX_HILIGHT)) {
 		status = NCSRS_HIGHLIGHT;
-    } else { 
+    } else {
 		status = NCSRS_NORMAL;
     }
 
 	//draw 3dbox
-	self->renderer->draw3dbox(self, hdc, rect, fgc_3d, status|NCSRF_FILL);	
+	self->renderer->draw3dbox(self, hdc, rect, fgc_3d, status|NCSRF_FILL);
 	//draw arrow
-	self->renderer->drawArrow(self, hdc, rect, NCSR_ARROW_DOWN, 
+	self->renderer->drawArrow(self, hdc, rect, NCSR_ARROW_DOWN,
 		ncsGetElement(self, NCS_FGC_WINDOW), NCSRF_FILL);
 }
 
@@ -72,3 +74,4 @@ mComboboxRenderer fashion_combobox_renderer =
 	(void*)&fashion_widget_renderer
 };
 #endif //_MGNCS_RDR_FASHION
+#endif //_MGNCSCTRL_COMBOBOX

@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_IMWORDSEL
 
 #ifndef _MGUI_SIMPLE_LIST_H
 #define _MGUI_SIMPLE_LIST_H
@@ -48,5 +49,6 @@ enum mSimpleListPieceEvent {
 
 
 #endif
+#endif		//_MGNCSCTRL_IMWORDSEL
 
 

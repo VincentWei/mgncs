@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_SPINBOX
 
 #ifndef _MGUI_NCSCTRL_SPNRPIECE_H
 #define _MGUI_NCSCTRL_SPNRPIECE_H
@@ -21,8 +22,8 @@ struct _mSpinBoxPieceClass
 MGNCS_EXPORT extern mSpinBoxPieceClass g_stmSpinBoxPieceCls;
 
 #define mSpinBoxPieceHeader(clss) \
-	mSpinnerPieceHeader(clss)  
-	
+	mSpinnerPieceHeader(clss)
+
 struct _mSpinBoxPiece
 {
 	mSpinBoxPieceHeader(mSpinBoxPiece)
@@ -33,4 +34,5 @@ struct _mSpinBoxPiece
 #endif
 
 #endif
+#endif //_MGNCSCTRL_SPINBOX
 

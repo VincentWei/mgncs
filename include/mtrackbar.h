@@ -12,13 +12,14 @@
     All rights reserved by Feynman Software.
 
     This file is part of mgncs, which is new control set of MiniGUI.
- 
+
  \endverbatim
  */
+#ifdef _MGNCSCTRL_TRACKBAR
 
 #ifndef _MGUI_NCSCTRL_TRACKBAR_H
 #define _MGUI_NCSCTRL_TRACKBAR_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -39,9 +40,9 @@ typedef struct _mTrackBarClass       mTrackBarClass;
 typedef struct _mTrackBarRenderer    mTrackBarRenderer;
 
 #define mTrackBarHeader(Class) \
-    mSliderHeader(Class) 
+    mSliderHeader(Class)
 
-/** 
+/**
  * \struct mTrackBar
  * \brief the TrackBar struct of TrackBar control, derived from \ref mSlider.
  *
@@ -53,14 +54,14 @@ struct _mTrackBar
 };
 
 #define mTrackBarClassHeader(clsName, parentClass) \
-	mSliderClassHeader(clsName, parentClass) 
+	mSliderClassHeader(clsName, parentClass)
 
-/** 
+/**
  * \struct mTrackBarClass
  * \brief the VTable of \a mTrackBar, derived from \ref mSliderClass.
  *
  * \sa mSliderClass
- */ 
+ */
 struct _mTrackBarClass
 {
 	mTrackBarClassHeader(mTrackBar, mSlider)
@@ -83,7 +84,7 @@ MGNCS_EXPORT extern mTrackBarClass g_stmTrackBarCls;
 
 
 #define mTrackBarRendererHeader(clsName, parentClass) \
-	mSliderRendererHeader(clsName, parentClass) 
+	mSliderRendererHeader(clsName, parentClass)
 
 /**
  * \struct mTrackBarRenderer
@@ -110,7 +111,7 @@ enum mTrackBarCalcArea {
  * \def NCSP_TRKBAR_MINPOS
  * \brief The value of the minimum position.
  */
-#define NCSP_TRKBAR_MINPOS		NCSP_SLIDER_MINPOS  
+#define NCSP_TRKBAR_MINPOS		NCSP_SLIDER_MINPOS
 /**
  * \def NCSP_TRKBAR_CURPOS
  * \brief The value of the current position.
@@ -169,7 +170,7 @@ enum mTrackBarProp{
  * \def NCSS_TRKBAR_NOTICK
  * \brief TrackBar without tick.
  */
-#define NCSS_TRKBAR_NOTICK     (0x0001L<<NCSS_SLIDER_SHIFT) 
+#define NCSS_TRKBAR_NOTICK     (0x0001L<<NCSS_SLIDER_SHIFT)
 
 #define NCSS_TRKBAR_SHIFT      NCSS_SLIDER_SHIFT + 1
 
@@ -225,4 +226,4 @@ enum mTrackBarProp{
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_TRACKBAR_H */
-
+#endif //_MGNCSCTRL_TRACKBAR

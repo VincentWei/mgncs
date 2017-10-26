@@ -14,7 +14,7 @@
 #include "mobject.h"
 #include "mtype.h"
 #include "mcomponent.h"
-#if _MGNCS_DATASOURCE
+//#if _MGNCSDB_DATASOURCE
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #include "minids.h"
@@ -35,6 +35,8 @@ extern int ftruncate(int fd, off_t length);
 #include <unistd.h>
 #include <sys/types.h>
 #endif
+
+#ifdef _MGNCSDB_INI
 
 /////////////////////////////////
 // Creating structs
@@ -2043,12 +2045,13 @@ int ftruncate(int fd, off_t length)
         char c = 0;
         (void)write(fd, &c, 1);
     }
-    
+
 
     return 0;
 }
 
 #endif
 
-#endif
+#endif //_MGNCSDB_INI
+//#endif
 

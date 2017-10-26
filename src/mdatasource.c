@@ -9,7 +9,7 @@
 #include <minigui/window.h>
 
 #include "mgncsconfig.h"
-#if _MGNCS_DATASOURCE
+#if _MGNCSDB_DATASOURCE
 #include "mcommon.h"
 #include "mobject.h"
 #include "mcomponent.h"
@@ -30,7 +30,7 @@ static DWORD mDataSource_getValue(mDataSource* self, const char* mql, BOOL *bok)
 	return 0;
 }
 
-static BOOL mDataSource_setValue(mDataSource* self, const char* mql, DWORD value) 
+static BOOL mDataSource_setValue(mDataSource* self, const char* mql, DWORD value)
 {
 	return FALSE;
 }
@@ -166,7 +166,7 @@ END_MINI_CLASS
 #define mDataBindPropInfoHeader \
 	int event_filter; \
 	int type; \
-	int flags; 
+	int flags;
 
 struct mDataBindPropInfo {
 	mDataBindPropInfoHeader
@@ -311,8 +311,8 @@ END_MINI_CLASS
 static BOOL _test_data_file_bind_prop(mBindProp *p, struct data_field_bind_prop_info *pinfo)
 {
 	mDataFieldBindProp *dfp = SAFE_CAST(mDataFieldBindProp,p);
-	
-	return (dfp 
+
+	return (dfp
 		&& dfp->recordSet == pinfo->rs
 		&& dfp->revert == (unsigned short)pinfo->field_idx
 		&& dfp->event_filter == (unsigned short)pinfo->event_filter);
@@ -325,7 +325,7 @@ static mBindProp * _new_data_field_bind_prop(struct data_field_bind_prop_info* p
 
 mBindProp * ncsRegisterDataFieldBindProp(mRecordSet * rs, int field_idx, int flags, int event_filter)
 {
-	
+
 	if(!rs)
 		return NULL;
 	if(field_idx < 0 || field_idx > _c(rs)->getFieldCount(rs))
@@ -340,7 +340,7 @@ mBindProp * ncsRegisterDataFieldBindProp(mRecordSet * rs, int field_idx, int fla
 			field_idx
 		};
 
-		return ncsRegisterBindProp((mObject*)rs, 
+		return ncsRegisterBindProp((mObject*)rs,
 				(NCS_TEST_BINDPROP)_test_data_file_bind_prop,
 				(NCS_NEW_BINDPROP)_new_data_field_bind_prop,
 				(void *)&info);
@@ -367,11 +367,11 @@ extern void ncsInitTextDataSource(void);
 
 extern void ncsInitIniDataSource(void);
 
-#ifdef _MGNCS_SQLITE
+#ifdef _MGNCSDB_SQLITE
 extern void ncsInitSQLiteDataSource(void);
 #endif
 
-#ifdef _MGNCS_XML
+#ifdef _MGNCSDB_XML
 extern void ncsInitXMLDataSource(void);
 #endif
 
@@ -388,14 +388,23 @@ BOOL ncsInitDefaultDataSource(void)
 
 	init_common_parser();
 
+#ifdef _MGNCSDB_STATIC
 	ncsInitStaticDataSource();
+#endif
+
+#ifdef _MGNCSDB_TEXT
 	ncsInitTextDataSource();
+#endif
+
+#ifdef _MGNCSDB_INI
 	ncsInitIniDataSource();
-#ifdef _MGNCS_SQLITE
+#endif
+
+#ifdef _MGNCSDB_SQLITE
 	ncsInitSQLiteDataSource();
 #endif
 
-#ifdef _MGNCS_XML
+#ifdef _MGNCSDB_XML
 	ncsInitXMLDataSource();
 #endif
 	return TRUE;

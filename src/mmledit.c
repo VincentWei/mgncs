@@ -23,7 +23,7 @@
 
 #include "medit.h"
 
-#ifdef _MGNCS_OLD_MLEDIT
+#ifdef _MGNCSCTRL_OLD_MLEDIT
 
 #include "mmledit.h"
 
@@ -3328,5 +3328,5 @@ BEGIN_CMPT_CLASS (mMlEdit, mEdit)
 #endif
 END_CMPT_CLASS
 
-#endif /*ifdef _MGNCS_OLD_MLEDIT*/
+#endif /*ifdef _MGNCSCTRL_OLD_MLEDIT*/
 

@@ -32,6 +32,7 @@
 #define PMIT_CHECK 0x02
 #define PMIT_RADIO 0x03
 #define PMIT_SEPARATOR 0x04
+
 struct mPopMenuItem{
 	unsigned int type:16;
 	unsigned int flags:16;
@@ -133,11 +134,13 @@ static void mPopMenuMgr_construct(mPopMenuMgr *self, DWORD add_data)
 
 static void mPopMenuMgr_destroy(mPopMenuMgr *self)
 {
-
 	while(self->head)
 	{
 		mPopMenuItem * tmp = self->head;
 		self->head = self->head->next;
+		if (tmp->flags & PMIF_STRING){
+			free (*(UINT *)(((char*)tmp) + sizeof(mPopMenuItem)));
+		}
 		SLAB_FREE(tmp);
 	}
 
@@ -149,9 +152,9 @@ BOOL mPopMenuMgr_addItem(mPopMenuMgr *self,
 	int id, int state, mPopMenuMgr *subMenu,
 	DWORD add_data)
 {
-	mPopMenuItem item, *pitem, *ptemp;
 	UINT datas[8];
 	int count;
+	mPopMenuItem item, *pitem, *ptemp;
 
 	memset(&item, 0, sizeof(item));
 
@@ -220,9 +223,7 @@ BOOL mPopMenuMgr_addItem(mPopMenuMgr *self,
 	ptemp = self->head;
 	if(ptemp == NULL){
 		self->head = pitem;
-	}
-	else
-	{
+	} else {
 		while(ptemp->next)
 			ptemp = ptemp->next;
 		ptemp->next = pitem;

@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_SPINBOX
 
 #ifndef _MGUI_NCSCTRL_HSPINBOXPIECE_H
 #define _MGUI_NCSCTRL_HSPINBOXPIECE_H
@@ -10,7 +11,7 @@ typedef struct _mHSpinBoxPieceClass mHSpinBoxPieceClass;
 typedef struct _mHSpinBoxPiece mHSpinBoxPiece;
 
 #define mHSpinBoxPieceClassHeader(clss, superCls) \
-	mSpinBoxPieceClassHeader(clss, superCls)   
+	mSpinBoxPieceClassHeader(clss, superCls)
 
 struct _mHSpinBoxPieceClass
 {
@@ -20,8 +21,8 @@ struct _mHSpinBoxPieceClass
 MGNCS_EXPORT extern mHSpinBoxPieceClass g_stmHSpinBoxPieceCls;
 
 #define mHSpinBoxPieceHeader(clss) \
-	mSpinBoxPieceHeader(clss)  
-	
+	mSpinBoxPieceHeader(clss)
+
 struct _mHSpinBoxPiece
 {
 	mHSpinBoxPieceHeader(mHSpinBoxPiece)
@@ -32,4 +33,4 @@ struct _mHSpinBoxPiece
 #endif
 
 #endif
-
+#endif //_MGNCSCTRL_SPINBOX

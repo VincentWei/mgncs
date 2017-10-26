@@ -4,9 +4,9 @@
  * btree.c: btree implementation.
  *
  * Copyright (C) 2010 Feynman Software.
- * 
+ *
  * All rights reserved by Feynman Software.
- * 
+ *
  * Author: Yan Xiaowei
  *
  * Create date: 2004/03/01
@@ -36,7 +36,8 @@
 #include "mcomponent.h"
 #endif
 
-#if _MGHAVE_NEWTEXTEDIT || _MGNCS_TEXTEDITOR
+//#if _MGHAVE_NEWTEXTEDIT || _MGNCSCTRL_TEXTEDITOR
+#if defined(_MGNCSCTRL_TEXTEDITOR) || (defined(_MGCTRL_TEXTEDIT) && defined(_MGCTRL_TEXTEDIT_USE_NEW_IMPL))
 
 #include "mbtree.h"
 
@@ -50,7 +51,7 @@ static mCommBTreeNode* mCommBTree_newNode(mCommBTree *self)
     return NEW(mCommBTreeNode);
 }
 
-static BOOL mCommBTree_insertLeaf(mCommBTree *self, 
+static BOOL mCommBTree_insertLeaf(mCommBTree *self,
         mCommBTreeNode *parent, mCommBTreeNode *sibLeaf, mCommBTreeNode *leaf)
 {
     mCommBTreeNode *node = NULL;
@@ -232,7 +233,7 @@ static void mCommBTree_rebalanceNode(mCommBTree *self, mCommBTreeNode *node)
                     mCommBTreeNode *leaf;
                     for (i = self->minChildrenNum - 1,
                             leaf = node->children;
-                            i > 0; i--, leaf = leaf->next) 
+                            i > 0; i--, leaf = leaf->next)
                     {
                         /* Empty loop body. */
                     }
@@ -249,7 +250,7 @@ static void mCommBTree_rebalanceNode(mCommBTree *self, mCommBTreeNode *node)
                     break;
                 }
             } //end while(1)
-        } //end if (node->numChildren > self->maxChildrenNum) 
+        } //end if (node->numChildren > self->maxChildrenNum)
 
         while (node->numChildren < self->minChildrenNum) {
             mCommBTreeNode *other, *halfwaynode = NULL;
@@ -258,8 +259,8 @@ static void mCommBTree_rebalanceNode(mCommBTree *self, mCommBTreeNode *node)
             /*
              * Too few children for this mCommBTreeNode. If this is the root then,
              * it's OK for it to have less than self->minChildrenNum children
-             * as lon as it's at least two. If it has only one (and isn't at 
-             * level 1), then chop the root mCommBTreeNode out of the tree and 
+             * as lon as it's at least two. If it has only one (and isn't at
+             * level 1), then chop the root mCommBTreeNode out of the tree and
              * use its child as the new root.
              */
 
@@ -285,7 +286,7 @@ static void mCommBTree_rebalanceNode(mCommBTree *self, mCommBTreeNode *node)
             if (node->next == NULL) {
                 for (other = (mCommBTreeNode*)(((mCommBTreeNode*)(node->parent))->children);
                         other->next != node;
-                        other = other->next) 
+                        other = other->next)
                 {
                     /* Empty loop body. */
                 }
@@ -359,7 +360,7 @@ static mCommBTreeNode* _search_leaf(mCommBTreeNode *node, void *searchInfo, int 
         if (node->level == 0)
             return node;
         return _search_leaf(node->children, searchInfo,flags);
-    } 
+    }
     else if (ret == BTREE_ERRNO_SNEXT) {
 		if(!node->next && (flags & BTSF_RETLAST_IF_OUTOFRANGE))
 		{
@@ -412,7 +413,7 @@ static void mCommBTree_construct(mCommBTree* self, va_list va)
         leaf->next      = leaf2;
         leaf2->parent   = rootNode;
         leaf2->next     = NULL;
-        
+
         self->rootNode = rootNode;
     }
 }
@@ -485,7 +486,7 @@ static mCommBTreeNode* _get_left_leaf(mCommBTreeNode *node)
 
 static void mCommBTreeLeafIterator_construct(mCommBTreeLeafIterator* self, va_list va)
 {
-	ncsParseConstrcutParams(va, "pp", &self->tree, &self->current);
+	ncsParseConstructParams(va, "pp", &self->tree, &self->current);
     _SUPER(mObject, self, construct, 0);
 
 	if(self->tree && !self->current)
@@ -500,7 +501,7 @@ static void mCommBTreeLeafIterator_remove(mCommBTreeLeafIterator* self)
     _c(self->tree)->deleteNode(self->tree, delNode);
 }
 
-static void mCommBTreeLeafIterator_insert(mCommBTreeLeafIterator* self, 
+static void mCommBTreeLeafIterator_insert(mCommBTreeLeafIterator* self,
         mCommBTreeNode *leaf)
 {
     if (!self || !self->tree || !self->current)
@@ -532,8 +533,8 @@ static mCommBTreeNode* mCommBTreeLeafIterator_getCurrent(mCommBTreeLeafIterator*
 static BOOL mCommBTreeLeafIterator_hasNext(mCommBTreeLeafIterator* self)
 {
     if (self && self->tree && self->current) {
-        if (self->current->next 
-                || _get_left_leaf(_get_next_parent(self->current->parent))) 
+        if (self->current->next
+                || _get_left_leaf(_get_next_parent(self->current->parent)))
             return TRUE;
     }
     return FALSE;
@@ -542,9 +543,9 @@ static BOOL mCommBTreeLeafIterator_hasNext(mCommBTreeLeafIterator* self)
 static mCommBTreeNode* mCommBTreeLeafIterator_next(mCommBTreeLeafIterator* self)
 {
     if (self && self->tree && self->current) {
-        if (self->current->next) 
+        if (self->current->next)
             self->current = self->current->next;
-        else 
+        else
             self->current = _get_left_leaf(_get_next_parent(self->current->parent));
         return self->current;
     }
@@ -616,7 +617,7 @@ static void mCommBTreeNode_changeKey(mCommBTreeNode *self, void *diffInfo, int d
         }
     }
 
-    if (self->parent) 
+    if (self->parent)
 		_c(self->parent)->changeKey(self->parent, diffInfo, deltaChild);
 }
 

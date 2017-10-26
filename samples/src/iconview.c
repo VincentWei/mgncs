@@ -1,5 +1,5 @@
 /**
- * $Id: iconview.c 1116 2010-12-02 04:03:35Z dongjunjie $
+ * $Id: iconview.c 1683 2017-10-26 06:52:09Z weiym $
  *
  * Listing P2C14.3
  *
@@ -8,7 +8,7 @@
  *
  * Copyright (C) 2009 Feynman Software.
  */
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 // END_OF_INCS
+
+#if defined _MGNCSCTRL_ICONVIEW && defined _MGNCSCTRL_DIALOGBOX
 
 #define IDC_ICONVIEW    100
 #define IDC_ADD         600
@@ -83,22 +85,22 @@ static BOOL iconv_init(mDialogBox* self)
 
     for(i = 0; i < TABLESIZE(icon_demos); i++)
     {
-        pos = 0; 
-        memset (&info, 0, sizeof(NCS_ICONV_ITEMINFO)); 
-        info.bmp = &icon_demos[i]; 
-        info.index = TABLESIZE(icon_demos) * j + i; 
-        info.label = iconlabels[i]; 
-        info.addData = (DWORD)iconlabels[i]; 
-        _c(iconvObj)->addItem(iconvObj, &info, &pos); 
-    } 
-    _c(iconvObj)->setCurSel(iconvObj, 0); 
-// END_OF_ADDITEMS 
+        pos = 0;
+        memset (&info, 0, sizeof(NCS_ICONV_ITEMINFO));
+        info.bmp = &icon_demos[i];
+        info.index = TABLESIZE(icon_demos) * j + i;
+        info.label = iconlabels[i];
+        info.addData = (DWORD)iconlabels[i];
+        _c(iconvObj)->addItem(iconvObj, &info, &pos);
+    }
+    _c(iconvObj)->setCurSel(iconvObj, 0);
+// END_OF_ADDITEMS
 
     return TRUE;
 }
 
 // START_OF_WNDHANDLERS
-static BOOL mainwnd_onKeyDown(mWidget* self, 
+static BOOL mainwnd_onKeyDown(mWidget* self,
         int message, int code, DWORD key_status)
 {
     if (message == MSG_KEYDOWN) {
@@ -107,7 +109,7 @@ static BOOL mainwnd_onKeyDown(mWidget* self,
             int curSel, count;
             HITEM delItem;
 
-            iconView = 
+            iconView =
                 (mIconView*)ncsObjFromHandle(GetDlgItem (self->hwnd, IDC_ICONVIEW));
             count = _c(iconView)->getItemCount(iconView);
 
@@ -160,7 +162,7 @@ static NCS_EVENT_HANDLER iconv_handlers[] = {
 // START_OF_BTNHANDLERS
 static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
 {
-    mIconView *iconvObj = 
+    mIconView *iconvObj =
         (mIconView *)ncsGetChildObj(GetParent(self->hwnd), IDC_ICONVIEW);
 
     if (!iconvObj)
@@ -215,31 +217,31 @@ static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
 
 static NCS_EVENT_HANDLER btn_handlers [] = {
     NCS_MAP_NOTIFY(NCSN_BUTTON_PUSHED, btn_notify),
-	{0, NULL}	
+	{0, NULL}
 };
 // END_OF_BTNHANDLERS
 
-static NCS_RDR_INFO iconv_rdr_info = {
-	"classic", "classic", NULL
+static NCS_RDR_INFO iconv_rdr_info[] = {
+	{ "classic", "classic", NULL },
 };
 
 static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 	{
-		NCSCTRL_ICONVIEW, 
+		NCSCTRL_ICONVIEW,
 		IDC_ICONVIEW,
         15, 10, 220, 250,
         WS_BORDER | WS_CHILD | WS_VISIBLE | NCSS_NOTIFY | NCSS_ICONV_LOOP,
 		WS_EX_NONE,
 		"",
 		NULL,
-		&iconv_rdr_info,
+		iconv_rdr_info,
 		iconv_handlers,
 		NULL,
 		0,
 		0
 	},
 	{
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_ADD,
         15, 280, 80, 30,
         WS_VISIBLE | NCSS_NOTIFY,
@@ -247,29 +249,29 @@ static NCS_WND_TEMPLATE _ctrl_tmpl[] = {
 		"add",
 		NULL,
 		NULL,
-		btn_handlers, 
+		btn_handlers,
 		NULL,
 		0,
-		0 
+		0
 	},
 	{
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
         IDC_DELETE,
         155, 280, 80, 30,
         WS_VISIBLE | NCSS_NOTIFY,
 		WS_EX_NONE,
 		"delete",
-		NULL, 
+		NULL,
 		NULL,
 		btn_handlers,
-		NULL, 
+		NULL,
 		0,
-		0 
+		0
 	},
 };
 
 static NCS_MNWND_TEMPLATE mainwnd_tmpl = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	7,
 	0, 0, 260, 350,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -286,8 +288,13 @@ static NCS_MNWND_TEMPLATE mainwnd_tmpl = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
+	if (argc > 1) {
+		iconv_rdr_info[0].glb_rdr = argv[1];
+		iconv_rdr_info[0].ctl_rdr = argv[1];
+	}
+
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mainwnd_tmpl, HWND_DESKTOP);
 
     iconv_init(mydlg);
@@ -295,3 +302,15 @@ int MiniGUIMain(int argc, const char* argv[])
 	ncsUninitialize();
 	return 0;
 }
+#else //_MGNCSCTRL_ICONVIEW _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the iconview dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-iconview --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_ICONVIEW _MGNCSCTRL_DIALOGBOX

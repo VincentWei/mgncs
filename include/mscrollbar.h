@@ -12,13 +12,14 @@
     All rights reserved by Feynman Software.
 
     This file is part of mgncs, which is new control set of MiniGUI.
- 
+
  \endverbatim
  */
+#ifdef _MGNCSCTRL_SCROLLBAR
 
 #ifndef _MGUI_NCSCTRL_SCRLBR_H
 #define _MGUI_NCSCTRL_SCRLBR_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -39,9 +40,9 @@ typedef struct _mScrollBarClass       mScrollBarClass;
 typedef struct _mScrollBarRenderer    mScrollBarRenderer;
 
 #define mScrollBarHeader(Class) \
-    mSliderHeader(Class) 
+    mSliderHeader(Class)
 
-/** 
+/**
  * \struct mScrollBar
  * \brief the scrollbar struct of scrollbar control, derived from \ref mSlider.
  *
@@ -53,14 +54,14 @@ struct _mScrollBar
 };
 
 #define mScrollBarClassHeader(clsName, parentClass) \
-	mSliderClassHeader(clsName, parentClass) 
+	mSliderClassHeader(clsName, parentClass)
 
-/** 
+/**
  * \struct mScrollBarClass
  * \brief the VTable of \a mScrollBar, derived from \ref mSliderClass.
  *
  * \sa mSliderClass
- */ 
+ */
 struct _mScrollBarClass
 {
 	mScrollBarClassHeader(mScrollBar, mSlider)
@@ -84,7 +85,7 @@ MGNCS_EXPORT extern mScrollBarClass g_stmScrollBarCls;
 
 
 #define mScrollBarRendererHeader(clsName, parentClass) \
-	mSliderRendererHeader(clsName, parentClass) 
+	mSliderRendererHeader(clsName, parentClass)
 
 /**
  * \struct mScrollBarRenderer
@@ -107,7 +108,7 @@ struct _mScrollBarRenderer
  * \def NCSP_SCRLBR_MINPOS
  * \brief The value of the minimum position.
  */
-#define NCSP_SCRLBR_MINPOS		NCSP_SLIDER_MINPOS  
+#define NCSP_SCRLBR_MINPOS		NCSP_SLIDER_MINPOS
 /**
  * \def NCSP_SCRLBR_CURPOS
  * \brief The value of the current position.
@@ -208,4 +209,4 @@ struct _mScrollBarRenderer
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_SCRLBR_H */
-
+#endif //_MGNCSCTRL_SCROLLBAR

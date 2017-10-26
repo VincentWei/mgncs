@@ -27,8 +27,10 @@
 
 #include "piece.h"
 
+#if _MGNCSCTRL_SCROLLBAR
+
 #define SCROLLBAR_ARROW_SIZE  16
-#define MIN_THUMB_SIZE 10 
+#define MIN_THUMB_SIZE 10
 
 #define REACH_MIN 1
 #define REACH_MAX 2
@@ -41,14 +43,14 @@ static mSliderPiece* get_slider_piece(mScrollBar *self)
 		return NULL;
 
 	dwStyle = GetWindowStyle(self->hwnd);
-	
+
 	if(dwStyle & NCSS_SCRLBR_LEFTDBLARROWS)
 	{
 		return (mSliderPiece*)_c(((mBoxLayoutPiece*)(Body)))->getCell((mBoxLayoutPiece*)Body, 2);
 	}
 	else if(dwStyle & NCSS_SCRLBR_RIGHTDBLARROWS)
 	{
-		return (mSliderPiece*)_c(((mBoxLayoutPiece*)(Body)))->getCell((mBoxLayoutPiece*)Body, 
+		return (mSliderPiece*)_c(((mBoxLayoutPiece*)(Body)))->getCell((mBoxLayoutPiece*)Body,
 			(dwStyle&NCSS_SCRLBR_ARROWS)?1:0);
 	}
 	else if(dwStyle&NCSS_SCRLBR_ARROWS)
@@ -89,7 +91,7 @@ static void set_reach(mScrollBar *self, int reach)
 
 	dwStyle = GetWindowStyle(self->hwnd);
 	boxlayout = (mBoxLayoutPiece*)Body;
-	
+
 	if(dwStyle&NCSS_SCRLBR_LEFTDBLARROWS)
 	{
 		//[<][>][-------=-------][>] or [<][>][------=------]
@@ -107,7 +109,7 @@ static void set_reach(mScrollBar *self, int reach)
 			count = 4;
 			set_scrollbtn_disable(_c(boxlayout)->getCell(boxlayout, 0), self, reach==REACH_MIN?TRUE:FALSE);
 		}
-		
+
 		set_scrollbtn_disable(_c(boxlayout)->getCell(boxlayout, count-2),self, reach==REACH_MIN?TRUE:FALSE);
 		set_scrollbtn_disable(_c(boxlayout)->getCell(boxlayout, count-1),self, reach==REACH_MAX?TRUE:FALSE);
 	}
@@ -153,7 +155,7 @@ static BOOL mScrollBar_onLeftPiece(mScrollBar *self, mHotPiece *sender, int even
 	if(slider)
 	{
 		RECT rc;
-		_c(slider)->stepLine(slider, TRUE);	
+		_c(slider)->stepLine(slider, TRUE);
 		_c(slider)->getRect(slider, &rc);
 		InvalidateRect(self->hwnd, &rc, TRUE);
 	}
@@ -166,7 +168,7 @@ static BOOL mScrollBar_onRightPiece(mScrollBar *self, mHotPiece *sender, int eve
 	if(slider)
 	{
 		RECT rc;
-		_c(slider)->stepLine(slider, FALSE);	
+		_c(slider)->stepLine(slider, FALSE);
 		_c(slider)->getRect(slider, &rc);
 		InvalidateRect(self->hwnd, &rc, TRUE);
 	}
@@ -181,21 +183,21 @@ static mObject * mScrollBar_createBody(mScrollBar *self)
     RECT rc;
 
 	int event_ids[] = {
-		NCSN_SLIDERPIECE_POSCHANGED, 
+		NCSN_SLIDERPIECE_POSCHANGED,
 		NCSN_SLIDERPIECE_REACHMAX,
 		NCSN_SLIDERPIECE_REACHMIN,
 		0
 	};
 	DWORD dwStyle = GetWindowStyle(self->hwnd);
-	
+
 	mBoxLayoutPiece * boxlayout = NULL;
 	mBoxLayoutPieceClass * boxlayout_cls = NULL;
 
 	mSliderPiece * sliderPiece = NEWPIECE(mSliderPiece);
-	
+
 	sliderPiece->body = (mHotPiece*)NEWPIECE(mScrollBarPiece);
 	sliderPiece->thumb = (mHotPiece*)NEWPIECE(mScrollThumbBoxPiece);
-	
+
 	if(dwStyle & NCSS_SCRLBR_VERTICAL)
 	{
 		boxlayout_cls = (mBoxLayoutPieceClass*)(void *)&Class(mVBoxLayoutPiece);
@@ -222,16 +224,16 @@ static mObject * mScrollBar_createBody(mScrollBar *self)
 		boxlayout = (mBoxLayoutPiece*)ncsNewPiece((mHotPieceClass*)boxlayout_cls, count);
 		_c(boxlayout)->setCellInfo(boxlayout, 0, SCROLLBAR_ARROW_SIZE, 0, 0);
 		_c(boxlayout)->setCell(boxlayout, 0, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, left_type));
-		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 0), 
-                (mObject*)self, 
-                (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece, 
+		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 0),
+                (mObject*)self,
+                (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece,
                 NCSN_ABP_PUSHED);
 
 		_c(boxlayout)->setCellInfo(boxlayout, 1, SCROLLBAR_ARROW_SIZE, 0, 0);
 		_c(boxlayout)->setCell(boxlayout, 1, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, right_type));
-		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 1), 
-                (mObject*)self, 
-                (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece, 
+		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 1),
+                (mObject*)self,
+                (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece,
                 NCSN_ABP_PUSHED);
 
 		_c(boxlayout)->setCell(boxlayout, 2, (mHotPiece*)sliderPiece);
@@ -240,9 +242,9 @@ static mObject * mScrollBar_createBody(mScrollBar *self)
 		{
 			_c(boxlayout)->setCellInfo(boxlayout, 3, SCROLLBAR_ARROW_SIZE, 0, 0);
 			_c(boxlayout)->setCell(boxlayout, 3, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, right_type));
-			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 3), 
-                    (mObject*)self, 
-                    (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece, 
+			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 3),
+                    (mObject*)self,
+                    (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece,
                     NCSN_ABP_PUSHED);
 		}
 	}
@@ -253,16 +255,16 @@ static mObject * mScrollBar_createBody(mScrollBar *self)
 		boxlayout = (mBoxLayoutPiece*)ncsNewPiece((mHotPieceClass*)boxlayout_cls, count);
 		_c(boxlayout)->setCellInfo(boxlayout, count-2, SCROLLBAR_ARROW_SIZE, 0, 0);
 		_c(boxlayout)->setCell(boxlayout, count-2, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, left_type));
-		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, count-2), 
-                (mObject*)self, 
-                (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece, 
+		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, count-2),
+                (mObject*)self,
+                (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece,
                 NCSN_ABP_PUSHED);
 
 		_c(boxlayout)->setCellInfo(boxlayout, count-1, SCROLLBAR_ARROW_SIZE, 0, 0);
 		_c(boxlayout)->setCell(boxlayout, count-1, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, right_type));
-		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, count-1), 
-                (mObject*)self, 
-                (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece, 
+		ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, count-1),
+                (mObject*)self,
+                (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece,
                 NCSN_ABP_PUSHED);
 
 		_c(boxlayout)->setCell(boxlayout, count-3, (mHotPiece*)sliderPiece);
@@ -271,12 +273,12 @@ static mObject * mScrollBar_createBody(mScrollBar *self)
 		{
 			_c(boxlayout)->setCellInfo(boxlayout, 0, SCROLLBAR_ARROW_SIZE, 0, 0);
 			_c(boxlayout)->setCell(boxlayout, 0, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, left_type));
-			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 0), 
-                    (mObject*)self, 
-                    (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece, 
+			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 0),
+                    (mObject*)self,
+                    (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece,
                     NCSN_ABP_PUSHED);
 		}
-	
+
 	}
 	else
 	{
@@ -286,26 +288,26 @@ static mObject * mScrollBar_createBody(mScrollBar *self)
 			boxlayout = (mBoxLayoutPiece*)ncsNewPiece((mHotPieceClass*)boxlayout_cls, count);
 			_c(boxlayout)->setCellInfo(boxlayout, 0, SCROLLBAR_ARROW_SIZE, 0, 0);
 			_c(boxlayout)->setCell(boxlayout, 0, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, left_type));
-			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 0), 
-                    (mObject*)self, 
-                    (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece, 
+			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 0),
+                    (mObject*)self,
+                    (NCS_CB_ONPIECEEVENT)mScrollBar_onLeftPiece,
                     NCSN_ABP_PUSHED);
 			_c(boxlayout)->setCellInfo(boxlayout, 2, SCROLLBAR_ARROW_SIZE, 0, 0);
 			_c(boxlayout)->setCell(boxlayout, 2, (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, right_type));
-			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 2), 
-                    (mObject*)self, 
-                    (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece, 
+			ncsAddEventListener((mObject*)_c(boxlayout)->getCell(boxlayout, 2),
+                    (mObject*)self,
+                    (NCS_CB_ONPIECEEVENT)mScrollBar_onRightPiece,
                     NCSN_ABP_PUSHED);
 			_c(boxlayout)->setCell(boxlayout, 1, (mHotPiece*)sliderPiece);
 		}
 		else
 		{
-			//[-----=-----] 
+			//[-----=-----]
 			//unneed use boxlayout
 		}
 	}
 
-	ncsAddEventListeners( (mObject*)sliderPiece, 
+	ncsAddEventListeners( (mObject*)sliderPiece,
             (mObject*)self,(NCS_CB_ONPIECEEVENT)mScrollBar_onPiece, event_ids);
 
     GetClientRect(self->hwnd, &rc);
@@ -314,7 +316,7 @@ static mObject * mScrollBar_createBody(mScrollBar *self)
 
     if (boxlayout)
         return (mObject*)boxlayout;
-    
+
     return (mObject*)sliderPiece;
 }
 
@@ -394,7 +396,7 @@ static DWORD mScrollBar_getProperty (mScrollBar* self, int id)
 
 	if(!slider)
 		return FALSE;
-	
+
 	switch(id)
 	{
 	case NCSP_SCRLBR_MAXPOS:
@@ -415,7 +417,7 @@ static DWORD mScrollBar_getProperty (mScrollBar* self, int id)
 
 static int mScrollBar_wndProc(mScrollBar *self, int message, WPARAM wParam, LPARAM lParam)
 {
-	
+
 	if(message >= MSG_FIRSTKEYMSG && message <= MSG_LASTKEYMSG)
 	{
 		mSliderPiece * slider = get_slider_piece(self);
@@ -461,7 +463,7 @@ static int mScrollBar_onSizeChanged(mWidget *self, RECT *rtClient)
             else {
                 if(GetWindowStyle(self->hwnd)&NCSS_SCRLBR_VERTICAL)
                 {
-                    //calc size of 
+                    //calc size of
                     thumb_size = ((RECTH(rc_slider) * slider->page_step <<8) / (slider->max - slider->min))>>8;
                     if(thumb_size < MIN_THUMB_SIZE)
                         thumb_size = MIN_THUMB_SIZE;
@@ -501,7 +503,7 @@ static BOOL mScrollBar_refresh(mScrollBar* self)
 }
 #endif
 
-BEGIN_CMPT_CLASS (mScrollBar, mSlider)	
+BEGIN_CMPT_CLASS (mScrollBar, mSlider)
     CLASS_METHOD_MAP (mScrollBar, createBody )
 	CLASS_METHOD_MAP (mScrollBar, setProperty)
 	CLASS_METHOD_MAP (mScrollBar, getProperty)
@@ -512,3 +514,4 @@ BEGIN_CMPT_CLASS (mScrollBar, mSlider)
 #endif
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_SCROLLBAR

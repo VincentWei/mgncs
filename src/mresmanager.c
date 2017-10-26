@@ -1,5 +1,5 @@
 /*
-** $Id: mresmanager.c 1116 2010-12-02 04:03:35Z dongjunjie $
+** $Id: mresmanager.c 1681 2017-10-26 06:46:31Z weiym $
 **
 ** Copyright (C) 2009 Feynman Software.
 */
@@ -716,7 +716,7 @@ static void construct_wnd_template (HPACKAGE package,
 {
     NCS_RDR_INFO *rdrinfo;
     char         *clsname;
-    
+
     if (package == HPACKAGE_NULL)
         return;
 
@@ -776,7 +776,7 @@ static void construct_wnd_template (HPACKAGE package,
 
 static void release_ctrl_info(NCS_WND_TEMPLATE*  wnd_template)
 {
-    free_rdr_info(wnd_template->rdr_info);  
+    free_rdr_info(wnd_template->rdr_info);
     if(wnd_template->props)
         free(wnd_template->props);
 }
@@ -1135,7 +1135,7 @@ static void connect_events(ncs_connect_node_t* head, NCS_EVENT_CONNECT_INFO* con
     int i;
     if(!head || !connects)
         return ;
-    
+
     for(i=0; connects[i].event; i ++)
     {
         mObject * sender, *listener;
@@ -1182,23 +1182,23 @@ mMainWnd *ncsCreateMainWindowIndirectFromID (HPACKAGE package, Uint32 wndId,
     if(connects)
     {
         INIT_CREATE_NOTIFY(&create_notify, cb_on_create_child);
-        create_notify.connect_head = new_connect_node_array(connects); 
+        create_notify.connect_head = new_connect_node_array(connects);
     }
 
-    construct_wnd_template (package, header, (NCS_WND_TEMPLATE*)&tmpl, 
+    construct_wnd_template (package, header, (NCS_WND_TEMPLATE*)&tmpl,
             handlers, (NCS_CREATE_NOTIFY_INFO*)(connects?&create_notify:NULL), TRUE);
 	tmpl.user_data = user_data;
 
     tmpl.hIcon = hIcon;
     tmpl.hMenu = hMenu;
-    
+
     if(ncsIsChildClass(tmpl.class_name, NCSCTRL_MAINWND))
         mainWnd = (mMainWnd*)ncsCreateMainWindowIndirect (&tmpl, owner);
     else
         mainWnd = (mMainWnd*)ncsCreateWindowIndirect((NCS_WND_TEMPLATE*)&tmpl, owner);
 
     deconstruct_wnd_template(&tmpl);
-    
+
     //insert children
 	if(connects)
     {
@@ -1217,6 +1217,7 @@ mMainWnd *ncsCreateMainWindowIndirectFromID (HPACKAGE package, Uint32 wndId,
     return mainWnd;
 }
 
+#ifdef _MGNCSCTRL_DIALOGBOX
 int ncsCreateModalDialogFromID (HPACKAGE package, Uint32 dlgId,
                     HWND owner, HICON hIcon, HMENU hMenu,
                     NCS_EVENT_HANDLER_INFO* handlers, NCS_EVENT_CONNECT_INFO* connects)
@@ -1232,6 +1233,7 @@ int ncsCreateModalDialogFromID (HPACKAGE package, Uint32 dlgId,
 
     return ret;
 }
+#endif
 
 BOOL ncsSetSysRdr(HPACKAGE package, Uint32 rdrSetId)
 {
@@ -1293,9 +1295,9 @@ BOOL ncsSetWinRdr(HWND hWnd, HPACKAGE package, Uint32 rdrId)
         _MGRM_PRINTF ("RESMANAGER>Error: Get renderer information failure.\n");
         return FALSE;
     }
-    
 
-    _MGRM_PRINTF ("RESMANAGER>Info: ncsSetWinRdr, clsname:%s, rdr_name:%s; self information, ctrl_rdr:%s, className:%s \n", 
+
+    _MGRM_PRINTF ("RESMANAGER>Info: ncsSetWinRdr, clsname:%s, rdr_name:%s; self information, ctrl_rdr:%s, className:%s \n",
             clsname, rdrinfo->ctl_rdr, self->renderer->rdr_name, _c(self)->className);
 
     if (!ncsIsChildClass(_c(self)->className, clsname))
@@ -1702,7 +1704,7 @@ BOOL ncsGetWndTemplFromID(HPACKAGE package, Uint32 wndId, \
 	NCSRM_WINHEADER  *header;
 	if(package == 0|| wndId == 0 || ptempl == NULL)
 		return FALSE;
-	
+
 	uitype = get_ui_data(package, wndId, (void*)&header, &id);
 
 	if(uitype == UIDATA_ERR) {

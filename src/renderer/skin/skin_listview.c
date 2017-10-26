@@ -1,5 +1,5 @@
-/* 
- ** $Id: skin_listview.c 641 2009-11-10 01:48:49Z xwyan $
+/*
+ ** $Id: skin_listview.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The skin renderer implementation of mListView control.
  **
@@ -33,6 +33,8 @@
 #include "mlistview.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_LISTVIEW
+
 extern mWidgetRenderer skin_widget_renderer;
 
 
@@ -55,16 +57,16 @@ static char* _get_icon_file(const char* rdr_name, char* file, char* _szValue)
 }
 
 extern char* gui_GetIconFile(const char* rdr_name, char* file, char* _szValue);
-static void skin_drawFold (mListView *self, HDC hdc, 
+static void skin_drawFold (mListView *self, HDC hdc,
         const RECT* pRect, DWORD color, HICON icon, int status, int next)
 {
     if (status & LFRDR_TREE_WITHICON) {
         int w, h;
         int centerX, centerY;
         char szValue[255];
-        HICON hFoldIcon   = 
+        HICON hFoldIcon   =
             (HICON)RetrieveRes (_get_icon_file("skin", (char*)SYSICON_TREEFOLD, szValue));
-        HICON hUnFoldIcon = 
+        HICON hUnFoldIcon =
             (HICON)RetrieveRes (_get_icon_file("skin", (char*)SYSICON_TREEUNFOLD, szValue));
 
         w = RECTWP(pRect);
@@ -98,14 +100,14 @@ static void skin_drawFold (mListView *self, HDC hdc,
             return;
 
         if (status & LFRDR_TREE_CHILD) {
-            if (status & LFRDR_TREE_FOLD) 
+            if (status & LFRDR_TREE_FOLD)
                 flag = 0;
-            else 
+            else
                 flag = 1;
 
             if (bitmap) {
-                FillBoxWithBitmapPart (hdc, pRect->left, pRect->top, 
-                        bitmap->bmWidth, (bitmap->bmHeight)>>1, 
+                FillBoxWithBitmapPart (hdc, pRect->left, pRect->top,
+                        bitmap->bmWidth, (bitmap->bmHeight)>>1,
                         0, 0, bitmap, 0, flag * ((bitmap->bmHeight)>>1));
             }
         }
@@ -121,7 +123,7 @@ static void skin_drawHeader (mListView *self, HDC hdc, const RECT *pRect, DWORD 
     file = ncsGetElement((mWidget*)self, NCS_IMAGE_LISTV_HDR);
     if (!(bitmap = GetBitmapFromRes (file)))
         return;
-    
+
     _di.bmp      = bitmap;
     _di.nr_line  = 4;
     _di.nr_col   = 1;
@@ -132,7 +134,7 @@ static void skin_drawHeader (mListView *self, HDC hdc, const RECT *pRect, DWORD 
     _di.direct   = FALSE;
     _di.flip     = FALSE;
     _di.style    = DI_FILL_TILE;
-    
+
     ncsSkinDraw (hdc, pRect, &_di);
 }
 
@@ -149,4 +151,5 @@ mListViewRenderer skin_listview_renderer = {
 	(mItemViewRenderer*)(void *)&skin_widget_renderer,
 };
 
+#endif //_MGNCSCTRL_LISTVIEW
 

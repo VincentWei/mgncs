@@ -1,5 +1,5 @@
 /*
- ** $Id: mimagebutton.h 1617 2011-03-24 09:48:44Z shidazhi $
+ ** $Id: mimagebutton.h 1683 2017-10-26 06:52:09Z weiym $
  **
  ** mimagebutton.h:
  **

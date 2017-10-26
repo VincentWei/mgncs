@@ -7,13 +7,14 @@
 **
 ** Create date: 2010/03/10
 */
+#if defined(_MGNCSCTRL_TEXTEDITOR) || (defined(_MGCTRL_TEXTEDIT) && defined(_MGCTRL_TEXTEDIT_USE_NEW_IMPL))
 
 #ifndef _COMM_BTREE_H
 #define _COMM_BTREE_H
 
 #define BTREE_ERRNO_SCHILD  1
 #define BTREE_ERRNO_SNEXT   0
-#define BTREE_ERRNO_SNULL  -1 
+#define BTREE_ERRNO_SNULL  -1
 
 DECLARE_OBJECT(mCommBTreeNode)
 DECLARE_OBJECT(mCommBTree)
@@ -42,7 +43,7 @@ DECLARE_OBJECT(mCommBTreeLeafIterator)
     /* Number of children of this node. */      \
     unsigned int numChildren:16;                \
     /* Total number of leaves in the subtree rooted here. */\
-    unsigned int numLeaves; 
+    unsigned int numLeaves;
 
 
 #define mCommBTreeNodeClassHeader(Clss, Super)       \
@@ -72,7 +73,7 @@ DECLARE_OBJECT(mCommBTreeLeafIterator)
             mCommBTreeNode *sibLeaf, mCommBTreeNode *leaf);       \
     mCommBTreeNode* (*search)(Clss *self, void* searchInfo, int flags);     \
     mCommBTreeNode* (*newNode)(Clss *self);                      \
-    mCommBTreeNode* (*newLeaf)(Clss *self);                  
+    mCommBTreeNode* (*newLeaf)(Clss *self);
 
 //search flags
 enum {
@@ -83,3 +84,4 @@ DEFINE_OBJECT(mCommBTreeNode, mObject)
 DEFINE_OBJECT(mCommBTree, mObject)
 DEFINE_OBJECT(mCommBTreeLeafIterator, mObject)
 #endif
+#endif  //_MGHAVE_NEWTEXTEDIT || _MGNCSCTRL_TEXTEDITOR

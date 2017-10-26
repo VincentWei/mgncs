@@ -467,7 +467,7 @@ MGNCS_EXPORT mObjectClass *ncsSafeCastClass(mObjectClass* clss, mObjectClass* ca
  */
 #define SAFE_CAST_CLASS(Clss, ClssCast) ((ClassType(ClssCast)*)(ncsSafeCastClass((mObjectClass*)Clss, (mObjectClass*)(void*)(&Class(ClssCast)))))
 
-int ncsParseConstrcutParams(va_list args, const char* signature, ...);
+int ncsParseConstructParams(va_list args, const char* signature, ...);
 
 /**
  * \typedef typedef BOOL (*NCS_CB_ONOBJEVENT)(mObject* self, mObject *sender, int eventId, DWORD param);

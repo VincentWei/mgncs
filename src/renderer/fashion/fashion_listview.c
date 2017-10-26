@@ -1,5 +1,5 @@
-/* 
- ** $Id: fashion_listview.c 641 2009-11-10 01:48:49Z xwyan $
+/*
+ ** $Id: fashion_listview.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The fashion renderer implementation of mListView control.
  **
@@ -33,6 +33,8 @@
 #include "mlistview.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_LISTVIEW
+
 #ifdef _MGNCS_RDR_FASHION
 
 extern mWidgetRenderer fashion_widget_renderer;
@@ -55,7 +57,7 @@ static char* _get_icon_file(const char* rdr_name, char* file, char* _szValue)
     return _szValue;
 }
 
-static void fashion_drawFold (mListView *self, HDC hdc, 
+static void fashion_drawFold (mListView *self, HDC hdc,
         const RECT* pRect, DWORD color, HICON icon, int status, int next)
 {
     if (status & LFRDR_TREE_WITHICON) {
@@ -95,7 +97,7 @@ static void fashion_drawFold (mListView *self, HDC hdc,
             else
                 which = NCSR_ARROW_DOWN;
         }
-        else 
+        else
             return;
 
         return self->renderer->drawArrow(self, hdc, pRect, which, color, NCSRF_FILL);
@@ -118,15 +120,15 @@ static void fashion_drawHeader (mListView *self, HDC hdc, const RECT *pRect, DWO
     gradient_rect.top = pRect->top + 1;
     gradient_rect.bottom = pRect->bottom - 1;
 
-/*	fashion_fillRoundRect(hdc, 
+/*	fashion_fillRoundRect(hdc,
         ncsCommRDRCalc3dboxColor(bkColor, NCSR_COLOR_LIGHTER),
         ncsCommRDRCalc3dboxColor(bkColor, NCSR_COLOR_DARKER),
 		ncsGetElement(self, NCS_MODE_BGC),
         &gradient_rect,
 		ncsGetElement(self, NCS_METRICS_3DBODY_ROUNDX),
 		ncsGetElement(self, NCS_METRICS_3DBODY_ROUNDY));*/
-	
-	fashion_widget_renderer.draw3dbox((mWidget*)self, 
+
+	fashion_widget_renderer.draw3dbox((mWidget*)self,
             hdc,&gradient_rect, bkColor, 0);
 }
 
@@ -144,4 +146,5 @@ mListViewRenderer fashion_listview_renderer = {
 };
 
 #endif
+#endif //_MGNCSCTRL_LISTVIEW
 

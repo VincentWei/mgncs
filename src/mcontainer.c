@@ -1,5 +1,5 @@
-/* 
- ** $Id: mcontainer.c 1116 2010-12-02 04:03:35Z dongjunjie $
+/*
+ ** $Id: mcontainer.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of mContainer control.
  **
@@ -26,6 +26,8 @@
 #include "mscroll_widget.h"
 #include "mcontainer.h"
 
+#ifdef _MGNCSCTRL_CONTAINER
+
 static void mContainer_construct (mContainer *self,DWORD addData)
 {
 	g_stmScrollWidgetCls.construct((mScrollWidget*)self, addData);
@@ -36,7 +38,11 @@ static void mContainer_construct (mContainer *self,DWORD addData)
 
 static void mContainer_moveContent (mContainer* self)
 {
-    MoveWindow (self->hPanel, -self->contX, -self->contY, 
+	int _x = -self->contX, _y = -self->contY;
+	
+	_M(self, viewportToWindow, &_x, &_y);
+    
+	MoveWindow (self->hPanel, _x, _y,
             self->contWidth, self->contHeight, TRUE);
 }
 
@@ -44,14 +50,14 @@ static int createPanel(mContainer *self)
 {
     RECT rcClient;
     GetClientRect (self->hwnd, &rcClient);
-    self->hPanel = CreateWindowEx2 (NCSCTRL_PANEL, 
+    self->hPanel = CreateWindowEx2 (NCSCTRL_PANEL,
                         "",
                         WS_VISIBLE,
                         WS_EX_TRANSPARENT,
-                        10, 
-                        0, 0, 
+                        10,
+                        0, 0,
                         RECTW(rcClient), RECTH(rcClient),
-                        self->hwnd, 
+                        self->hwnd,
                         NULL, 0, 0);
 
     if (self->hPanel == HWND_INVALID) {
@@ -62,7 +68,7 @@ static int createPanel(mContainer *self)
 }
 
 
-static BOOL mContainer_addChildren(mContainer *self, 
+static BOOL mContainer_addChildren(mContainer *self,
         const NCS_WND_TEMPLATE* pCtrl, int nCount)
 {
     int             i;
@@ -91,27 +97,25 @@ static BOOL mContainer_addChildren(mContainer *self,
     for (i = 0; i < nCount; i++) {
         mWidget * widget = ncsCreateWindowIndirect(pCtrl, self->hPanel);
 
-        if (widget == NULL) {
-            DestroyAllControls(self->hPanel);
-            return FALSE;
-        }
+		if (widget != NULL) 
+		{
+			hCtrl = widget->hwnd;
 
-        hCtrl = widget->hwnd;
+			if ((pCtrl->x + pCtrl->w) > maxWidth) {
+				maxWidth = pCtrl->x + pCtrl->w;
+			}
 
-        if ((pCtrl->x + pCtrl->w) > maxWidth) {
-            maxWidth = pCtrl->x + pCtrl->w;
-        }
-
-        /* vertical scrollbar */
-        if ((pCtrl->y + pCtrl->h) > maxHeight) {
-            maxHeight = pCtrl->y + pCtrl->h;
-        }
+			/* vertical scrollbar */
+			if ((pCtrl->y + pCtrl->h) > maxHeight) {
+				maxHeight = pCtrl->y + pCtrl->h;
+			}
+		}
 
         pCtrl ++;
     }
 
     ncsSetProperty (self->hwnd, NCSP_SWGT_CONTWIDTH, maxWidth);
-        
+
     ncsSetProperty (self->hwnd, NCSP_SWGT_CONTHEIGHT, maxHeight);
 
     hCtrl = GetNextDlgTabItem (self->hPanel, (HWND)0, FALSE);
@@ -141,36 +145,34 @@ static BOOL mContainer_addIntrinsicControls(mContainer *self, PCTRLDATA pCtrl, i
     maxWidth = 0;
     maxHeight = 0;
     for (i = 0; i < nCount; i++) {
-        hCtrl = CreateWindowEx2 (pCtrl->class_name, 
+        hCtrl = CreateWindowEx2 (pCtrl->class_name,
                                 pCtrl->caption,
-                                pCtrl->dwStyle | WS_CHILD, 
+                                pCtrl->dwStyle | WS_CHILD,
                                 pCtrl->dwExStyle,
-                                pCtrl->id, 
+                                pCtrl->id,
                                 pCtrl->x, pCtrl->y, pCtrl->w, pCtrl->h,
-                                self->hPanel, 
+                                self->hPanel,
                                 pCtrl->werdr_name,
                                 pCtrl->we_attrs,
                                 pCtrl->dwAddData);
 
-        if (hCtrl == HWND_INVALID) {
-            DestroyAllControls(self->hPanel);
-            return FALSE;
-        }
+        if (hCtrl != HWND_INVALID) 
+		{
+			if ((pCtrl->x + pCtrl->w) > maxWidth) {
+				maxWidth = pCtrl->x + pCtrl->w;
+			}
 
-        if ((pCtrl->x + pCtrl->w) > maxWidth) {
-            maxWidth = pCtrl->x + pCtrl->w;
-        }
+			/* vertical scrollbar */
+			if ((pCtrl->y + pCtrl->h) > maxHeight) {
+				maxHeight = pCtrl->y + pCtrl->h;
+			}
+		}
 
-        /* vertical scrollbar */
-        if ((pCtrl->y + pCtrl->h) > maxHeight) {
-            maxHeight = pCtrl->y + pCtrl->h;
-        }
-        
         pCtrl ++;
     }
 
     ncsSetProperty (self->hwnd, NCSP_SWGT_CONTWIDTH, maxWidth);
-        
+
     ncsSetProperty (self->hwnd, NCSP_SWGT_CONTHEIGHT, maxHeight);
 
     hCtrl = GetNextDlgTabItem (self->hPanel, (HWND)0, FALSE);
@@ -200,9 +202,9 @@ static HWND mContainer_getFocus(mContainer* self)
     return GetFocus(self->hPanel);
 }
 
-static int mContainer_wndProc (mContainer* self, 
+static int mContainer_wndProc (mContainer* self,
             int message, WPARAM wParam, LPARAM lParam)
-{	
+{
     switch(message) {
         case MSG_KEYDOWN:
         {
@@ -217,7 +219,7 @@ static int mContainer_wndProc (mContainer* self,
                 if (!_c(self)->isVisible(self, rcFocus.left, rcFocus.top)) {
                     _c(self)->makePosVisible (self, rcFocus.left, rcFocus.top);
                 }
-                
+
                 if (!_c(self)->isVisible(self, rcFocus.right, rcFocus.bottom)) {
                     _c(self)->makePosVisible (self, rcFocus.right, rcFocus.bottom);
                 }
@@ -225,7 +227,7 @@ static int mContainer_wndProc (mContainer* self,
             return 0;
         }
     }
-	
+
 	return Class(mScrollWidget).wndProc((mScrollWidget*)self,
                                message, wParam, lParam);
 }
@@ -244,7 +246,7 @@ void mContainer_adjustContent(mContainer *self)
 	if(!IsWindow(self->hPanel))
 		return;
 
-	for(hchild = GetNextChild(self->hPanel, HWND_NULL); 
+	for(hchild = GetNextChild(self->hPanel, HWND_NULL);
 		IsWindow(hchild);
 		hchild = GetNextChild(self->hPanel,hchild))
 	{
@@ -257,9 +259,9 @@ void mContainer_adjustContent(mContainer *self)
 	}
 
 	_c(self)->setProperty(self, NCSP_SWGT_CONTWIDTH, maxwidth);
-	
+
 	_c(self)->setProperty(self, NCSP_SWGT_CONTHEIGHT, maxheight);
-	
+
 	_c(self)->moveContent(self);
 }
 
@@ -276,4 +278,6 @@ BEGIN_CMPT_CLASS(mContainer, mScrollWidget)
     CLASS_METHOD_MAP(mContainer, adjustContent);
 	SET_DLGCODE(DLGC_WANTALLKEYS)
 END_CMPT_CLASS
+
+#endif		//_MGNCSCTRL_CONTAINER
 

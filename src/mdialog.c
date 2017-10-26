@@ -17,6 +17,8 @@
 #include "mmainwnd.h"
 #include "mdialog.h"
 
+#ifdef _MGNCSCTRL_DIALOGBOX
+
 static int mDialogBox_wndProc(mDialogBox* self, int message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message)
@@ -44,3 +46,5 @@ static int mDialogBox_wndProc(mDialogBox* self, int message, WPARAM wParam, LPAR
 BEGIN_CMPT_CLASS(mDialogBox, mMainWnd)
 	CLASS_METHOD_MAP(mDialogBox, wndProc)
 END_CMPT_CLASS
+
+#endif

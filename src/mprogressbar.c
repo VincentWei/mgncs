@@ -25,6 +25,8 @@
 
 #include "piece.h"
 
+#ifdef _MGNCSCTRL_PROGRESSBAR
+
 static int prop_map[]={
 	NCSP_PROGRESSPIECE_MAXPOS,
 	NCSP_PROGRESSPIECE_MINPOS,
@@ -48,7 +50,7 @@ static void update_prog_part(mProgressBar* self, int old_pos, int new_pos)
 
 	if(min_pos >= max_pos)
 		return;
-	
+
 	if(old_pos > new_pos){
 		greater_pos = old_pos;
 		less_pos = new_pos;
@@ -83,7 +85,7 @@ static void update_prog_part(mProgressBar* self, int old_pos, int new_pos)
 			text_top -= font_height / 2;
 			text_bottom += font_height /2;
 
-			
+
 			if( rc.top > text_bottom || rc.bottom < text_top)
 			{
 				RECT rc_text = { rc.left, text_top, rc.right, text_bottom };
@@ -117,7 +119,7 @@ static void update_prog_part(mProgressBar* self, int old_pos, int new_pos)
 			text_left = text_right = (left + right) / 2;
 			text_left -= font_width / 2;
 			text_right += font_width / 2;
-			
+
 			if( rc.left > text_right  || rc.right < text_left)
 			{
 				RECT rc_text = { text_left, rc.top, text_right, rc.bottom};
@@ -136,7 +138,7 @@ static void update_prog_part(mProgressBar* self, int old_pos, int new_pos)
 	}
 
 	InvalidateRect(self->hwnd, &rc, TRUE);
-	
+
 }
 
 static BOOL mProgressBar_setProperty (mProgressBar* self, int id, DWORD value)
@@ -205,7 +207,7 @@ static int mProgressBar_increase (mProgressBar *self, int delta)
 	_c(piece)->step(piece, delta, 0);
 
 	update_prog_part(self, old_pos, (int)GetBodyProp(NCSP_PROGRESSPIECE_CURPOS));
-        
+
     return 0;
 }
 
@@ -219,13 +221,13 @@ static int mProgressBar_stepIncrease (mProgressBar *self)
 
 	piece = SAFE_CAST(mProgressPiece, self->body);
 
-	
+
 	old_pos = (int)GetBodyProp(NCSP_PROGRESSPIECE_CURPOS);
-	
+
 	_c(piece)->step(piece,0, FALSE);
 
 	update_prog_part(self, old_pos, (int)GetBodyProp(NCSP_PROGRESSPIECE_CURPOS));
-    
+
     return 0;
 }
 
@@ -239,7 +241,7 @@ static void mProgressBar_onPaint(mProgressBar *self, HDC hdc, const CLIPRGN * in
 	if(Body)
 	{
 		DWORD dwStyle = GetWindowStyle(self->hwnd);
-		_c(Body)->paint(Body, hdc, (mObject*)self, 
+		_c(Body)->paint(Body, hdc, (mObject*)self,
 			(dwStyle&NCSS_PRGBAR_VERTICAL?NCS_PIECE_PAINT_VERT:0)
 			| (dwStyle&NCSS_PRGBAR_BLOCKS?NCS_PIECE_PAINT_BLOCK:0)
 			| (dwStyle&NCSS_PRGBAR_SHOWPERCENT?NCS_PIECE_PAINT_PERCENT:0));
@@ -266,10 +268,10 @@ static BOOL mProgressBar_onEraseBkgnd(mProgressBar *self, HDC hdc, const RECT *p
 			return Class(mWidget).onEraseBkgnd((mWidget*)self, hdc, pinv);
 
 		if(cur >= max)
-			return TRUE; 
+			return TRUE;
 
 		GetClientRect(self->hwnd, &rc);
-		
+
 		//set the clip rect
 		poldrgn = CreateClipRgn();
 		GetClipRegion(hdc, poldrgn);
@@ -286,7 +288,7 @@ static BOOL mProgressBar_onEraseBkgnd(mProgressBar *self, HDC hdc, const RECT *p
 		ClipRectIntersect(hdc, &rc);
 
 		Class(mWidget).onEraseBkgnd((mWidget*)self, hdc, pinv);
-		
+
 		SelectClipRegion(hdc, poldrgn);
 
 		DestroyClipRgn(poldrgn);
@@ -296,7 +298,7 @@ static BOOL mProgressBar_onEraseBkgnd(mProgressBar *self, HDC hdc, const RECT *p
 	return FALSE;
 }
 
-BEGIN_CMPT_CLASS (mProgressBar, mWidget)	
+BEGIN_CMPT_CLASS (mProgressBar, mWidget)
     CLASS_METHOD_MAP (mProgressBar, createBody)
     CLASS_METHOD_MAP (mProgressBar, onPaint)
 	CLASS_METHOD_MAP (mProgressBar, onEraseBkgnd)
@@ -306,3 +308,4 @@ BEGIN_CMPT_CLASS (mProgressBar, mWidget)
 	CLASS_METHOD_MAP (mProgressBar, stepIncrease)
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_PROGRESSBAR

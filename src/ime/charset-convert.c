@@ -1,15 +1,15 @@
 /*
- ** $Id: charset-convert.c 1116 2010-12-02 04:03:35Z dongjunjie $
+ ** $Id: charset-convert.c 1681 2017-10-26 06:46:31Z weiym $
  **
- ** charset-convert.c: 
+ ** charset-convert.c:
  **
- ** Copyright (C) 2003 ~ 2010 Beijing Feynman Software Technology Co., Ltd. 
- ** 
+ ** Copyright (C) 2003 ~ 2010 Beijing Feynman Software Technology Co., Ltd.
+ **
  ** All rights reserved by Feynman Software.
- **   
- ** Current maintainer: dongjunjie 
- **  
- ** Create date: 2010-06-09 
+ **
+ ** Current maintainer: dongjunjie
+ **
+ ** Create date: 2010-06-09
  */
 
 static int single_retrieve_char(const char*word)
@@ -18,7 +18,7 @@ static int single_retrieve_char(const char*word)
 }
 
 
-#if !defined(_MGNCS_USE_ICONV) || defined(WIN32)
+#if !defined(_MGNCS_CHARSET_ICONV) || defined(WIN32)
 
 #ifdef _MGCHARSET_UNICODE
 #define MAX_ENCODING_SUPPORT   8
@@ -55,7 +55,7 @@ static PLOGFONT find_matched_logfont(const char* charset, int (*cmp)(const char*
     {
         plogfont = CreateLogFont (NULL, "", charset,
                   FONT_WEIGHT_REGULAR, FONT_SLANT_ROMAN, FONT_SETWIDTH_NORMAL,
-                  FONT_SPACING_CHARCELL, FONT_UNDERLINE_NONE, FONT_STRUCKOUT_NONE, 
+                  FONT_SPACING_CHARCELL, FONT_UNDERLINE_NONE, FONT_STRUCKOUT_NONE,
                   12, 0);
         if(plogfont && strcasecmp(charset, plogfont->charset)!= 0)
         {
@@ -83,12 +83,12 @@ static inline int charset_closed_cmp(const char* charset_target, const char* cha
      * fg. ISO8859 match ISO8859-2 , ISO8859-3, ....
      * fg. GB* match all gb start with GB18030, GB2312 and so on
      */
-    
+
     while(*charset && *charset_target && CASE_EQUAL(*charset, *charset_target)) {
         charset ++;
         charset_target ++;
     }
-    
+
     if(*charset == '*')
         return 0; //matched
     if(*charset == 0 && *charset_target == '-')
@@ -138,10 +138,10 @@ static PLOGFONT try_find_closed_font(const char* charset)
     const char**  try_at = find_sub_charset(charset, &charset_at);
     if(try_at)
     {
-        int i; 
+        int i;
         for( i = 0 ; try_at[i]; i ++)
         {
-            if ( i != charset_at) 
+            if ( i != charset_at)
             {
                 if ((plogfont = find_matched_logfont(try_at[i], strcasecmp)))
                     return plogfont;
@@ -168,7 +168,7 @@ static PLOGFONT find_logfont_by_charset(const char* charset)
 
     if(!plogfont && !closed_cmp) //try find a closed charset font
         plogfont = try_find_closed_font(charset);
-    
+
 
     return plogfont;
 }
@@ -240,9 +240,9 @@ unsigned int ncsIMCharsetConv(CHARSET_CONVERTER* conv, const char ** pwords)
 
     if(!pwords || !pwords[0])
         return 0;
-    
+
 #ifdef _MGCHARSET_UNICODE
-    GET_FROM_TO_FONTS(conv, pfromfont, ptofont); 
+    GET_FROM_TO_FONTS(conv, pfromfont, ptofont);
     if(!pfromfont && !ptofont)
 #endif
     {
@@ -264,14 +264,14 @@ unsigned int ncsIMCharsetConv(CHARSET_CONVERTER* conv, const char ** pwords)
             ch_number = MB2WCEx(pfromfont, (void*)&wc, TRUE, (unsigned char*)pwords[0], ch_number);
         else
             wc = (UChar32)(*((wchar_t*)pwords[0]));
-    
+
 
         //Uncode byte -> To Mutil-byte
         if (ptofont)
             mb_len = WC2MBEx(ptofont, mb, wc);
         else
             return wc; //return unicode directly
-        
+
         if(mb_len <= 0)
             return 0;
 
@@ -307,7 +307,7 @@ char * ncsIMConvertWord(CHARSET_CONVERTER* conv, const char* word, char *out, in
         if (!ptofont) //multi-byte to uincode
         {
             int len = 0;
-            len = MBS2WCS(pfromfont, (void*)out, (unsigned char*)word, len, len); 
+            len = MBS2WCS(pfromfont, (void*)out, (unsigned char*)word, len, len);
             ((wchar_t*)out)[len] = 0;
         }
         else if (!pfromfont) //uincode to multi-byte
@@ -375,15 +375,15 @@ typedef struct _CHARSETOPS_INFO
 
 static inline NCSCB_LEN_FIRST_CHAR get_lenfirstchar_callback_from_logfont(PLOGFONT plogfont)
 {
-    if(plogfont->mbc_devfont 
+    if(plogfont->mbc_devfont
             && plogfont->mbc_devfont->charset_ops
             && ((CHARSETOPS_INFO*)(plogfont->mbc_devfont->charset_ops))->len_first_char)
         return ((CHARSETOPS_INFO*)(plogfont->mbc_devfont->charset_ops))->len_first_char;
 
-    return plogfont->sbc_devfont 
-            ? (plogfont->sbc_devfont->charset_ops 
+    return plogfont->sbc_devfont
+            ? (plogfont->sbc_devfont->charset_ops
                 ? ((CHARSETOPS_INFO*)(plogfont->mbc_devfont->charset_ops))->len_first_char
-                : NULL ) 
+                : NULL )
             : NULL;
 }
 
@@ -399,7 +399,7 @@ NCSCB_LEN_FIRST_CHAR ncsIMGetFirstCharCallback(const char* encoding)
     plogfont = find_logfont_by_charset(encoding);
     if(!plogfont)
         return sb_len_first_char;
-    
+
     //return the charset_ops's len_first_char
     return get_lenfirstchar_callback_from_logfont(plogfont);
 }

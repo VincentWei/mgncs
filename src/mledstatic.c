@@ -19,6 +19,8 @@
 #include "mledstatic.h"
 #include "mgncs.h"
 
+#ifdef _MGNCSCTRL_LEDLABEL
+
 static void mLEDLabel_construct(mLEDLabel * self, DWORD addData)
 {
 	Class(mStatic).construct((mStatic*)self, addData);
@@ -49,7 +51,7 @@ static BOOL mLEDLabel_setProperty(mLEDLabel *self, int id, DWORD value)
 				return TRUE;
 			}
             return FALSE;
-	
+
 		case NCSP_STATIC_VALIGN:
 			if(Body && SetBodyProp(NCSP_LEDLBLPIECE_VALIGN, value))
 			{
@@ -75,7 +77,7 @@ static BOOL mLEDLabel_setProperty(mLEDLabel *self, int id, DWORD value)
 			if(Body && _c((mLedstaticPiece*)(self->body))->setProperty((mLedstaticPiece*)(self->body), NCSP_LEDLBLPIECE_WIDTH, value))
 			{
 				InvalidateRect(self->hwnd, NULL, TRUE);
-				return TRUE;	
+				return TRUE;
 			}
 			return FALSE;
 		case NCSP_LEDLBL_HEIGHT:
@@ -118,7 +120,7 @@ static DWORD mLEDLabel_getProperty(mLEDLabel* self, int id)
 static int mLEDLabel_wndProc(mLEDLabel *self, int message, WPARAM wParam, LPARAM lParam)
 {
 	int str_len;
-	
+
 	switch(message)
 	{
 		case MSG_SETTEXT:
@@ -134,7 +136,7 @@ static int mLEDLabel_wndProc(mLEDLabel *self, int message, WPARAM wParam, LPARAM
 			fprintf(stderr, " GETTEXT=========\n");
 			break;
 	}
-	
+
 	return Class(mStatic).wndProc((mStatic*)self, message, wParam, lParam);
 }
 */
@@ -185,7 +187,7 @@ BEGIN_CMPT_CLASS(mLEDLabel, mStatic)
 	CLASS_METHOD_MAP(mLEDLabel, wndProc)
 END_CMPT_CLASS
 
- 
+
 ///////////////////////////////////////////////////////
 //default static led file
 #include "ledimages.c"
@@ -225,7 +227,7 @@ static BOOL init_led_bmp_file()
 	AddGlyphsToBMPFont(dev_led_font, &led_bmp_backslash,  "\\", 1, 16);
 	AddGlyphsToBMPFont(dev_led_font, &led_bmp_gt,  ">", 1, 16);
 	AddGlyphsToBMPFont(dev_led_font, &led_bmp_lt,  "<", 1, 16);
-	
+
 	plog_led = CreateLogFont (FONT_TYPE_NAME_BITMAP_BMP, "led",
 					"ISO8859-1",
 					FONT_WEIGHT_REGULAR, FONT_SLANT_ROMAN,
@@ -264,7 +266,7 @@ static BOOL DrawLedChar(HDC hdc, const Point **pts, unsigned int mask)
 BOOL ncsLedDrawText(HDC hdc, char *str, int len, const RECT *rect, DWORD uflag, int width, int height)
 {
 	int i;
-	
+
 	Point **pts;
 	unsigned int char_mask;
 
@@ -273,7 +275,8 @@ BOOL ncsLedDrawText(HDC hdc, char *str, int len, const RECT *rect, DWORD uflag, 
 	for (i = 0; i < len; i++)
 	{
 		char_mask = GetCharMask(str[i]);
-		DrawLedChar(hdc, pts, char_mask); 
+		DrawLedChar(hdc, pts, char_mask);
 	}
 }
 #endif
+#endif //_MGNCSCTRL_LEDLABEL

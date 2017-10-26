@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 
+#if defined _MGNCSCTRL_PROGRESSBAR && defined _MGNCSCTRL_DIALOGBOX
+
 #define ID_BTN  101
 #define ID_PROG 200
 
@@ -38,7 +40,7 @@ static void mymain_onClose (mWidget* _this, int message)
 
 static void mymain_onTimer (mWidget *_this, int id, DWORD count)
 {
-//START_OF_SET_PROPERTY    
+//START_OF_SET_PROPERTY
     static int pb_pos = 0;
 
     mProgressBar *pb = (mProgressBar*)ncsGetChildObj (_this->hwnd, ID_PROG);
@@ -46,14 +48,14 @@ static void mymain_onTimer (mWidget *_this, int id, DWORD count)
     {
         pb_pos++;
         _c(pb)->setProperty(pb, NCSP_PROG_CURPOS, pb_pos);
-    
+
         if (pb_pos == _c(pb)->getProperty(pb, NCSP_PROG_MAXPOS))
         {
             DestroyMainWindow (_this->hwnd);
             PostQuitMessage (_this->hwnd);
         }
     }
-//END_OF_SET_PROPERTY    
+//END_OF_SET_PROPERTY
 }
 
 static void mymain_onPaint(mWidget *self, HDC hdc, const CLIPRGN* inv)
@@ -78,7 +80,7 @@ static void btn_onClicked(mWidget* _this, int id, int nc, HWND hCtrl)
     }
 };
 
-static NCS_EVENT_HANDLER btn_handlers[] = 
+static NCS_EVENT_HANDLER btn_handlers[] =
 {
     {NCS_NOTIFY_CODE(NCSN_WIDGET_CLICKED), btn_onClicked},
     {0, NULL}
@@ -90,9 +92,9 @@ static NCS_RDR_INFO btn_rdr_info[] =
 };
 
 //START_OF_INITIAL_PROPS
-static NCS_PROP_ENTRY progress_props[] = 
+static NCS_PROP_ENTRY progress_props[] =
 {
-    {NCSP_PROG_MAXPOS, 100}, 
+    {NCSP_PROG_MAXPOS, 100},
     {NCSP_PROG_MINPOS, 0  },
     {NCSP_PROG_LINESTEP, 1},
     {NCSP_PROG_CURPOS, 0  },
@@ -101,10 +103,10 @@ static NCS_PROP_ENTRY progress_props[] =
 //END_OF_INITIAL_PROPS
 
 //START_OF_TEMPLATE
-static NCS_WND_TEMPLATE _ctrl_templ[] = 
+static NCS_WND_TEMPLATE _ctrl_templ[] =
 {
     {
-        NCSCTRL_PROGRESSBAR, 
+        NCSCTRL_PROGRESSBAR,
         ID_PROG,
         10, 33, 290, 25,
         WS_BORDER | WS_VISIBLE | NCSS_PRGBAR_SHOWPERCENT,
@@ -115,7 +117,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
         NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_BUTTON, 
+        NCSCTRL_BUTTON,
         ID_BTN,
         120, 70, 80, 25,
         WS_VISIBLE | NCSS_NOTIFY,
@@ -130,7 +132,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] =
 
 static NCS_MNWND_TEMPLATE mymain_templ =
 {
-    NCSCTRL_DIALOGBOX, 
+    NCSCTRL_DIALOGBOX,
     1,
     0, 0, 320, 130,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -147,15 +149,32 @@ static NCS_MNWND_TEMPLATE mymain_templ =
 
 int MiniGUIMain (int argc, const char* argv[])
 {
+	if (argc > 1) {
+		btn_rdr_info[0].glb_rdr = argv[1];
+		btn_rdr_info[0].ctl_rdr = argv[1];
+	}
+
     ncsInitialize ();
 
-    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+    mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                 (&mymain_templ, HWND_DESKTOP);
 
     _c(mydlg)->doModal (mydlg, TRUE);
- 
+
     ncsUninitialize ();
 
     return 0;
 }
 
+#else //_MGNCSCTRL_PROGRESSBAR _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the progressbar, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-progressbar --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_PROGRESSBAR _MGNCSCTRL_DIALOGBOX

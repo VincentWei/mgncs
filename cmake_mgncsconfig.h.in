@@ -37,14 +37,29 @@
 /* MGNCS library suffix */
 #cmakedefine _MGNCS_LIBSUFFIX "@_MGNCS_LIBSUFFIX@"
 
+/* Define if support iconv */
+#cmakedefine _MGNCS_CHARSET_ICONV
+
 /* Define if support datasource */
-#cmakedefine _MGNCS_DATASOURCE 1
+#cmakedefine _MGNCSDB_DATASOURCE 1
+
+/* Define if support xml */
+#cmakedefine _MGNCSDB_XML 1
+
+/* Define if support sqlite */
+#cmakedefine _MGNCSDB_SQLITE 1
+
+/* Define if support static datasource */
+#cmakedefine _MGNCSDB_STATIC 1
+
+/* Define if support text datasource */
+#cmakedefine _MGNCSDB_TEXT 1
+
+/* Define if support ini datasource */
+#cmakedefine _MGNCSDB_INI 1
 
 /* Define if support old multiline editor */
-#cmakedefine _MGNCS_OLD_MLEDIT 1
-
-/* Define if support property name */
-#cmakedefine _MGNCS_PROP_NAME 1
+#cmakedefine _MGNCSCTRL_OLD_MLEDIT 1
 
 /* Define if include fashion renderer */
 #cmakedefine _MGNCS_RDR_FASHION 1
@@ -55,20 +70,104 @@
 /* Define if include skin renderer */
 #cmakedefine _MGNCS_RDR_SKIN 1
 
-/* Define if support sqlite */
-#cmakedefine _MGNCS_SQLITE 1
-
 /* Define if support new text editor */
-#cmakedefine _MGNCS_TEXTEDITOR 1
+#cmakedefine _MGNCSCTRL_TEXTEDITOR 1
 
 /* Define if support title of new text editor */
-#cmakedefine _MGNCS_TEXTEDITTITLE 1
+#cmakedefine _MGNCSCTRL_TEXTEDITTITLE 1
 
 /* Define if build NCS for using edit with double buffer */
 #cmakedefine _MGNCS_USE_DBEDIT 1
 
-/* Define if support xml */
-#cmakedefine _MGNCS_XML 1
+/* Define if support animate */
+#cmakedefine _MGNCSCTRL_ANIMATE 1
+
+/* Define if support colorbutton */
+#cmakedefine _MGNCSCTRL_COLORBUTTON 1
+
+/* Define if support container */
+#cmakedefine _MGNCSCTRL_CONTAINER 1
+
+/* Define if support page */
+#cmakedefine _MGNCSCTRL_PAGE 1
+
+/* Define if support propsheet */
+#cmakedefine _MGNCSCTRL_PROPSHEET 1
+
+/* Define if support dialogbox */
+#cmakedefine _MGNCSCTRL_DIALOGBOX 1
+
+/* Define if support iconview */
+#cmakedefine _MGNCSCTRL_ICONVIEW 1
+
+/* Define if support imagebutton */
+#cmakedefine _MGNCSCTRL_IMAGEBUTTON 1
+
+/* Define if support ledlabel */
+#cmakedefine _MGNCSCTRL_LEDLABEL 1
+
+/* Define if support list */
+#cmakedefine _MGNCSCTRL_LIST 1
+
+/* Define if support listbox */
+#cmakedefine _MGNCSCTRL_LISTBOX 1
+
+/* Define if support combobox */
+#cmakedefine _MGNCSCTRL_COMBOBOX 1
+
+/* Define if support listview */
+#cmakedefine _MGNCSCTRL_LISTVIEW 1
+
+/* Define if support menubutton */
+#cmakedefine _MGNCSCTRL_MENUBUTTON 1
+
+/* Define if support progressbar */
+#cmakedefine _MGNCSCTRL_PROGRESSBAR 1
+
+/* Define if support rectangle */
+#cmakedefine _MGNCSCTRL_RECTANGLE 1
+
+/* Define if support spinner */
+#cmakedefine _MGNCSCTRL_SPINNER 1
+
+/* Define if support spinbox */
+#cmakedefine _MGNCSCTRL_SPINBOX 1
+
+/* Define if support monthcalendar */
+#cmakedefine _MGNCSCTRL_MONTHCALENDAR 1
+
+/* Define if support slider */
+#cmakedefine _MGNCSCTRL_SLIDER 1
+
+/* Define if support scrollbar */
+#cmakedefine _MGNCSCTRL_SCROLLBAR 1
+
+/* Define if support trackbar */
+#cmakedefine _MGNCSCTRL_TRACKBAR 1
+
+/* Define if support toolbar */
+#cmakedefine _MGNCSCTRL_TOOLBAR 1
+
+/* Define if support imeengine */
+#cmakedefine _MGNCSENGINE_IME 1
+
+/* Define if support imwordsel */
+#cmakedefine _MGNCSCTRL_IMWORDSEL 1
+
+/* Define if support pinyinengine */
+#cmakedefine _MGNCSENGINE_PINYIN 1
+
+/* Define if support digitengine */
+#cmakedefine _MGNCSENGINE_DIGIT 1
+
+/* Define if support ptiengine */
+#cmakedefine _MGNCSENGINE_PTI 1
+
+/* Define if support digitptiengine */
+#cmakedefine _MGNCSENGINE_DIGITPTI 1
+
+/* Define if support digitpyengine */
+#cmakedefine _MGNCSENGINE_DIGITPY 1
 
 /************** */
 /* HEADER FILES */

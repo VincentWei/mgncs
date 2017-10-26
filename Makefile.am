@@ -1,7 +1,7 @@
 
 AUTOMAKE_OPTIONS=foreign
 
-SUBDIRS=src include etc test build
+SUBDIRS=src include etc build
 
 EXTRA_DIST=makefile.ng rules.make
 

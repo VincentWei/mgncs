@@ -11,21 +11,22 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
  */
 
 /**
- * $Id: mlistbox.h 1116 2010-12-02 04:03:35Z dongjunjie $
+ * $Id: mlistbox.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *      Copyright (C) 2009 Feynman Software.
  */
+#ifdef _MGNCSCTRL_LISTBOX
 
 #ifndef _MGUI_CTRL_LSTBOX_H
 #define _MGUI_CTRL_LSTBOX_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,25 +52,25 @@ typedef struct _NCS_LSTBOX_ITEMINFO
 
     /**
      * Check mark and image flag. It can be one of the following values:
-     * - \ref NCSF_LSTBOX_CMBLANK       
+     * - \ref NCSF_LSTBOX_CMBLANK
      *   The item is blank.
-     * - \ref NCSF_LSTBOX_CMCHECKED     
+     * - \ref NCSF_LSTBOX_CMCHECKED
      *   The item is checked.
-     * - \ref NCSF_LSTBOX_CMPARTCHECKED 
+     * - \ref NCSF_LSTBOX_CMPARTCHECKED
      *   The item is partly checked.
      *
-     * If you want to significant the item which to be rendered, 
+     * If you want to significant the item which to be rendered,
      * you can OR'd \a flag with \ref NCSF_LSTBOX_SIGNIFICANT.
      *
-     * For \ref NCSS_LSTBOX_USEBITMAP list box, if you want to display bitmap 
+     * For \ref NCSS_LSTBOX_USEBITMAP list box, if you want to display bitmap
      * other than icon, you can OR'd \a flag with \ref NCSF_ITEM_USEBITMAP.
      */
     DWORD   flag;
-    
+
     /**
-     * The handle to icon or pointer to image object of the item. 
+     * The handle to icon or pointer to image object of the item.
      */
-    DWORD   image; 
+    DWORD   image;
 
 	/**
 	 * The Additional Data of the item
@@ -97,17 +98,17 @@ typedef struct _mListBoxRenderer mListBoxRenderer;
  * \def NCSS_LSTBOX_SINGLE
  * \brief Only have a selected item simultaneously.
  */
-#define NCSS_LSTBOX_SINGLE          NCSS_ITEMV_SINGLE 
+#define NCSS_LSTBOX_SINGLE          NCSS_ITEMV_SINGLE
 
 /**
  * \def NCSS_LSTBOX_MULTIPLE
  * \brief Allow user to select multiple items.
  */
-#define NCSS_LSTBOX_MULTIPLE        NCSS_ITEMV_MULTIPLE 
+#define NCSS_LSTBOX_MULTIPLE        NCSS_ITEMV_MULTIPLE
 
 /**
  * \def NCSS_LSTBOX_SORT
- * \brief Sort strings alphabetically. 
+ * \brief Sort strings alphabetically.
  */
 #define NCSS_LSTBOX_SORT            NCSS_ITEMV_AUTOSORT
 
@@ -120,26 +121,26 @@ typedef struct _mListBoxRenderer mListBoxRenderer;
 
 /**
  * \def NCSS_LSTBOX_STRING
- * \brief Display a string in an item. 
+ * \brief Display a string in an item.
  */
 #define NCSS_LSTBOX_STRING          (0x0000<<NCSS_ITEMV_SHIFT)
 
 /**
  * \def NCSS_LSTBOX_USEBITMAP
- * \brief Display a icon or bitmap in an item. 
+ * \brief Display a icon or bitmap in an item.
  */
 #define NCSS_LSTBOX_USEBITMAP       (0x0002<<NCSS_ITEMV_SHIFT)
 
 /**
  * \def NCSS_LSTBOX_CHECKBOX
- * \brief Display a check box in an item. 
+ * \brief Display a check box in an item.
  */
 #define NCSS_LSTBOX_CHECKBOX        (0x0004<<NCSS_ITEMV_SHIFT)
 
 /**
  * \def NCSS_LSTBOX_AUTOCHECK
  * \brief Auto-switch the check box between checked or un-checked
- *        when the user click the check mark box of an item. 
+ *        when the user click the check mark box of an item.
  */
 #define NCSS_LSTBOX_AUTOCHECK       (0x0008<<NCSS_ITEMV_SHIFT)
 
@@ -148,7 +149,7 @@ typedef struct _mListBoxRenderer mListBoxRenderer;
  * \brief Set the style \ref NCSS_LSTBOX_CHECKBOX and \ref NCSS_LSTBOX_AUTOCHECK.
  */
 #define NCSS_LSTBOX_AUTOCHECKBOX  \
-    (NCSS_LSTBOX_CHECKBOX | NCSS_LSTBOX_AUTOCHECK) 
+    (NCSS_LSTBOX_CHECKBOX | NCSS_LSTBOX_AUTOCHECK)
 
 //for list flags
 #define NCSF_LSTBOX_SHIFT           (NCSF_ITEM_SHIFT + 4)
@@ -198,11 +199,11 @@ typedef struct _mListBoxRenderer mListBoxRenderer;
     int     itemHilighted;          \
     int     selItem;                \
     DWORD   listFlag;
-    
+
 /**
  * \struct mListBox
  * \brief The structure of mListBox control, which derived from
- *        mItemView. 
+ *        mItemView.
  *
  *      - font \n
  *        Logic font for bold display.
@@ -252,10 +253,10 @@ struct _mListBox
  *      \param newSel   The index of the item.
  *      \param flag     Indicates the changes to be made to the listbox item,
  *                      can be one of the following values:
- *                          - -1\n    If the item has been selected, makes it 
+ *                          - -1\n    If the item has been selected, makes it
  *                                    unselected, vice versa.
- *                          - 0\n     Makes the item unselected. 
- *                          - other\n Makes the item selected. 
+ *                          - 0\n     Makes the item unselected.
+ *                          - other\n Makes the item selected.
  *
  *      \return         0 on success, else -1 to indicates you passed an invalid
  *                      index or the list box has no \ref NCSS_LSTBOX_MULTIPLE style.
@@ -290,7 +291,7 @@ struct _mListBox
  *      \param info     The information of new items.
  *      \param count    The number of items.
  *
- *  - int (*removeItemByIdx)(clsName*, int index); 
+ *  - int (*removeItemByIdx)(clsName*, int index);
  *    Remove an item in listbox.
  *
  *  - BOOL (*\b bold)(mListBox *self, int index, BOOL bold);\n
@@ -369,10 +370,10 @@ enum mListBoxProp
     NCSP_LSTBOX_TOPITEM,
 
     /**
-     * The index of hilighted item. 
-     * Note:It has different meaning in different selection style. 
-     *      In single selected mode, it is same as selected item. 
-     *      But in multiply selected mode, it stands for current focus item which 
+     * The index of hilighted item.
+     * Note:It has different meaning in different selection style.
+     *      In single selected mode, it is same as selected item.
+     *      But in multiply selected mode, it stands for current focus item which
      *      can be changed by mouse or keyboard.
      */
     NCSP_LSTBOX_HILIGHTEDITEM,
@@ -393,12 +394,12 @@ enum mListBoxNotify
      * Click on the string.
      */
     NCSN_LSTBOX_CLICKED = NCSN_ITEMV_CLICKED,
-    
+
     /**
      * Selected item changed.
      */
     NCSN_LSTBOX_SELCHANGED = NCSN_ITEMV_SELCHANGED,
-    
+
     /**
      * User has pressed the ENTER key.
      */
@@ -408,22 +409,22 @@ enum mListBoxNotify
      * Get input focus.
      */
     NCSN_LSTBOX_SETFOCUS = NCSN_ITEMV_SETFOCUS,
-    
+
     /**
      * Lost input focus.
      */
     NCSN_LSTBOX_KILLFOCUS = NCSN_ITEMV_KILLFOCUS,
- 
+
     /**
      * No enough memory.
      */
     NCSN_LSTBOX_ERRSPACE = NCSN_ITEMV_MAX + 1,
-    
+
     /**
      * Double click on an item.
      */
     NCSN_LSTBOX_DBCLK,
-    
+
     /**
      * The checkbox selection is cancelled in ListBox.
      * - param: int, The index of list item.
@@ -431,7 +432,7 @@ enum mListBoxNotify
     NCSN_LSTBOX_CMCANCEL,
     // Obsolete.
     NCSN_LSTBOX_SELCANCEL = NCSN_LSTBOX_CMCANCEL,
-    
+
     /**
      * Click on the check mark.
      */
@@ -457,3 +458,4 @@ MGNCS_EXPORT extern mListBoxClass g_stmListBoxCls;
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_CTRL_LSTBOX_H */
+#endif //_MGNCSCTRL_LISTBOX

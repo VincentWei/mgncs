@@ -28,6 +28,7 @@ list(APPEND mgncs_srcs
     mnode.c mradionode.c mchecknode.c mabstractlist.c mlist.c mlist_layout.c
     mrdr.c hashtable.c
     mbtree.c mtextedit.c
+    mimagebutton.c
     )
 
 mg_add_source_files(${mgncs_srcs})

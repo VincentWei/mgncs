@@ -11,12 +11,12 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
  */
-/** $Id: mtextedit.h 1116 2010-12-02 04:03:35Z dongjunjie $
+/** $Id: mtextedit.h 1683 2017-10-26 06:52:09Z weiym $
  *
  * textedit.h: header for new text edit module.
  *
@@ -28,14 +28,14 @@
 #ifndef _MGUI_TEXT_EDIT_H
 #define _MGUI_TEXT_EDIT_H
 
-#if defined(_MGNCS_TEXTEDITOR) || (defined(_MGCTRL_TEXTEDIT) && defined(_MGCTRL_TEXTEDIT_USE_NEW_IMPL))
+#if defined(_MGNCSCTRL_TEXTEDITOR) || (defined(_MGCTRL_TEXTEDIT) && defined(_MGCTRL_TEXTEDIT_USE_NEW_IMPL))
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* enable ES_TITLE stle of TEXTEDIT control */
-#define _MGHAVE_TEXTEDITTITLE 1
+#define _MGHAVE_TEXTEDITTITLE 0
 
 DECLARE_OBJECT(mTextBuffer)
 DECLARE_OBJECT(mTextIterator)
@@ -72,7 +72,7 @@ DEFINE_OBJECT(mTextBuffer, mObject)
 	mObjectHeader(Clss)           \
 	INTERFACE(ITextIterator) \
 	mTextBuffer* buffer;            \
-	int index; 
+	int index;
 
 #define mTextIteratorClassHeader(Clss, Super) \
 	mObjectClassHeader(Clss, Super)          \
@@ -190,13 +190,13 @@ DECLARE_OBJECT(mTextEditor)
  *        It is the new multiline edit control.
  *
  *  - textBuffer\n
- *    The text buffer. 
+ *    The text buffer.
  *
  *  - textLayout\n
  *    The text layout.
  *
  *  - visWidth, visHeight\n
- *    The text visible width and height. 
+ *    The text visible width and height.
  *
  *  - offX, offY\n
  *    The text offset value.
@@ -230,10 +230,10 @@ DECLARE_OBJECT(mTextEditor)
     TITLE_HEADER
 
 
-/** 
+/**
  * \struct mTextEditorClass
  * \brief the VTable of \a mTextEditor, derived from \ref mWidget.
- * 
+ *
  * - int (*\b getParaText)(mTextEditor*, int index, int start, int len, char* buffer);\n
  *   The function gets the specified paragraph text.
  *      \param index - The index of paragraph.
@@ -314,7 +314,7 @@ DECLARE_OBJECT(mTextEditor)
  *      \param endOffChar The end offset of character.
  *      \return zero on success, otherwise return -1.
  *
- */ 
+ */
 #define mTextEditorClassHeader(Clss, Super)  \
         mWidgetClassHeader(Clss, Super)     \
         ITextLayoutContextHeader(ITextLayoutContext, Clss)          \
@@ -437,7 +437,7 @@ DECLARE_OBJECT(mTextEditor)
  */
  enum ncsTEScrollMode
  {
-    /** 
+    /**
      * The scroll bar is never visbile.
      */
     NCS_TEF_SCROLLBAR_NEVER = 0,
@@ -457,7 +457,7 @@ DECLARE_OBJECT(mTextEditor)
  * \enum mTextEditorProp
  * \brief The properties id of mTextEditor.
  */
-enum mTextEditorProp 
+enum mTextEditorProp
 {
     /**
      * Read-Only content.
@@ -511,7 +511,7 @@ enum mTextEditorProp
  * \enum mTextEditorNotify
  * \brief The notification code id of mTextEditor.
  */
-enum mTextEditorNotify 
+enum mTextEditorNotify
 {
     /**
      * Notifies that content has changed when it lost focus.
@@ -548,7 +548,7 @@ enum mTextEditorNotify
      * Notifies that the selected text has been changed.
      */
 	NCSN_TE_SELCHANGED,
-   
+
     /**
      * The maximum value of mTextEditor notification code id.
      */
@@ -573,7 +573,7 @@ void mTextEditor_drawLinesDecorative(mTextEditor * self, HDC hdc, int x, int y, 
 }
 #endif
 
-#endif /*_MGNCS_TEXTEDITOR*/
+#endif /*_MGNCSCTRL_TEXTEDITOR*/
 
 #endif
 

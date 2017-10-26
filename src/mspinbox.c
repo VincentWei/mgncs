@@ -1,4 +1,4 @@
-/* 
+/*
 ** $Id:$
 **
 ** Copyright (C) 2009 Feynman Software.
@@ -35,6 +35,8 @@
 #include "mem-slab.h"
 
 #include "piece.h"
+
+#ifdef _MGNCSCTRL_SPINBOX
 
 struct _mSpinBoxItemInfo{
 	char * string;
@@ -100,7 +102,7 @@ static BOOL mSpinBox_addItem (mSpinBox *self, char *item)
 		SetBodyProp(NCSP_SPNRPIECE_MAXPOS, count-1);
 		InvalidateRect(self->hwnd, NULL, TRUE);
 	}
-  
+
     return TRUE;
 }
 
@@ -119,7 +121,7 @@ static const char *mSpinBox_getItem (mSpinBox *self, int index)
     if(self == NULL || !INSTANCEOF(self, mSpinBox)
             || !(GetWindowStyle(self->hwnd) & NCSS_SPNBOX_STRING))
 		return NULL;
-	
+
 	info = get_spinner_item(self, index);
 
 	return info?info->string:NULL;
@@ -132,16 +134,18 @@ static BOOL mSpinBox_setItem (mSpinBox *self, int index, char *string)
     if(string  == NULL || self == NULL || !INSTANCEOF(self, mSpinBox)
             || !(GetWindowStyle(self->hwnd) & NCSS_SPNBOX_STRING))
 		return FALSE;
-    
+
 	info = get_spinner_item(self, index);
 	if(info)
 	{
 		if(info->string)
 			free(info->string);
 		info->string = strdup(string);
-        
-		if (index == GetBodyProp(NCSP_SPNRPIECE_CURPOS))
+
+		if (index == GetBodyProp(NCSP_SPNRPIECE_CURPOS)){
+			SetWindowText(GetDlgItem(self->hwnd, 100), info->string);
             InvalidateRect(self->hwnd, NULL, TRUE);
+		}
 
 		return TRUE;
 	}
@@ -168,7 +172,7 @@ static BOOL mSpinBox_removeItem (mSpinBox *self, int index)
 	{
 		mSpinBoxItemInfo * t = self->info.items;
 		int i;
-		for(i=0; i<index && t; i++, t=t->next);
+		for(i = 0; i < index -1 && t; i++, t = t->next) ;
 		if(!t || !t->next)
 			return FALSE;
 		info = t->next;
@@ -180,13 +184,14 @@ static BOOL mSpinBox_removeItem (mSpinBox *self, int index)
 	_SLAB_FREE(info);
 
 	//reset the count
-	for(info = self->info.items, count=0; info; info=info->next, count++);
-    if (index < count)
-        InvalidateRect(self->hwnd, NULL, TRUE);
-    else
+	for(info = self->info.items, count=0; info; info = info->next, count++);
+    
+	if (index >= count){
         SetBodyProp(NCSP_SPNRPIECE_CURPOS, count - 1);
+	}
+	InvalidateRect(self->hwnd, NULL, TRUE);
 
-	SetBodyProp(NCSP_SPNRPIECE_MAXPOS, count>0?count-1:0);
+	SetBodyProp(NCSP_SPNRPIECE_MAXPOS, count > 0 ? count - 1 : 0);
 
 	return TRUE;
 }
@@ -195,24 +200,24 @@ static mObject* create_pieces(mSpinBox *self, mWidget * editor, DWORD dwStyle)
 {
     mObject *body;
 	mHotPiece *wrapper = (mHotPiece*)NEWPIECEEX(mWidgetWrapperPiece, editor);
-	
+
 	mHotPiece *piece;
 	if(dwStyle & NCSS_SPNR_HORIZONTAL)
 		piece = (mHotPiece*)NEWPIECEEX(mHSpinBoxPiece, wrapper);
 	else
 		piece = (mHotPiece*)NEWPIECEEX(mVSpinBoxPiece, wrapper);
-	
+
 	// ready to call super.createBody
 	self->body = (mObject*)piece;
-	
+
     body =  Class(mSpinner).createBody((mSpinner*)self);
-	
+
     if(dwStyle & NCSS_SPNBOX_STRING)
 	{
         self->info.items = NULL;
-		_c(HP(body))->setProperty(HP(body), NCSP_SPNRPIECE_MAXPOS,100);
-		_c(HP(body))->setProperty(HP(body), NCSP_SPNRPIECE_MINPOS,0);
-		_c(HP(body))->setProperty(HP(body), NCSP_SPNRPIECE_LINESTEP,1);
+		_c(HP(body))->setProperty(HP(body), NCSP_SPNRPIECE_MAXPOS,   100);
+		_c(HP(body))->setProperty(HP(body), NCSP_SPNRPIECE_MINPOS,   0);
+		_c(HP(body))->setProperty(HP(body), NCSP_SPNRPIECE_LINESTEP, 1);
 	}
 	else
 	{
@@ -250,7 +255,7 @@ static int editor_onSetPieceProperty(mEdit *edit, int message, WPARAM wParam, LP
 	{
 		const char* str = _c(self)->getItem(self, (int)lParam);
 		if(str == NULL)
-			return FALSE;
+			str = "";
 		SetWindowText(edit->hwnd, str);
 	}
 	else //number
@@ -307,9 +312,9 @@ static mObject* mSpinBox_createBody(mSpinBox *self)
 		NULL, //rdr_info
 		editor_handlers, //handlers,
 		(DWORD)self);
-	
+
 	body = create_pieces(self, editor, dwStyle);
-	
+
 	return body;
 }
 
@@ -352,7 +357,7 @@ static int mSpinBox_onKeyDown(mSpinBox *self, int scancode, DWORD key_flags)
 			if(Body)
 			{
 				mSpinnerPiece * spinner = (mSpinnerPiece*)Body;
-				_c(spinner)->lineStep(spinner, SCANCODE_CURSORBLOCKUP == scancode || SCANCODE_PAGEUP == scancode);
+				_c(spinner)->lineStep(spinner, SCANCODE_CURSORBLOCKDOWN == scancode || SCANCODE_PAGEDOWN == scancode);
 			}
 			break;
     }
@@ -389,6 +394,7 @@ static BOOL mSpinBox_refresh(mSpinBox *self)
 
 	ExcludeWindowStyle(editor->hwnd, 0xFFFFFFFF);
 	IncludeWindowStyle(editor->hwnd, spinbox_style_to_editor_style(GetWindowStyle(self->hwnd)));
+	UpdateWindow(editor->hwnd, TRUE);
 
     DELPIECE(self->body);
 	self->body = create_pieces(self, editor, dwStyle);
@@ -424,6 +430,27 @@ static BOOL mSpinBox_onCreate(mSpinBox *self, LPARAM lParam)
 	return FALSE;
 }
 
+static int mSpinBox_wndProc (mSpinBox* self,
+            int message, WPARAM wParam, LPARAM lParam)
+{
+    switch(message) {
+        case MSG_SETFOCUS:
+        {
+            if ((GetWindowStyle(self->hwnd) & NCSS_SPNBOX_AUTOFOCUS))
+                SetFocusChild (GetDlgItem(self->hwnd, 100));
+            break;
+        }
+        case MSG_KILLFOCUS:
+        {
+			SendDlgItemMessage (self->hwnd, 100, MSG_KILLFOCUS, 0, 0);
+            break;
+        }
+		default:
+		break;
+	}
+	return Class(mSpinner).wndProc((mSpinner*)self, message, wParam, lParam);
+}
+
 BEGIN_CMPT_CLASS (mSpinBox, mSpinner)
     CLASS_METHOD_MAP (mSpinBox, createBody)
     CLASS_METHOD_MAP (mSpinBox, onCreate)
@@ -433,9 +460,11 @@ BEGIN_CMPT_CLASS (mSpinBox, mSpinner)
 	CLASS_METHOD_MAP (mSpinBox, removeItem)
 	CLASS_METHOD_MAP (mSpinBox, setItem)
 	CLASS_METHOD_MAP (mSpinBox, getItem)
+	CLASS_METHOD_MAP (mSpinBox, wndProc)
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
 	CLASS_METHOD_MAP (mSpinBox, refresh)
 #endif
 	SET_DLGCODE(DLGC_WANTALLKEYS)
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_SPINBOX

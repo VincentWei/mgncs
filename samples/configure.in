@@ -12,9 +12,9 @@ dnl ========================================================================
 # Checks for programs.
 AC_PROG_MAKE_SET
 AC_PROG_CC
-AC_PROG_LD
+#AC_PROG_LD
 
-AM_INIT_AUTOMAKE([mgncs-samples],[1.0.0],-)
+AM_INIT_AUTOMAKE([mgncs-samples],[1.0.8],-)
 dnl ========================================================================
 dnl Put the name and version of the package here
 
@@ -33,10 +33,17 @@ dnl check for run-time mode of MiniGUI
 dnl ========================================================================
 
 have_libminigui="no"
-AC_CHECK_HEADERS(minigui/common.h, have_libminigui=yes, foo=bar)
+AC_CHECK_HEADERS(minigui/common.h, have_libminigui="yes", foo=bar)
 
 have_libmgncs="no"
-AC_CHECK_HEADERS(mgncs/mgncs.h, have_libmgncs=yes, foo=bar)
+AC_CHECK_HEADERS(mgncs/mgncs.h, have_libmgncs="yes", foo=bar, 
+[[#ifdef HAVE_MINIGUI_COMMON_H
+ # include <minigui/common.h>
+ # include <minigui/minigui.h>
+ # include <minigui/gdi.h>
+ # include <minigui/window.h>
+ #endif
+ ]])
 
 threads_version="no"
 AC_CHECK_DECLS(_MGRM_THREADS, threads_version="yes", foo=bar, [#include <minigui/common.h>])
@@ -73,6 +80,7 @@ AC_CHECK_DECLS(_MGIMAGE_PNG, APP_LIBS="$APP_LIBS -lpng", foo=bar, [#include <min
 AC_CHECK_DECLS(_MGIMAGE_JPG, APP_LIBS="$APP_LIBS -ljpeg", foo=bar, [#include <minigui/common.h>])
 AC_CHECK_DECLS(_MGFONT_TTF, APP_LIBS="$APP_LIBS -lttf", foo=bar, [#include <minigui/common.h>])
 AC_CHECK_DECLS(_MGFONT_FT2, APP_LIBS="$APP_LIBS -lfreetype", foo=bar, [#include <minigui/common.h>])
+AC_CHECK_DECLS(_MGIAL_DLCUSTOM, APP_LIBS="$APP_LIBS -ldl", foo=bar, [#include <minigui/common.h>])
 
 if test "$ac_cv_prog_gcc" = "yes"; then
     CFLAGS="$CFLAGS -Wall -Wstrict-prototypes -pipe"

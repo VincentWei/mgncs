@@ -32,16 +32,23 @@
 
 #define NCSF_ASTLST_FROZEN          0x0001
 
-static void mAbstractList_construct (mAbstractList *self, DWORD addData)
+static void mAbstractList_construct(mAbstractList *self, DWORD addData)
 {
-	g_stmScrollWidgetCls.construct((mScrollWidget*)self, addData);
+	Class(mScrollWidget).construct((mScrollWidget*)self, addData);
 
-    self->nodeCmp   = _ncs_defcmp_node;
-    self->flags     = 0;
-    self->root      = ncsCreateNode((mObject*)self, "", NULL, 0, 0, 0);
-    //inherited
+    self->nodeCmp    = _ncs_defcmp_node;
+    self->flags      = 0;
+    self->root       = ncsCreateNode((mObject*)self, "", NULL, 0, 0, 0);
     self->contHeight = 0;
-    self->vStepVal = GetWindowFont(self->hwnd)->size + 2;
+    self->vStepVal 	 = GetWindowFont(self->hwnd)->size + 2;
+}
+
+static void mAbstractList_destroy(mAbstractList *self)
+{
+	if (self->root){
+        DELETE(self->root);
+	}
+	Class(mScrollWidget).destroy((mScrollWidget*)self);
 }
 
 static BOOL mAbstractList_setProperty(mAbstractList *self, int id, DWORD value)
@@ -62,7 +69,7 @@ static BOOL mAbstractList_setProperty(mAbstractList *self, int id, DWORD value)
         case NCSP_ASTLST_CMPNODEFUNC:
             if (value && (NCS_CB_CMPNODE)value != self->nodeCmp) {
                 self->nodeCmp = (NCS_CB_CMPNODE)value;
-                _c(self)->sortNodes(self, self->nodeCmp, NULL);
+                _M(self, sortNodes, self->nodeCmp, NULL);
                 return TRUE;
             }
             return FALSE;
@@ -107,23 +114,22 @@ static int mAbstractList_insertNode(mAbstractList *self,
         mNode *node, mNode *prev, mNode *next, int index)
 {
     if (self && self->root)
-        return _c(self->root)->insertNode(self->root, node, prev, next, index);
+        return _M(self->root, insertNode, node, prev, next, index);
 
     return -1;
 }
 
 static int mAbstractList_addNode(mAbstractList *self, mNode *node)
 {
-    return _c(self)->insertNode(self, node, NULL, NULL, -1);
+    return _M(self, insertNode, node, NULL, NULL, -1);
 }
 
 static int mAbstractList_removeNode(mAbstractList *self, mNode *node)
 {
     if (self && self->root && node) {
-        mNode *parentNode = 
-            (mNode*)_c(node)->getProperty(node, NCSP_NODE_PARENTNODE);
+        mNode *parentNode = (mNode*)_M(node, getProperty, NCSP_NODE_PARENTNODE);
         if (parentNode)
-            return _c(parentNode)->removeNode(parentNode, node);
+            return _M(parentNode, removeNode, node);
     }
     return -1;
 }
@@ -132,8 +138,7 @@ static void mAbstractList_freeze(mAbstractList *self, BOOL lock)
 {
     if (lock) {
         self->flags |= NCSF_ASTLST_FROZEN;
-    }
-    else {
+    } else {
         self->flags &= ~NCSF_ASTLST_FROZEN;
     }
 }
@@ -151,26 +156,22 @@ static BOOL mAbstractList_showNode(mAbstractList *self, mNode *node)
     if (!self || !node) return FALSE;
 
 
-    if (_c(self)->getRect(self, node, &rcNode, FALSE) < 0)
+    if (_M(self, getRect, node, &rcNode, FALSE) < 0)
         return FALSE;
 
     if (rcNode.top >= self->contY && rcNode.bottom <= self->contY + self->visHeight)
     {
-        if (rcNode.right < self->contX)
-        {
-            return _c(self)->makePosVisible(self, rcNode.left, rcNode.top); 
-        }
-        else if (rcNode.left >= self->contX + self->visWidth
+        if (rcNode.right < self->contX) {
+            return _M(self, makePosVisible, rcNode.left, rcNode.top); 
+        } else if (rcNode.left >= self->contX + self->visWidth
                 || (rcNode.right > self->contX + self->visWidth && rcNode.left != 0)) {
-            return _c(self)->makePosVisible(self, rcNode.right, rcNode.top); 
+            return _M(self, makePosVisible, rcNode.right, rcNode.top); 
+        } else if (rcNode.left < self->contX) {
+            return _M(self, makePosVisible, rcNode.left, rcNode.top); 
         }
 
-        else if (rcNode.left < self->contX) {
-            return _c(self)->makePosVisible(self, rcNode.left, rcNode.top); 
-        }
-
-        _c(self)->contentToWindow(self, &rcNode.left, &rcNode.top);
-        _c(self)->contentToWindow(self, &rcNode.right, &rcNode.bottom);
+        _M(self, contentToWindow, &rcNode.left, &rcNode.top);
+        _M(self, contentToWindow, &rcNode.right, &rcNode.bottom);
         InvalidateRect(self->hwnd, &rcNode, TRUE);
         return TRUE;
     }
@@ -180,18 +181,18 @@ static BOOL mAbstractList_showNode(mAbstractList *self, mNode *node)
 
     if (rcNode.bottom <= self->contY) {
         pos_y = rcNode.top;
-    }
-    else if (rcNode.top > self->contY) {
+    } else if (rcNode.top > self->contY) {
         pos_y = rcNode.bottom;
     }
 
-    if (rcNode.right <= self->contX)
+    if (rcNode.right <= self->contX){
         pos_x = rcNode.left;
-    else if (rcNode.left >= self->contX + self->visWidth 
-            || (rcNode.right  > self->contX + self->visWidth && rcNode.left != 0))
+	} else if (rcNode.left >= self->contX + self->visWidth 
+            || (rcNode.right  > self->contX + self->visWidth && rcNode.left != 0)){
         pos_x = rcNode.right;
+	}
 
-    return _c(self)->makePosVisible(self, pos_x, pos_y); 
+    return _M(self, makePosVisible, pos_x, pos_y); 
 }
 
 static void mAbstractList_refreshNode(mAbstractList *self, 
@@ -202,7 +203,7 @@ static void mAbstractList_refreshNode(mAbstractList *self,
     if (!self || !node || _c(self)->isFrozen(self))
         return;
 
-    if (_c(self)->getRect(self, node, &rcNode, TRUE) < 0)
+    if (_M(self, getRect, node, &rcNode, TRUE) < 0)
         return;
 
     if (rcInv) {
@@ -222,43 +223,42 @@ static mNode* mAbstractList_findNode(mAbstractList *self, DWORD info,
     if (!self || !self->root)
         return NULL;
 
-    return _c(self->root)->findNode(self->root, info, type, recursion, startIndex);
+    return _M(self->root, findNode, info, type, recursion, startIndex);
 }
 
 mNode* mAbstractList_getNode(mAbstractList *self, int index)
 {
-    return _c(self->root)->getNode(self->root, index);
+    return _M(self->root, getNode, index);
 }
 
 int mAbstractList_indexOf(mAbstractList *self, mNode *node)
 {
-    return _c(node)->indexOf(node);
+    return _M(node, indexOf);
 }
 
 static void _sort_children(mNode *self, NCS_CB_CMPNODE func)
 {
-    mNode *tmp, *first, *child1, *child2;
     int ret;
+    mNode *tmp, *first, *child1, *child2;
 
     if (!self || !func)
         return;
 
-    if (_c(self)->getProperty(self, NCSP_NODE_CHILDRENCOUNT) <= 1)
+    if (_M(self, getProperty, NCSP_NODE_CHILDRENCOUNT) <= 1)
         return;
 
-    child1 = first = (mNode*)_c(self)->getProperty(self, NCSP_NODE_FIRSTCHILD);
+    child1 = first = (mNode*)_M(self, getProperty, NCSP_NODE_FIRSTCHILD);
 
     while (first) {
         _sort_children(first, func);
-        first = _c(first)->getNext(first);
+        first = _M(first, getNext);
     }
     
     while (child1) {
         ret = 0;
 
-        for (   child2 = (mNode*)_c(self)->getProperty(self, NCSP_NODE_FIRSTCHILD);
-                child2 != NULL;
-                child2 = _c(child2)->getNext(child2) )
+        for (child2 = (mNode*)_M(self, getProperty, NCSP_NODE_FIRSTCHILD);
+                child2 != NULL; child2 = _M(child2, getNext) )
         {
             if (child1 == child2)
                 break;
@@ -268,10 +268,10 @@ static void _sort_children(mNode *self, NCS_CB_CMPNODE func)
                 break;
         }
 
-        tmp = _c(child1)->getNext(child1);
+        tmp = _M(child1, getNext);
 
         if (ret < 0) {
-           _c(self)->moveNode(self, child1, 1, child2);
+           _M(self, moveNode, child1, 1, child2);
         }
                 
         child1 = tmp;
@@ -282,7 +282,7 @@ static void mAbstractList_sortNodes(mAbstractList *self, NCS_CB_CMPNODE func, mN
 {
     if (self && func) {
         _sort_children(parentNode ? parentNode: self->root, func);
-        if (!_c(self)->isFrozen(self))
+        if (!_M(self, isFrozen))
             InvalidateRect(self->hwnd, NULL, TRUE);
     }
 }
@@ -293,9 +293,9 @@ static void mAbstractList_notifyEvent(mAbstractList* self, int eventId, DWORD ev
         case NCSE_NODE_NODEADDED:
         {
             mNode *node = (mNode*)eventInfo;
-            if (node && _c(node)->getProperty(node, NCSP_NODE_CHILDRENCOUNT) > 0
+            if (node && _M(node, getProperty, NCSP_NODE_CHILDRENCOUNT) > 0
                     && GetWindowStyle(self->hwnd) & NCSS_ASTLST_AUTOSORT) {
-                _c(self)->sortNodes(self, self->nodeCmp, node);
+                _M(self, sortNodes, self->nodeCmp, node);
             }
             break;
         }
@@ -306,6 +306,7 @@ static void mAbstractList_notifyEvent(mAbstractList* self, int eventId, DWORD ev
 
 BEGIN_CMPT_CLASS(mAbstractList, mScrollWidget)
 	CLASS_METHOD_MAP(mAbstractList, construct)
+	CLASS_METHOD_MAP(mAbstractList, destroy)
 	CLASS_METHOD_MAP(mAbstractList, getProperty)
 	CLASS_METHOD_MAP(mAbstractList, setProperty)
 	CLASS_METHOD_MAP(mAbstractList, getNode)

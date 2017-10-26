@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_TOOLBAR
 
 #ifndef _MGUI_NCSCTRL_TLBAR_H
 #define _MGUI_NCSCTRL_TLBAR_H
@@ -44,7 +45,7 @@ struct _mToolBar
 	mWidgetClassHeader(clsName, parentClass) \
 	BOOL (*addItem)(clsName*, void *item, int type, int min_size, int max_size); \
 	int  (*isItemChecked)(clsName *, int id); \
-	int  (*checkItem)(clsName *, int id, int state); 
+	int  (*checkItem)(clsName *, int id, int state);
 
 /**
  * \struct mToolBarClass
@@ -52,7 +53,7 @@ struct _mToolBar
  *
  * - BOOL \b addItem(mToolBar *self, void * \a item, int \a type, int \a min_size, int \a max_size); \n
  *   add an toolitem into toolbar
- *   \param item - the toolitem pointer, create by 
+ *   \param item - the toolitem pointer, create by
  *   		- ncsCreatePushToolItem
  *   		- ncsCreateSeparatorItem
  *   		- ncsCreateMenuToolItem
@@ -139,4 +140,4 @@ enum enumToolBarNotify {
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_TLBAR_H */
-
+#endif //_MGNCSCTRL_TOOLBAR

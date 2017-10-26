@@ -32,6 +32,8 @@
 #include "mcombobox.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_COMBOBOX
+
 #ifdef _MGNCS_RDR_SKIN
 
 extern mWidgetRenderer skin_widget_renderer;
@@ -42,7 +44,7 @@ static void skin_drawDropDownBtn (mCombobox *self, HDC hdc, const RECT *rect)
 	DWORD key;
     DRAWINFO _di;
     const BITMAP *bmp;
-    
+
     key = ncsGetElement(self, NCS_IMAGE_ARROWSHELL);
     if (!(bmp = GetBitmapFromRes(key)))
         return;
@@ -62,7 +64,7 @@ static void skin_drawDropDownBtn (mCombobox *self, HDC hdc, const RECT *rect)
     ncsSkinDraw (hdc, rect, &_di);
 
 	//draw arrow
-	self->renderer->drawArrow(self, hdc, 
+	self->renderer->drawArrow(self, hdc,
             rect, NCSR_ARROW_DOWN, 0L, NCSRF_FILL);
 }
 
@@ -79,4 +81,5 @@ mComboboxRenderer skin_combobox_renderer =
 	(void*)&skin_widget_renderer,
 };
 #endif
+#endif //_MGNCSCTRL_COMBOBOX
 

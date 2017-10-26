@@ -1,5 +1,5 @@
-/* 
- ** $Id: mpropsheet.c 934 2010-07-19 06:12:53Z dongjunjie $
+/*
+ ** $Id: mpropsheet.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of mPropsheet control.
  **
@@ -28,6 +28,8 @@
 #include "mpage.h"
 #include "mpropsheet.h"
 
+#ifdef _MGNCSCTRL_PROPSHEET
+
 /*for page handle*/
 #define IDC_PAGE    20
 
@@ -52,8 +54,8 @@ static void mPropSheet_construct (mPropSheet *self, DWORD addData)
 #define PREVPAGE(self, page) \
     _c(self)->getPrevPage(self, page)
 
-static mPage* createPage (mPropSheet* self, 
-        PDLGTEMPLATE dlgTemplate, DWORD style, 
+static mPage* createPage (mPropSheet* self,
+        PDLGTEMPLATE dlgTemplate, DWORD style,
         const NCS_EVENT_HANDLER *handlers)
 {
     mPage*  page;
@@ -62,21 +64,21 @@ static mPage* createPage (mPropSheet* self,
 
     if (GetWindowExStyle(self->hwnd) & WS_EX_TRANSPARENT)
         exStyle = WS_EX_TRANSPARENT | WS_EX_USEPARENTRDR;
-    else 
+    else
         exStyle = WS_EX_USEPARENTRDR;
-    
+
     GetClientRect(self->hwnd, &rcClient);
     self->renderer->getRect(self, &rcClient, &rcPage, NCSF_PRPSHT_PAGE);
 
     page = (mPage*)ncsCreateWindow (
                         NCSCTRL_PAGE,
-                        dlgTemplate->caption, 
-                        WS_VISIBLE, 
+                        dlgTemplate->caption,
+                        WS_VISIBLE,
                         exStyle,
-                        IDC_PAGE, 
-                        rcPage.left, rcPage.top, 
+                        IDC_PAGE,
+                        rcPage.left, rcPage.top,
                         RECTW(rcPage), RECTH(rcPage),
-                        self->hwnd, 
+                        self->hwnd,
                         NULL,
                         NULL,
                         (NCS_EVENT_HANDLER*)handlers,
@@ -89,7 +91,7 @@ static mPage* createPage (mPropSheet* self,
 
     _c(page)->setIcon(page, dlgTemplate->hIcon);
 
-    if (!_c(page)->addIntrinsicControls(page, 
+    if (!_c(page)->addIntrinsicControls(page,
                 dlgTemplate->controls, dlgTemplate->controlnr)) {
         fprintf (stderr, "createPage Error> set controls error. \n ");
         DestroyWindow(page->hwnd);
@@ -145,7 +147,7 @@ static void updatePropSheet (mPropSheet* self)
     while (page) {
         tmp = page;
         tabWidth = 0;
-        
+
         while (tmp) {
             tabWidth += tmp->titleWidth;
 
@@ -234,7 +236,7 @@ static void recalcTabWidths (mPropSheet* self, DWORD style)
     }
 }
 
-static BOOL changeActivePage(mPropSheet* self, 
+static BOOL changeActivePage(mPropSheet* self,
         mPage* page, DWORD style, BOOL reCount)
 {
     HDC hdc;
@@ -262,7 +264,7 @@ static BOOL changeActivePage(mPropSheet* self,
 
         /*notify parent activeChanged*/
         ncsNotifyParent ((mWidget*)self, NCSN_PRPSHT_ACTIVECHANGED);
-        
+
         /*show new active page*/
         _c(page)->showPage (page, SW_SHOW);
 
@@ -270,7 +272,7 @@ static BOOL changeActivePage(mPropSheet* self,
                 && reCount) {
             recalcTabWidths (self, style);
         }
-        
+
         InvalidateRect (self->hwnd, &(self->headRect), TRUE);
         return TRUE;
     }
@@ -298,7 +300,7 @@ static int mPropSheet_onSizeChanged(mPropSheet* self, RECT* prcClient)
         self->renderer->getRect (self, &rcClient, &rcPage, NCSF_PRPSHT_PAGE);
 
     while(page) {
-        MoveWindow (page->hwnd, rcPage.left, rcPage.top, 
+        MoveWindow (page->hwnd, rcPage.left, rcPage.top,
                 RECTW(rcPage), RECTH(rcPage), page == self->active);
         page = NEXTPAGE(self, page);
     }
@@ -307,7 +309,7 @@ static int mPropSheet_onSizeChanged(mPropSheet* self, RECT* prcClient)
     return 0;
 }
 
-static int mPropSheet_onLButtonDown(mPropSheet* self, 
+static int mPropSheet_onLButtonDown(mPropSheet* self,
         int x, int y, DWORD key_flags)
 {
     DWORD   style;
@@ -406,7 +408,7 @@ static int mPropSheet_onKeyDown(mPropSheet* self, int scancode, int state)
     return 0;
 }
 
-static mPage* mPropSheet_addPage(mPropSheet* self, 
+static mPage* mPropSheet_addPage(mPropSheet* self,
         const PDLGTEMPLATE dlgTemplate,
         const NCS_EVENT_HANDLER * handlers)
 {
@@ -519,7 +521,7 @@ static mPage* mPropSheet_getPrevPage(mPropSheet* self, mPage* page)
 {
     HWND child, next;
 
-    if (!page) 
+    if (!page)
         return NULL;
 
     child = GetNextChild(self->hwnd, HWND_NULL);
@@ -545,7 +547,7 @@ static mPage* mPropSheet_getNextPage(mPropSheet* self, mPage* page)
 
     if (child && (child != HWND_INVALID))
         return (mPage*)GetWindowAdditionalData2(child);
-    else 
+    else
         return NULL;
 }
 
@@ -719,7 +721,7 @@ static void mPropSheet_onPaint (mPropSheet* self, HDC hdc, const PCLIPRGN pinv_c
     style = GetWindowStyle(self->hwnd);
 
     GetClientRect (self->hwnd, &rcClient);
-    
+
     /* draw border */
     self->renderer->getRect(self, &rcClient, &destRect, NCSF_PRPSHT_BORDER);
     self->renderer->drawBorder(self, hdc, &destRect);
@@ -738,7 +740,7 @@ static void mPropSheet_onPaint (mPropSheet* self, HDC hdc, const PCLIPRGN pinv_c
 
             if (NEXTPAGE(self, self->active) == NULL)
                 self->renderer->drawScrollBtn(self, hdc, &destRect, NCSR_ARROW_RIGHT | NCSRS_DISABLE);
-            else 
+            else
                 self->renderer->drawScrollBtn(self, hdc, &destRect, NCSR_ARROW_RIGHT);
         }
     }
@@ -759,8 +761,8 @@ static void mPropSheet_onPaint (mPropSheet* self, HDC hdc, const PCLIPRGN pinv_c
         if (destRect.right > tabRect.right) //&& !(self->firstView == page))
             break;
 
-        self->renderer->drawTab(self, hdc, &destRect, 
-                GetWindowCaption(page->hwnd), _c(page)->getIcon(page), 
+        self->renderer->drawTab(self, hdc, &destRect,
+                GetWindowCaption(page->hwnd), _c(page)->getIcon(page),
                 page == self->active);
 
         page = NEXTPAGE(self, page);
@@ -777,7 +779,7 @@ static BOOL mPropSheet_addChildren(mPropSheet* self, NCS_WND_TEMPLATE * children
 
 	if(!children || count <= 0)
 		return FALSE;
-	
+
 	style = GetWindowStyle(self->hwnd);
 
 	if(GetWindowExStyle(self->hwnd) & WS_EX_TRANSPARENT)
@@ -846,3 +848,4 @@ BEGIN_CMPT_CLASS(mPropSheet, mWidget)
 	SET_DLGCODE( DLGC_WANTTAB | DLGC_WANTARROWS)
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_PROPSHEET

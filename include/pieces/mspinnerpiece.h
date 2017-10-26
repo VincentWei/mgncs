@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_SPINNER
 
 #ifndef _MGUI_NCSCTRL_SPINNERPIECE_H
 #define _MGUI_NCSCTRL_SPINNERPIECE_H
@@ -15,7 +16,7 @@ typedef struct _mSpinnerPiece mSpinnerPiece;
 /**protected */ \
 	mHotPiece *(*getIncPiece)(clss *); \
 	mHotPiece *(*getDecPiece)(clss *); \
-	void (*onPosChanged)(clss *); 
+	void (*onPosChanged)(clss *);
 
 struct _mSpinnerPieceClass
 {
@@ -31,7 +32,7 @@ MGNCS_EXPORT extern mSpinnerPieceClass g_stmSpinnerPieceCls;
 	int cur_pos;  \
 	int line_step; \
     int loop_flag;
-	
+
 struct _mSpinnerPiece
 {
 	mSpinnerPieceHeader(mSpinnerPiece)
@@ -58,4 +59,5 @@ enum mSpinnerPieceEvents{
 #endif
 
 #endif
+#endif //_MGNCSCTRL_SPINNER
 

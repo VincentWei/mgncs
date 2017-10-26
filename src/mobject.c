@@ -192,7 +192,7 @@ BOOL ncsInstanceOf(mObject *object, mObjectClass* clss)
 	return objClss != NULL;
 }
 
-int ncsParseConstrcutParams(va_list args, const char* signature, ...)
+int ncsParseConstructParams(va_list args, const char* signature, ...)
 {
 	va_list params;
 	int argc;

@@ -21,6 +21,8 @@
 
 #include <mgncs/mgncs.h>
 
+#ifdef _MGNCSCTRL_DIALOGBOX
+
 static void mymain_onPaint (mWidget *_this, HDC hdc, const CLIPRGN* inv)
 {
     RECT rt;
@@ -49,7 +51,7 @@ int MiniGUIMain (int argc, const char* argv[])
         NCSCTRL_DIALOGBOX, "Hello, world!",
         WS_CAPTION | WS_BORDER | WS_VISIBLE,
         WS_EX_NONE,
-        1, 
+        1,
         0, 0, 300, 200,
         HWND_DESKTOP,
         0, 0,
@@ -66,3 +68,15 @@ int MiniGUIMain (int argc, const char* argv[])
 }
 // END_OF_MINIGUIMAIN
 
+#else //_MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_DIALOGBOX

@@ -114,7 +114,7 @@ typedef struct _mDataValueBindPropClass mDataValueBindPropClass;
 typedef struct _mDataValueBindProp mDataValueBindProp;
 
 #define mDataValueBindPropClassHeader(clss, super) \
-	mDataBindPropClassHeader(clss, super) 
+	mDataBindPropClassHeader(clss, super)
 
 struct _mDataValueBindPropClass{
 	mDataValueBindPropClassHeader(mDataValueBindProp, mDataBindProp)
@@ -133,7 +133,7 @@ typedef struct _mDataFieldBindPropClass mDataFieldBindPropClass;
 typedef struct _mDataFieldBindProp mDataFieldBindProp;
 
 #define mDataFieldBindPropClassHeader(clss, super) \
-	mDataBindPropClassHeader(clss, super) 
+	mDataBindPropClassHeader(clss, super)
 
 struct _mDataFieldBindPropClass {
 	mDataFieldBindPropClassHeader(mDataFieldBindProp, mDataBindProp)
@@ -141,7 +141,7 @@ struct _mDataFieldBindPropClass {
 
 #define mDataFieldBindPropHeader(clss) \
 	mDataBindPropHeader(clss) \
-	mRecordSet * recordSet; 
+	mRecordSet * recordSet;
 
 //user mDataBindProp::revert as field_idx
 
@@ -188,7 +188,7 @@ MGNCS_EXPORT mDataSource* ncsCreateEtcDataSource(const char* etc_file, int mode)
 MGNCS_EXPORT mDataSource* ncsCreateEtcDataSourceByHandle(GHANDLE hEtc, int mode);
 
 //mSQLiteDataSource
-#ifdef _MGNCS_SQLITE
+#ifdef _MGNCSDB_SQLITE
 MGNCS_EXPORT mDataSource* ncsCreateSQLiteDataSource(const char* sqlite_file, int mode);
 #endif
 

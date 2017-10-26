@@ -1,3 +1,4 @@
+#if defined (_MGNCSCTRL_SCROLLBAR) || defined (_MGNCSCTRL_TRACKBAR)
 
 #ifndef _MGUI_NCSCTRL_SLIDERPIECE_H
 #define _MGUI_NCSCTRL_SLIDERPIECE_H
@@ -57,7 +58,7 @@ MGNCS_EXPORT extern mSliderPieceClass g_stmSliderPieceCls;
 #define mSliderPiece_setCenterThumb(self)  (((self)->flags) |= NCSS_SLIDERPIECE_CENTERTHUMB)
 #define mSliderPiece_clearCenterThumb(self) (((self)->flags) &= (~NCSS_SLIDERPIECE_CENTERTHUMB))
 #define mSliderPiece_isCenterThumb(self)  ((self)->flags & NCSS_SLIDERPIECE_CENTERTHUMB)
-	
+
 struct _mSliderPiece
 {
 	mSliderPieceHeader(mSliderPiece)
@@ -86,4 +87,4 @@ enum mSliderPieceEvent
 #endif
 
 #endif
-
+#endif //_MGNCSCTRL_SCROLLBAR _MGNCSCTRL_TRACKBAR

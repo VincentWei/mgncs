@@ -11,21 +11,22 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
  */
 
 /**
- * $Id: mlistview.h 1116 2010-12-02 04:03:35Z dongjunjie $
+ * $Id: mlistview.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *      Copyright (C) 2009 Feynman Software.
  */
+#ifdef _MGNCSCTRL_LISTVIEW
 
 #ifndef _MGUI_CTRL_LISTV_H
 #define _MGUI_CTRL_LISTV_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,10 +45,10 @@ typedef struct _mListViewRenderer mListViewRenderer;
  * \enum ncsListVIRType
  * \brief The relationship between items.
  */
-typedef enum 
+typedef enum
 {
     /** Parent */
-    NCSID_LISTV_IR_PARENT, 
+    NCSID_LISTV_IR_PARENT,
     /** First child */
     NCSID_LISTV_IR_FIRSTCHILD,
     /** Last child */
@@ -110,14 +111,14 @@ typedef enum
  * \enum ncsListVFindType
  * \brief The found type.
  */
-typedef enum 
+typedef enum
 {
     /** According to additional data to find item. */
     NCSID_LISTV_FT_ADDDATA,
     /** According to item text to find item. */
     NCSID_LISTV_FT_TEXT,
 }ncsListVFindType;
-    
+
 /**
  * The structure of searching item information.
  */
@@ -179,7 +180,7 @@ typedef struct _NCS_LISTV_CLMINFO
     /*
      * \sa ncsLstClmSortType
      */
-    ncsLstClmSortType sort; 
+    ncsLstClmSortType sort;
 } NCS_LISTV_CLMINFO;
 
 /**
@@ -368,7 +369,7 @@ MGNCS_EXPORT extern const unsigned char gListVColumnRecordTypes[];
 /**
  * \struct mListView
  * \brief The structure of mListView control, which derived from
- *        mItemView. 
+ *        mItemView.
  *  - drawHdrBk\n
  *    User-defined function to draw header background.
  *  - drawHdrItem \n
@@ -437,7 +438,7 @@ struct _mListView
     BOOL (*setHeadText)(clsName*, int col, const char* text);           \
     HITEM (*getChildItem)(clsName*, HITEM parent,int index);            \
     int (*getChildCount)(clsName*, HITEM hItem);                        \
-    int (*foldItem)(clsName*, HITEM hItem, BOOL fold);           
+    int (*foldItem)(clsName*, HITEM hItem, BOOL fold);
 
 
 /**
@@ -445,13 +446,13 @@ struct _mListView
  * \brief The virtual function table of mListView, which derived from
  *        mItemViewClass.
  *
- * - NCS_CB_DRAWITEMBK (*\b setItemBkDraw)(mListView *self, 
+ * - NCS_CB_DRAWITEMBK (*\b setItemBkDraw)(mListView *self,
  *                                      NCS_CB_DRAWITEMBK func);\n
  *  Set the user-defined function of drawing item background.
  *      \param func     The new funciton.
  *      \return         The old function.
  *
- * - NCS_CB_DRAWITEM (*\b setSubItemDraw)(mListView *self, 
+ * - NCS_CB_DRAWITEM (*\b setSubItemDraw)(mListView *self,
  *                                      NCS_CB_DRAWITEM func); \n
  *  Set the user-defined function of drawing subitem.
  *      \param func     The new funciton.
@@ -480,11 +481,11 @@ struct _mListView
  *   Get the text length in specified row and column.
  *      \param row      The row index. If \a rowItem is non-zero, needn't it.
  *      \param col      The column index.
- *      \return         the text length on success, otherwise -1. 
+ *      \return         the text length on success, otherwise -1.
  *
  * - mListColumn * (*\b getColumn)(mListView *self, int index);\n
  *   Get the pointer to the specified column.
- *   
+ *
  * - int (*\b getColumnIndex)(mListView *self, mListColumn *column); \n
  *   Get the index of column.
  *
@@ -523,12 +524,12 @@ struct _mListView
  *
  * - void (*\b setBackground)(mListView *self,
  *                      int row, int col, int *color); \n
- *   Set the background. If color is NULL, it will cancel 
+ *   Set the background. If color is NULL, it will cancel
  *   previous setting.
  *
  * - void (*\b setForeground)(mListView *self,
  *                      int row, int col, int *color); \n
- *   Set the foreground. If color is NULL, it will cancel 
+ *   Set the foreground. If color is NULL, it will cancel
  *   previous setting.
  *
  * - int (*\b getBackground)(mListView *self,
@@ -542,10 +543,10 @@ struct _mListView
  * - \ref HITEM (*\b findItem)(mListView *self, \ref NCS_LISTV_FINDINFO *info);\n
  *   Find a item.
  *
- * - HITEM (*\b getRelatedItem)(mListView *self, 
+ * - HITEM (*\b getRelatedItem)(mListView *self,
  *                      HITEM hItem, \ref ncsListVIRType type);\n
  *   Get the related item.
- *      \param type     The relationship, can be one of the following 
+ *      \param type     The relationship, can be one of the following
  *                      values:
  *                      - \ref NCSID_LISTV_IR_PARENT\n
  *                      - \ref NCSID_LISTV_IR_FIRSTCHILD\n
@@ -568,7 +569,7 @@ struct _mListView
  * - BOOL (*\b setHeadText)(mListView *self, int col, const char* text); \n
  *   Set the header text of specified column.
  *
- * - void (*\b sort)(mListView *self, \ref NCS_CB_LISTV_CMPCLM func, 
+ * - void (*\b sort)(mListView *self, \ref NCS_CB_LISTV_CMPCLM func,
  *                      int col, \ref ncsLstClmSortType sort); \n
  *   Sort items.
  *      \param func     The comparison function.
@@ -596,11 +597,11 @@ struct _mListViewClass
  * \brief The structure of mListView renderer, which derived
  *        from mItemViewRenderer.
  *
- *  - void (*\b drawHeader) (clsName *self, HDC hdc, const RECT* pRect, 
+ *  - void (*\b drawHeader) (clsName *self, HDC hdc, const RECT* pRect,
  *              DWORD color, int flag); \n
  *    Draw header.
  *
- *  - void (*\b drawFold) (clsName *self, HDC hdc, const RECT* pRect, 
+ *  - void (*\b drawFold) (clsName *self, HDC hdc, const RECT* pRect,
             DWORD color, HICON icon, int status, int next);\n
       Draw folded or unfoded status.
  */
@@ -621,17 +622,17 @@ enum mListViewProp
     /** The height of header.  */
     NCSP_LISTV_HDRHEIGHT = NCSP_ITEMV_MAX + 1,
     /** The width of header. Read only.  */
-    NCSP_LISTV_HDRWIDTH, 
+    NCSP_LISTV_HDRWIDTH,
     /** The flag of header visible.*/
-    NCSP_LISTV_HDRVISIBLE, 
+    NCSP_LISTV_HDRVISIBLE,
     /** The sorted column index.  */
-    NCSP_LISTV_SORTCOLUMN, 
+    NCSP_LISTV_SORTCOLUMN,
     /** The width of grid line.  */
-    NCSP_LISTV_GRIDLINEWIDTH, 
+    NCSP_LISTV_GRIDLINEWIDTH,
     /** The color of grid line.  */
-    NCSP_LISTV_GRIDLINECOLOR, 
+    NCSP_LISTV_GRIDLINECOLOR,
     /** The number of column. Read only.  */
-    NCSP_LISTV_COLCOUNT, 
+    NCSP_LISTV_COLCOUNT,
     /** The maximum value of mListView properties id.  */
 	NCSP_LISTV_MAX,
 };
@@ -678,3 +679,4 @@ MGNCS_EXPORT extern mListViewClass g_stmListViewCls;
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_CTRL_LISTV_H */
+#endif //_MGNCSCTRL_LISTVIEW

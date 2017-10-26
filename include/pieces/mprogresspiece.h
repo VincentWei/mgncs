@@ -1,3 +1,4 @@
+#ifdef _MGNCSCTRL_PROGRESSBAR
 
 #ifndef _MGUI_NCSCTRL_PROGRESSPIECE_H
 #define _MGUI_NCSCTRL_PROGRESSPIECE_H
@@ -11,7 +12,7 @@ typedef struct _mProgressPiece mProgressPiece;
 
 #define mProgressPieceClassHeader(clss, superCls) \
 	mRenderablePieceClassHeader(clss, superCls)  \
-	int (*step)(clss *self, int offset/*=0*/, BOOL bdec); 
+	int (*step)(clss *self, int offset/*=0*/, BOOL bdec);
 
 struct _mProgressPieceClass
 {
@@ -25,8 +26,8 @@ extern mProgressPieceClass g_stmProgressPieceCls;
 	int max; \
 	int min; \
 	int cur; \
-	int step; 
-	
+	int step;
+
 struct _mProgressPiece
 {
 	mProgressPieceHeader(mProgressPiece)
@@ -45,4 +46,4 @@ enum mProgressPieceProp{
 #endif
 
 #endif
-
+#endif //_MGNCSCTRL_PROGRESSBAR

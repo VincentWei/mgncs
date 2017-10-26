@@ -1,7 +1,8 @@
+#ifdef _MGNCSCTRL_COLORBUTTON
 
 #ifndef _MGUI_NCSCTRL_CLRBTN_H
 #define _MGUI_NCSCTRL_CLRBTN_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,7 +24,7 @@ typedef struct _mColorButtonClass mColorButtonClass;
 typedef struct _mColorButtonRenderer mColorButtonRenderer;
 
 #define mColorButtonHeader(clsName)   \
-	mWidgetHeader(clsName)          
+	mWidgetHeader(clsName)
 /**
  * \struct mColorButton
  * \brief A Button used to select a color, derived from \ref mWidget
@@ -110,4 +111,5 @@ enum enumColorButtonNotify{
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_CLRBTN_H */
+#endif		//_MGNCSCTRL_COLORBUTTON
 

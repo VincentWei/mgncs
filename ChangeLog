@@ -1,6 +1,29 @@
 ********************************************************************************
+What's new in trunk
+10/26-2017. CLEANUP: merge from rel-1-0 branch.
 
-What's new in this branches for 1.0.6 ( 2010/09 ~ )
+********************************************************************************
+What's new in this branches for 1.0.6 (2010/09 ~ 2010/12/01)
+12/24. BUGFIXING#?: mPushToolItem: check and radio item didnot
+work(dongjunjie)
+	* M       src/pieces/mabstractbuttonpiece.c
+	* M       src/pieces/mlinelayoutpiece.c
+	* M       src/mtoolitem.c
+
+12/20. BUGFIXING#?: fixed the bug of script configure.in in test(dongjunjie)
+	* M       autogen.sh
+	* M       configure.in
+
+
+12/13. CLEANUP #?: Remove test/* from configure.in and Makefile.am
+	* configure.in
+	* Makefile.am
+	* test/configure.in
+	* test/Makefile.am
+	* test/databinding/Makefile.am
+	* test/datasource/Makefile.am
+	* test/imetest/Makefile.am
+
 12/02. MERGE : from rel-1-0 and rel-1-0-6 to trunk(dongjunjie)
 	* M       test/datasource/MiniGUI.cfg
 	* M       test/datasource/src/datasource_main.c

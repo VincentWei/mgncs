@@ -12,6 +12,7 @@
 //#include "mcheck.h" for debug
 #include "mgncsconfig.h"
 
+#ifdef _MGNCSDB_XML
 #include "libxml/tree.h"
 #include "libxml/xpath.h"
 #include "libxml/parser.h"
@@ -39,7 +40,7 @@ typedef struct _xml_rs_create_info {
 	int flags;
     int field_count;
     XFIELD* fields;
-}xml_rs_create_info_t;	
+}xml_rs_create_info_t;
 
 DWORD ncsXMLNodeGetContent(mXMLRecordSet* rs, int field_idx, xmlNodePtr node)
 {
@@ -105,7 +106,7 @@ static xmlNodePtr _getField(xmlNodePtr node, char *str)
     {
         return _getField(node, str+1);
     }
-    else 
+    else
     {
         for(node = node->children; node; node = node->next)
         {
@@ -126,7 +127,7 @@ static void mXMLDataSource_construct(mXMLDataSource* self, DWORD param)
 	xml_ds_create_info_t* cinfo = (xml_ds_create_info_t*)param;
 
 	Class(mDataSource).construct((mDataSource*)self, 0);
-	
+
 	if(cinfo && cinfo->flags != 0)
 	{
         xmlDocPtr pxmldoc = xmlParseFile( cinfo->filename );
@@ -151,7 +152,7 @@ static void mXMLDataSource_destroy(mXMLDataSource* self)
         xmlFreeDoc( self->pxmldoc );
         xmlCleanupParser();
 	}
-	
+
     if(self->fileName)
         free(self->fileName);
 	Class(mDataSource).destroy((mDataSource*)self);

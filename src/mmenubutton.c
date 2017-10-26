@@ -19,10 +19,12 @@
 #include "mrdr.h"
 #include "piece.h"
 
+#ifdef _MGNCSCTRL_MENUBUTTON
+
 static void mMenuButton_construct(mMenuButton *self, DWORD addData)
 {
 	Class(mButton).construct((mButton *)self, addData);
-	
+
 	self->popmenu = NULL;
 	self->cur_item = 0;
 }
@@ -56,11 +58,10 @@ static BOOL mMenuButton_onPiece(mMenuButton *self, mHotPiece *sender, int event_
 {
 	if(event_id == NCSN_ABP_CLICKED)
 	{
-		//show menu
 		if(self->popmenu)
 		{
-			HMENU hMenu = _c(self->popmenu)->createMenu(self->popmenu);
 			RECT rc;
+			HMENU hMenu = _c(self->popmenu)->createMenu(self->popmenu);
 			if(!hMenu)
 				return FALSE;
 
@@ -68,8 +69,13 @@ static BOOL mMenuButton_onPiece(mMenuButton *self, mHotPiece *sender, int event_
 			WindowToScreen(GetParent(self->hwnd), &rc.left, &rc.bottom);
 			TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, self->hwnd);
 		}
-		return FALSE;
+		ncsNotifyParent((mWidget*)self, NCSN_WIDGET_CLICKED);	
 	}
+    else if(event_id == NCSN_ABP_PUSHED)
+	{	
+		ncsNotifyParent((mWidget*)self, NCSN_BUTTON_PUSHED);	
+	}
+	
 	return TRUE;
 }
 
@@ -77,11 +83,13 @@ static mObject * mMenuButton_createBody(mMenuButton * self)
 {
 	DWORD dwStyle = GetWindowStyle(self->hwnd);
 
-	mHotPiece *content = (mHotPiece*)(_c(self)->createContent(self, dwStyle));
-	mHotPiece * body = (mHotPiece*)_c(self)->createButtonBody(self, dwStyle, (mObject*)content);
+	mHotPiece *content = (mHotPiece*)(_M(self, createContent, dwStyle));
+	mHotPiece *body = (mHotPiece*)_M(self, createButtonBody, dwStyle, (mObject*)content);
 	if(body)
 	{
-		ncsAddEventListener((mObject*)body, (mObject*)self, (NCS_CB_ONPIECEEVENT)mMenuButton_onPiece, NCSN_ABP_CLICKED);
+		int event_ids[]={NCSN_ABP_CLICKED, NCSN_ABP_PUSHED, 0};
+		ncsAddEventListeners((mObject*)body, (mObject*)self, 
+				(NCS_CB_ONPIECEEVENT)mMenuButton_onPiece, event_ids);
 	}
 	return (mObject*)body;
 }
@@ -89,7 +97,7 @@ static mObject * mMenuButton_createBody(mMenuButton * self)
 static void update_cur_item(mMenuButton *self, BOOL bupdate)
 {
 	MENUITEMINFO mii;
-	if(!self->popmenu 
+	if(!self->popmenu
         || !_c(self->popmenu)->getMenuItem(self->popmenu, self->cur_item, &mii, self->cur_item==0?FALSE:TRUE))
 		return ;
 
@@ -125,7 +133,7 @@ static BOOL set_cur_item(mMenuButton *self, int idx, BOOL bupdate)
 
 	if(self->cur_item == idx)
 		return FALSE;
-	
+
 	self->cur_item = idx;
 	update_cur_item(self, bupdate);
 	return TRUE;
@@ -164,7 +172,7 @@ static BOOL mMenuButton_setProperty(mMenuButton *self, int id, DWORD value)
 				else if(value > 85)
 					value = 85;
 
-				if(_c(pair->second)->setProperty(pair->second, NCSP_PAIRPIECE_FIRST_SIZE, value)) 
+				if(_c(pair->second)->setProperty(pair->second, NCSP_PAIRPIECE_FIRST_SIZE, value))
 				{
 					RECT rc;
 					_c(pair->second)->getRect(pair->second, &rc);
@@ -215,7 +223,7 @@ static DWORD mMenuButton_getProperty(mMenuButton *self, int id)
 	case NCSP_BUTTON_IMAGE_SIZE_PERCENT:
 		{
 			mPairPiece *pair = (mPairPiece*)(((mPushButtonPiece*)(self->body))->content);
-			return pair && pair->second ? 
+			return pair && pair->second ?
 					_c(pair->second)->getProperty(pair->second, NCSP_PAIRPIECE_FIRST_SIZE):
 					0;
 		}
@@ -245,9 +253,11 @@ static int mMenuButton_wndProc(mMenuButton *self, int message, WPARAM wParam, LP
 BEGIN_CMPT_CLASS(mMenuButton, mButton)
 	CLASS_METHOD_MAP(mMenuButton, construct    )
 	CLASS_METHOD_MAP(mMenuButton, destroy      )
-	CLASS_METHOD_MAP(mMenuButton, createBody   ) 
+	CLASS_METHOD_MAP(mMenuButton, createBody   )
 	CLASS_METHOD_MAP(mMenuButton, setProperty  )
 	CLASS_METHOD_MAP(mMenuButton, getProperty  )
 	CLASS_METHOD_MAP(mMenuButton, wndProc      )
 	CLASS_METHOD_MAP(mMenuButton, createContent)
 END_CMPT_CLASS
+
+#endif //_MGNCSCTRL_MENUBUTTON

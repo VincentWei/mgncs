@@ -13,10 +13,20 @@
 #ifdef _MGNCS_RDR_FLAT
 
 extern mWidgetRenderer flat_widget_renderer;
+
+#ifdef _MGNCSCTRL_COMBOBOX
 extern mComboboxRenderer flat_combobox_renderer;
+#endif
+
 extern mGroupBoxRenderer flat_groupbox_renderer;
+
+#ifdef _MGNCSCTRL_PROPSHEET
 extern mPropSheetRenderer flat_propsheet_renderer;
+#endif
+
+#ifdef _MGNCSCTRL_LISTVIEW
 extern mListViewRenderer flat_listview_renderer;
+#endif //_MGNCSCTRL_LISTVIEW
 
 #define RDR_ENTRY(CLASSNAME, classname) \
 	{ NCSCTRL_##CLASSNAME, (mWidgetRenderer*)(void*)(&(flat_##classname##_renderer))}
@@ -31,9 +41,15 @@ BOOL ncsInitFlatRenderers(void)
 		RDR_ENTRY(STATIC,widget),
 		RDR_ENTRY(IMAGE,widget),
 		RDR_ENTRY(GROUPBOX,groupbox),
+#ifdef _MGNCSCTRL_COMBOBOX
 		RDR_ENTRY(COMBOBOX, combobox),
+#endif
+#ifdef _MGNCSCTRL_PROPSHEET
 		RDR_ENTRY(PROPSHEET, propsheet),
+#endif
+#ifdef _MGNCSCTRL_LISTVIEW
 		RDR_ENTRY(LISTVIEW, listview),
+#endif //_MGNCSCTRL_LISTVIEW
 		//TODO other render
 	};
 

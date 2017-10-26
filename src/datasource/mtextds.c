@@ -14,7 +14,7 @@
 #include "mobject.h"
 #include "mtype.h"
 #include "mcomponent.h"
-#if _MGNCS_DATASOURCE
+//#if _MGNCSDB_DATASOURCE
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #include "comm_parser.h"
@@ -22,6 +22,7 @@
 
 #include "mem-slab.h"
 
+#ifdef _MGNCSDB_TEXT
 
 //static BOOL textds_get_fields(mTextDataSource* self, mTextRecordNode* rn, BOOL bfocus);
 
@@ -1294,7 +1295,7 @@ void ncsInitTextDataSource(void)
 	MGNCS_INIT_CLASS(mTextDataBindProp);
 }
 
-#endif
-
+#endif //_MGNCSDB_TEXT
+//#endif
 
 

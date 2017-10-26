@@ -20,6 +20,8 @@
 #include <minigui/control.h>
 #include <mgncs/mgncs.h>
 
+#if defined _MGNCSCTRL_PROGRESSBAR && defined _MGNCSCTRL_DIALOGBOX
+
 #define IDC_EXIT      100
 #define IDC_STOP     101
 #define IDC_PROG      200
@@ -46,12 +48,12 @@ static BOOL mymain_onCreate (mWidget* self, DWORD addData)
     mButton *btn;
 
     btn = (mButton*)_c(self)->getChild (self, IDC_EXIT);
-    ncsAddEventListener ((mObject*)btn, (mObject*)self, 
-                (NCS_CB_ONOBJEVENT)mymain_onExit, NCSN_WIDGET_CLICKED); 
+    ncsAddEventListener ((mObject*)btn, (mObject*)self,
+                (NCS_CB_ONOBJEVENT)mymain_onExit, NCSN_WIDGET_CLICKED);
 
     btn = (mButton*)_c(self)->getChild (self, IDC_STOP);
-    ncsAddEventListener ((mObject*)btn, (mObject*)self, 
-                (NCS_CB_ONOBJEVENT)mymain_onStop, NCSN_WIDGET_CLICKED); 
+    ncsAddEventListener ((mObject*)btn, (mObject*)self,
+                (NCS_CB_ONOBJEVENT)mymain_onStop, NCSN_WIDGET_CLICKED);
 
     SetTimer (self->hwnd, 100, 20);
     return TRUE;
@@ -102,7 +104,7 @@ static NCS_PROP_ENTRY progress_props [] = {
 // START_OF_TEMPLATE
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
     {
-        NCSCTRL_PROGRESSBAR, 
+        NCSCTRL_PROGRESSBAR,
         IDC_PROG,
         10, 10, 290, 30,
         WS_BORDER | WS_VISIBLE,
@@ -116,7 +118,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         0
     },
     {
-        NCSCTRL_BUTTON, 
+        NCSCTRL_BUTTON,
         IDC_STOP,
         10, 50, 100, 25,
         WS_BORDER | WS_VISIBLE,
@@ -124,10 +126,10 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
         "Stop",
         NULL,
         btn1_rdr_info,
-        NULL, NULL, 0, 0 
+        NULL, NULL, 0, 0
     },
     {
-        NCSCTRL_BUTTON, 
+        NCSCTRL_BUTTON,
         IDC_EXIT,
         200, 50, 100, 25,
         WS_VISIBLE,
@@ -140,7 +142,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 };
 
 static NCS_MNWND_TEMPLATE mymain_templ = {
-    NCSCTRL_DIALOGBOX, 
+    NCSCTRL_DIALOGBOX,
     1,
     0, 0, 320, 110,
     WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -160,9 +162,16 @@ int MiniGUIMain (int argc, const char* argv[])
 {
     mDialogBox* mydlg;
 
+	if (argc > 1) {
+		btn1_rdr_info[0].glb_rdr = argv[1];
+		btn1_rdr_info[0].ctl_rdr = argv[1];
+		btn2_rdr_info[0].glb_rdr = argv[1];
+		btn2_rdr_info[0].ctl_rdr = argv[1];
+	}
+
     ncsInitialize ();
 
-    mydlg = (mDialogBox *)ncsCreateMainWindowIndirect (&mymain_templ, 
+    mydlg = (mDialogBox *)ncsCreateMainWindowIndirect (&mymain_templ,
                                 HWND_DESKTOP);
 
     _c(mydlg)->doModal (mydlg, TRUE);
@@ -171,4 +180,16 @@ int MiniGUIMain (int argc, const char* argv[])
 
     return 0;
 }
+#else //_MGNCSCTRL_PROGRESSBAR && defined _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the progressbar and dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-progressbar --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_PROGRESSBAR _MGNCSCTRL_DIALOGBOX
 

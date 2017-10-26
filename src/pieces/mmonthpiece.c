@@ -23,15 +23,17 @@
 #include "mgridboxpiece.h"
 #include "mdaygridpiece.h"
 
+#ifdef _MGNCSCTRL_MONTHCALENDAR
+
 static void mMonthPiece_construct(mMonthPiece* self, DWORD add_data)
 {
 	Class(mContainerPiece).construct((mContainerPiece*)self, add_data);
-	
+
 	if(add_data && INSTANCEOF(add_data, mDayGridPiece))
 		self->body  = (mHotPiece*)add_data;
 	else
 		self->body = (mHotPiece*)NEWPIECE(mDayGridPiece);
-	
+
 	if(self->body)
 	{
 		_c(self->body)->setProperty(self->body, NCSP_GRIDBOXPIECE_ROWS, 6);
@@ -92,10 +94,10 @@ static void set_new_day(mMonthPiece *self, int day, CELL_POINT cp, mWidget* owne
 	else
 	{
 		int old_day = self->cur_day;
-		self->cur_day = day;	
-		_c(daygrid)->updateNewCell(daygrid, 
-			_c(daygrid)->day2Cell(daygrid, old_day), 
-			cp, 
+		self->cur_day = day;
+		_c(daygrid)->updateNewCell(daygrid,
+			_c(daygrid)->day2Cell(daygrid, old_day),
+			cp,
 			NCS_GRIDBOXPIECE_PAINT_MASK_REDRAW,
 			NCS_GRIDBOXPIECE_PAINT_MASK_DRAWSEL,
 			owner);
@@ -106,7 +108,7 @@ static void set_new_day(mMonthPiece *self, int day, CELL_POINT cp, mWidget* owne
 
 static void set_new_hot_cell(mMonthPiece *self, mDayGridPiece * daygrid, int new_row, int new_col, mWidget *owner)
 {
-	
+
 	CELL_POINT old_cp, new_cp;
 	int day_old, day_new;
 
@@ -124,7 +126,7 @@ static void set_new_hot_cell(mMonthPiece *self, mDayGridPiece * daygrid, int new
 	if(new_row < 0 || new_row >= (int)daygrid->rows)
 		return ;
 
-	
+
 	if(new_row == (int)self->hot_row && new_col == (int)self->hot_col)
 		return;
 
@@ -228,3 +230,4 @@ BEGIN_MINI_CLASS(mMonthPiece, mContainerPiece)
 	CLASS_METHOD_MAP(mMonthPiece, paint)
 END_MINI_CLASS
 
+#endif // _MGNCSCTRL_MONTHCALENDAR

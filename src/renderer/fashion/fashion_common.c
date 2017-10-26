@@ -82,19 +82,19 @@ void returnObject(CacheSlot* slots, void *obj)
 {
 	int i;
 	int top;
+
 	if(slots == NULL || obj == NULL)
-		return ;
+		return;
 
 #ifdef _MGRM_THREAD
 	pthread_mutex_lock(&slots->mutex);
 #endif
-	top = slots->free_cursor-1;
-	for(i = top; i>=0; i--)
+	top = slots->free_cursor - 1;
+	for(i = top; i >= 0; i--)
 	{
-		if(slots->slots[i] == obj){
-			//swamp with head
-			if(i != top)
-			{
+		if(slots->slots[i] == obj) {
+			//swap with head
+			if(i != top) {
 				void *tmp = slots->slots[i];
 				slots->slots[i] = slots->slots[top];
 				slots->slots[top] = tmp;
@@ -105,6 +105,7 @@ void returnObject(CacheSlot* slots, void *obj)
 			break;
 		}
 	}
+    //not slot, need delete.
 	if(i < 0 && slots->deleteObject)
 		(*(slots->deleteObject))(obj);
 
@@ -119,10 +120,9 @@ void freeCacheSlot(CacheSlot* slots)
 	if(slots == NULL)
 		return;
 
-	if(slots->deleteObject){
-		for(i = 0; i < slots->free_cursor; i++)
-		{
-			(slots->deleteObject)(slots->slots[i]);
+	if(slots->deleteObject) {
+		for(i = 0; i < slots->max; i++) {
+            (slots->deleteObject)(slots->slots[i]);
 		}
 	}
 
@@ -145,7 +145,8 @@ static void* brush_new(void)
 
 static void brush_delete(void* obj)
 {
-	MGPlusBrushDelete((HBRUSH)obj);
+    if (obj)
+        MGPlusBrushDelete((HBRUSH)obj);
 }
 
 HBRUSH fashion_getBrush()
@@ -158,10 +159,7 @@ void fashion_retBrush(HBRUSH hbrush)
 	returnObject(_brush_cache_slots, (void*)hbrush);
 }
 
-
-
 ////////////////////////////////////////
-
 static HGRAPHICS _hgraphics = 0;
 static int _graphics_max_width = MAX_GRAPHICS_WIDTH;
 static int _graphics_max_height = MAX_GRAPHICS_HEIGHT;
@@ -244,6 +242,7 @@ BOOL init_fashion_common()
 void uninit_fashion_common()
 {
 	freeCacheSlot(_brush_cache_slots);
+    _brush_cache_slots = NULL;
 
 	unit_graphics();
 }

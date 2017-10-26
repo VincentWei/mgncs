@@ -19,6 +19,8 @@
 #include "mcontainerpiece.h"
 #include "msliderpiece.h"
 
+#if defined (_MGNCSCTRL_SCROLLBAR) || defined (_MGNCSCTRL_TRACKBAR)
+
 #define SLPF_SET_LOGIC     0x01
 #define SLPF_FORCE_UPDATE  0x02
 
@@ -95,7 +97,7 @@ static void set_thumb_pos(mSliderPiece *self, int x, int y, mWidget * owner, DWO
 
 	if(!self->thumb)
 		return ;
-		
+
 	if(!_c(self->thumb)->getRect(self->thumb, &rc_thumb))
 		return ;
 
@@ -124,7 +126,7 @@ static void set_thumb_pos(mSliderPiece *self, int x, int y, mWidget * owner, DWO
 			rc_thumb.top = rc_thumb.bottom - size;
 		}
 		pos = rc_thumb.top - rc.top;
-		
+
 		if(flags&SLPF_SET_LOGIC)
 			set_logic_pos(self, pos , RECTH(rc) - size);
 
@@ -135,7 +137,7 @@ static void set_thumb_pos(mSliderPiece *self, int x, int y, mWidget * owner, DWO
 		rc_thumb.right = rc_thumb.left + size;
 
 		_c(self->thumb)->setRect(self->thumb, &rc_thumb);
-		
+
 	}
 	else
 	{
@@ -172,7 +174,7 @@ static void set_thumb_pos(mSliderPiece *self, int x, int y, mWidget * owner, DWO
     if(self->min < self->max)
     {
         RAISE_EVENT(self, NCSN_SLIDERPIECE_POSCHANGED, (DWORD)self->cur_pos);
-        if(mSliderPiece_isMin(self)) 
+        if(mSliderPiece_isMin(self))
             RAISE_EVENT(self, NCSN_SLIDERPIECE_REACHMIN, self->min);
         else if(mSliderPiece_isMax(self))
             RAISE_EVENT(self, NCSN_SLIDERPIECE_REACHMAX, self->max);
@@ -201,7 +203,7 @@ static void set_thumb_state(mSliderPiece *self, int new_state, int event, mWidge
 
 	if(event!=0)
 		RAISE_EVENT(self, event, 0);
-	
+
 	mHotPiece_update((mHotPiece*)self, (mObject*)owner, TRUE);
 }
 
@@ -212,9 +214,9 @@ static inline void thumb_inc(mSliderPiece *self, int offset, mWidget *owner)
 	set_thumb_logic_pos(self, self->cur_pos + offset, owner);
 }
 
-static int mSliderPiece_processMessage(mSliderPiece *self, 
-		int message, 
-		WPARAM wParam, 
+static int mSliderPiece_processMessage(mSliderPiece *self,
+		int message,
+		WPARAM wParam,
 		LPARAM lParam,
 		mWidget *owner)
 {
@@ -231,7 +233,7 @@ static int mSliderPiece_processMessage(mSliderPiece *self,
 		y = HISWORD(lParam);
 		if(_c(thumb)->hitTest(thumb, x, y) == thumb) //mouse on thumb
 		{
-			mWidget_captureHotPiece(owner, (mObject*)self);	
+			mWidget_captureHotPiece(owner, (mObject*)self);
 			set_thumb_state(self, PIECE_STATE_PUSHED, 0, owner);
 		}
 		else
@@ -252,7 +254,7 @@ static int mSliderPiece_processMessage(mSliderPiece *self,
 	case MSG_MOUSEMOVE:
 		x = LOSWORD(lParam);
 		y = HISWORD(lParam);
-		if(self->thumb_state == PIECE_STATE_CAPTURED 
+		if(self->thumb_state == PIECE_STATE_CAPTURED
 			|| self->thumb_state == PIECE_STATE_PUSHED)
 		{
 			ScreenToClient(owner->hwnd, &x, &y);
@@ -328,7 +330,7 @@ static void mSliderPiece_paint(mSliderPiece *self, HDC hdc, mWidget * owner, DWO
      * bits 0x00FF0000  : horz or vert
      * bits 0xFF000000  : enable or disable
      */
-    
+
     if (add_data & PIECE_STATE_DISABLE)
         newadd |= (PIECE_STATE_DISABLE << 24);
     if (mSliderPiece_isVert(self))
@@ -338,15 +340,13 @@ static void mSliderPiece_paint(mSliderPiece *self, HDC hdc, mWidget * owner, DWO
     
     BitBlt (hdc, 0, 0, 0, 0, tmpDC, 0, 0, 0);
 
-	Class(mContainerPiece).paint((mContainerPiece*)self, 
+	Class(mContainerPiece).paint((mContainerPiece*)self,
             tmpDC, (mObject*)owner, newadd);
 
 	if(self->thumb)
-		_c(self->thumb)->paint(self->thumb, tmpDC, (mObject*)owner, 
-			add_data | (self->thumb_state) | (mSliderPiece_isVert(self) ? NCS_PIECE_PAINT_VERT : 0));
-    
-    BitBlt (tmpDC, 0, 0, 0, 0, hdc, 0, 0, 0);
-    DeleteCompatibleDC (tmpDC);
+		_c(self->thumb)->paint(self->thumb, hdc, (mObject*)owner,
+			add_data|(self->thumb_state)
+			  |(mSliderPiece_isVert(self)?NCS_PIECE_PAINT_VERT:0));
 }
 
 static void recalc_thumb_logic_pos(mSliderPiece *self, mWidget * owner)
@@ -365,14 +365,14 @@ static void recalc_thumb_logic_pos(mSliderPiece *self, mWidget * owner)
 		self->cur_pos = self->max;
 	else if(self->cur_pos < self->min)
 		self->cur_pos = self->min;
-	
+
 	if(mSliderPiece_isVert(self))
 	{
 		size = RECTH(rc_thumb) ;
 		total_size = RECTH(rc) - size;
 		if(total_size <= 0)
 			return;
-	
+
 		if(self->max <= self->min)
 			thumb_pos = 0;
 		else
@@ -411,7 +411,7 @@ static void set_thumb_logic_pos(mSliderPiece *self, int new_pos, mWidget *owner)
 
 	self->cur_pos = new_pos;
 
-	recalc_thumb_logic_pos(self, owner);	
+	recalc_thumb_logic_pos(self, owner);
 }
 
 
@@ -532,7 +532,7 @@ static BOOL mSliderPiece_setRect(mSliderPiece *self, const RECT *prc)
 	{
 		Class(mContainerPiece).setRect((mContainerPiece*)self, prc);
 	}
-	
+
 	//calc the thumb rect
 	recalc_thumb_logic_pos(self, NULL);
 
@@ -596,4 +596,4 @@ BEGIN_MINI_CLASS(mSliderPiece, mContainerPiece)
 	CLASS_METHOD_MAP(mSliderPiece, getRect    )
 END_MINI_CLASS
 
-
+#endif //_MGNCSCTRL_SCROLLBAR _MGNCSCTRL_TRACKBAR

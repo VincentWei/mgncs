@@ -17,6 +17,7 @@
 
 #include "mime.h"
 
+#ifdef _MGNCSENGINE_DIGIT
 
 ///////////////////////////////////////////
 // mDigitEngine
@@ -200,6 +201,8 @@ BEGIN_MINI_CLASS(mDigitEngine, mIMEngine)
 	CLASS_METHOD_MAP(mDigitEngine, findAssociate)
 END_MINI_CLASS
 
+
+
 /// mDigitIME
 static void mDigitIME_setIMEngine(mDigitIME* self, mIMEngine* ime_engine)
 {
@@ -341,7 +344,10 @@ BEGIN_MINI_CLASS(mDigitIterator, mIMIterator)
 	CLASS_METHOD_MAP(mDigitIterator, curIndex)
 END_MINI_CLASS
 
+#endif //_MGNCSENGINE_DIGIT
 
+
+#ifdef _MGNCSENGINE_DIGITPTI
 ///////////////////////////////////////////
 //mDigitPtiEngine
 
@@ -403,13 +409,13 @@ static BOOL mDigitPtiEngine_findRange(mDigitPtiEngine* self, const char* input, 
 static BOOL mDigitPtiEngine_findWords(mDigitPtiEngine* self, mDigitPtiIterator* it, const char* input, int start)
 {
 	BOOL bRet;
-	
+
     if(!it)
 		return FALSE;
-	
+
     if((bRet = Class(mDigitEngine).findWords((mDigitEngine*)self, (mIMIterator*)it, input, start)))
 		it->words = (const char**)((mPtiEngine*)(self->sub_engine))->sorted_words;
-	
+
     if(start == 0 && input[1] == 0 && input[0]>='2' && input[0] <= '9')  //is the single letters
 	{
 		it->letters =(char*) digital_letters[input[0] - '2'];
@@ -419,7 +425,7 @@ static BOOL mDigitPtiEngine_findWords(mDigitPtiEngine* self, mDigitPtiIterator* 
 	else {
 		it->letters = NULL;
     }
-	
+
     return bRet;
 }
 
@@ -493,6 +499,7 @@ BEGIN_MINI_CLASS(mDigitPtiIterator, mDigitIterator)
 	CLASS_METHOD_MAP(mDigitPtiIterator, word)
 END_MINI_CLASS
 
+#endif //_MGNCSENGINE_DIGITPTI
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////// Pinyin
@@ -504,6 +511,8 @@ END_MINI_CLASS
 	0xFFFFFF10, //len = 5
 	0xFFFFFFFC //len = 6
 };*/
+
+#ifdef _MGNCSENGINE_DIGITPY
 
 static unsigned int make_key(const char* pinyin, int len)
 {
@@ -577,7 +586,6 @@ static int find_pinyin(mDigitPyEngine* self, const char* pinyin, int len, short 
 	find[1] = idx;
 	return 1;
 }
-
 
 
 #include "pinyin-idx.c"
@@ -671,4 +679,5 @@ BEGIN_MINI_CLASS(mDigitPyIterator, mDigitIterator)
 	CLASS_METHOD_MAP(mDigitPyIterator, subIterator)
 END_MINI_CLASS
 
+#endif //_MGNCSENGINE_DIGITPY
 

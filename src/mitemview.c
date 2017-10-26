@@ -1,5 +1,5 @@
 /* 
- ** $Id: mitemview.c 1116 2010-12-02 04:03:35Z dongjunjie $
+ ** $Id: mitemview.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of ItemView.
  **
@@ -69,7 +69,7 @@ static int mItemView_inItem (mItemView *self, int mouseX, int mouseY,
 
 static void mItemView_construct (mItemView *self, DWORD addData)
 {
-	g_stmScrollWidgetCls.construct((mScrollWidget*)self, addData);
+	Class(mScrollWidget).construct((mScrollWidget*)self, addData);
 
     self->defItemHeight = GetWindowFont(self->hwnd)->size;
     memset (&self->itemOps, 0, sizeof(self->itemOps));
@@ -81,10 +81,8 @@ static void mItemView_construct (mItemView *self, DWORD addData)
 static HITEM mItemView_createItem (mItemView *self, HITEM prev, HITEM next, 
         int index, int height, const char* text, DWORD addData, int *pos, BOOL adjust)
 {
-    mItem*  newItem;
     int     ret = -1;
-     
-    newItem = (mItem*)NEW(mItem);
+    mItem*  newItem = (mItem*)NEW(mItem);
 
     if (!newItem)
         return -1;
@@ -117,7 +115,10 @@ static void mItemView_destroy(mItemView* self)
 {
     _c(self)->freeze(self, TRUE);
     _c(self)->removeAll(self);
-    if (pItemList) DELETE((mItem*)pItemList);
+    if (pItemList) 
+		DELETE((mItem*)pItemList);
+
+    Class(mScrollWidget).destroy((mScrollWidget*)self);
 }
 
 static void mItemView_freeze(mItemView *self, BOOL lock)
@@ -147,9 +148,7 @@ static void mItemView_refreshRect (mItemView* self, const RECT *rc)
 static int mItemView_adjustItemsHeight(mItemView* self, int diff)
 {
     int height;
-    int old;
-
-    old = _c(pItemList)->adjustItemsHeight(pItemList, diff);
+    _c(pItemList)->adjustItemsHeight(pItemList, diff);
 
     if (_c(pItemList)->isFrozen(pItemList))
         return 0;

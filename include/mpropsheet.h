@@ -11,22 +11,23 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
- 
+
   	\endverbatim
  */
 
 
 /**
- * $Id: mpropsheet.h 844 2010-02-26 03:05:57Z dongjunjie $
+ * $Id: mpropsheet.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *          Copyright (C) 2009 Feynman Software.
  */
+#ifdef _MGNCSCTRL_PROPSHEET
 
 #ifndef _MGUI_NCSCTRL_PROPSHEET_H
 #define _MGUI_NCSCTRL_PROPSHEET_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -53,7 +54,7 @@ extern "C" {
 
 /**
  * \def NCSS_PRPSHT_COMPACTTAB
- * \brief A simple property sheet control. All tabs of the controls will have 
+ * \brief A simple property sheet control. All tabs of the controls will have
  *        the same width.
  */
 #define NCSS_PRPSHT_SIMPLE          (0x0000<<NCSS_WIDGET_SHIFT)
@@ -78,7 +79,7 @@ extern "C" {
 
 /**
  * \def NCSS_PRPSHT_BOTTOM
- * \brief Bottom tab style. Tabs will be located at the bottom of the 
+ * \brief Bottom tab style. Tabs will be located at the bottom of the
  *        propsheet.
  */
 #define NCSS_PRPSHT_BOTTOM          (0x0004<<NCSS_WIDGET_SHIFT)
@@ -145,7 +146,7 @@ struct _mPropSheet
     mPage* (*getNextPage)(clsName*, mPage* page);      \
     mPage* (*getPrevPage)(clsName*, mPage* page);      \
     int (*broadCastMsg)(clsName*, DWORD param1, DWORD param2);
-    
+
 /**
  * \struct mPropSheetClass
  * \brief The virtual function table of mPropSheet.
@@ -164,7 +165,7 @@ struct _mPropSheet
  *                              const NCS_EVENT_HANDLER* handlers);\n
  *    Add a page to propsheet according to DLGTEMPLATE and handlers.
  *      \param dlgTemplate    The pointer to dialog template.
- *      \param handlers       The pointer to event handlers. 
+ *      \param handlers       The pointer to event handlers.
  *      \return               The pointer to page for success, otherwise NULL.
  *      \sa NCS_EVENT_HANDLER
  *
@@ -192,7 +193,7 @@ struct _mPropSheet
  *    Broadcast message to all pages.
  *      \param param1     The first parameter of broadcast message.
  *      \param param2     The second parameter of broadcast message.
- *      \return           The index + 1 of page which has been broken the message, 
+ *      \return           The index + 1 of page which has been broken the message,
  *                        Zero indicates no page asserts an error.
  */
 struct _mPropSheetClass
@@ -250,7 +251,7 @@ enum ncsPrpShtFlags
  * \brief The structure of mPropSheet renderer, which inheried from mWidgetRenderer.
  *
  *  - void (*\b resetHeadArea) (mPropSheet *self, RECT* rcClient, DWORD style);\n
- *    According to client area and control style, reset the rectangle of header 
+ *    According to client area and control style, reset the rectangle of header
  *    which is used to show all tabs.
  *      \param rcClient   The pointer to a RECT strucutre which contains the client area.
  *      \param style      The style of control.
@@ -307,7 +308,7 @@ MGNCS_EXPORT extern mPropSheetClass g_stmPropSheetCls;
 enum mPropSheetNotify
 {
 	/**
-	 * \brief the active page changed 
+	 * \brief the active page changed
 	 *
 	 */
     NCSN_PRPSHT_ACTIVECHANGED = NCSN_WIDGET_MAX + 1,
@@ -325,7 +326,7 @@ enum mPropSheetNotify
 enum mPropSheetProp
 {
 	/**
-	 * \brief Set the minimum width of tab 
+	 * \brief Set the minimum width of tab
 	 *  - Type int
 	 *  - Read Write
 	 *  - set the minimum width of tab
@@ -333,7 +334,7 @@ enum mPropSheetProp
 	 */
 	NCSP_PRPSHT_MINTABWIDTH = NCSP_WIDGET_MAX + 1,
 	/**
-	 * \brief Set the tab margin 
+	 * \brief Set the tab margin
 	 *  - Type int
 	 *  - Read Write
 	 *  - set the margin of tab
@@ -341,7 +342,7 @@ enum mPropSheetProp
 	 */
 	NCSP_PRPSHT_TABMARGIN,
 	/**
-	 * \brief Set the active page 
+	 * \brief Set the active page
 	 *  - Type mPage*
 	 *  - Read Write
 	 *  - set the active page pointer
@@ -357,7 +358,7 @@ enum mPropSheetProp
 	 */
     NCSP_PRPSHT_ACTIVEPAGEIDX,
 	/**
-	 * \brief Set the first view page 
+	 * \brief Set the first view page
 	 *  - Type mPage*
 	 *  - Read
 	 *  - set the first view page pointer
@@ -365,7 +366,7 @@ enum mPropSheetProp
 	 */
     NCSP_PRPSHT_FIRSTVIEWPAGE,
 	/**
-	 * \brief Set the first visible page 
+	 * \brief Set the first visible page
 	 *  - Type int
 	 *  - Read
 	 *  - set the index of first visible page
@@ -373,7 +374,7 @@ enum mPropSheetProp
 	 */
     NCSP_PRPSHT_FIRSTVIEWPAGEIDX,
 	/**
-	 * \brief Set the number of pages 
+	 * \brief Set the number of pages
 	 *  - Type int
 	 *  - Read
 	 *  - set the number of pages
@@ -389,3 +390,4 @@ enum mPropSheetProp
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_PROPSHEET_H */
+#endif //_MGNCSCTRL_PROPSHEET

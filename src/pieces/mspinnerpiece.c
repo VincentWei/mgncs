@@ -22,6 +22,8 @@
 #include "mabstractbuttonpiece.h"
 #include "marrowbuttonpiece.h"
 
+#ifdef _MGNCSCTRL_SPINNER
+
 #define IncPiece  (_c(self)->getIncPiece(self))
 #define DecPiece  (_c(self)->getDecPiece(self))
 
@@ -33,7 +35,6 @@ static inline void update_inc_dec(mSpinnerPiece* self)
         _c(DecPiece)->enable(DecPiece, TRUE);
         _c(IncPiece)->enable(IncPiece, TRUE);
     } else {
-
         _c(DecPiece)->enable(DecPiece, self->cur_pos != (self->line_step > 0 ? self->min : self->max));
         _c(IncPiece)->enable(IncPiece, self->cur_pos != (self->line_step > 0 ? self->max : self->min));
     }
@@ -41,12 +42,32 @@ static inline void update_inc_dec(mSpinnerPiece* self)
 
 static mHotPiece* mSpinnerPiece_getIncPiece(mSpinnerPiece *self)
 {
-	return self->body?((mPairPiece*)(self->body))->second:NULL;
+	if (self->body)
+	{
+		mPairPiece *p = (mPairPiece *)self->body; 
+		if (mPairPiece_isVert(p)){
+			return p->first;
+		} else {
+			return p->second;
+		}
+	}
+	return NULL;
+	//return self->body ? ((mPairPiece*)(self->body))->second : NULL;
 }
 
 static mHotPiece* mSpinnerPiece_getDecPiece(mSpinnerPiece *self)
 {
-	return self->body?((mPairPiece*)(self->body))->first:NULL;
+	if (self->body)
+	{
+		mPairPiece *p = (mPairPiece *)self->body; 
+		if (mPairPiece_isVert(p)){
+			return p->second;
+		} else {
+			return p->first;
+		}
+	}
+	return NULL;
+	//return self->body ? ((mPairPiece*)(self->body))->first : NULL;
 }
 
 
@@ -56,30 +77,24 @@ static BOOL mSpinnerPiece_onIncDec(mSpinnerPiece *self, mHotPiece *sender, int e
 		return FALSE;
 
 	_c(self)->lineStep(self, sender == DecPiece);
-	
+
 	return FALSE;
 }
 
 static void mSpinnerPiece_construct(mSpinnerPiece* self, DWORD add_data)
 {
 	Class(mContainerPiece).construct((mContainerPiece*)self, add_data);
-	
+
 	//add_ata
-	if(add_data != 0 && add_data!=1)//add_data is a mHotPiece pointer
-	{
+	if(add_data != 0 && add_data != 1) {//add_data is a mHotPiece pointer
 		self->body = (mHotPiece*)add_data;
-	}
-	else
-	{
+	} else {
 		mPairPiece * pair = NEWPIECE(mPairPiece);
-		if(add_data == 1)//vertial
-		{
+		if(add_data == 1) {//vertial
 			mPairPiece_setVert(pair);
 			pair->first  = (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, NCS_ARROWPIECE_UP);
 			pair->second = (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, NCS_ARROWPIECE_DOWN);
-		}
-		else 
-		{
+		} else {
 			pair->first  = (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, NCS_ARROWPIECE_LEFT);
 			pair->second = (mHotPiece*)NEWPIECEEX(mArrowButtonPiece, NCS_ARROWPIECE_RIGHT);
 		}
@@ -93,8 +108,10 @@ static void mSpinnerPiece_construct(mSpinnerPiece* self, DWORD add_data)
 
 	update_inc_dec(self);
 
-	ncsAddEventListener((mObject*)IncPiece, (mObject*)self, (NCS_CB_ONPIECEEVENT)mSpinnerPiece_onIncDec,NCSN_ABP_PUSHED);
-	ncsAddEventListener((mObject*)DecPiece, (mObject*)self, (NCS_CB_ONPIECEEVENT)mSpinnerPiece_onIncDec,NCSN_ABP_PUSHED);
+	ncsAddEventListener((mObject*)IncPiece, (mObject*)self, 
+			(NCS_CB_ONPIECEEVENT)mSpinnerPiece_onIncDec, NCSN_ABP_PUSHED);
+	ncsAddEventListener((mObject*)DecPiece, (mObject*)self, 
+			(NCS_CB_ONPIECEEVENT)mSpinnerPiece_onIncDec, NCSN_ABP_PUSHED);
 }
 
 static BOOL mSpinnerPiece_setProperty(mSpinnerPiece * self, int id, DWORD value)
@@ -102,7 +119,7 @@ static BOOL mSpinnerPiece_setProperty(mSpinnerPiece * self, int id, DWORD value)
 	switch(id)
 	{
 	case NCSP_SPNRPIECE_MAXPOS:
-        if ((int)value <= self->min)
+        if ((int)value < self->min)
             return FALSE;
 
         self->max = (int)value;
@@ -117,7 +134,7 @@ static BOOL mSpinnerPiece_setProperty(mSpinnerPiece * self, int id, DWORD value)
 		return TRUE;
 
 	case NCSP_SPNRPIECE_MINPOS:
-        if ((int)value >= self->max)
+        if ((int)value > self->max)
             return FALSE;
 
         self->min = (int)value;
@@ -139,7 +156,8 @@ static BOOL mSpinnerPiece_setProperty(mSpinnerPiece * self, int id, DWORD value)
 		return TRUE;
 
 	case NCSP_PAIRPIECE_DIRECTION:
-		return _c(self->body)->setProperty(self->body, id,value);
+		return _c(self->body)->setProperty(self->body, id, value);
+
 	case NCSP_SPNRPIECE_CURPOS:
 		if((int)value == self->cur_pos)
 			return TRUE;
@@ -198,26 +216,22 @@ static int mSpinnerPiece_lineStep(mSpinnerPiece *self, BOOL prev)
 	int reach_id = 0;
 	int dec_inc_id = 0;
     int old = self->cur_pos;
-	if(prev)
-	{
+	
+	if(prev) {
 		self->cur_pos -= self->line_step;
 		dec_inc_id = NCSN_SPNRPIECE_DEC;
-	}
-	else //inc
-	{
+	} else { // inc
 		self->cur_pos += self->line_step;
 		dec_inc_id = NCSN_SPNRPIECE_INC;
 	}
 
     //adjust current position
-    if(self->cur_pos <= self->min)
-    {
+    if(self->cur_pos <= self->min) {
         self->cur_pos = self->min;
         reach_id = NCSN_SPNRPIECE_REACHMIN;
     }
 
-    if(self->cur_pos >= self->max)
-    {
+    if(self->cur_pos >= self->max) {
         self->cur_pos = self->max;
         reach_id = NCSN_SPNRPIECE_REACHMAX;
     }
@@ -227,8 +241,7 @@ static int mSpinnerPiece_lineStep(mSpinnerPiece *self, BOOL prev)
         if (self->cur_pos == self->max) {
 			reach_id = NCSN_SPNRPIECE_REACHMIN;
             self->cur_pos = self->min;
-        }
-        else {
+        } else {
             self->cur_pos = self->max;
 			reach_id = NCSN_SPNRPIECE_REACHMAX;
         }
@@ -236,7 +249,7 @@ static int mSpinnerPiece_lineStep(mSpinnerPiece *self, BOOL prev)
 
 	if(_c(self)->onPosChanged)
 		_c(self)->onPosChanged(self);
-	
+
 	update_inc_dec(self);
 
 	if(reach_id != 0)
@@ -245,7 +258,6 @@ static int mSpinnerPiece_lineStep(mSpinnerPiece *self, BOOL prev)
 	RAISE_EVENT(self, dec_inc_id, self->cur_pos);
 
 	return self->cur_pos;
-
 }
 
 
@@ -259,4 +271,4 @@ BEGIN_MINI_CLASS(mSpinnerPiece, mContainerPiece)
 	CLASS_METHOD_MAP(mSpinnerPiece, lineStep )
 END_MINI_CLASS
 
-
+#endif //_MGNCSCTRL_SPINNER

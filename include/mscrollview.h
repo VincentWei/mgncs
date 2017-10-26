@@ -11,21 +11,20 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
 
   	\endverbatim
  */
 
 /**
- * $Id: mscrollview.h 635 2009-10-28 02:19:04Z wangjian $
+ * $Id: mscrollview.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *      Copyright (C) 2009 Feynman Software.
  */
-
 #ifndef _MGUI_CTRL_SCRLV_H
 #define _MGUI_CTRL_SCRLV_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -85,7 +84,7 @@ typedef struct _mScrollViewRenderer mScrollViewRenderer;
 
 #define mScrollViewHeader(className)    \
     mItemViewHeader(className)
-    
+
 
 /**
  * \struct mScrollView

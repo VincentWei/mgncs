@@ -11,10 +11,20 @@
 #include "mgncs.h"
 
 extern mWidgetRenderer classic_widget_renderer;
+
+#ifdef _MGNCSCTRL_COMBOBOX
 extern mComboboxRenderer classic_combobox_renderer;
+#endif
+
 extern mGroupBoxRenderer classic_groupbox_renderer;
+
+#ifdef _MGNCSCTRL_PROPSHEET
 extern mPropSheetRenderer classic_propsheet_renderer;
+#endif
+
+#ifdef _MGNCSCTRL_LISTVIEW
 extern mListViewRenderer classic_listview_renderer;
+#endif
 
 #define RDR_ENTRY(CLASSNAME, classname) \
 	{ NCSCTRL_##CLASSNAME, (mWidgetRenderer*)(void*)(&(classic_##classname##_renderer))}
@@ -27,9 +37,15 @@ BOOL ncsInitClassicRenderers(void)
 	NCS_RDR_ENTRY entries [] = {
 		RDR_ENTRY(WIDGET,widget),
 		RDR_ENTRY(GROUPBOX,groupbox),
+#ifdef _MGNCSCTRL_COMBOBOX
 		RDR_ENTRY(COMBOBOX, combobox),
+#endif
+#ifdef _MGNCSCTRL_PROPSHEET
 		RDR_ENTRY(PROPSHEET, propsheet),
+#endif
+#ifdef _MGNCSCTRL_LISTVIEW
 		RDR_ENTRY(LISTVIEW, listview),
+#endif
 		//TODO other render
 	};
 

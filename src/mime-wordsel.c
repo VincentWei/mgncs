@@ -19,6 +19,8 @@
 #include "mime.h"
 #include "mime-wordsel.h"
 
+#ifdef _MGNCSCTRL_IMWORDSEL
+
 #define ARROW_WIDTH  8
 
 static inline mHotPiece* get_from_cell(mHotPiece* p, int n)
@@ -73,7 +75,7 @@ static BOOL set_cur_sel(mIMWordSel* self, int idx)
 		return FALSE;
 //	if(self->cur_sel == idx)
 //		return FALSE;
-	if(idx < 0) 
+	if(idx < 0)
 		return FALSE;
 
 //overflow
@@ -225,7 +227,7 @@ static BOOL mIMWordSel_onPageUp(mIMWordSel* self, mHotPiece* send, int id, DWORD
 		self->page_end = self->page_start ;
 		calc_and_add(self, TRUE);
 		change_page_updown(self);
-        
+
         if(send == NULL && id == -1) //use the old sel
         {
             if (sel > self->page_end - self->page_start - 1)
@@ -255,7 +257,7 @@ static BOOL mIMWordSel_onPageDown(mIMWordSel* self, mHotPiece* send, int id, DWO
 		self->page_start = self->page_end;
 		calc_and_add(self, FALSE);
 		change_page_updown(self);
-        
+
         if ( send == NULL && id == -1 && sel > 0)
         {
             if( sel > self->page_end - self->page_start - 1)
@@ -504,3 +506,4 @@ BEGIN_CMPT_CLASS(mIMWordSel, mWidget)
 	CLASS_METHOD_MAP(mIMWordSel, selPrev)
 END_CMPT_CLASS
 
+#endif		//_MGNCSCTRL_IMWORDSEL

@@ -34,10 +34,13 @@
 #include "mcombobox.h"
 
 #include "mtype.h"
-#ifdef _MGNCS_DATASOURCE
+#ifdef _MGNCSDB_DATASOURCE
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #endif
+
+#ifdef _MGNCSCTRL_COMBOBOX
+
 #define  NCS_DEF_LISTHEIGHT     60
 
 #define IDC_CEDIT               1001
@@ -111,7 +114,7 @@ static DWORD mCombobox_getAddData(mCombobox *self, int index)
     return _c(self->listbox)->getAddData(self->listbox, item);
 }
 
-#define _COMBO_BTN_WIDTH   20 
+#define _COMBO_BTN_WIDTH   20
 static void inline calcRect (mCombobox* self)
 {
     RECT rc;
@@ -296,6 +299,8 @@ static int mCombobox_wndProc (mCombobox* self,
                 ncsNotifyParent ((mWidget *)self, NCSN_CMBOX_SELECTCANCEL);
                 ncsNotifyParent ((mWidget *)self, NCSN_CMBOX_CLOSEUP);
             }
+			
+			SendMessage (self->edit->hwnd, MSG_KILLFOCUS, 0, 0);
 
             ncsNotifyParent ((mWidget *)self, NCSN_CMBOX_KILLFOCUS);
             break;
@@ -573,7 +578,7 @@ static DWORD mCombobox_getProperty (mCombobox* self, int id)
 {
     if (id == NCSP_COMB_ITEMHEIGHT || id == NCSP_COMB_ITEMCOUNT)
         return _c(self->listbox)->getProperty(self->listbox, id);
-    
+
     if (id >= NCSP_COMB_MAX)
 		return 0;
 
@@ -644,7 +649,7 @@ static DWORD mCombobox_getSpecificData(mCombobox* self, DWORD key, BOOL *pok)
 static BOOL mCombobox_refresh(mCombobox *self)
 {
     DWORD list_style, edit_style, combo_style, ex_style;
-    
+
     combo_style = GetWindowStyle(self->hwnd);
 
     edit_style = WS_CHILD | NCSS_NOTIFY;
@@ -669,14 +674,14 @@ static BOOL mCombobox_refresh(mCombobox *self)
 
     ExcludeWindowExStyle(self->edit->hwnd, 0xFFFFFFFF);
     IncludeWindowExStyle(self->edit->hwnd, ex_style);
-    
+
     list_style = WS_VSCROLL | NCSS_NOTIFY | WS_THINFRAME;
     if (combo_style & NCSS_CMBOX_DROPDOWNLIST){
         list_style |= NCSS_LSTBOX_MOUSEFOLLOW;
     } else {
         list_style |= WS_VISIBLE | WS_BORDER;
     }
-    
+
     ExcludeWindowStyle(self->listbox->hwnd, 0xFFFFFFFF);
     IncludeWindowStyle(self->listbox->hwnd, list_style);
 
@@ -686,7 +691,7 @@ static BOOL mCombobox_refresh(mCombobox *self)
 
     ExcludeWindowExStyle(self->listbox->hwnd, 0xFFFFFFFF);
     IncludeWindowExStyle(self->listbox->hwnd, ex_style);
-    
+
     if(self->renderer){
         SetWindowElementRenderer(self->edit->hwnd, self->renderer->rdr_name, NULL);
         SetWindowElementRenderer(self->listbox->hwnd, self->renderer->rdr_name, NULL);
@@ -724,3 +729,4 @@ BEGIN_CMPT_CLASS (mCombobox, mPanel)
 	SET_DLGCODE(DLGC_WANTALLKEYS)
 END_CMPT_CLASS
 
+#endif		//_MGNCSCTRL_COMBOBOX

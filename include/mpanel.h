@@ -11,21 +11,20 @@
 
     All rights reserved by Feynman Software.
 
-    This file is part of mgncs, which is new control 
+    This file is part of mgncs, which is new control
     set of MiniGUI.
-     
+
   	\endverbatim
  */
 
 /**
- * $Id: mpanel.h 635 2009-10-28 02:19:04Z wangjian $
+ * $Id: mpanel.h 1683 2017-10-26 06:52:09Z weiym $
  *
  *          Copyright (C) 2009 Feynman Software.
  */
-
 #ifndef _MGUI_NCSCTRL_PANEL_H
 #define _MGUI_NCSCTRL_PANEL_H
- 
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,7 +39,7 @@ extern "C" {
  * \def NCSCTRL_PANEL
  * \brief The control class name of mPanel.
  */
-#define NCSCTRL_PANEL   NCSCLASSNAME("panel") 
+#define NCSCTRL_PANEL   NCSCLASSNAME("panel")
 
 typedef struct _mPanel mPanel;
 typedef struct _mPanelClass mPanelClass;
@@ -60,11 +59,11 @@ struct _mPanel
 };
 
 #define mPanelClassHeader(clsName, parentClass) \
-	mWidgetClassHeader(clsName, parentClass) 
+	mWidgetClassHeader(clsName, parentClass)
 
 /**
  * \struct mPanelClass
- * \brief The virtual function table of mPanelClass, which derived from 
+ * \brief The virtual function table of mPanelClass, which derived from
  *        mWidgetClass.
  */
 struct _mPanelClass
@@ -77,7 +76,7 @@ struct _mPanelClass
 
 /**
  * \struct mPanelRenderer
- * \brief The structure of mPanel renderer, which derived from 
+ * \brief The structure of mPanel renderer, which derived from
  *        mWidgetRenderer.
  */
 struct  _mPanelRenderer {
@@ -106,7 +105,7 @@ enum mPanelProp {
 
 /**
  * \def NCSS_PANEL_SHIFT
- * \brief The bits used by mPanel in style. 
+ * \brief The bits used by mPanel in style.
  */
 #define NCSS_PANEL_SHIFT NCSS_WIDGET_SHIFT
 
@@ -128,4 +127,3 @@ enum mPanelNotify {
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_PANEL_H */
-

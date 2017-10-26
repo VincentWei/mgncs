@@ -25,6 +25,8 @@
 
 #include "piece.h"
 
+#ifdef _MGNCSCTRL_SPINNER
+
 static BOOL mSpinner_setProperty (mSpinner* self, int id, DWORD value)
 {
     if (id >= NCSP_SPNR_MAX)
@@ -69,7 +71,7 @@ static BOOL mSpinner_setProperty (mSpinner* self, int id, DWORD value)
             return TRUE;
         }
     }
-	
+
     return Class(mWidget).setProperty ((mWidget*)self, id, value);
 }
 
@@ -77,7 +79,7 @@ static DWORD mSpinner_getProperty (mSpinner* self, int id)
 {
     if (id >= NCSP_SPNR_MAX)
 		return (DWORD)-1;
-    
+
     switch (id)
 	{
         case NCSP_SPNR_MAXPOS :
@@ -91,7 +93,7 @@ static DWORD mSpinner_getProperty (mSpinner* self, int id)
         case NCSP_SPNR_TARGET :
             return (DWORD)self->h_target;
 	}
-	
+
     return (DWORD)Class(mWidget).getProperty ((mWidget*)self, id);
 }
 
@@ -105,7 +107,8 @@ static BOOL mSpinner_onPiece(mSpinner *self, mHotPiece * piece, int id, DWORD pa
 	case NCSN_SPNRPIECE_INC:
 		if(IsWindow(self->h_target))
 		{
-			code = (GetWindowStyle(self->hwnd)&NCSS_SPNR_HORIZONTAL)?SCANCODE_CURSORBLOCKRIGHT:SCANCODE_CURSORBLOCKDOWN;
+			code = (GetWindowStyle(self->hwnd)&NCSS_SPNR_HORIZONTAL) 
+				? SCANCODE_CURSORBLOCKRIGHT : SCANCODE_CURSORBLOCKDOWN;
 			PostMessage(self->h_target, MSG_KEYDOWN, code, KS_SPINPOST);
 			PostMessage(self->h_target, MSG_KEYUP, code, KS_SPINPOST);
 			return FALSE;
@@ -116,7 +119,8 @@ static BOOL mSpinner_onPiece(mSpinner *self, mHotPiece * piece, int id, DWORD pa
 	case NCSN_SPNRPIECE_DEC:
 		if(IsWindow(self->h_target))
 		{
-			code = (GetWindowStyle(self->hwnd))&NCSS_SPNR_HORIZONTAL?SCANCODE_CURSORBLOCKLEFT:SCANCODE_CURSORBLOCKUP;
+			code = (GetWindowStyle(self->hwnd)) & NCSS_SPNR_HORIZONTAL
+				 ? SCANCODE_CURSORBLOCKLEFT : SCANCODE_CURSORBLOCKUP;
 			PostMessage(self->h_target, MSG_KEYDOWN, code, KS_SPINPOST);
 			PostMessage(self->h_target, MSG_KEYUP, code, KS_SPINPOST);
 			return FALSE;
@@ -152,7 +156,7 @@ static mObject * mSpinner_createBody(mSpinner * self)
 
 	if(!Body)
 	{
-		piece  = (mHotPiece*)NEWPIECEEX(mSpinnerPiece, (dwStyle&NCSS_SPNR_HORIZONTAL)?0:1);	
+		piece  = (mHotPiece*)NEWPIECEEX(mSpinnerPiece, (dwStyle&NCSS_SPNR_HORIZONTAL) ? 0 : 1);
 	}
 	else
 	{
@@ -175,7 +179,7 @@ static BOOL mSpinner_refresh(mSpinner *self)
 }
 #endif
 
-BEGIN_CMPT_CLASS (mSpinner, mWidget)	
+BEGIN_CMPT_CLASS (mSpinner, mWidget)
 	CLASS_METHOD_MAP (mSpinner, setProperty)
 	CLASS_METHOD_MAP (mSpinner, getProperty)
 	CLASS_METHOD_MAP (mSpinner, createBody)
@@ -184,3 +188,4 @@ BEGIN_CMPT_CLASS (mSpinner, mWidget)
 #endif
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_SPINNER

@@ -28,7 +28,7 @@ static mWidget* get_selected_button(mButtonGroup* self, int *pidx)
 
 	while(pnode && pnode->pbtn)
 	{
-		if(_c(pnode->pbtn)->getProperty(pnode->pbtn, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
+		if(_M(pnode->pbtn, getProperty, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
 		{
 			if(pidx)
 				*pidx = i;
@@ -55,8 +55,7 @@ BOOL mButtonGroup_removeButton(mButtonGroup *self, mButton* btn)
 	pnode = self->pBtnList;
 	while(pnode)
 	{
-		if(pnode->pbtn == (mWidget*)btn)
-		{
+		if(pnode->pbtn == (mWidget*)btn) {
 			//remove it
 			mButtonNode* p = pnode;
 			pnode = pnode->next;
@@ -85,8 +84,7 @@ BOOL mButtonGroup_addButton(mButtonGroup *self, mButton *btn)
 	while(temp != NULL)
 	{
 		pre = temp;
-		if (temp->pbtn == (mWidget*)btn)
-		{
+		if (temp->pbtn == (mWidget*)btn) {
 			return TRUE;
 		}
 		temp = temp->next;
@@ -95,25 +93,25 @@ BOOL mButtonGroup_addButton(mButtonGroup *self, mButton *btn)
 	if(btn && btn->group)
 		mButtonGroup_removeButton((mButtonGroup*)(btn->group), btn);	
 
-
-	if(_c(btn)->getProperty(btn, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
+	if(_M(btn, getProperty, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
 	{
 		if(!get_selected_button(self, NULL))
-			_c(self)->checkBtn(self, (mWidget*)btn);
+			_M(self, checkBtn, (mWidget*)btn);
 		else
-			_c(btn)->setProperty(btn, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);	
+			_M(btn, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);	
 	}
 
 
-	temp = malloc(sizeof(mButtonNode));
+	if (NULL == (temp = malloc(sizeof(mButtonNode)))){
+		fprintf(stderr, "[mButtonGroup] addButton Error, malloc NULL.");
+		return FALSE;
+	}
+
 	temp->pbtn = (mWidget*)btn;
 	temp->next = NULL;
-	if (pre != NULL)
-	{
+	if (pre != NULL) {
 		pre->next = temp;
-	}
-	else
-	{
+	} else {
 		self->pBtnList = temp;
 	}
 	btn->group = (mWidget*)self;
@@ -121,20 +119,20 @@ BOOL mButtonGroup_addButton(mButtonGroup *self, mButton *btn)
 	return TRUE;
 }
 
-BOOL mButtonGroup_checkBtn(mButtonGroup *self, mButton *button)
+static BOOL mButtonGroup_checkBtn(mButtonGroup *self, mButton *button)
 {
 	BOOL bchanged = FALSE;
 	mButtonNode *temp = self->pBtnList;
 	if(button)
-		_c(button)->setProperty(button, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_CHECKED);
+		_M(button, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_CHECKED);
 
 	while(temp != NULL)
 	{
 		if(((mButton*)(temp->pbtn)) != button)
 		{
-			if(_c(temp->pbtn)->getProperty(temp->pbtn, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
+			if(_M(temp->pbtn, getProperty, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
 			{
-				_c(temp->pbtn)->setProperty(temp->pbtn, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);
+				_M(temp->pbtn, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);
 				bchanged = TRUE;
 				break;
 			}
@@ -143,7 +141,7 @@ BOOL mButtonGroup_checkBtn(mButtonGroup *self, mButton *button)
 	}
 
 	if(bchanged)
-		ncsNotifyParentEx((mWidget*)self, NCSN_BTNGRP_SELCHANGED, (DWORD)(_c(button)->getId(button)));
+		ncsNotifyParentEx((mWidget*)self, NCSN_BTNGRP_SELCHANGED, (DWORD)(_M(button, getId)));
 
 	return TRUE;
 }
@@ -156,12 +154,12 @@ static BOOL check_button_by_id(mButtonGroup* self, int id)
 	while(pnode)
 	{
 		mWidget* pbtn = pnode->pbtn;
-		if(_c(pbtn)->getId(pbtn) == id)
+		if(_M(pbtn, getId) == id)
 		{
 			bSet = TRUE;
-			_c(pbtn)->setProperty(pbtn, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_CHECKED);
+			_M(pbtn, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_CHECKED);
 		}
-		else if(!pclear && _c(pbtn)->getProperty(pbtn, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
+		else if(!pclear && _M(pbtn, getProperty, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
 		{
 			pclear = pbtn;
 		}
@@ -172,7 +170,7 @@ static BOOL check_button_by_id(mButtonGroup* self, int id)
 		return FALSE;
 	
 	if(pclear){
-		_c(pclear)->setProperty(pclear, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);
+		_M(pclear, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);
 		return TRUE;
 	}
 
@@ -185,7 +183,7 @@ static BOOL check_button_by_idx(mButtonGroup* self, int idx)
 	mWidget* pclear = NULL;
 	int i;
 	for(i = 0; i < idx && pnode;i++, pnode = pnode->next){
-		if(!pclear && _c(pnode->pbtn)->getProperty(pnode->pbtn, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
+		if(!pclear && _M(pnode->pbtn, getProperty, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED)
 			pclear = pnode->pbtn;
 	}
 
@@ -196,11 +194,43 @@ static BOOL check_button_by_idx(mButtonGroup* self, int idx)
 		return TRUE;
 
 	if(pclear)
-		_c(pclear)->setProperty(pclear, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);
+		_M(pclear, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);
 	
 	if(pnode->pbtn)
-		_c(pnode->pbtn)->setProperty(pnode->pbtn, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_CHECKED);
+		_M(pnode->pbtn, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_CHECKED);
 
+	return TRUE;
+}
+
+static BOOL check_button(mButtonGroup* self, mWidget* btn)
+{
+	mWidget* pclear = NULL;
+	mButtonNode* pnode =  self->pBtnList;
+
+	if(!btn)
+		return FALSE;
+
+	while(pnode)
+	{
+		mWidget* pbtn = pnode->pbtn;
+		if(pbtn == btn) {
+			if(pclear)
+				break;
+		} else if(!pclear && _M(pbtn, getProperty, NCSP_BUTTON_CHECKSTATE) == NCS_BUTTON_CHECKED) {
+			pclear = pbtn;
+		}
+		pnode = pnode->next;
+	}
+
+	if(!pnode)
+		return FALSE;
+
+	_M(btn, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_CHECKED);
+	
+	if(pclear){
+		_M(pclear, setProperty, NCSP_BUTTON_CHECKSTATE, NCS_BUTTON_UNCHECKED);
+	}
+	
 	return TRUE;
 }
 
@@ -212,19 +242,19 @@ static DWORD mButtonGroup_getProperty(mButtonGroup* self, int id)
 
 	switch(id)
 	{
-	case NCSP_BTNGRP_SELID:
-		psel = get_selected_button(self,NULL);
-		if(psel)
-			return _c(psel)->getId(psel);
-		return FALSE;
-	case NCSP_BTNGRP_SELIDX:
-		{
-			int idx;
-			psel = get_selected_button(self,&idx);
-			return (DWORD)idx;
-		}
-	case NCSP_BTNGRP_SELOBJ:
-		return (DWORD)get_selected_button(self, NULL);
+		case NCSP_BTNGRP_SELID:
+			psel = get_selected_button(self, NULL);
+			if(psel)
+				return _M(psel, getId);
+			return FALSE;
+		case NCSP_BTNGRP_SELIDX:
+			{
+				int idx;
+				psel = get_selected_button(self, &idx);
+				return (DWORD)idx;
+			}
+		case NCSP_BTNGRP_SELOBJ:
+			return (DWORD)get_selected_button(self, NULL);
 	}
 
 	return Class(mGroupBox).getProperty((mGroupBox*)self, id);
@@ -237,15 +267,26 @@ static BOOL mButtonGroup_setProperty(mButtonGroup* self, int id, DWORD value)
 
 	switch(id)
 	{
-	case NCSP_BTNGRP_SELID:
-		return check_button_by_id(self, (int)value);
-	case NCSP_BTNGRP_SELIDX:
-		return check_button_by_idx(self, (int)value);
-	case NCSP_BTNGRP_SELOBJ:
-		return _c(self)->checkBtn(self,(mWidget*)value);
+		case NCSP_BTNGRP_SELID:
+			return check_button_by_id(self, (int)value);
+		case NCSP_BTNGRP_SELIDX:
+			return check_button_by_idx(self, (int)value);
+		case NCSP_BTNGRP_SELOBJ:
+			return _M(self, checkBtn, (mWidget*)value);
 	}
 
 	return Class(mGroupBox).setProperty((mGroupBox*)self, id, value);
+}
+
+static void mButtonGroup_destroy(mButtonGroup *self)
+{	
+	mButtonNode* pnode = NULL;
+	
+	while (NULL != (pnode = self->pBtnList))
+	{
+		self->pBtnList = pnode->next;
+		free(pnode);
+	}
 }
 
 BEGIN_CMPT_CLASS(mButtonGroup, mGroupBox)
@@ -253,4 +294,5 @@ BEGIN_CMPT_CLASS(mButtonGroup, mGroupBox)
 	CLASS_METHOD_MAP(mButtonGroup, checkBtn)
 	CLASS_METHOD_MAP(mButtonGroup, setProperty)
 	CLASS_METHOD_MAP(mButtonGroup, getProperty)
+	CLASS_METHOD_MAP(mButtonGroup, destroy)
 END_CMPT_CLASS

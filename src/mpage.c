@@ -1,5 +1,5 @@
-/* 
- ** $Id: mpage.c 468 2009-09-05 01:28:04Z xwyan $
+/*
+ ** $Id: mpage.c 1681 2017-10-26 06:46:31Z weiym $
  **
  ** The implementation of mPropsheet control.
  **
@@ -26,6 +26,8 @@
 #include "mcontainer.h"
 #include "mpage.h"
 
+#ifdef _MGNCSCTRL_PAGE
+
 static void mPage_construct (mPage *self,DWORD addData)
 {
 	g_stmContainerCls.construct((mContainer*)self,  addData);
@@ -34,7 +36,7 @@ static void mPage_construct (mPage *self,DWORD addData)
     self->hIcon = 0;
 }
 
-static const char* mPage_getTitle(mPage* self) 
+static const char* mPage_getTitle(mPage* self)
 {
     return GetWindowCaption(self->hwnd);
 }
@@ -76,7 +78,7 @@ static void mPage_showPage (mPage* self, int showCmd)
     ShowWindow (self->hwnd, showCmd);
 
     focus = GetNextDlgTabItem (self->hwnd, (HWND)0, 0);
-    if (SendMessage (self->hwnd, MSG_SHOWPAGE, focus, showCmd) 
+    if (SendMessage (self->hwnd, MSG_SHOWPAGE, focus, showCmd)
             && showCmd == SW_SHOW) {
         if (focus) SetFocus(focus);
     }
@@ -103,7 +105,7 @@ BOOL mPage_callUserHandler(mPage *self, void* handler, int message, WPARAM wPara
 {
 	if(handler == NULL)
 		return FALSE;
-	
+
 	switch(message)
 	{
 	case MSG_INITPAGE:
@@ -118,7 +120,7 @@ BOOL mPage_callUserHandler(mPage *self, void* handler, int message, WPARAM wPara
 		*pret = ((NCS_CB_ONSHEETCMD)handler)(self, (DWORD)wParam, (DWORD)lParam);
 		return TRUE;
 	}
-	
+
 	return Class(mContainer).callUserHandler((mContainer*)self, handler, message, wParam, lParam, pret);
 }
 
@@ -135,3 +137,4 @@ BEGIN_CMPT_CLASS(mPage, mContainer)
 	SET_DLGCODE(DLGC_WANTTAB | DLGC_WANTARROWS)
 END_CMPT_CLASS
 
+#endif //_MGNCSCTRL_PAGE

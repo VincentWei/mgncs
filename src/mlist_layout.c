@@ -1,4 +1,4 @@
-/* 
+/*
  ** $Id: $
  **
  ** The implementation of mListLayout class.
@@ -19,7 +19,7 @@
 
 #include "mgncsconfig.h"
 #include "mcommon.h"
-#include "mobject.h" 
+#include "mobject.h"
 #include "mcomponent.h"
 
 #include "mwidget.h"
@@ -33,11 +33,15 @@
 #include "mlist_layout.h"
 #include "mlist.h"
 
+#ifdef _MGNCSCTRL_LIST
+
 #define pList (self->list)
 /*=============================================================*/
 extern BOOL mList_adjustNodesHeight(mList *self, int diff);
+extern BOOL mList_adjustNodesWidth(mList *self, int diff);
 extern void mList_drawFocusFrame(mList *self, mNode *node, HDC hdc, RECT *rcNode);
 #define _ADJUST_NODES_HEIGHT(self, diff)    mList_adjustNodesHeight((mList*)self, diff)
+#define _ADJUST_NODES_WIDTH(self, diff)    mList_adjustNodesHeight((mList*)self, diff)
 #define _DRAW_FOCUS_FRAME(self, node, hdc, rcNode)       \
     mList_drawFocusFrame((mList*)self, node, hdc, rcNode);
 
@@ -59,7 +63,7 @@ static void mListLayout_destroy(mListLayout *self)
 
 #define _LAYOUT_UPDATE_VAL(self, refresh, oldVal, isH)  \
     if(!refresh && oldVal != _c(pList)->getProperty(pList, isH?NCSP_SWGT_CONTY:NCSP_SWGT_CONTX)) refresh = TRUE;
-    
+
 //If has called moveContent, it will return TRUE; otherwise return FALSE;
 static BOOL mListLayout_recalcContSize(mListLayout *self, int flags)
 {
@@ -169,7 +173,7 @@ static int mListLayout_getNodeRect(mListLayout *self, mNode *node, RECT *rcNode)
 	mNode *first;
     int height = 0;
     BOOL found = FALSE;
-    
+
 	if (!self || !pList || !rcNode || !node)
         return -1;
 
@@ -188,7 +192,7 @@ static int mListLayout_getNodeRect(mListLayout *self, mNode *node, RECT *rcNode)
     if (found) {
         rcNode->top = height;
         rcNode->left = 0;
-        rcNode->right = pList->visWidth > pList->realContWidth ? 
+        rcNode->right = pList->visWidth > pList->realContWidth ?
             rcNode->left + pList->visWidth : rcNode->left + pList->contWidth;
         rcNode->bottom = rcNode->top + _c(node)->getProperty(node, NCSP_NODE_HEIGHT);
 
@@ -220,11 +224,11 @@ static mNode* mListLayout_onMouseHit(mListLayout *self, int mouseX, int mouseY)
         }
         tmp = _c(tmp)->getNext(tmp);
     }
-    
+
     return NULL;
 }
 
-static void mListLayout_update(mListLayout *self, 
+static void mListLayout_update(mListLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
 	int height;
@@ -256,7 +260,7 @@ static void mListLayout_update(mListLayout *self,
     }
 }
 
-static mNode* mListLayout_onDirKey(mListLayout *self, 
+static mNode* mListLayout_onDirKey(mListLayout *self,
         mNode *refNode, int direct)
 {
 	BOOL loop = direct & NCSF_LIST_LOOP;
@@ -268,17 +272,17 @@ static mNode* mListLayout_onDirKey(mListLayout *self,
     switch (direct_flags) {
         case NCSF_LIST_UP:
         case NCSF_LIST_LEFT:
-            if (refNode) 
+            if (refNode)
                 node = _c(refNode)->getPrev(refNode);
 
             if (loop && !node) {
                 node = (mNode*)_c(pList->root)->getProperty(pList->root, NCSP_NODE_LASTCHILD);
             }
             break;
-            
+
         case NCSF_LIST_DOWN:
         case NCSF_LIST_RIGHT:
-            if (refNode) 
+            if (refNode)
                 node = _c(refNode)->getNext(refNode);
 
             if (loop && !node)
@@ -288,14 +292,14 @@ static mNode* mListLayout_onDirKey(mListLayout *self,
         case NCSF_LIST_HOME:
             node = _c(pList)->getNode(pList, 0);
             break;
-        
+
         case NCSF_LIST_END:
             node = (mNode*)_c(pList->root)->getProperty(pList->root, NCSP_NODE_LASTCHILD);
             break;
     }
 
     while (node && _c(node)->getProperty(node, NCSP_NODE_HEIGHT) <= 0) {
-        node = (direct_flags == NCSF_LIST_DOWN || direct_flags == NCSF_LIST_HOME) 
+        node = (direct_flags == NCSF_LIST_DOWN || direct_flags == NCSF_LIST_HOME)
                 ? _c(node)->getNext(node) :_c(node)->getPrev(node);
     }
 
@@ -317,7 +321,7 @@ static void _list_refresh_nodes(mListLayout *self, mNode *node)
     }
 }
 
-static void mListLayout_nodeEvent(mListLayout *self, 
+static void mListLayout_nodeEvent(mListLayout *self,
         int eventId, DWORD eventInfo)
 {
     if (!self || !pList)
@@ -392,7 +396,7 @@ static void mListLayout_nodeEvent(mListLayout *self,
 
         case NCSE_NODE_NODEDELETED:
         {
-            if (eventInfo) {
+            if (eventInfo && !_M(pList, isFrozen)) {
                 //refresh the following node
                 if (!_c(self)->recalcContSize(self, NCSF_LIST_LAYOUT_ITEMWCHANGED | NCSF_LIST_LAYOUT_ITEMHCHANGED))
                     _list_refresh_nodes(self, _c((mNode*)eventInfo)->getNext((mNode*)eventInfo));
@@ -484,6 +488,7 @@ GETRECT_EX(_lhicon_getrect_byidx, mLHIconLayout, nrRow, %, /);
         }           \
     }
 
+
 GETFUNC_ICON_REFRESH_NODES(_lvicon_refresh_nodes, mLVIconLayout, top, right, bottom, left, visWidth, _lvicon_getrect_byidx);
 GETFUNC_ICON_REFRESH_NODES(_lhicon_refresh_nodes, mLHIconLayout, left, bottom, right, top, visHeight, _lhicon_getrect_byidx);
 
@@ -572,7 +577,7 @@ static mNode* mLVIconLayout_onMouseHit(mLVIconLayout *self, int mouseX, int mous
     return _c(pList)->getNode(pList, index);
 }
 
-static void mLVIconLayout_update(mLVIconLayout *self, 
+static void mLVIconLayout_update(mLVIconLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
 	int i = 0;
@@ -606,7 +611,7 @@ static void mLVIconLayout_update(mLVIconLayout *self,
     }
 }
 
-static mNode* mLVIconLayout_onDirKey(mLVIconLayout *self, 
+static mNode* mLVIconLayout_onDirKey(mLVIconLayout *self,
         mNode *refNode, int direct)
 {
 	BOOL loop = direct & NCSF_LIST_LOOP;
@@ -644,14 +649,14 @@ static mNode* mLVIconLayout_onDirKey(mLVIconLayout *self,
         }
 
         case NCSF_LIST_LEFT:
-            if (refNode) 
+            if (refNode)
                 node = _c(refNode)->getPrev(refNode);
 
             if (loop && !node) {
                 node = (mNode*)_c(pList->root)->getProperty(pList->root, NCSP_NODE_LASTCHILD);
             }
             break;
-            
+
         case NCSF_LIST_DOWN:
         {
             if (refNode) {
@@ -670,7 +675,7 @@ static mNode* mLVIconLayout_onDirKey(mLVIconLayout *self,
         }
 
         case NCSF_LIST_RIGHT:
-            if (refNode) 
+            if (refNode)
                 node = _c(refNode)->getNext(refNode);
 
             if (loop && !node)
@@ -680,14 +685,14 @@ static mNode* mLVIconLayout_onDirKey(mLVIconLayout *self,
         case NCSF_LIST_HOME:
             node = _c(pList)->getNode(pList, 0);
             break;
-        
+
         case NCSF_LIST_END:
             node = (mNode*)_c(pList->root)->getProperty(pList->root, NCSP_NODE_LASTCHILD);
             break;
     }
 
     while (node && _c(node)->getProperty(node, NCSP_NODE_HEIGHT) <= 0) {
-        node = (direct_flags == NCSF_LIST_DOWN || direct_flags == NCSF_LIST_HOME) 
+        node = (direct_flags == NCSF_LIST_DOWN || direct_flags == NCSF_LIST_HOME)
                 ? _c(node)->getNext(node) :_c(node)->getPrev(node);
     }
 
@@ -697,7 +702,7 @@ static mNode* mLVIconLayout_onDirKey(mLVIconLayout *self,
     return node;
 }
 
-static void mLVIconLayout_nodeEvent(mLVIconLayout *self, 
+static void mLVIconLayout_nodeEvent(mLVIconLayout *self,
         int eventId, DWORD eventInfo)
 {
     if (!self || !pList)
@@ -865,9 +870,9 @@ static mNode* mLHIconLayout_onMouseHit(mLHIconLayout *self, int mouseX, int mous
     return _c(pList)->getNode(pList, index);
 }
 
-static void mLHIconLayout_update(mLHIconLayout *self, 
+static void mLHIconLayout_update(mLHIconLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
-{    
+{
 	int i = 0;
     mNode *node;
     RECT rcDraw;
@@ -899,14 +904,14 @@ static void mLHIconLayout_update(mLHIconLayout *self,
     }
 }
 
-static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self, 
+static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self,
         mNode *refNode, int direct)
 {
 	BOOL loop = direct & NCSF_LIST_LOOP;
     mNode *node = NULL;
     int direct_flags, dstIdx;
 	int count;
-    
+
 	if (!self)
         return 0;
     count = _c(pList->root)->getProperty(pList->root, NCSP_NODE_CHILDRENCOUNT);
@@ -926,12 +931,12 @@ static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self,
                 int col = index/self->nrRow;
                 dstIdx = index - 1;
                 if (index == 0 || dstIdx/self->nrRow != col) {
-                    if (loop) 
+                    if (loop)
                         node = _c(pList)->getNode(pList, index + self->nrRow - 1);
                     else
                         node = refNode;
                 }
-                else 
+                else
                     node = _c(refNode)->getPrev(refNode);
             }
 
@@ -961,7 +966,7 @@ static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self,
                     if (index/self->nrRow == 0) {
                         if (row - 1 <= (count - 1)%self->nrRow)
                             col = maxNrCol - 1;
-                        else 
+                        else
                             col = maxNrCol - 2;
 
                         col = col > 0 ? col : 0;
@@ -977,7 +982,7 @@ static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self,
             }
             break;
         }
-            
+
         case NCSF_LIST_DOWN:
         {
             if (self->nrRow == 1)
@@ -1030,7 +1035,7 @@ static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self,
         case NCSF_LIST_HOME:
             node = _c(pList)->getNode(pList, 0);
             break;
-        
+
         case NCSF_LIST_END:
             node = (mNode*)_c(pList->root)->getProperty(pList->root, NCSP_NODE_LASTCHILD);
             break;
@@ -1039,7 +1044,7 @@ static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self,
     return node;
 }
 
-static void mLHIconLayout_nodeEvent(mLHIconLayout *self, 
+static void mLHIconLayout_nodeEvent(mLHIconLayout *self,
         int eventId, DWORD eventInfo)
 {
     if (!self || !pList)
@@ -1076,8 +1081,9 @@ static void mLHIconLayout_nodeEvent(mLHIconLayout *self,
                         _LAYOUT_UPDATE_VAL(self, refresh, oldVal, FALSE);
                     }
                 }
-                if (!refresh)
+                if (!refresh) {
                     _lhicon_refresh_nodes(self, node, count - 1, 0, 0);
+				}
             }
             break;
         }
@@ -1160,7 +1166,7 @@ static BOOL mLHCenterBoxLayout_recalcContSize(mLHCenterBoxLayout *self, int flag
     return update;
 }
 
-static mNode* mLHCenterBoxLayout_onDirKey(mLHCenterBoxLayout *self, 
+static mNode* mLHCenterBoxLayout_onDirKey(mLHCenterBoxLayout *self,
         mNode *refNode, int direct)
 {
     mNode *node = Class(mLHIconLayout).onDirKey((mLHIconLayout*)self, refNode, direct);
@@ -1171,7 +1177,7 @@ static mNode* mLHCenterBoxLayout_onDirKey(mLHCenterBoxLayout *self,
     return NULL;
 }
 
-static void mLHCenterBoxLayout_update(mLHCenterBoxLayout *self, 
+static void mLHCenterBoxLayout_update(mLHCenterBoxLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
 	int i = 0, centerIdx, firstIdx, nrCol;
@@ -1194,7 +1200,7 @@ static void mLHCenterBoxLayout_update(mLHCenterBoxLayout *self,
     if (!node) {
         centerIdx = 0;
     }
-    else 
+    else
         centerIdx = _c(pList)->indexOf(pList, node);
 
     if (centerIdx > loop) {
@@ -1263,8 +1269,8 @@ static mNode* mLHCenterBoxLayout_onMouseHit(mLHCenterBoxLayout *self, int mouseX
 
 BEGIN_MINI_CLASS(mLHCenterBoxLayout, mLHIconLayout)
 	CLASS_METHOD_MAP(mLHCenterBoxLayout, construct)
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, onMouseHit) 
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, update) 
+	CLASS_METHOD_MAP(mLHCenterBoxLayout, onMouseHit)
+	CLASS_METHOD_MAP(mLHCenterBoxLayout, update)
 	CLASS_METHOD_MAP(mLHCenterBoxLayout, getNodeRect)
 	CLASS_METHOD_MAP(mLHCenterBoxLayout, onDirKey)
 	CLASS_METHOD_MAP(mLHCenterBoxLayout, recalcContSize)
@@ -1336,7 +1342,7 @@ static int mLGroupLayout_nodeCmpFunc(mNode *node1, mNode *node2)
     return self->cbCmpNode(node1, node2);
 }
 
-NCS_CB_CMPNODE mLGroupLayout_decorateNodeCmp(mLGroupLayout *self, 
+NCS_CB_CMPNODE mLGroupLayout_decorateNodeCmp(mLGroupLayout *self,
         NCS_CB_CMPNODE func)
 {
     if (!self || !func)
@@ -1401,7 +1407,7 @@ static void _update_list_and_layout(mLGroupLayout *self)
         }
 
         if (self->defaultGroup) {
-            mNode *unnamedNode = _c(self->groupRoot)->getNode(self->groupRoot, 0); 
+            mNode *unnamedNode = _c(self->groupRoot)->getNode(self->groupRoot, 0);
             if (unnamedNode)
                 unnamedNode->count = count;
         }
@@ -1464,14 +1470,14 @@ static void mLGroupLayout_init(mLGroupLayout *self,
     if (self->cbCmpNode != pList->nodeCmp) {
         self->cbCmpNode = pList->nodeCmp;
     }
-        
+
     if (!self->groupRoot) {
         mNode *node;
         int nodeCounts = 0;
 
-        self->groupRoot = ncsCreateNode((mObject*)list, "categories", 
+        self->groupRoot = ncsCreateNode((mObject*)list, "categories",
                 NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE, 0);
-        node = ncsAddGroupNode((mObject*)self->groupRoot, NCSID_UNNAMED_GROUPTEXT, 
+        node = ncsAddGroupNode((mObject*)self->groupRoot, NCSID_UNNAMED_GROUPTEXT,
                 NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE, 0, NCSID_UNNAMED_GROUP);
 
         nodeCounts = _c(pList->root)->getProperty(pList->root, NCSP_NODE_CHILDRENCOUNT);
@@ -1484,7 +1490,7 @@ static void mLGroupLayout_init(mLGroupLayout *self,
     _update_list_and_layout(self);
 }
 
-static BOOL mLGroupLayout_setGroupInfo(mLGroupLayout *self, 
+static BOOL mLGroupLayout_setGroupInfo(mLGroupLayout *self,
         NCS_CB_INGROUP inGroup, NCS_GROUP_INFO *groupInfo, int groupSize)
 {
     BOOL update = FALSE;
@@ -1508,21 +1514,21 @@ static BOOL mLGroupLayout_setGroupInfo(mLGroupLayout *self,
             pList->nodeCmp = self->cbCmpGroup;
             //add new group node
             while (i < groupSize) {
-                ncsAddGroupNode((mObject*)self->groupRoot, groupInfo[i].text, 
-                        NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE, 
+                ncsAddGroupNode((mObject*)self->groupRoot, groupInfo[i].text,
+                        NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE,
                         groupInfo[i].addData, groupInfo[i].id);
                 i++;
             }
             //add unnamed group node
-            unnamedNode = ncsAddGroupNode((mObject*)self->groupRoot, 
-                    NCSID_UNNAMED_GROUPTEXT, 
-                    NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE, 
+            unnamedNode = ncsAddGroupNode((mObject*)self->groupRoot,
+                    NCSID_UNNAMED_GROUPTEXT,
+                    NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE,
                     0, NCSID_UNNAMED_GROUP);
             unnamedNode->count = _c(pList->root)->getProperty(pList->root, NCSP_NODE_CHILDRENCOUNT);
 
             //update list's comparation function
             pList->nodeCmp = mLGroupLayout_nodeCmpFunc;
-            //clear the flags of defaultGroup 
+            //clear the flags of defaultGroup
             self->defaultGroup = FALSE;
 
             update = TRUE;
@@ -1533,8 +1539,8 @@ static BOOL mLGroupLayout_setGroupInfo(mLGroupLayout *self,
             pList->nodeCmp = self->cbCmpNode;
 
             //reset defaultGroup mode
-            ncsAddGroupNode((mObject*)self->groupRoot, NCSID_UNNAMED_GROUPTEXT, 
-                    NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE, 0, 
+            ncsAddGroupNode((mObject*)self->groupRoot, NCSID_UNNAMED_GROUPTEXT,
+                    NULL, self->defGroupH, NCSS_NODE_HIDEIMAGE, 0,
                     NCSID_UNNAMED_GROUP);
             self->defaultGroup = TRUE;
 
@@ -1552,13 +1558,13 @@ static BOOL mLGroupLayout_setGroupInfo(mLGroupLayout *self,
     return FALSE;
 }
 
-static BOOL mLGroupLayout_resetGroup(mLGroupLayout *self, 
+static BOOL mLGroupLayout_resetGroup(mLGroupLayout *self,
         NCS_GROUP_INFO *groupInfo, int groupSize)
 {
     return mLGroupLayout_setGroupInfo(self, NULL, groupInfo, groupSize);
 }
 
-static NCS_CB_INGROUP 
+static NCS_CB_INGROUP
 mLGroupLayout_setInGroupFunc(mLGroupLayout *self, NCS_CB_INGROUP func)
 {
     NCS_CB_INGROUP oldFunc;
@@ -1637,7 +1643,7 @@ static mNode* mLGroupLayout_onMouseHit(mLGroupLayout *self, int mouseX, int mous
         nrChild = _c(groupNode)->getProperty(groupNode, NCSP_NODE_CHILDRENCOUNT);
         if (nrChild > 0) {
             head = offh + self->defGroupH;
-            offh = head + 
+            offh = head +
                 self->itemHeight * (nrChild / self->nrCol + ((nrChild % self->nrCol) ? 1 : 0));
         }
         //in group, no support
@@ -1646,9 +1652,9 @@ static mNode* mLGroupLayout_onMouseHit(mLGroupLayout *self, int mouseX, int mous
         }
         else if (mouseY < offh) {
             index = ((mouseY - head)/self->itemHeight)* self->nrCol + mouseX / self->itemWidth;
-            //show first category 
+            //show first category
             if (index + count < self->nrCol)
-                _c(pList)->makePosVisible(pList, 0, 0); 
+                _c(pList)->makePosVisible(pList, 0, 0);
 
             return _c(pList)->getNode(pList, index + count);
         }
@@ -1659,7 +1665,7 @@ static mNode* mLGroupLayout_onMouseHit(mLGroupLayout *self, int mouseX, int mous
     return NULL;
 }
 
-static void mLGroupLayout_update(mLGroupLayout *self, 
+static void mLGroupLayout_update(mLGroupLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
     int i = 0;
@@ -1741,7 +1747,7 @@ static mNode* _get_group_node(mLGroupLayout *self, mNode* node)
     return NULL;
 }
 
-static mNode* mLGroupLayout_onDirKey(mLGroupLayout *self, 
+static mNode* mLGroupLayout_onDirKey(mLGroupLayout *self,
         mNode *refNode, int direct)
 {
     mNode *node;
@@ -1758,7 +1764,7 @@ static mNode* mLGroupLayout_onDirKey(mLGroupLayout *self,
     if (node && node != refNode) {
         int index = _c(pList)->indexOf(pList, node);
         if (index >= 0 && index < self->nrCol)
-            _c(pList)->makePosVisible(pList, 0, 0); 
+            _c(pList)->makePosVisible(pList, 0, 0);
     }
 
     return node;
@@ -1836,7 +1842,7 @@ static int _lgroup_get_group_info(mLGroupLayout *self, mNode *group, int *offTop
 }
 
 //not include group category
-static void _lgroup_refresh_onegroup(mLGroupLayout *self, 
+static void _lgroup_refresh_onegroup(mLGroupLayout *self,
         mNode *groupNode, mNode *node, int lastIdx)
 {
 	int offTop = 0, offIdx = 0;
@@ -1870,9 +1876,9 @@ static void _lgroup_refresh_groups(mLGroupLayout *self, mNode *groupNode)
             rc.right = pList->visWidth;
             rc.top = offTop;
             rc.bottom = rc.top + self->defGroupH;
-            _c(pList)->contentToWindow(pList, &rc.left, &rc.top);  
+            _c(pList)->contentToWindow(pList, &rc.left, &rc.top);
             _c(pList)->contentToWindow(pList, &rc.right, &rc.bottom);
-            InvalidateRect(pList->hwnd, &rc, TRUE);           
+            InvalidateRect(pList->hwnd, &rc, TRUE);
 
             //invalidate nodes in current group
             first = _c(pList)->getNode(pList, offIdx);
@@ -1883,12 +1889,12 @@ static void _lgroup_refresh_groups(mLGroupLayout *self, mNode *groupNode)
     }
 }
 
-static void mLGroupLayout_nodeEvent(mLGroupLayout *self, 
+static void mLGroupLayout_nodeEvent(mLGroupLayout *self,
         int eventId, DWORD eventInfo)
 {
     if (!self || !pList)
         return;
-    
+
     switch(eventId) {
         case NCSE_LIST_FONTCHANGED:
         case NCSE_NODE_HEIGHTCHANGED:
@@ -2036,4 +2042,6 @@ BEGIN_MINI_CLASS(mLGroupLayout, mLVIconLayout)
 	CLASS_METHOD_MAP(mLGroupLayout, setGroupInfo)
 	CLASS_METHOD_MAP(mLGroupLayout, recalcContSize)
 END_MINI_CLASS
+
+#endif //_MGNCSCTRL_LIST
 

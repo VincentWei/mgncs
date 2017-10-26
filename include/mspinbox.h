@@ -12,14 +12,14 @@
     All rights reserved by Feynman Software.
 
     This file is part of mgncs, which is new control set of MiniGUI.
- 
+
  \endverbatim
  */
-
+#ifdef _MGNCSCTRL_SPINBOX
 
 #ifndef _MGUI_NCSCTRL_SPINBOX_H
 #define _MGUI_NCSCTRL_SPINBOX_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -49,7 +49,7 @@ typedef struct _mSpinBoxItemInfo    mSpinBoxItemInfo;
 		mSpinBoxItemInfo *items;    \
 	}info;
 
-/** 
+/**
  * \struct mSpinBox
  * \brief the spinbox struct of spinbox control, derived from \ref mSpinner.
  *
@@ -65,9 +65,9 @@ struct _mSpinBox
     BOOL (*addItem)(clsName *self, char *item);    \
     BOOL (*removeItem)(clsName *self, int index);  \
     BOOL (*setItem)(clsName *self, int index, char *item);     \
-    char* (*getItem)(clsName *self, int index); 
+    char* (*getItem)(clsName *self, int index);
 
-/** 
+/**
  * \struct mSpinBoxClass
  * \brief the VTable of \a mSpinBox, derived from \ref mSpinnerClass.
  *
@@ -82,14 +82,14 @@ struct _mSpinBox
  *    \param index - the item index to remove
  *
  *  - BOOL \b setItem(\a mSpinBox *self, int index, const char *item); \n
- *    set the content of one item 
+ *    set the content of one item
  *    \param index - the item index to set
  *    \param item - the content to set
  *
  *  - char * \b getItem(\a mSpinBox *self, int index); \n
- *    get the content of one item 
+ *    get the content of one item
  *    \param index - the item index to get
- *       
+ *
  */
 struct _mSpinBoxClass
 {
@@ -99,7 +99,7 @@ struct _mSpinBoxClass
 MGNCS_EXPORT extern mSpinBoxClass g_stmSpinBoxCls;
 
 #define mSpinBoxRendererHeader(clsName, parentClass)    \
-	mSpinnerRendererHeader(clsName, parentClass) 
+	mSpinnerRendererHeader(clsName, parentClass)
 
 /**
  * \struct mSpinBoxRenderer
@@ -126,7 +126,7 @@ enum mSpinBoxProp {
  * \def NCSS_SPNBOX_VERTICAL
  * \brief vertical spinbox
  */
-#define NCSS_SPNBOX_VERTICAL           (NCSS_SPNR_VERTICAL) 
+#define NCSS_SPNBOX_VERTICAL           (NCSS_SPNR_VERTICAL)
 
 /**
  * \def NCSS_SPNBOX_HORIZONTAL
@@ -136,7 +136,7 @@ enum mSpinBoxProp {
 
 /**
  * \def NCSS_SPNBOX_AUTOLOOP
- * \brief the value of spinbox auto loop 
+ * \brief the value of spinbox auto loop
  */
 #define NCSS_SPNBOX_AUTOLOOP           (NCSS_SPNR_AUTOLOOP)
 
@@ -203,7 +203,7 @@ enum mSpinBoxNotify {
     NCSN_SPNBOX_REACHMAX = NCSN_SPNR_REACHMAX,  /**< reached the max value*/
     NCSN_SPNBOX_REACHMIN = NCSN_SPNR_REACHMIN,  /**< reached the min value*/
     NCSN_SPNBOX_MAX = NCSN_SPNR_MAX
-}; 
+};
 
 //////////////////////////////////////////////
 ////////////------ status ------ /////////////
@@ -221,4 +221,4 @@ enum mSpinBoxNotify {
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_SPINBOX_H */
-
+#endif //_MGNCSCTRL_SPINBOX

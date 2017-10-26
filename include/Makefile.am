@@ -8,7 +8,7 @@ TEXTEDITOR_HDRS=mbtree.h mtexteditbase.h mtextedit.h
 libmgncsinclude_HEADERS=  mrdr.h \
 		   mgncs.h mobject.h mcomponent.h mwidget.h mresmgr.h \
 		   mstatic.h mimage.h mrect.h mgroupbox.h mbuttongroup.h \
-		   mbutton.h mcheckbutton.h mradiobutton.h \
+		   mbutton.h mcheckbutton.h mradiobutton.h mimagebutton.h \
 		   mscroll_widget.h mpanel.h mprogressbar.h mcombobox.h \
 		   mspinbox.h mspinner.h mslider.h mtrackbar.h mcontainer.h \
 		   mcommon.h mpage.h mpropsheet.h mmainwnd.h mdialog.h \

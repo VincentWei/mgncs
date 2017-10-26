@@ -7,7 +7,7 @@ lib_LTLIBRARIES=libmgncs@MGNCS_LIBSUFFIX@.la
 
 COMMON_SRCS= mobject.c mcomponent.c mwidget.c mresmanager.c \
 			mstatic.c mimage.c mrect.c mgroupbox.c mbuttongroup.c \
-			mbutton.c mcheckbutton.c mradiobutton.c \
+			mbutton.c mcheckbutton.c mradiobutton.c mimagebutton.c \
 			mctrls.c mscroll_widget.c mpanel.c mprogressbar.c \
 			mitem.c mitem_manager.c mitemview.c mlistbox.c \
 			mcombobox.c mspinbox.c mspinner.c mslider.c \

@@ -1,4 +1,4 @@
-/* 
+/*
  ** $Id: skin_propsheet.c 155 2009-04-20 06:26:41Z dongjunjie $
  **
  ** The skin renderer implementation of mPropsheet control.
@@ -28,6 +28,8 @@
 #include "mpropsheet.h"
 #include "mrdr.h"
 
+#ifdef _MGNCSCTRL_PROPSHEET
+
 #ifdef _MGNCS_RDR_SKIN
 #define ICON_OFFSET 2
 
@@ -38,7 +40,7 @@ static void skin_resetHeadArea (mPropSheet *self, RECT* rcClient, DWORD style)
     int height, minHeight, maxHeight = 40;
     DWORD key;
     PBITMAP pBmp;
-    
+
     minHeight = 16 + 4 + 2* ICON_OFFSET;
     key = ncsGetElement((mWidget*)self, NCS_IMAGE_PRPSHT_TAB);
     pBmp = GetBitmapFromRes (key);
@@ -63,20 +65,20 @@ static void skin_resetHeadArea (mPropSheet *self, RECT* rcClient, DWORD style)
     else {
         self->headRect.bottom = height;
     }
-    
+
     self->headRect.top = self->headRect.bottom - height;
     self->maxTabWidth = RECTW(self->headRect);
     self->scrollTabWidth = RECTW(self->headRect) - 2*16;
 }
 
-static void skin_getRect(mPropSheet *self, 
+static void skin_getRect(mPropSheet *self,
         RECT* rcClient, RECT* rcResult, int which)
 {
     int     btnSize = 16;
     int     tabBorder = 2;
     DWORD   style = GetWindowStyle (self->hwnd);
 
-    switch (which) 
+    switch (which)
     {
         case NCSF_PRPSHT_BORDER:
         {
@@ -107,7 +109,7 @@ static void skin_getRect(mPropSheet *self,
             else {
                 rcResult->top = self->headRect.bottom;
             }
-            rcResult->bottom = rcResult->top + RECTHP(rcClient) 
+            rcResult->bottom = rcResult->top + RECTHP(rcClient)
                 - RECTH(self->headRect) - 2 * tabBorder;
             return;
         }
@@ -153,7 +155,7 @@ static void skin_getRect(mPropSheet *self,
                 SetRectEmpty(rcResult);
             }
             return;
-            
+
         default:
             break;
     }
@@ -172,31 +174,31 @@ static void skin_drawBorder(mPropSheet *self, HDC hdc, RECT* rcBorder)
     rcBorder->right--;
     rcBorder->bottom--;
 
-    SetPenColor(hdc, DWORD2PIXEL (hdc, light_c)); 
+    SetPenColor(hdc, DWORD2PIXEL (hdc, light_c));
     MoveTo (hdc, rcBorder->left, rcBorder->bottom - 1);
     LineTo (hdc, rcBorder->left, rcBorder->top + 1);
-    LineTo (hdc, rcBorder->right - 1, rcBorder->top + 1); 
+    LineTo (hdc, rcBorder->right - 1, rcBorder->top + 1);
 
-    SetPenColor (hdc, DWORD2PIXEL (hdc, darkest_c)); 
+    SetPenColor (hdc, DWORD2PIXEL (hdc, darkest_c));
     MoveTo (hdc, rcBorder->left, rcBorder->bottom);
     LineTo (hdc, rcBorder->right, rcBorder->bottom);
     LineTo (hdc, rcBorder->right, rcBorder->top + 1);
 
-    SetPenColor (hdc, DWORD2PIXEL (hdc, darker_c)); 
+    SetPenColor (hdc, DWORD2PIXEL (hdc, darker_c));
     MoveTo (hdc, rcBorder->left + 1, rcBorder->bottom - 1);
     LineTo (hdc, rcBorder->right - 1, rcBorder->bottom - 1);
-    LineTo (hdc, rcBorder->right - 1, rcBorder->top + 2); 
-   
+    LineTo (hdc, rcBorder->right - 1, rcBorder->top + 2);
+
     return;
 }
 
-static void skin_drawScrollBtn(mPropSheet *self, HDC hdc, 
+static void skin_drawScrollBtn(mPropSheet *self, HDC hdc,
         RECT* rcBtn, int which)
 {
-	self->renderer->drawArrow(self, hdc, rcBtn, which, 0L, TRUE);	
+	self->renderer->drawArrow(self, hdc, rcBtn, which, 0L, TRUE);
 }
 
-static void skin_drawTab(mPropSheet *self, HDC hdc, 
+static void skin_drawTab(mPropSheet *self, HDC hdc,
         RECT* rcTab, const char* title, HICON hIcon, BOOL active)
 {
     int x, ty, by;
@@ -204,11 +206,11 @@ static void skin_drawTab(mPropSheet *self, HDC hdc,
     DRAWINFO di;
     BOOL bottom;
 	RECT rc;
-    
+
     key = ncsGetElement((mWidget*)self, NCS_IMAGE_PRPSHT_TAB);
     if (!(di.bmp = GetBitmapFromRes (key)))
         return;
-    
+
     bottom = (GetWindowStyle(self->hwnd) & NCSS_PRPSHT_TABMASK) == NCSS_PRPSHT_BOTTOM;
 
     di.nr_line  = 4;
@@ -220,7 +222,7 @@ static void skin_drawTab(mPropSheet *self, HDC hdc,
     di.flip     = bottom ? TRUE : FALSE;
     di.idx_line = 0;
     di.style    = DI_FILL_TILE;
-    
+
     x = rcTab->left + 2;
     ty = rcTab->top;
 
@@ -246,12 +248,12 @@ static void skin_drawTab(mPropSheet *self, HDC hdc,
         int icon_x, icon_y;
         icon_x = RECTHP(rcTab) - 8;
         icon_y = icon_x;
-        
+
         DrawIcon (hdc, x, ty, icon_x, icon_y, hIcon);
         x += icon_x;
         x += 2;
     }
-        
+
     /* draw the TEXT */
     SetBkMode (hdc, BM_TRANSPARENT);
     SetRect(&rc, x, ty, rcTab->right, by);
@@ -276,4 +278,4 @@ mPropSheetRenderer skin_propsheet_renderer = {
 };
 
 #endif
-
+#endif // _MGNCSCTRL_PROPSHEET

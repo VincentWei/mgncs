@@ -19,12 +19,18 @@
 #include "pieces/mpairpiece.h"
 #include "pieces/mpushbuttonpiece.h"
 #include "pieces/mimagelabelpiece.h"
+
 #include "pieces/msliderpiece.h"
+
 #include "pieces/mthumbboxpiece.h"
+
 #include "pieces/mscrollthumbboxpiece.h"
+
 #include "pieces/mtrackbarpiece.h"
 #include "pieces/mboxlayoutpiece.h"
+
 #include "pieces/mhboxlayoutpiece.h"
+
 #include "pieces/mvboxlayoutpiece.h"
 #include "pieces/mcheckboxpiece.h"
 #include "pieces/mradioboxpiece.h"
@@ -34,26 +40,40 @@
 #include "pieces/mrightarrowpiece.h"
 #include "pieces/muparrowpiece.h"
 #include "pieces/mdownarrowpiece.h"
+
 #include "pieces/mscrollbarpiece.h"
+
 #include "pieces/marrowbuttonpiece.h"
+
 #include "pieces/mspinnerpiece.h"
+
 #include "pieces/mspinboxpiece.h"
 #include "pieces/mhspinboxpiece.h"
 #include "pieces/mvspinboxpiece.h"
+
 #include "pieces/mgridboxpiece.h"
 #include "pieces/mdaygridpiece.h"
+
 #include "pieces/mmonthpiece.h"
+
 #include "pieces/mnumspinnedpiece.h"
 #include "pieces/mlistspinnedpiece.h"
 #include "pieces/mweekheadpiece.h"
 #include "pieces/mtoolimgpiece.h"
+#include "pieces/mtoolimgitempiece.h"
 #include "pieces/mseparatorpiece.h"
+
 #include "pieces/mlinelayoutpiece.h"
+
 #include "pieces/mwidgetwrapperpiece.h"
 #include "pieces/mrectpiece.h"
+
 #include "pieces/manimatepiece.h"
+
 #include "pieces/mprogresspiece.h"
+
 #include "pieces/mledstaticpiece.h"
+
 #include "pieces/msimplelistpiece.h"
 
 BOOL init_pieces_classes(void);

@@ -12,14 +12,14 @@
     All rights reserved by Feynman Software.
 
     This file is part of mgncs, which is new control set of MiniGUI.
- 
+
  \endverbatim
  */
-
+#ifdef _MGNCSCTRL_SPINNER
 
 #ifndef _MGUI_NCSCTRL_SPINNER_H
 #define _MGUI_NCSCTRL_SPINNER_H
- 
+
 #ifdef __cplusplus
 extern "C" {
 #endif  /* __cplusplus */
@@ -41,10 +41,10 @@ typedef struct _mSpinnerRenderer    mSpinnerRenderer;
 
 #define mSpinnerHeader(clsName) \
     mWidgetHeader(clsName)      \
-    HWND h_target;         
+    HWND h_target;
 
 
-/** 
+/**
  * \struct mSpinner
  * \brief the spinner struct of spinner control, derived from \ref mWidget.
  *
@@ -58,14 +58,14 @@ struct _mSpinner
 };
 
 #define mSpinnerClassHeader(clsName, parentClass) \
-	mWidgetClassHeader(clsName, parentClass) 
+	mWidgetClassHeader(clsName, parentClass)
 
-/** 
+/**
  * \struct mSpinnerClass
  * \brief the VTable of \a mSpinner, derived from \ref mWidgetClass.
  *
  * \sa mWidgetClass
- */ 
+ */
 struct _mSpinnerClass
 {
 	mSpinnerClassHeader(mSpinner, mWidget)
@@ -154,4 +154,4 @@ enum mSpinnerNotify {
 #endif  /* __cplusplus */
 
 #endif /* _MGUI_NCSCTRL_SPINNER_H */
-
+#endif //_MGNCSCTRL_SPINNER

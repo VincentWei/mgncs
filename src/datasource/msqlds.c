@@ -16,8 +16,9 @@
 #include "mobject.h"
 #include "mtype.h"
 #include "mcomponent.h"
-#if _MGNCS_DATASOURCE
-#if _MGNCS_SQLITE
+//#if _MGNCSDB_DATASOURCE
+#ifdef _MGNCSDB_SQLITE
+
 #include <sqlite3.h>
 #include "mdatabinding.h"
 #include "mdatasource.h"
@@ -441,4 +442,4 @@ void ncsInitSQLiteDataSource(void)
 }
 
 #endif
-#endif
+//#endif

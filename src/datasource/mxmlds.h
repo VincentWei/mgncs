@@ -1,3 +1,5 @@
+#ifdef _MGNCSDB_XML
+
 #ifndef MGNCS_XML_DATASOURCE_H
 #define MGNCS_XML_DATASOURCE_H
 
@@ -30,7 +32,7 @@ struct _mXMLDataSource
 /////////////////////////////////////////////////
 //
 #define mXMLRecordSetClassHeader(clss, superCls) \
-	mRecordSetClassHeader(clss, superCls) 
+	mRecordSetClassHeader(clss, superCls)
 
 struct _mXMLRecordSetClass
 {
@@ -55,4 +57,5 @@ struct _mXMLRecordSet
 };
 
 #endif
+#endif // _MGNCSDB_XML
 

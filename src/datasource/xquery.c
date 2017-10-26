@@ -7,7 +7,7 @@
 #include <minigui/window.h>
 
 #include "mgncsconfig.h"
-#if _MGNCS_XML
+#if _MGNCSDB_XML
 #include "mcommon.h"
 #include "mtype.h"
 #include "xquery.h"
@@ -51,7 +51,7 @@ static const char* get_type(const char* xitem_maps, int *ptype)
 {
 	int i = 0;
 	*ptype = NCS_BT_STR;
-	
+
 	while(xitem_maps[i]  && !is_space(xitem_maps[i]) && xitem_maps[i] != '$' && xitem_maps[i] != ',' && xitem_maps[i] != '}')
 	{
 		i ++;
@@ -59,7 +59,7 @@ static const char* get_type(const char* xitem_maps, int *ptype)
 
 	if(i <= 0)
 		return xitem_maps;
-	
+
 	if(strncmp(xitem_maps, "int", i) == 0)
 		*ptype = NCS_BT_INT;
 	else if(strncmp(xitem_maps, "string", i) == 0)
@@ -135,7 +135,7 @@ int parse_xquery(const char* xquery, char* xpath_buff,int buf_len, XFIELD **xfie
 	int count = 0;
 	if(xquery == NULL || xpath_buff == NULL || xfield == NULL)
 		return 0;
-	
+
 	//splite the query
 	xitem_maps = strstr(xquery, ":{");
 
@@ -143,7 +143,7 @@ int parse_xquery(const char* xquery, char* xpath_buff,int buf_len, XFIELD **xfie
 	{
 		buf_len = xitem_maps - xquery;
 	}
-	
+
 	strncpy(xpath_buff, xquery, buf_len);
 
 	xpath_buff[buf_len] = 0;
@@ -166,7 +166,7 @@ int parse_xquery(const char* xquery, char* xpath_buff,int buf_len, XFIELD **xfie
 	}
 
 	return count;
-	
+
 }
 
 void free_xfields(XFIELD* fields, int count)
@@ -205,7 +205,7 @@ int main(int argc, const char* argv[])
 		printf("\n");
 	}
 
-	free_xfields(fields,count);	
+	free_xfields(fields,count);
 }
 #endif
 

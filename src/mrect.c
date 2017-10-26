@@ -17,6 +17,8 @@
 #include "mrdr.h"
 #include "piece.h"
 
+#ifdef _MGNCSCTRL_RECTANGLE
+
 static mObject * mRectangle_createBody(mRectangle *self)
 {
 	return (mObject*)NEWPIECE(mRectPiece);
@@ -146,7 +148,7 @@ static BOOL mRectangle_onEraseBkgnd(mRectangle* self, HDC hdc, const RECT *pinv)
 	rx = GetBodyProp(NCSP_RECTPIECE_XRADIUS);
 	ry = GetBodyProp(NCSP_RECTPIECE_YRADIUS);
 
-	if(rx <= 0 || ry <= 0) 
+	if(rx <= 0 || ry <= 0)
 		return TRUE;
 
 	GetClientRect(self->hwnd, &rc);
@@ -160,11 +162,11 @@ static BOOL mRectangle_onEraseBkgnd(mRectangle* self, HDC hdc, const RECT *pinv)
 	if(rx <= 0 || ry <= 0)
 		return TRUE;
 
-	
+
 	poldrgn = CreateClipRgn();
 	GetClipRegion(hdc, poldrgn);
 
-	
+
 	memset(&rc_inv, 0, sizeof(rc_inv));
 	SelectClipRect(hdc, &rc_inv);
 	border_size /= 2;
@@ -188,7 +190,7 @@ static BOOL mRectangle_onEraseBkgnd(mRectangle* self, HDC hdc, const RECT *pinv)
 	IncludeClipRect(hdc, &rc_inv);
 	//intersect old region
 	SelectClipRegionEx(hdc, poldrgn,RGN_AND);
-	
+
 	Class(mWidget).onEraseBkgnd((mWidget*)self, hdc, pinv);
 
 	SelectClipRegion(hdc, poldrgn);
@@ -207,4 +209,4 @@ BEGIN_CMPT_CLASS(mRectangle, mWidget)
 	CLASS_METHOD_MAP(mRectangle, onEraseBkgnd);
 END_CMPT_CLASS
 
-
+#endif //_MGNCSCTRL_RECTANGLE
