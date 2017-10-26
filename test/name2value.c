@@ -8,10 +8,12 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
 #include "../include/mrdr.h"
 
+
 #define _(name)  {#name, (const char*)(name)}
+
 static const char * name_values[][2]={
 	_(NCSP_BTNGRP_SELID),
 	_(NCSP_BTNGRP_SELIDX),
@@ -28,19 +30,25 @@ static const char * name_values[][2]={
 	_(NCSP_BUTTON_GROUP),
 	_(NCSP_BUTTON_MAX),
 	_(NCSP_CHKBTN_MAX),
+#ifdef _MGNCSCTRL_COLORBUTTON
 	_(NCSP_CLRBTN_CURCOLOR),
 	_(NCSP_CLRBTN_MAX),
+#endif
+#ifdef _MGNCSCTRL_COMBOBOX
 	_(NCSP_COMB_ITEMHEIGHT),
 	_(NCSP_COMB_ITEMCOUNT),
 	_(NCSP_COMB_DROPDOWNHEIGHT),
 	_(NCSP_COMB_TEXTLIMIT),
 	_(NCSP_COMB_SELECT),
 	_(NCSP_COMB_MAX),
+#endif
 	_(NCSP_EDIT_LIMITTEXT),
 	_(NCSP_EDIT_CARETPOS),
 	_(NCSP_EDIT_MAX),
 	_(NCSP_GRPBOX_MAX),
+#ifdef _MGNCSCTRL_ICONVIEW
 	_(NCSP_ICONV_MAX),
+#endif
 	_(NCSP_IMAGE_IMAGE),
 	_(NCSP_IMAGE_IMAGEFILE),
 	_(NCSP_IMAGE_DRAWMODE),
@@ -49,31 +57,39 @@ static const char * name_values[][2]={
 	_(NCSP_ITEM_MAX),
 	_(NCSP_ITMMNG_MAX),
 	_(NCSP_ITEMV_MAX),
+#ifdef _MGNCSCTRL_LEDLABEL
 	_(NCSP_LEDLBL_COLOR),
 	_(NCSP_LEDLBL_WIDTH),
 	_(NCSP_LEDLBL_HEIGHT),
 	_(NCSP_LEDLBL_MAX),
+#endif
+#ifdef _MGNCSCTRL_LISTBOX
 	_(NCSP_LSTBOX_ITEMWIDTH),
 	_(NCSP_LSTBOX_ITEMCOUNT),
 	_(NCSP_LSTBOX_ITEMHEIGHT),
 	_(NCSP_LSTBOX_TOPITEM),
 	_(NCSP_LSTBOX_HILIGHTEDITEM),
 	_(NCSP_LSTBOX_MAX),
+#endif
 	_(NCSP_LSTCLM_POSX),
 	_(NCSP_LSTCLM_WIDTH),
 	_(NCSP_LSTCLM_SORTTYPE),
 	_(NCSP_LSTCLM_CMPFUNC),
 	_(NCSP_LSTCLM_MAX),
 	_(NCSP_LSTITM_MAX),
+#ifdef _MGNCSCTRL_LISTVIEW
 	_(NCSP_LISTV_HDRHEIGHT),
 	_(NCSP_LISTV_HDRWIDTH),
 	_(NCSP_LISTV_SORTCOLUMN),
 	_(NCSP_LISTV_GRIDLINEWIDTH),
 	_(NCSP_LISTV_GRIDLINECOLOR),
 	_(NCSP_LISTV_MAX),
+#endif
+#ifdef _MGNCSCTRL_MENUBUTTON
 	_(NCSP_MNUBTN_POPMENU),
 	_(NCSP_MNUBTN_CURITEM),
 	_(NCSP_MNUBTN_MAX),
+#endif
 	_(NCSP_MLEDIT_LINECOUNT),
 	_(NCSP_MLEDIT_LINEHEIGHT),
 	_(NCSP_MLEDIT_LINEFEEDISPCHAR),
@@ -81,16 +97,21 @@ static const char * name_values[][2]={
 	_(NCSP_MLEDIT_CARETSHAPE),
 	_(NCSP_MLEDIT_NUMOFPARAGRAPHS),
 	_(NCSP_MLEDIT_MAX),
+#ifdef _MGNCSCTRL_MONTHCALENDAR
 	_(NCSP_CDR_YEAR),
 	_(NCSP_CDR_MONTH),
 	_(NCSP_CDR_DAY),
 	_(NCSP_CDR_MAX),
+#endif
 	_(NCSP_PANEL_MAX),
+#ifdef _MGNCSCTRL_PROGRESSBAR
 	_(NCSP_PROG_MAXPOS),
 	_(NCSP_PROG_MINPOS),
 	_(NCSP_PROG_CURPOS),
 	_(NCSP_PROG_LINESTEP),
 	_(NCSP_PROG_MAX),
+#endif
+#ifdef _MGNCSCTRL_PROPSHEET
 	_(NCSP_PRPSHT_MINTABWIDTH),
 	_(NCSP_PRPSHT_TABMARGIN),
 	_(NCSP_PRPSHT_ACTIVEPAGE),
@@ -99,19 +120,24 @@ static const char * name_values[][2]={
 	_(NCSP_PRPSHT_FIRSTVIEWPAGEIDX),
 	_(NCSP_PRPSHT_PAGECOUNT),
 	_(NCSP_PRPSHT_MAX),
+#endif
 	_(NCSP_RDOBTN_MAX),
+#ifdef _MGNCSCTRL_RECTANGLE
 	_(NCSP_RECTANGLE_BORDERSIZE),
 	_(NCSP_RECTANGLE_BORDERCOLOR),
 	_(NCSP_RECTANGLE_FILLCOLOR),
 	_(NCSP_RECTANGLE_XRADIUS),
 	_(NCSP_RECTANGLE_YRADIUS),
 	_(NCSP_RECTANGLE_MAX),
+#endif
+#ifdef _MGNCSCTRL_SCROLLBAR
 	_(NCSP_SCRLBR_MAXPOS),
 	_(NCSP_SCRLBR_MINPOS),
 	_(NCSP_SCRLBR_CURPOS),
 	_(NCSP_SCRLBR_LINESTEP),
 	_(NCSP_SCRLBR_PAGESTEP),
 	_(NCSP_SCRLBR_MAX),
+#endif
 	_(NCSP_SCRLV_MAX),
 	_(NCSP_SWGT_CONTWIDTH),
 	_(NCSP_SWGT_CONTHEIGHT),
@@ -127,30 +153,39 @@ static const char * name_values[][2]={
 	_(NCSP_SLEDIT_TIPTEXT),
 	_(NCSP_SLEDIT_PWDCHAR),
 	_(NCSP_SLEDIT_MAX),
+#ifdef _MGNCSCTRL_SLIDER
 	_(NCSP_SLIDER_MAXPOS),
 	_(NCSP_SLIDER_MINPOS),
 	_(NCSP_SLIDER_CURPOS),
 	_(NCSP_SLIDER_LINESTEP),
 	_(NCSP_SLIDER_PAGESTEP),
 	_(NCSP_SLIDER_MAX),
+#endif
+#ifdef _MGNCSCTRL_SPINNER
 	_(NCSP_SPNR_MAXPOS),
 	_(NCSP_SPNR_MINPOS),
 	_(NCSP_SPNR_CURPOS),
 	_(NCSP_SPNR_LINESTEP),
 	_(NCSP_SPNR_TARGET),
 	_(NCSP_SPNR_MAX),
+#endif
+#ifdef _MGNCSCTRL_SPINBOX
 	_(NCSP_SPNBOX_MAXPOS),
 	_(NCSP_SPNBOX_MINPOS),
 	_(NCSP_SPNBOX_CURPOS),
 	_(NCSP_SPNBOX_LINESTEP),
 	_(NCSP_SPNBOX_MAX),
+#endif
 	_(NCSP_STATIC_ALIGN),
 	_(NCSP_STATIC_VALIGN),
 	_(NCSP_STATIC_AUTOWRAP),
 	_(NCSP_STATIC_MAX),
 	_(NCSP_TIMER_INTERVAL),
 	_(NCSP_TIMER_MAX),
+#ifdef _MGNCSCTRL_TOOLBAR
 	_(NCSP_TLBAR_MAX),
+#endif
+#ifdef _MGNCSCTRL_TRACKBAR
 	_(NCSP_TRKBAR_MAXPOS),
 	_(NCSP_TRKBAR_MINPOS),
 	_(NCSP_TRKBAR_CURPOS),
@@ -159,6 +194,7 @@ static const char * name_values[][2]={
 	_(NCSP_TRKBAR_THUMB_WIDTH),
 	_(NCSP_TRKBAR_THUMB_HEIGHT),
 	_(NCSP_TRKBAR_MAX),
+#endif
 	_(NCSP_WIDGET_RDR),
 	_(NCSP_WIDGET_TEXT),
 	_(NCSP_WIDGET_BKIMAGE),
@@ -168,8 +204,11 @@ static const char * name_values[][2]={
 	_(NCSN_BTNGRP_SELCHANGED),
 	_(NCSN_BTNGRP_MAX),
 	_(NCSN_CHKBTN_MAX),
+#ifdef _MGNCSCTRL_COLORBUTTON
 	_(NCSN_CLRBTN_COLORCHANGED),
 	_(NCSN_CLRBTN_MAX),
+#endif
+#ifdef _MGNCSCTRL_COMBOBOX
 	_(NCSN_CMBOX_SELCHANGE),
 	_(NCSN_CMBOX_SETFOCUS),
 	_(NCSN_CMBOX_KILLFOCUS),
@@ -179,8 +218,13 @@ static const char * name_values[][2]={
 	_(NCSN_CMBOX_SELECTOK),
 	_(NCSN_CMBOX_SELECTCANCEL),
 	_(NCSN_CMBOX_MAX),
+#endif
+#ifdef _MGNCSCTRL_CONTAINER
 	_(NCSN_CTNR_MAX),
+#endif
+#ifdef _MGNCSCTRL_DIALOGBOX
 	_(NCSN_DLGBOX_MAX),
+#endif
 	_(NCSN_EDIT_CHANGE),
 	_(NCSN_EDIT_CONTCHANGED),
 	_(NCSN_EDIT_UPDATE),
@@ -190,9 +234,11 @@ static const char * name_values[][2]={
 	_(NCSN_EDIT_KILLFOCUS),
 	_(NCSN_EDIT_MAX),
 	_(NCSN_GRPBOX_MAX),
+#ifdef _MGNCSCTRL_ICONVIEW
 	_(NCSN_ICONV_CLICKED),
 	_(NCSN_ICONV_SELCHANGED),
 	_(NCSN_ICONV_MAX),
+#endif
 	_(NCSN_IMAGE_MAX),
 	_(NCSN_ITEMV_CLICKED),
 	_(NCSN_ITEMV_SELCHANGING),
@@ -201,7 +247,10 @@ static const char * name_values[][2]={
 	_(NCSN_ITEMV_SETFOCUS),
 	_(NCSN_ITEMV_KILLFOCUS),
 	_(NCSN_ITEMV_MAX),
+#ifdef _MGNCSCTRL_LEDLABEL
 	_(NCSN_LEDLBL_MAX),
+#endif
+#ifdef _MGNCSCTRL_LISTBOX
 	_(NCSN_LSTBOX_CLICKED),
 	_(NCSN_LSTBOX_SELCHANGED),
 	_(NCSN_LSTBOX_ENTER),
@@ -212,6 +261,8 @@ static const char * name_values[][2]={
 	_(NCSN_LSTBOX_KILLFOCUS),
 	_(NCSN_LSTBOX_CLKCHKMARK),
 	_(NCSN_LSTBOX_MAX),
+#endif
+#ifdef _MGNCSCTRL_LISTVIEW
 	_(NCSN_LISTV_CLICKED),
 	_(NCSN_LISTV_SELCHANGED),
 	_(NCSN_LISTV_ITEMRDOWN),
@@ -222,26 +273,37 @@ static const char * name_values[][2]={
 	_(NCSN_LISTV_FOLDITEM),
 	_(NCSN_LISTV_UNFOLDITEM),
 	_(NCSN_LISTV_MAX),
+#endif
 	_(NCSS_MNWND_MODE),
 	_(NCSN_MNWND_MAX),
+#ifdef _MGNCSCTRL_MENUBUTTON
 	_(NCSN_MNUBTN_ITEMCHANGED),
 	_(NCSN_MNUBTN_MAX),
+#endif
 	_(NCSN_MLEDIT_MAX),
+#ifdef _MGNCSCTRL_MONTHCALENDAR
 	_(NCSN_CDR_YEAR_CHANGED),
 	_(NCSN_CDR_MONTH_CHANGED),
 	_(NCSN_CDR_DAY_CHANGED),
 	_(NCSN_CDR_MAX),
+#endif
 	_(NCSN_PANEL_MAX),
+#ifdef _MGNCSCTRL_PROPSHEET
 	_(NCSN_PRPSHT_ACTIVECHANGED),
 	_(NCSN_PRPSHT_MAX),
+#endif
 	_(NCSN_RDOBTN_MAX),
+#ifdef _MGNCSCTRL_RECTANGLE
 	_(NCSN_RECT_MAX),
+#endif
+#ifdef _MGNCSCTRL_SCROLLBAR
 	_(NCSN_SCRLBR_CHANGED),
 	_(NCSN_SCRLBR_REACHMAX),
 	_(NCSN_SCRLBR_REACHMIN),
 	//_(NCSN_SCRLBR_STARTDRAG),
 	//_(NCSN_SCRLBR_STOPDRAG),
 	_(NCSN_SCRLBR_MAX),
+#endif
 	_(NCSN_SCRLV_CLICKED),
 	_(NCSN_SCRLV_SELCHANGED),
 	_(NCSN_SCRLV_SELCHANGING),
@@ -250,33 +312,43 @@ static const char * name_values[][2]={
 	_(NCSN_SLEDIT_CHANGE),
 	_(NCSN_SLEDIT_ENTER),
 	_(NCSN_SLEDIT_MAX),
+#ifdef _MGNCSCTRL_SLIDER
 	_(NCSN_SLIDER_CHANGED),
 	_(NCSN_SLIDER_REACHMAX),
 	_(NCSN_SLIDER_REACHMIN),
 	//_(NCSN_SLIDER_STARTDRAG),
 	//_(NCSN_SLIDER_STOPDRAG),
 	_(NCSN_SLIDER_MAX),
+#endif
+#ifdef _MGNCSCTRL_SPINNER
 	_(NCSN_SPNR_CHANGED),
 	_(NCSN_SPNR_REACHMAX),
 	_(NCSN_SPNR_REACHMIN),
 	_(NCSN_SPNR_MAX),
+#endif
+#ifdef _MGNCSCTRL_SPINBOX
 	_(NCSN_SPNBOX_CHANGED),
 	_(NCSN_SPNBOX_REACHMAX),
 	_(NCSN_SPNBOX_REACHMIN),
 	_(NCSN_SPNBOX_MAX),
 	_(NCSN_STATIC_MAX),
+#endif
+#ifdef _MGNCSCTRL_TOOLBAR
 	_(NCSN_TLBAR_ITEMCHAGED),
 	_(NCSN_TLBAR_MAX),
+#endif
 	_(NCSN_TOOLITEM_CLICKED),
 	_(NCSN_TOOLITEM_PUSHED),
 	_(NCSN_TOOLITEM_SHOWMENU),
 	_(NCSN_TOOLITEM_STATE_CHANGED),
+#ifdef _MGNCSCTRL_TRACKBAR
 	_(NCSN_TRKBAR_CHANGED),
 	_(NCSN_TRKBAR_REACHMAX),
 	_(NCSN_TRKBAR_REACHMIN),
 	//_(NCSN_TRKBAR_STARTDRAG),
 	//_(NCSN_TRKBAR_STOPDRAG),
 	_(NCSN_TRKBAR_MAX),
+#endif
 	_(NCSN_WIDGET_CLICKED),
 	_(NCSN_WIDGET_DBCLICKED),
 	_(NCSN_WIDGET_ENABLED),
@@ -291,8 +363,11 @@ static const char * name_values[][2]={
 	_(NCSS_BUTTON_VERTIMAGELABEL),
 	_(NCSS_BUTTON_SHIFT),
 	_(NCSS_CHKBTN_SHIFT),
+#ifdef _MGNCSCTRL_COLORBUTTON
 	_(NCSS_CLRBTN_SHIFT),
 	_(NCSS_CLRBTN_FLAT),
+#endif
+#ifdef _MGNCSCTRL_COMBOBOX
 	_(NCSS_CMBOX_SIMPLE),
 	_(NCSS_CMBOX_DROPDOWNLIST),
 	_(NCSS_CMBOX_SORT),
@@ -303,8 +378,13 @@ static const char * name_values[][2]={
 	_(NCSS_CMBOX_LOWERCASE),
 	_(NCSS_CMBOX_AUTOFOCUS),
 	_(NCSS_CMBOX_SHIFT),
+#endif
+#ifdef _MGNCSCTRL_CONTAINER
 	_(NCSS_CTNR_SHIFT),
+#endif
+#ifdef _MGNCSCTRL_DIALOGBOX
 	_(NCSS_DLGBOX_SHIFT),
+#endif
 	_(NCSS_EDIT_LEFT),
 	_(NCSS_EDIT_CENTER),
 	_(NCSS_EDIT_RIGHT),
@@ -315,15 +395,18 @@ static const char * name_values[][2]={
 	_(NCSS_EDIT_BASELINE),
 	_(NCSS_EDIT_SHIFT),
 	_(NCSS_GRPBOX_SHIFT),
+#ifdef _MGNCSCTRL_ICONVIEW
 	_(NCSS_ICONV_SHIFT),
 	_(NCSS_ICONV_SORT),
 	_(NCSS_ICONV_LOOP),
+#endif
 	_(NCSS_IMAGE_SHIFT),
 	_(NCSS_ITEMV_SHIFT),
 	_(NCSS_ITEMV_AUTOSORT),
 	_(NCSS_ITEMV_LOOP),
 	_(NCSS_ITEMV_SINGLE),
 	_(NCSS_ITEMV_MULTIPLE),
+#ifdef _MGNCSCTRL_LISTBOX
 	_(NCSS_LSTBOX_SHIFT),
 	_(NCSS_LSTBOX_SINGLE),
 	_(NCSS_LSTBOX_MULTIPLE),
@@ -334,6 +417,8 @@ static const char * name_values[][2]={
 	_(NCSS_LSTBOX_CHECKBOX),
 	_(NCSS_LSTBOX_AUTOCHECK),
 	_(NCSS_LSTBOX_AUTOCHECKBOX),
+#endif
+#ifdef _MGNCSCTRL_LISTVIEW
 	_(NCSS_LISTV_NOTIFY),
 	_(NCSS_LISTV_LOOP),
 	_(NCSS_LISTV_MULTIPLE),
@@ -344,19 +429,27 @@ static const char * name_values[][2]={
 	_(NCSS_LISTV_WITHICON),
 	_(NCSS_LISTV_SORT),
 	_(NCSS_LISTV_SHIFT),
+#endif
 	_(NCSS_MNWND_SHIFT),
+#ifdef _MGNCSCTRL_MENUBUTTON
 	_(NCSS_MNUBTN_SHIFT),
+#endif
 	_(NCSS_MLEDIT_AUTOWRAP),
 	_(NCSS_MLEDIT_TITLE),
 	_(NCSS_MLEDIT_SHIFT),
+#ifdef _MGNCSCTRL_PAGE
 	_(NCSS_PAGE_SHIFT),
+#endif
 	_(NCSS_PANEL_SHIFT),
+#ifdef _MGNCSCTRL_PROGRESSBAR
 	_(NCSS_PRGBAR_HORIZONTAL),
 	_(NCSS_PRGBAR_VERTICAL),
 	_(NCSS_PRGBAR_BLOCKS),
 	_(NCSS_PRGBAR_SMOOTH),
 	_(NCSS_PRGBAR_SHOWPERCENT),
 	_(NCSS_PRGBAR_SHIFT),
+#endif
+#ifdef _MGNCSCTRL_PROPSHEET
 	_(NCSS_PRPSHT_SHIFT),
 	_(NCSS_PRPSHT_BTNMASK),
 	_(NCSS_PRPSHT_TABMASK),
@@ -365,8 +458,12 @@ static const char * name_values[][2]={
 	_(NCSS_PRPSHT_SCROLLABLE),
 	_(NCSS_PRPSHT_TOP),
 	_(NCSS_PRPSHT_BOTTOM),
+#endif
 	_(NCSS_RDOBTN_SHIFT),
+#ifdef _MGNCSCTRL_RECTANGLE
 	_(NCSS_RECT_SHIFT),
+#endif
+#ifdef _MGNCSCTRL_SCROLLBAR
 	_(NCSS_SCRLBR_HORIZONTAL),
 	_(NCSS_SCRLBR_ARROWS),
 	_(NCSS_SCRLBR_LEFTDBLARROWS),
@@ -377,16 +474,22 @@ static const char * name_values[][2]={
 	_(NCSS_SCRLBR_VERTICAL),
 	_(NCSS_SCRLBR_SHIFT), _(NCSS_SCRLV_SHIFT),
 	_(NCSS_SCRLV_LOOP),
+#endif
 	_(NCSS_SWGT_SHIFT),
 	_(NCSS_SLEDIT_PASSWORD),
 	_(NCSS_SLEDIT_AUTOSELECT),
+#ifdef _MGNCSCTRL_SLIDER
 	_(NCSS_SLIDER_HORIZONTAL),
 	_(NCSS_SLIDER_VERTICAL),
 	_(NCSS_SLIDER_SHIFT),
+#endif
+#ifdef _MGNCSCTRL_SPINNER
 	_(NCSS_SPNR_VERTICAL),
 	_(NCSS_SPNR_HORIZONTAL),
 	_(NCSS_SPNR_AUTOLOOP),
 	_(NCSS_SPNR_SHIFT),
+#endif
+#ifdef _MGNCSCTRL_SPINBOX
 	_(NCSS_SPNBOX_VERTICAL),
 	_(NCSS_SPNBOX_HORIZONTAL),
 	_(NCSS_SPNBOX_AUTOLOOP),
@@ -400,16 +503,22 @@ static const char * name_values[][2]={
 	_(NCSS_SPNBOX_LOWERCASE),
 	_(NCSS_SPNBOX_AUTOFOCUS),
 	_(NCSS_SPNBOX_SHIFT),
+#endif
 	_(NCSS_STATIC_PREFIX),
 	_(NCSS_STATIC_SHIFT),
+#ifdef _MGNCSCTRL_TOOLBAR
 	_(NCSS_TLBAR_SHIFT),
+#endif
+#ifdef _MGNCSCTRL_TRACKBAR
 	_(NCSS_TRKBAR_HORIZONTAL),
 	_(NCSS_TRKBAR_VERTICAL),
 	_(NCSS_TRKBAR_NOTICK),
 	_(NCSS_TRKBAR_SHIFT),
+#endif
 	_(NCSS_NOTIFY),
 	_(NCSS_WIDGET_SHIFT),
-	_(NCSS_ANMT_SHIFT), 
+#ifdef _MGNCSCTRL_ANIMATE
+	_(NCSS_ANMT_SHIFT),
 	_(NCSS_ANMT_AUTOLOOP),
 	_(NCSS_ANMT_SCALE),
 	_(NCSS_ANMT_AUTOFIT),
@@ -421,6 +530,7 @@ static const char * name_values[][2]={
 	_(NCSP_ANMT_INTERVAL),
 	_(NCSP_ANMT_MAX),
 	_(NCSN_ANMT_MAX),
+#endif
 	_(NCS_FGC_BASEID),
 	_(NCS_BGC_BASEID),
 	_(NCS_FGC_3DBODY),
@@ -603,37 +713,33 @@ static const char * name_values[][2]={
 	_(NCSP_ASTLST_TEXTINDENT),
 	_(NCSP_ASTLST_IMAGEINDENT),
 
+#ifdef _MGNCSCTRL_LIST
 	_(NCSS_LIST_LOOP),
 	_(NCSS_LIST_MULTIPLE),
 	_(NCSP_LIST_LAYOUT),
 	_(NCSP_LIST_DEFNODEWIDTH),
-
+#endif
 };
 
 int main(int argc, const char* argv[])
 {
 	int i;
-	if(argc > 1)
-	{
+
+	if (argc > 1) {
 		int j;
 
-		if(strcasecmp("-find", argv[1])==0)
-		{
-			for(j=2; j<argc;j++)
-			{
+		if (strcasecmp("-find", argv[1])==0) {
+			for (j=2; j<argc;j++) {
 				int v = strtol(argv[j],NULL,0);
-				for(i=0;i<sizeof(name_values)/sizeof(char*[2]);i++)
-				{
-					if((int)name_values[i][1] == v)
+				for (i=0;i<sizeof(name_values)/sizeof(char*[2]);i++) {
+					if ((int)name_values[i][1] == v)
 						printf("%s:%s\n",argv[j],name_values[i][0]);
 				}
 			}
 			return 0;
-		}
-		else if(strcasecmp("-help",argv[1]) == 0
-			|| strcasecmp("-h", argv[1]) == 0
-			|| strcasecmp("-?", argv[1]) == 0)
-		{
+		} else if (strcasecmp("-help",argv[1]) == 0
+				|| strcasecmp("-h", argv[1]) == 0
+				|| strcasecmp("-?", argv[1]) == 0) {
 			printf("usage %s [options] [name1 [name2 ...]]|[value1 [value2 ...]]\n",argv[0]);
 			printf("\t%s\t\t\t-- Show All Marco's of NCS\n",argv[0]);
 			printf("\t%s name1 [name2,[name3 ..]]\t-- Show the specail names\n",argv[0]);
@@ -641,13 +747,11 @@ int main(int argc, const char* argv[])
 			return 0;
 		}
 
-		for(j=1; j<argc; j++)
-		{
-			for(i=0; i<sizeof(name_values)/sizeof(char*[2]); i++)
-			{
-				if(strcasecmp(name_values[i][0],argv[j])==0)
+		for (j=1; j<argc; j++) {
+			for (i=0; i<sizeof(name_values)/sizeof(char*[2]); i++) {
+				if (strcasecmp(name_values[i][0],argv[j])==0)
 				{
-					if(strncmp(name_values[i][0], "NCSS",4) == 0)
+					if (strncmp(name_values[i][0], "NCSS",4) == 0)
 						printf("%s=0x%X\n",name_values[i][0], (int) name_values[i][1]);
 					else
 						printf("%s=%d\n",name_values[i][0], (int) name_values[i][1]);
@@ -657,9 +761,8 @@ int main(int argc, const char* argv[])
 		}
 		return 0;
 	}
-	for(i=0; i<sizeof(name_values)/sizeof(char*[2]); i++)
-	{
-			if(strncmp(name_values[i][0], "NCSS",4) == 0)
+	for (i=0; i<sizeof(name_values)/sizeof(char*[2]); i++) {
+			if (strncmp(name_values[i][0], "NCSS",4) == 0)
 				printf("%s=0x%X\n",name_values[i][0], (int) name_values[i][1]);
 			else
 				printf("%s=%d\n",name_values[i][0], (int) name_values[i][1]);

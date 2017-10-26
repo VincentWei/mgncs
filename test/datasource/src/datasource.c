@@ -13,10 +13,12 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 
 #include "resource.h"
 #include "ncs-windows.h"
+
+#if defined _MGNCSCTRL_LISTVIEW && defined _MGNCSCTRL_CONTAINER && defined _MGNCSCTRL_COMBOBOX && defined _MGNCSDB_DATASOURCE
 
 mDataSource * gDs = NULL;
 
@@ -395,3 +397,5 @@ NCS_WND_EXPORT mMainWnd* ntCreateMainwnd1Ex(HPACKAGE package, HWND hParent, HICO
 		user_data);
 }
 
+
+#endif	//_MGNCSCTRL_LISTVIEW &&  _MGNCSCTRL_CONTAINER

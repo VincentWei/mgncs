@@ -14,12 +14,13 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 
 #include "resource.h"
 #include "ncs-windows.h"
 #include "mobile-ime.h"
 
+#if defined _MGNCSENGINE_DIGITPY && defined _MGNCSCTRL_IMWORDSEL
 
 ////////////////////////////////////////
 
@@ -55,7 +56,7 @@ static BOOL mMobileIMManager_procIMMsg(mMobileIMManager* self, int message, WPAR
 
 static mIME* create_ime(HWND host, mIMEngine* ime_engine)
 {
-	mDigitIME* ime = NEW(mDigitIME);
+	mDigitIME* ime = (mDigitIME*)NEW(mDigitIME);
 	mMainWnd * ime_view;
 	_c(ime)->setIMEngine(ime,  ime_engine);
 	ime_view = ntCreateIdmImeview(hPackage, host, (DWORD)ime);
@@ -83,3 +84,5 @@ BEGIN_MINI_CLASS(mMobileIMManager, mIMManager)
 	CLASS_METHOD_MAP(mMobileIMManager, construct)
 	CLASS_METHOD_MAP(mMobileIMManager, procIMMsg)
 END_MINI_CLASS
+
+#endif

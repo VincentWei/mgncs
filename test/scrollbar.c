@@ -8,17 +8,21 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
+
+#if defined _MGNCSCTRL_SCROLLBAR && defined _MGNCSCTRL_RECTANGLE && _MGNCSCTRL_DIALOGBOX
 
 #define ID_SBR  100
 #define ID_SBG  101
 #define ID_SBB  102
-#define ID_RECT 200 
+#define ID_RECT 200
+
 
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 {
 	return TRUE;
 }
+
 static void mymain_onClose(mWidget* self, int message)
 {
 	DestroyMainWindow(self->hwnd);
@@ -38,15 +42,13 @@ static void scrollbar_notify(mScrollBar* self, int id, int code, DWORD add_data)
 {
 	mRectangle *rect = (mRectangle*)ncsGetChildObj(GetParent(self->hwnd), ID_RECT);
 
-	if(rect)
-	{
+	if (rect) {
 		DWORD fill_color = _c(rect)->getProperty(rect, NCSP_RECTANGLE_FILLCOLOR);
 		int r = GetRValue(fill_color);
 		int g = GetGValue(fill_color);
 		int b = GetBValue(fill_color);
 		int v = _c(self)->getProperty(self, NCSP_SCRLBR_CURPOS);
-		switch(id)
-		{
+		switch(id) {
 		case ID_SBR:
 			r = v;
 			break;
@@ -70,19 +72,16 @@ static NCS_EVENT_HANDLER scrollbar_notifies[] = {
 	{0, NULL}
 };
 
-static NCS_RDR_INFO sb_rdr_info[] =
-{
-    {"flat", "flat", NULL},
-    //{"skin", "skin", NULL},
+static NCS_RDR_INFO sb_rdr_info[] = {
+	{"flat", "flat", NULL},
+	//{"skin", "skin", NULL},
 	//{"fashion","fashion", NULL}
 };
-
-
 
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBR,
 		10, 20, 200, 25,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE,
@@ -95,9 +94,8 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBR,
 		10, 50, 200, 25,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_ARROWS,
@@ -111,7 +109,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBG,
 		10, 80, 200, 25,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_ARROWS | NCSS_SCRLBR_RIGHTDBLARROWS,
@@ -125,7 +123,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBG,
 		10, 110, 200, 25,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_RIGHTDBLARROWS,
@@ -139,7 +137,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBB,
 		10, 140, 200, 25,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_ARROWS | NCSS_SCRLBR_LEFTDBLARROWS,
@@ -153,7 +151,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBB,
 		10, 170, 200, 25,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_LEFTDBLARROWS,
@@ -166,9 +164,8 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBR,
 		10, 200, 25, 200,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_VERTICAL,
@@ -181,9 +178,8 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBR,
 		40, 200, 25, 200,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_ARROWS | NCSS_SCRLBR_VERTICAL,
@@ -197,7 +193,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBG,
 		70, 200, 25, 200,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_ARROWS | NCSS_SCRLBR_RIGHTDBLARROWS | NCSS_SCRLBR_VERTICAL,
@@ -211,7 +207,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBG,
 		100, 200, 25, 200,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_RIGHTDBLARROWS | NCSS_SCRLBR_VERTICAL,
@@ -225,7 +221,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBB,
 		130, 200, 25, 200,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_ARROWS | NCSS_SCRLBR_LEFTDBLARROWS | NCSS_SCRLBR_VERTICAL,
@@ -239,7 +235,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SCROLLBAR, 
+		NCSCTRL_SCROLLBAR,
 		ID_SBB,
 		160, 200, 25,200,
 		WS_BORDER | NCSS_NOTIFY | WS_VISIBLE | NCSS_SCRLBR_LEFTDBLARROWS | NCSS_SCRLBR_VERTICAL,
@@ -252,8 +248,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-
-    {
+	{
 		NCSCTRL_RECTANGLE,
 		ID_RECT,
 		200, 200, 40, 40,
@@ -267,9 +262,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-
 };
-
 
 static NCS_EVENT_HANDLER mymain_handlers[] = {
 	{MSG_CREATE, mymain_onCreate},
@@ -279,12 +272,12 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 300, 500,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
-    "scrollbar Test ....",
+	"scrollbar Test ....",
 	NULL,
 	NULL,
 	mymain_handlers,
@@ -296,23 +289,33 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
-	if(argc>1)
-	{
+	if (argc > 1) {
 		sb_rdr_info[0].glb_rdr = argv[1];
 		sb_rdr_info[0].ctl_rdr = argv[1];
 	}
 
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
-                                (&mymain_templ, HWND_DESKTOP);
+
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect(
+			&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
 
+#else //_MGNCSCTRL_SCROLLBAR _MGNCSCTRL_RECTANGLE
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the scrollbar, rectangle, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-scrollbar --enable-rectangle --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_SCROLLBAR _MGNCSCTRL_RECTANGLE

@@ -8,34 +8,36 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
 
-#define ID_SPINBOX1      101
-#define ID_SPINBOX2      102
-#define ID_SPINBOX3      103
-#define ID_SPINBOX4      104
+#if defined _MGNCSCTRL_SPINBOX && defined _MGNCSCTRL_DIALOGBOX
 
-static char * item [] =
-{
-    "SpinBox item-1st",
-    "SpinBox item-2nd",
-    "SpinBox item-3rd",
-    "SpinBox item-4th"
+#define ID_SPINBOX1	  101
+#define ID_SPINBOX2	  102
+#define ID_SPINBOX3	  103
+#define ID_SPINBOX4	  104
+
+static char *item[] = {
+	"SpinBox item-1st",
+	"SpinBox item-2nd",
+	"SpinBox item-3rd",
+	"SpinBox item-4th"
 };
 
+
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
-{ 
-    int i;
-    mSpinBox *spinner3, *spinner4;
+{
+	int i;
+	mSpinBox *spinner3, *spinner4;
 
-    spinner3 = (mSpinBox *)GetWindowAdditionalData2(GetDlgItem(self->hwnd, ID_SPINBOX3));
-    spinner4 = (mSpinBox *)GetWindowAdditionalData2(GetDlgItem(self->hwnd, ID_SPINBOX4));
+	spinner3 = (mSpinBox *)ncsGetChildObj(self->hwnd, ID_SPINBOX3);
+	spinner4 = (mSpinBox *)ncsGetChildObj(self->hwnd, ID_SPINBOX4);
 
-    for (i = 0; i < sizeof(item)/sizeof(char*); i++){
-        _c(spinner3)->addItem (spinner3, item[i]);
-        _c(spinner4)->addItem (spinner4, item[i]);
-    }
-        
+	for (i = 0; i < TABLESIZE(item); i++) {
+		_c(spinner3)->addItem (spinner3, item[i]);
+		_c(spinner4)->addItem (spinner4, item[i]);
+	}
+
 	return TRUE;
 }
 
@@ -56,10 +58,9 @@ static NCS_PROP_ENTRY spinner_props [] = {
 	{0, 0}
 };
 
-static NCS_RDR_INFO spin_rdr_info[] =
-{
-    //{"skin", "skin", NULL},
-    {"classic", "classic", NULL},
+static NCS_RDR_INFO spin_rdr_info[] = {
+	//{"skin", "skin", NULL},
+	{"classic", "classic", NULL},
 	//{"fashion", "fashion", NULL}
 	//{"flat", "flat", NULL}
 };
@@ -67,7 +68,7 @@ static NCS_RDR_INFO spin_rdr_info[] =
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_SPINBOX , 
+		NCSCTRL_SPINBOX ,
 		ID_SPINBOX1,
 		20, 10, 100, 20,
 		WS_VISIBLE | NCSS_SPNBOX_HORIZONTAL | NCSS_SPNBOX_NUMBER | NCSS_SPNBOX_READONLY,
@@ -80,8 +81,8 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-    {
-		NCSCTRL_SPINBOX , 
+	{
+		NCSCTRL_SPINBOX ,
 		ID_SPINBOX2,
 		20, 40, 100, 20,
 		WS_VISIBLE | NCSS_SPNBOX_VERTICAL | NCSS_SPNBOX_NUMBER | NCSS_SPNBOX_AUTOLOOP,
@@ -95,7 +96,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_SPINBOX , 
+		NCSCTRL_SPINBOX ,
 		ID_SPINBOX3,
 		150, 10, 150, 20,
 		WS_VISIBLE | NCSS_SPNBOX_HORIZONTAL | NCSS_SPNBOX_STRING,
@@ -108,8 +109,8 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-    {
-		NCSCTRL_SPINBOX , 
+	{
+		NCSCTRL_SPINBOX ,
 		ID_SPINBOX4,
 		150, 40, 150, 20,
 		WS_VISIBLE | NCSS_SPNBOX_VERTICAL | NCSS_SPNBOX_STRING,
@@ -133,12 +134,12 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 320, 320,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
-    "SpinBox Test ....",
+	"SpinBox Test ....",
 	NULL,
 	NULL,
 	mymain_handlers,
@@ -150,25 +151,34 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
-	if(argc>1)
-	{
+	if (argc > 1) {
 		spin_rdr_info[0].glb_rdr = argv[1];
 		spin_rdr_info[0].ctl_rdr = argv[1];
 	}
 
-
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
-                                (&mymain_templ, HWND_DESKTOP);
+
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect(
+			&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
+	ncsUninitialize();
 
-	MainWindowThreadCleanup(mydlg->hwnd);
 	return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+#else //_MGNCSCTRL_SPINBOX _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n|===============================================================|\n");
+	printf("|===== You haven't enable the spinbox, dialogbox contorl   =====|\n");
+	printf("|===============================================================|\n");
+	printf("|====  You should rebuild the mGNCS :                       ====|\n");
+	printf("|====     ./configure --enable-spinbox --enable-dialogbox   ====|\n");
+	printf("|===============================================================|\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_SPINBOX _MGNCSCTRL_DIALOGBOX
 

@@ -417,7 +417,7 @@ static int get_ui_data(HPACKAGE package, Uint32 wnd_id,
 
     /* ST:file */
     if (item->offset == 0) {
-        *data = find_mmap_file (package, item->filename_id);
+        *data = (void*)find_mmap_file (package, item->filename_id);
 
         if (*data == NULL) {
             return UIDATA_ERR;
@@ -429,7 +429,7 @@ static int get_ui_data(HPACKAGE package, Uint32 wnd_id,
         return UIDATA_ST_FILE;
     }
 
-    *data = ui + item->offset;
+    *data = (void*)(ui + item->offset);
 #ifdef _MGRM_DEBUG
         dump_ui_data (package, (NCSRM_WINHEADER*)*data);
 #endif
@@ -967,7 +967,7 @@ static void dumpRdrResInfo (HPACKAGE hPackage)
                         idItem->offset);
 
         if (idItem->id >>16 == NCSRT_RDRSET) {
-            get_rdrset_info(hPackage, idItem->id, (char**)(void *)&data);
+            get_rdrset_info(hPackage, idItem->id, (char**)((void *)&data));
         }
         else if (idItem->id >>16 == NCSRT_RDR) {
             get_rdr_info(hPackage, idItem->id, &rdrinfo, &clsname);
@@ -1013,11 +1013,10 @@ static void dumpUIResInfo (HPACKAGE hPackage)
                         idItem->filename_id,
                         idItem->offset);
 
-        get_ui_data(hPackage, idItem->id, (void *)&header, &name_id);
+        get_ui_data(hPackage, idItem->id, (void **)(&header), &name_id);
         idItem += 1;
     }
 
     _MGRM_PRINTF ( "=================== End of ui resource info ================= \n");
 }
-
 

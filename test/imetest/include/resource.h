@@ -1,5 +1,5 @@
 /****************************************/
-/* This file is generate by mstudio,    */
+/* This file is generate by miniStudio,    */
 /* Please Don't edit it.                */
 /*                                      */
 /* This file define the IDs used by     */
@@ -28,4 +28,5 @@
 #define ID_HSCROLLBAR1			0x15
 #define ID_HSCROLLBAR1_COPY			0x16
 #define ID_TEXTEDITOR1			0x17
+#define ID_TEXTEDITOR1_COPY			0x18
 #endif /*_RESOURCE_ID_H_*/

@@ -1,5 +1,6 @@
 #The Text of en_US
 0x00022711	"TextEditor1"
+0x00022712	"TextEditor1"
 0x0002400A	"GroupBox1"
 0x0002463A	"测试"
 0x000248BB	"Pti IME"

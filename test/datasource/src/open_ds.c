@@ -14,12 +14,13 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 #include <mgutils/mgutils.h>
 
 #include "resource.h"
 #include "ncs-windows.h"
 
+#if defined _MGNCSCTRL_LISTVIEW && defined _MGNCSCTRL_CONTAINER && defined _MGNCSCTRL_COMBOBOX
 
 //$func #3614941184 NCSN_WIDGET_CLICKED_3155369984_3614941184
 static BOOL opends_on_ok_clicked (mMainWnd *self, mButton* sender, int id, DWORD param)
@@ -44,12 +45,12 @@ static BOOL opends_on_ok_clicked (mMainWnd *self, mButton* sender, int id, DWORD
 		ds = ncsCreateEtcDataSource(szSource, NCS_DS_SELECT_READ|NCS_DS_SELECT_WRITE);
 	}
 	else if (type == DSTYPE_SQLITE){
-#ifdef _MGNCS_SQLITE
+#ifdef _MGNCSDB_SQLITE
 		ds = ncsCreateSQLiteDataSource(szSource, 0);
 #endif
 	}
 	else if (type == DSTYPE_XML){
-#ifdef _MGNCS_XML
+#ifdef _MGNCSDB_XML
 		ds = ncsCreateXMLDataSource(szSource, 0);
 #endif
 	}
@@ -145,3 +146,4 @@ NCS_WND_EXPORT mMainWnd* ntCreateOpendsEx(HPACKAGE package, HWND hParent, HICON 
 		user_data);
 }
 
+#endif //_MGNCSCTRL_COMBOBOX

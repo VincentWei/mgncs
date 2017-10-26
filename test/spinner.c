@@ -8,23 +8,29 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
 
-#define ID_SPINNER1      101
-#define ID_SPINNER2      102
+#if defined _MGNCSCTRL_SPINBOX && defined _MGNCSCTRL_DIALOGBOX
 
-#define MINVALUE        0
-#define MAXVALUE        10
-#define CURVALUE        5
+
+#define ID_SPINNER1	  101
+#define ID_SPINNER2	  102
+
+#define MINVALUE		0
+#define MAXVALUE		10
+#define CURVALUE		5
+
 static int offset = 10, cell = MAXVALUE - MINVALUE + 1, step = 20;
-static int cur_x = CURVALUE, cur_y = CURVALUE; 
+static int cur_x = CURVALUE, cur_y = CURVALUE;
+
 
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 {
-	ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER1), 
-            NCSP_SPNR_TARGET, (DWORD)self->hwnd);
-	ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER2), 
-            NCSP_SPNR_TARGET, (DWORD)self->hwnd);
+	ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER1),
+			NCSP_SPNR_TARGET, (DWORD)self->hwnd);
+	ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER2),
+			NCSP_SPNR_TARGET, (DWORD)self->hwnd);
+
 	return TRUE;
 }
 
@@ -36,136 +42,132 @@ static void mymain_onClose (mWidget* self, int message)
 
 static void getRectByCellIdx(int posX, int posY, RECT *rc)
 {
-    if (rc) {
-        rc->left = offset + posX * step;
-        rc->top = offset + posY * step;
-        rc->right = rc->left + step;
-        rc->bottom = rc->top + step;
-    }
+	if (rc) {
+		rc->left = offset + posX * step;
+		rc->top = offset + posY * step;
+		rc->right = rc->left + step;
+		rc->bottom = rc->top + step;
+	}
 }
 
 static BOOL mymain_onKeyDown (mWidget* self, int message, int wParam, DWORD lParam)
 {
-    int cur = -1, step, newPos = -1;
-    BOOL refresh = FALSE;
-    RECT oldrc, newrc;
-    int sign = 1;
+	int cur = -1, step, newPos = -1;
+	BOOL refresh = FALSE;
+	RECT oldrc, newrc;
+	int sign = 1;
 
-    if (lParam & KS_SPINPOST) {
-        int old_x = cur_x, old_y = cur_y;
-        cur_y = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER1), 
-                NCSP_SPNR_CURPOS);
-        cur_x = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER2), 
-                NCSP_SPNR_CURPOS);
+	if (lParam & KS_SPINPOST) {
+		int old_x = cur_x, old_y = cur_y;
+		cur_y = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER1),
+				NCSP_SPNR_CURPOS);
+		cur_x = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER2),
+				NCSP_SPNR_CURPOS);
 
-        if (old_x == cur_x && old_y == cur_y)
-            return TRUE;
+		if (old_x == cur_x && old_y == cur_y)
+			return TRUE;
 
-        getRectByCellIdx(old_x, old_y, &oldrc);
-        getRectByCellIdx(cur_x, cur_y, &newrc);
+		getRectByCellIdx(old_x, old_y, &oldrc);
+		getRectByCellIdx(cur_x, cur_y, &newrc);
 
-        InvalidateRect(self->hwnd, &oldrc, TRUE);
-        InvalidateRect(self->hwnd, &newrc, TRUE);
-    }
-    else {
-        switch (wParam) {
-            case SCANCODE_CURSORBLOCKUP:
-                sign = -1;
-            case SCANCODE_CURSORBLOCKDOWN:
-            {
-                cur = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER1), 
-                        NCSP_SPNR_CURPOS);
-                step = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER1), 
-                        NCSP_SPNR_LINESTEP);
+		InvalidateRect(self->hwnd, &oldrc, TRUE);
+		InvalidateRect(self->hwnd, &newrc, TRUE);
+	} else {
+		switch (wParam) {
+			case SCANCODE_CURSORBLOCKUP:
+				sign = -1;
+			case SCANCODE_CURSORBLOCKDOWN: {
+				cur = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER1),
+						NCSP_SPNR_CURPOS);
+				step = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER1),
+						NCSP_SPNR_LINESTEP);
 
-                newPos = cur + sign * step;
+				newPos = cur + sign * step;
 
-                if (newPos < MINVALUE || newPos > MAXVALUE)
-                    return TRUE;
+				if (newPos < MINVALUE || newPos > MAXVALUE)
+					return TRUE;
 
-                cur_y = newPos;
-                refresh = TRUE;
-                ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER1), 
-                        NCSP_SPNR_CURPOS, newPos);
-                
-                //old rect
-                getRectByCellIdx(cur_x, cur, &oldrc);
-                getRectByCellIdx(cur_x, newPos, &newrc);
-                break;
-            }
+				cur_y = newPos;
+				refresh = TRUE;
+				ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER1),
+						NCSP_SPNR_CURPOS, newPos);
 
-            case SCANCODE_CURSORBLOCKLEFT:
-                sign = -1;
-            case SCANCODE_CURSORBLOCKRIGHT:
-            {
-                cur = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER2), 
-                        NCSP_SPNR_CURPOS);
-                step = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER2), 
-                        NCSP_SPNR_LINESTEP);
-                newPos = cur + sign * step;
+				//old rect
+				getRectByCellIdx(cur_x, cur, &oldrc);
+				getRectByCellIdx(cur_x, newPos, &newrc);
+				break;
+			}
 
-                if (newPos < MINVALUE || newPos > MAXVALUE)
-                    return TRUE;
+			case SCANCODE_CURSORBLOCKLEFT:
+				sign = -1;
+			case SCANCODE_CURSORBLOCKRIGHT: {
+				cur = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER2),
+						NCSP_SPNR_CURPOS);
+				step = (int)ncsGetProperty(GetDlgItem(self->hwnd, ID_SPINNER2),
+						NCSP_SPNR_LINESTEP);
+				newPos = cur + sign * step;
 
-                cur_x = newPos;
-                refresh = TRUE;
-                ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER2), 
-                        NCSP_SPNR_CURPOS, newPos);
-                //old rect
-                getRectByCellIdx(cur, cur_y, &oldrc);
-                getRectByCellIdx(newPos, cur_y, &newrc);
-                break;
-            }
-        }
-        if (refresh) {
-            InvalidateRect(self->hwnd, &oldrc, TRUE);
-            InvalidateRect(self->hwnd, &newrc, TRUE);
-        }
+				if (newPos < MINVALUE || newPos > MAXVALUE)
+					return TRUE;
 
-    }
-    
-    return TRUE;
+				cur_x = newPos;
+				refresh = TRUE;
+				ncsSetProperty(GetDlgItem(self->hwnd, ID_SPINNER2),
+						NCSP_SPNR_CURPOS, newPos);
+				//old rect
+				getRectByCellIdx(cur, cur_y, &oldrc);
+				getRectByCellIdx(newPos, cur_y, &newrc);
+				break;
+			}
+		}
+
+		if (refresh) {
+			InvalidateRect(self->hwnd, &oldrc, TRUE);
+			InvalidateRect(self->hwnd, &newrc, TRUE);
+		}
+	}
+
+	return TRUE;
 }
 
 static void mymain_onPaint (mWidget *self, HDC hdc, const CLIPRGN* rgn)
 {
-    int i;
+	int i;
 
-    //draw cell box
-    for (i = 0; i <= cell; i++) {
-        //row
-        MoveTo (hdc, offset,            offset + i*step);
-        LineTo (hdc, offset + step*cell,offset + i*step);
-        //column
-        MoveTo (hdc, offset + i*step,   offset);
-        LineTo (hdc, offset + i*step,   offset + step*cell);
-    }
+	//draw cell box
+	for (i = 0; i <= cell; i++) {
+		//row
+		MoveTo (hdc, offset,			offset + i*step);
+		LineTo (hdc, offset + step*cell,offset + i*step);
+		//column
+		MoveTo (hdc, offset + i*step,   offset);
+		LineTo (hdc, offset + i*step,   offset + step*cell);
+	}
 
-    SetBrushColor (hdc, PIXEL_black);
-    FillBox (hdc, offset + cur_x * step, offset + cur_y * step, step, step);
+	SetBrushColor (hdc, PIXEL_black);
+	FillBox (hdc, offset + cur_x * step, offset + cur_y * step, step, step);
 }
 
 //Propties for
 static NCS_PROP_ENTRY spinbox_props [] = {
-    {NCSP_SPNR_MINPOS, MINVALUE},
-    {NCSP_SPNR_MAXPOS, MAXVALUE},
-    {NCSP_SPNR_CURPOS, CURVALUE},
-    {NCSP_SPNR_LINESTEP, 1},
+	{NCSP_SPNR_MINPOS, MINVALUE},
+	{NCSP_SPNR_MAXPOS, MAXVALUE},
+	{NCSP_SPNR_CURPOS, CURVALUE},
+	{NCSP_SPNR_LINESTEP, 1},
 	{0, 0}
 };
 
-static NCS_RDR_INFO spin_rdr_info[] =
-{
+static NCS_RDR_INFO spin_rdr_info[] = {
 	{"classic", "classic"}
-    //{"skin", "skin", NULL},
-    //{"fashion", "fashion", NULL},
-    //{"flat", "flat", NULL},
+	//{"skin", "skin", NULL},
+	//{"fashion", "fashion", NULL},
+	//{"flat", "flat", NULL},
 };
 
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_SPINNER , 
+		NCSCTRL_SPINNER ,
 		ID_SPINNER1,
 		290, 150, 20, 20,
 		WS_VISIBLE | NCSS_SPNBOX_VERTICAL | NCSS_NOTIFY,
@@ -178,8 +180,8 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	},
-    {
-		NCSCTRL_SPINNER , 
+	{
+		NCSCTRL_SPINNER ,
 		ID_SPINNER2,
 		290, 100, 20, 20,
 		WS_VISIBLE | NCSS_SPNBOX_HORIZONTAL | NCSS_NOTIFY,
@@ -194,7 +196,6 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	}
 };
 
-
 static NCS_EVENT_HANDLER mymain_handlers[] = {
 	{MSG_CREATE,mymain_onCreate},
 	{MSG_CLOSE,mymain_onClose},
@@ -205,18 +206,18 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 static NCS_RDR_INFO mymain_rdr_info[] =
 {
-    {"skin", "skin", NULL},
+	{"skin", "skin", NULL},
 };
 
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 360, 300,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
-    "Spinner Test ....",
+	"Spinner Test ....",
 	NULL,
 	mymain_rdr_info,
 	mymain_handlers,
@@ -228,24 +229,33 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
-	if(argc>1)
-	{
+	if (argc > 1) {
 		spin_rdr_info[0].glb_rdr = argv[1];
 		spin_rdr_info[0].ctl_rdr = argv[1];
 	}
 
-
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
-                                (&mymain_templ, HWND_DESKTOP);
+
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect(
+			&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+#else //_MGNCSCTRL_SPINBOX _MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the spinbox, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-spinbox --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_SPINNER _MGNCSCTRL_DIALOGBOX
 

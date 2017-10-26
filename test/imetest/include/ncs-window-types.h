@@ -7,6 +7,7 @@
  *
  ***********************************************************/
 
+#if defined _MGNCSENGINE_DIGITPY && defined _MGNCSCTRL_IMWORDSEL
 
 #ifndef NCS_WINDOW_TYPES
 #define NCS_WINDOW_TYPES
@@ -26,3 +27,5 @@ extern mMobileIMManager * immanger;
 #endif
 
 #endif /** NCS_WINDOW_TYPES*/
+#endif // _MGNCSENGINE_IME
+

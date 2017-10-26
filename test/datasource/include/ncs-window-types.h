@@ -6,7 +6,7 @@
  *  You can Modify this file
  *
  ***********************************************************/
-
+#ifdef _MGNCSDB_DATASOURCE
 
 #ifndef NCS_WINDOW_TYPES
 #define NCS_WINDOW_TYPES
@@ -31,3 +31,5 @@ extern mDataSource * gDs;
 #endif
 
 #endif /** NCS_WINDOW_TYPES*/
+#endif //_MGNCSDB_DATASOURCE
+

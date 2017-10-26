@@ -13,14 +13,15 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 
 #include "resource.h"
 #include "ncs-windows.h"
 
+#if defined _MGNCSENGINE_DIGITPY && defined _MGNCSCTRL_IMWORDSEL
 
 //$func @1442562048 onCreate -- Need by merge, don't modify
-static BOOL Mainwnd1_onCreate (mWidget* self, DWORD dwAddData) 
+static BOOL Mainwnd1_onCreate (mWidget* self, DWORD dwAddData)
 {
 
 	//TODO:
@@ -54,7 +55,7 @@ static BOOL mainwnd1_on_imegroup_radiobuttonchanged (mMainWnd *self, mButtonGrou
 
 //$connect #1442562048 -- Need by merge, don't modify
 static NCS_EVENT_CONNECT_INFO Mainwnd1_connects [] = {
-	{1230929920, 1442562048, NCSN_BTNGRP_SELCHANGED, (NCS_CB_ONOBJEVENT)mainwnd1_on_imegroup_radiobuttonchanged},/* ID_IMEGROUP - ID_MAINWND1 */ 
+	{1230929920, 1442562048, NCSN_BTNGRP_SELCHANGED, (NCS_CB_ONOBJEVENT)mainwnd1_on_imegroup_radiobuttonchanged},/* ID_IMEGROUP - ID_MAINWND1 */
 //$user -- TODO add your handlers hear
 	{-1, -1, 0, NULL}
 };
@@ -79,4 +80,4 @@ NCS_WND_EXPORT mMainWnd* ntCreateMainwnd1Ex(HPACKAGE package, HWND hParent, HICO
 		Mainwnd1_connects,
 		user_data);
 }
-
+#endif //#ifdef _MGNCSENGINE_IME

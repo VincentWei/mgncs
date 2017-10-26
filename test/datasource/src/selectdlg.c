@@ -13,7 +13,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 
 #include "resource.h"
 #include "ncs-windows.h"

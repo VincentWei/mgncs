@@ -84,4 +84,9 @@
 		<type>16384</type>
 		<source></source>
 	</res-id>
+	<res-id>
+		<id name="ID_TEXTEDITOR1_COPY"  value="0x40000018"/>
+		<type>16384</type>
+		<source></source>
+	</res-id>
 </res-ids>

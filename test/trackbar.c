@@ -8,19 +8,22 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
 #include "../include/mdatabinding.h"
 
-#define ID_TRB1     101
-#define ID_TRB2     102
+#if defined _MGNCSCTRL_TRACKBAR && defined _MGNCSCTRL_DIALOGBOX
+
+
+#define ID_TRB1	 101
+#define ID_TRB2	 102
 
 //static char buff [64];
 //static HWND h_dlg;
 //static gal_pixel block;
 
-
 static int x_value;
 static int y_value;
+
 
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 {
@@ -28,16 +31,19 @@ static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 	mTrackBar* tb1 = (mTrackBar*)_c(self)->getChild(self, ID_TRB1);
 	mTrackBar* tb2 = (mTrackBar*)_c(self)->getChild(self, ID_TRB2);
 	ncsConnectBindProps(INT_PROP(x_value, NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
-		NCS_CMPT_PROP(tb1, NCSN_TRKBAR_CHANGED, NCSP_TRKBAR_CURPOS, NCS_BT_INT, NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
-		NCS_BPT_DBL);
+			NCS_CMPT_PROP(tb1, NCSN_TRKBAR_CHANGED, NCSP_TRKBAR_CURPOS,
+				NCS_BT_INT, NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
+			NCS_BPT_DBL);
 	ncsConnectBindProps(INT_PROP(y_value, NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
-		NCS_CMPT_PROP(tb2, NCSN_TRKBAR_CHANGED, NCSP_TRKBAR_CURPOS, NCS_BT_INT, NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
-		NCS_BPT_DBL);
+			NCS_CMPT_PROP(tb2, NCSN_TRKBAR_CHANGED, NCSP_TRKBAR_CURPOS, NCS_BT_INT,
+				NCS_PROP_FLAG_READ|NCS_PROP_FLAG_WRITE),
+			NCS_BPT_DBL);
 
 	ncsAutoReflectObjectBindProps((mObject *)(void *)&x_value);
 	ncsAutoReflectObjectBindProps((mObject *)(void *)&y_value);
 	SetTimer(self->hwnd, 1, 100);
-    return TRUE;
+
+	return TRUE;
 }
 
 static BOOL mymain_onTimer(mMainWnd* self, DWORD tick_count)
@@ -51,24 +57,23 @@ static void mymain_onClose(mWidget* self, int message)
 	DestroyMainWindow(self->hwnd);
 	PostQuitMessage(0);
 }
+
 //Propties for
 static NCS_PROP_ENTRY trk_props [] = {
-    {NCSP_TRKBAR_MINPOS, 0},
-    {NCSP_TRKBAR_MAXPOS, 20},
-    {NCSP_TRKBAR_CURPOS, 10},
-    {NCSP_TRKBAR_LINESTEP, 2},
-    {NCSP_TRKBAR_PAGESTEP, 5},
+	{NCSP_TRKBAR_MINPOS, 0},
+	{NCSP_TRKBAR_MAXPOS, 20},
+	{NCSP_TRKBAR_CURPOS, 10},
+	{NCSP_TRKBAR_LINESTEP, 2},
+	{NCSP_TRKBAR_PAGESTEP, 5},
 	{0, 0}
 };
 
-static NCS_RDR_INFO track_rdr_info[] =
-{
-    {"flat", "flat", NULL},
-    //{"skin", "skin", NULL},
-    //{"classic", "classic", NULL},
+static NCS_RDR_INFO track_rdr_info[] = {
+	{"flat", "flat", NULL},
+	//{"skin", "skin", NULL},
+	//{"classic", "classic", NULL},
 	//{"fashion","fashion",NULL}
 };
-
 
 static NCS_EVENT_HANDLER trk1_handlers[] = {
 	{0, NULL}
@@ -78,11 +83,10 @@ static NCS_EVENT_HANDLER trk2_handlers[] = {
 	{0, NULL}
 };
 
-
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_TRACKBAR, 
+		NCSCTRL_TRACKBAR,
 		ID_TRB1,
 		10, 260, 240, 40,
 		WS_BORDER | WS_VISIBLE | NCSS_TRKBAR_NOTICK | NCSS_NOTIFY ,
@@ -96,8 +100,8 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0, //add data
 		MakeRGBA(255,0,0,255)
 	},
-    {
-		NCSCTRL_TRACKBAR, 
+	{
+		NCSCTRL_TRACKBAR,
 		ID_TRB2,
 		260, 10, 40, 240,
 		WS_BORDER | WS_VISIBLE | NCSS_NOTIFY | NCSS_TRKBAR_VERTICAL,
@@ -112,7 +116,6 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	},
 };
 
-
 static NCS_EVENT_HANDLER mymain_handlers[] = {
 	{MSG_CREATE, mymain_onCreate },
 	{MSG_CLOSE, mymain_onClose },
@@ -122,12 +125,12 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 320, 330,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
-    "Trackbar Test ....",
+	"Trackbar Test ....",
 	NULL,
 	NULL,
 	mymain_handlers,
@@ -139,24 +142,33 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
-	if(argc>1)
-	{
+	if (argc > 1) {
 		track_rdr_info[0].glb_rdr = argv[1];
 		track_rdr_info[0].ctl_rdr = argv[1];
 	}
 
-
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
-                                (&mymain_templ, HWND_DESKTOP);
+
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect(
+			&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
+#else //_MGNCSCTRL_DIALOGBOX _MGNCSCTRL_TRACKBAR
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox, trackbar contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox --enable-trackbar ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_DIALOGBOX _MGNCSCTRL_TRACKBAR
+
 

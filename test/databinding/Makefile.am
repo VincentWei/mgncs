@@ -5,9 +5,7 @@ INCLUDES=-I$(TOP_DIR)/include -I. -I.. -I$(TOP_DIR) -Iinclude
 
 noinst_PROGRAMS=databinding
 
-
-COMMON_LADD= $(APP_LIBS) $(TOP_DIR)/src/.libs/libmgncs@MGNCS_LIBSUFFIX@.so -lmgplus@MGNCS_LIBSUFFIX@ -lmgutils@MGNCS_LIBSUFFIX@ -lstdc++
-
+COMMON_LADD= $(TOP_DIR)/src/.libs/libmgncs.so @APP_LIBS@ -lmgplus -lmgutils -lstdc++
 
 databinding_SOURCES=src/main.c src/databinding_main.c
 databinding_LDFLAGS=$(COMMON_LADD)

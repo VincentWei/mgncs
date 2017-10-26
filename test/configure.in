@@ -1,0 +1,128 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.61)
+AC_INIT([mainwnd.c])
+
+AC_CANONICAL_SYSTEM
+
+dnl ========================================================================
+# Checks for programs.
+AC_PROG_MAKE_SET
+AC_PROG_CC
+
+AM_INIT_AUTOMAKE(mgncs-test,1.0.0,-)
+dnl ========================================================================
+dnl Put the name and version of the package here
+
+# Checks for libraries.
+
+# Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/ioctl.h sys/time.h termio.h termios.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_PID_T
+AC_STRUCT_TM
+
+# Checks for library functions.
+AC_FUNC_CLOSEDIR_VOID
+AC_FUNC_FORK
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_STAT
+AC_FUNC_VPRINTF
+AC_FUNC_ALLOCA
+AC_CHECK_FUNCS([bzero dup2 getcwd memmove memset putenv strchr strdup strerror strstr strndup ftruncate mmap])
+
+dnl ========================================================================
+dnl check for run-time mode of MiniGUI
+dnl ========================================================================
+
+have_libminigui="no"
+AC_CHECK_HEADERS(minigui/common.h, have_libminigui=yes, foo=bar)
+
+have_libmgncs="no"
+AC_CHECK_HEADERS(mgncs/mgncs.h, have_libmgncs="yes", foo=bar, 
+[[#ifdef HAVE_MINIGUI_COMMON_H
+ # include <minigui/common.h>
+ # include <minigui/minigui.h>
+ # include <minigui/gdi.h>
+ # include <minigui/window.h>
+ #endif
+ ]])
+
+threads_version="no"
+AC_CHECK_DECLS(_MGRM_THREADS, threads_version="yes", foo=bar, [#include <minigui/common.h>])
+
+procs_version="no"
+AC_CHECK_DECLS(_MGRM_PROCESSES, procs_version="yes", foo=bar, [#include <minigui/common.h>])
+
+standalone_version="no"
+AC_CHECK_DECLS(_MGRM_STANDALONE, standalone_version="yes", foo=bar, [#include <minigui/common.h>])
+
+have_libsuffix="no"
+
+if test "x$threads_version" = "xyes"; then
+   	CFLAGS="$CFLAGS -D_REENTRANT"
+    if test "x$have_libsuffix" = "xno"; then
+        APP_LIBS="$APP_LIBS -lminigui_ths"
+    fi
+else
+	if test "x$standalone_version" = "xyes"; then
+        if test "x$have_libsuffix" = "xno"; then
+            APP_LIBS="$APP_LIBS -lminigui_sa"
+        fi
+   	else
+        if test "x$have_libsuffix" = "xno"; then
+            APP_LIBS="$APP_LIBS -lminigui_procs"
+        fi
+   	fi  
+fi
+
+if test "x$have_libsuffix" = "xyes"; then
+    APP_LIBS="$APP_LIBS -lminigui_msd"
+fi
+
+APP_LIBS="$APP_LIBS -lpthread"
+
+AC_CHECK_DECLS(_HAVE_MATH_LIB, APP_LIBS="$APP_LIBS -lm", foo=bar, [#include <minigui/common.h>])
+AC_CHECK_DECLS(_MGIMAGE_PNG, APP_LIBS="$APP_LIBS -lpng", foo=bar, [#include <minigui/common.h>])
+AC_CHECK_DECLS(_MGIMAGE_JPG, APP_LIBS="$APP_LIBS -ljpeg", foo=bar, [#include <minigui/common.h>])
+AC_CHECK_DECLS(_MGFONT_TTF, APP_LIBS="$APP_LIBS -lttf", foo=bar, [#include <minigui/common.h>])
+AC_CHECK_DECLS(_MGFONT_FT2, APP_LIBS="$APP_LIBS -lfreetype", foo=bar, [#include <minigui/common.h>])
+AC_CHECK_DECLS(_MGIAL_DLCUSTOM, APP_LIBS="$APP_LIBS -ldl", foo=bar, [#include <minigui/common.h>])
+
+if test "$ac_cv_prog_gcc" = "yes"; then
+    CFLAGS="$CFLAGS -Wall -Wstrict-prototypes -pipe"
+fi
+
+AC_SUBST(APP_LIBS)
+
+AC_CONFIG_FILES([Makefile
+    databinding/Makefile
+    datasource/Makefile
+    imetest/Makefile])
+
+AC_OUTPUT
+
+if test "x$have_libminigui" != "xyes"; then
+    AC_MSG_WARN([
+        MiniGUI is not properly installed on the system. You need 
+        MiniGUI Ver 3.0.10 or later for building this package. 
+        Please configure and install MiniGUI Ver 3.0.10 first.
+    ])
+fi
+
+if test "x$have_libmgncs" != "xyes"; then
+    AC_MSG_WARN([
+        mGNCS is not properly installed on the system. You need 
+        mGNCS v1.0 or later for building this package. 
+        Please install mGNCS v1.0 first.
+    ])
+fi
+

@@ -38,6 +38,7 @@
 <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.2008658455" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">
 <option id="gnu.c.link.option.libs.1215381497" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="mgncs"/>
+<listOptionValue builtIn="false" value="dl"/>
 <listOptionValue builtIn="false" value="mgutils"/>
 <listOptionValue builtIn="false" value="mgplus"/>
 <listOptionValue builtIn="false" value="stdc++"/>

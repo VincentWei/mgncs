@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,7 +8,9 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
+
+#ifdef _MGNCSCTRL_DIALOGBOX
 
 #define IDC_SLEDIT  100
 #define IDC_BTN1    101
@@ -24,7 +25,9 @@
 #define IDC_BTN10   110
 #define IDC_BTN11   111
 
+
 static char buff[1024];
+
 
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 {
@@ -46,16 +49,15 @@ static void mymain_onClose(mWidget* self, int message)
 }
 
 static NCS_EVENT_HANDLER edit_handlers [] = {
-	{0, NULL}	
+	{0, NULL}
 };
 
 static NCS_PROP_ENTRY edit_props [] = {
-	{NCSP_SLEDIT_TIPTEXT, "Tip Text Testing"},
+	{NCSP_SLEDIT_TIPTEXT, (DWORD)"Tip Text Testing"},
 	{ 0, 0 }
 };
 
-static NCS_RDR_INFO edit_rdr_info[] =
-{
+static NCS_RDR_INFO edit_rdr_info[] = {
     //{"skin", "skin", NULL},
     //{"fashion", "fashion", NULL},
 	{"classic","classic",NULL}
@@ -66,8 +68,7 @@ static void btn_notify(mWidget *button, int id, int nc, DWORD add_data)
     int s, e;
     mSlEdit *edit = (mSlEdit *)ncsGetChildObj(GetParent(button->hwnd), IDC_SLEDIT);
 
-    switch (id)
-    {
+    switch (id) {
         case IDC_BTN1 :
             _c(edit)->setContent (edit, "settext succeed!", 4, 9);
             break;
@@ -104,17 +105,16 @@ static void btn_notify(mWidget *button, int id, int nc, DWORD add_data)
             _c(edit)->paste (edit);
             break;
     }
-
 }
 
 static NCS_EVENT_HANDLER btn_handlers [] = {
     NCS_MAP_NOTIFY(NCSN_BUTTON_PUSHED, btn_notify),
-	{0, NULL}	
+	{0, NULL}
 };
 
 static NCS_WND_TEMPLATE sledit_templ[] = {
 	{
-		NCSCTRL_SLEDIT, 
+		NCSCTRL_SLEDIT,
 		IDC_SLEDIT,
 		10, 10, 150, 30,
 		WS_BORDER | WS_VISIBLE | NCSS_SLEDIT_TIP,
@@ -128,7 +128,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
 	{
-		NCSCTRL_SLEDIT, 
+		NCSCTRL_SLEDIT,
 		IDC_SLEDIT,
 		10, 50, 150, 30,
 		WS_BORDER | WS_VISIBLE | NCSS_EDIT_CENTER | NCSS_SLEDIT_PASSWORD,
@@ -141,9 +141,8 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0,
 		0
 	},
-
 	{
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN1,
 		250, 10, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -155,9 +154,9 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		NULL,
 		0,
 		0
-	},	
+	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN2,
 		250, 50, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -171,7 +170,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN3,
 		250, 90, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -185,7 +184,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN4,
 		250, 130, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -199,7 +198,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN5,
 		250, 170, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -213,7 +212,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN6,
 		250, 210, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -227,7 +226,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN7,
 		250, 250, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -241,7 +240,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN8,
 		250, 290, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -255,7 +254,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN9,
 		250, 330, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -269,7 +268,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN10,
 		250, 370, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -283,7 +282,7 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0
 	},
     {
-		NCSCTRL_BUTTON, 
+		NCSCTRL_BUTTON,
 		IDC_BTN11,
 		250, 410, 70, 30,
 		WS_VISIBLE | NCSS_NOTIFY,
@@ -296,9 +295,6 @@ static NCS_WND_TEMPLATE sledit_templ[] = {
 		0,
 		0
 	},
-
-
-
 };
 
 //define the main window handlers
@@ -308,9 +304,10 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 	{MSG_CLOSE, mymain_onClose},
 	{0, NULL}
 };
+
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 400, 480,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
@@ -327,19 +324,38 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 
 int MiniGUIMain(int argc, const char* argv[])
 {
+	if (argc > 1) {
+		edit_rdr_info[0].glb_rdr = argv[1];
+		edit_rdr_info[0].ctl_rdr = argv[1];
+	}
+
 #ifdef _MGRM_PROCESSES
     JoinLayer (NAME_DEF_LAYER, NULL, 0, 0);
 #endif
+
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
+
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
                                 (&mymain_templ, HWND_DESKTOP);
 	_c(mydlg)->doModal(mydlg, TRUE);
-	
-	MainWindowThreadCleanup(mydlg->hwnd);
+
+	ncsUninitialize();
+
     return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+
+#else //_MGNCSCTRL_DIALOGBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+
+}
+#endif	//_MGNCSCTRL_DIALOGBOX
 

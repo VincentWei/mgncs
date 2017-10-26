@@ -2,7 +2,7 @@
  * toolbar.c
  *
  *  Created on: 2009-6-20
- *      Author: dongjunjie
+ *	  Author: dongjunjie
  */
 
 #include <stdio.h>
@@ -15,16 +15,17 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
 #include "../include/mrdr.h"
+
+#if defined _MGNCSCTRL_TOOLBAR && defined _MGNCSCTRL_COMBOBOX && defined _MGNCSCTRL_DIALOGBOX
 
 #define ID_BTN  101
 #define ID_BTN1  102
 #define ID_PROG 200
 #define ID_COMBO1 201
 
-static NCS_PROP_ENTRY combo_props [] =
-{
+static NCS_PROP_ENTRY combo_props [] = {
 	{NCSP_COMB_DROPDOWNHEIGHT, 60},
 	{ 0, 0 }
 };
@@ -44,20 +45,21 @@ static NCS_WND_TEMPLATE combobox_templ={
 	0
 };
 
-static char * item [] =
-{
-    "List item ---0",
-    "List item ---1",
-    "List item ---2",
-    "List item ---3"
+static char * item [] = {
+	"List item ---0",
+	"List item ---1",
+	"List item ---2",
+	"List item ---3"
 };
+
 
 static void init_combobox(mCombobox *com)
 {
-    int i;
-    for (i = 0; i < 4; i++){
-        _c(com)->addItem (com, item[i], 0);
-    }
+	int i;
+
+	for (i = 0; i < 4; i++){
+		_c(com)->addItem (com, item[i], 0);
+	}
 }
 
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
@@ -65,13 +67,13 @@ static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 	//TODO : initialize
 
 	mToolBar *toolbar = (mToolBar*)ncsGetChildObj(self->hwnd, ID_BTN);
-	mToolImage * toolimg1 = ncsNewToolImageFromFile("./toolbar1.png",4,TRUE, FALSE);
-	mToolImage * toolimg2 = ncsNewToolImageFromFile("./toolbar2.png",4,TRUE, FALSE);
-	mToolImage * toolimg3 = ncsNewToolImageFromFile("./toolbar3.png",4,TRUE, FALSE);
-	mToolImage * toolimg4 = ncsNewToolImageFromFile("./toolbar4.png",4,TRUE, FALSE);
-	if(toolbar)
-	{
-		mPopMenuMgr * popmenu = NEW(mPopMenuMgr);
+	mToolImage * toolimg1 = ncsNewToolImageFromFile("./res/toolbar1.png",4,TRUE, FALSE);
+	mToolImage * toolimg2 = ncsNewToolImageFromFile("./res/toolbar2.png",4,TRUE, FALSE);
+	mToolImage * toolimg3 = ncsNewToolImageFromFile("./res/toolbar3.png",4,TRUE, FALSE);
+	mToolImage * toolimg4 = ncsNewToolImageFromFile("./res/toolbar4.png",4,TRUE, FALSE);
+
+	if (toolbar) {
+  		mPopMenuMgr * popmenu = (mPopMenuMgr*)NEW(mPopMenuMgr);
 
 		_c(popmenu)->addItem(popmenu,0, "item1", NULL, 200, 0, NULL, 0);
 		_c(popmenu)->addItem(popmenu,0, "item2", NULL, 201, 0, NULL, 0);
@@ -84,12 +86,10 @@ static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 		_c(toolbar)->addItem(toolbar,ncsCreateMenuToolItem(103,toolimg3,NULL, 0, popmenu), 0, 0, 0);
 		_c(toolbar)->addItem(toolbar,ncsCreateCheckToolItem(104,toolimg4,NULL, 0,NCS_TOOLITEM_CHECKED),0, 0, 0);
 		_c(toolbar)->addItem(toolbar,ncsCreatePushToolItem(105,NULL,"test3", 0),0,0,0);
-
 	}
 
 	toolbar = (mToolBar*)ncsGetChildObj(self->hwnd, ID_BTN1);
-	if(toolbar)
-	{
+	if (toolbar) {
 		mWidget *widget;
 		_c(toolbar)->addItem(toolbar,ncsCreateRadioToolItem(100,toolimg1,NULL, 0), 0, 0, 0);
 		_c(toolbar)->addItem(toolbar,ncsCreateRadioToolItem(101,toolimg2, NULL, 0),0, 0, 0);
@@ -107,9 +107,6 @@ static void mymain_onClose(mWidget* self, int message)
 	DestroyMainWindow(self->hwnd);
 	PostQuitMessage(0);
 }
-
-
-
 
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
@@ -143,7 +140,6 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	}
 };
 
-
 static NCS_EVENT_HANDLER mymain_handlers[] = {
 	{MSG_CREATE, mymain_onCreate},
 	{MSG_CLOSE, mymain_onClose},
@@ -157,7 +153,7 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 	0, 0, 320, 320,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
-    "Button Test ....",
+	"Button Test ....",
 	NULL,
 	NULL,
 	mymain_handlers,
@@ -170,16 +166,27 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 int MiniGUIMain(int argc, const char* argv[])
 {
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
-                                (&mymain_templ, HWND_DESKTOP);
+	MGNCS_INIT_CLASS(mPopMenuMgr);
+
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect(
+			&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
+
 	return 0;
 }
+#else //_MGNCSCTRL_TOOLBAR _MGNCSCTRL_DIALOGBOX
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the toolbar combobox dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-toolbar --enable-combobox --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_TOOLBAR _MGNCSCTRL_DIALOGBOX
 

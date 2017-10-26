@@ -48,13 +48,13 @@
 		<Height>25</Height>
 		<Text>0x0002B38C</Text>
 	</window>
-	<window class="window::MlEdit" serial-number="1898754048">
-		<ID>0x40000009</ID>
-		<X>4</X>
-		<Y>34</Y>
-		<Width>374</Width>
-		<Height>127</Height>
-		<Text>0x0002463A</Text>
+	<window class="window::TextEditor" serial-number="2397464576">
+		<ID>0x40000018</ID>
+		<X>17</X>
+		<Y>40</Y>
+		<Width>347</Width>
+		<Height>103</Height>
+		<Text>0x00022712</Text>
 	</window>
 	<listen>
 		<sender>1073741835</sender>

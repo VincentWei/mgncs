@@ -37,7 +37,7 @@
 		<start-window>0x00080002</start-window>
 		<visible-window>0x00080003</visible-window>
 		<visible-window>0x00080002</visible-window>
-		<active-window>0x00080003</active-window>
+		<active-window>0x00080002</active-window>
 	</uieditor>
 	<image-editor>
 		<dir-path>/home/dongjunjie/</dir-path>

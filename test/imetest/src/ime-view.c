@@ -13,11 +13,13 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 
 #include "resource.h"
 #include "ncs-windows.h"
 #include "mobile-ime.h"
+
+#if defined _MGNCSENGINE_DIGITPY && defined _MGNCSCTRL_IMWORDSEL
 
 //START_OF_IMEVIEW_ONUPDATE
 static int IdmImeview_onUpdate(mMainWnd* self, int message, WPARAM wParam, LPARAM lParam)
@@ -57,7 +59,7 @@ static int IdmImeview_onGetSelWord(mMainWnd* self, int message, WPARAM wParam, L
 //END_OF_IMEVIEW_ONGETSELWORD
 
 //$func @4114546688 onCreate -- Need by merge, don't modify
-static BOOL IdmImeview_onCreate (mWidget* self, DWORD dwAddData) 
+static BOOL IdmImeview_onCreate (mWidget* self, DWORD dwAddData)
 {
 
 	//TODO:
@@ -72,7 +74,7 @@ static BOOL IdmImeview_onCreate (mWidget* self, DWORD dwAddData)
 
 //START_OF_IMEVIEW_ONKEYDOWN
 //$func @4114546688 onKeyDown
-static BOOL IdmImeview_onKeyDown (mWidget* self, int message, int scancode, DWORD key_status) 
+static BOOL IdmImeview_onKeyDown (mWidget* self, int message, int scancode, DWORD key_status)
 {
 
 	//TODO:
@@ -95,7 +97,7 @@ static BOOL IdmImeview_onKeyDown (mWidget* self, int message, int scancode, DWOR
 
 //START_OF_IMEVIEW_ONCHAR
 //$func @4114546688 onChar
-static BOOL IdmImeview_onChar (mWidget* self, int message, int scancode, DWORD key_status) 
+static BOOL IdmImeview_onChar (mWidget* self, int message, int scancode, DWORD key_status)
 {
 
 	//TODO:
@@ -115,7 +117,7 @@ static BOOL IdmImeview_onChar (mWidget* self, int message, int scancode, DWORD k
 //END_OF_IMEVIEW_ONCHAR
 
 //$func @4114546688 onSetFocus
-static void IdmImeview_onSetFocus (mWidget* self, int message) 
+static void IdmImeview_onSetFocus (mWidget* self, int message)
 {
 
 	//TODO:
@@ -150,7 +152,7 @@ static BOOL imwords_on_imkeys_selchanged (mIMWordSel *self, mIMWordSel* sender, 
 
 //$connect #4114546688 -- Need by merge, don't modify
 static NCS_EVENT_CONNECT_INFO IdmImeview_connects [] = {
-	{1505738752, 2102675456, NCSN_IMWS_SELCHANGED, (NCS_CB_ONOBJEVENT)imwords_on_imkeys_selchanged},/* ID_IMKEYS - ID_IMWORDS */ 
+	{1505738752, 2102675456, NCSN_IMWS_SELCHANGED, (NCS_CB_ONOBJEVENT)imwords_on_imkeys_selchanged},/* ID_IMKEYS - ID_IMWORDS */
 //$user -- TODO add your handlers hear
 	{-1, -1, 0, NULL}
 };
@@ -175,4 +177,4 @@ NCS_WND_EXPORT mMainWnd* ntCreateIdmImeviewEx(HPACKAGE package, HWND hParent, HI
 		IdmImeview_connects,
 		user_data);
 }
-
+#endif // _MGNCSENGINE_IME

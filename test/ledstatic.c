@@ -7,10 +7,13 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 #include <minigui/control.h>
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
 
-#define IDC_LEDLBL1 100
-#define IDC_SATAICN 107
+#if defined _MGNCSCTRL_DIALOGBOX && defined _MGNCSCTRL_LEDLABEL
+
+#define	IDC_LEDLBL1		100
+#define	IDC_SATAICN		107
+
 
 static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 {
@@ -24,49 +27,49 @@ static void mymain_onClose(mWidget* self, int message)
 	PostQuitMessage(0);
 }
 
-
 //Propties for
-static NCS_PROP_ENTRY static1_props [] = {
-	{ NCSP_LEDLBL_COLOR, 0xFFF000FF},
-	{ NCSP_LEDLBL_WIDTH, 30},
-	{ NCSP_LEDLBL_HEIGHT, 30},
+static NCS_PROP_ENTRY static1_props[] = {
+	{ NCSP_LEDLBL_COLOR, 0xFFF000FF },
+	{ NCSP_LEDLBL_WIDTH, 30 },
+	{ NCSP_LEDLBL_HEIGHT, 30 },
 	{ NCSP_STATIC_ALIGN, NCS_ALIGN_LEFT },
-	{0, 0}
+	{ 0, 0 }
 };
-static NCS_PROP_ENTRY static2_props [] = {
-	{ NCSP_LEDLBL_WIDTH, 10},
-	{ NCSP_LEDLBL_HEIGHT, 10},
+
+static NCS_PROP_ENTRY static2_props[] = {
+	{ NCSP_LEDLBL_WIDTH, 10 },
+	{ NCSP_LEDLBL_HEIGHT, 10 },
 	{ NCSP_STATIC_ALIGN, NCS_ALIGN_RIGHT },
-	{0, 0}
+	{ 0, 0 }
 };
-static NCS_PROP_ENTRY static4_props [] = {
-	{ NCSP_LEDLBL_COLOR, 0xFFFF0000},
-	{ NCSP_LEDLBL_WIDTH, 30},
-	{ NCSP_LEDLBL_HEIGHT, 30},
+
+static NCS_PROP_ENTRY static4_props[] = {
+	{ NCSP_LEDLBL_COLOR, 0xFFFF0000 },
+	{ NCSP_LEDLBL_WIDTH, 30 },
+	{ NCSP_LEDLBL_HEIGHT, 30 },
 	{ NCSP_STATIC_VALIGN, NCS_VALIGN_TOP },
-	{0, 0}
+	{ 0, 0 }
 };
 
-static NCS_PROP_ENTRY static5_props [] = {
-	{ NCSP_LEDLBL_COLOR, 0xFF0000FF},
-	{ NCSP_LEDLBL_WIDTH, 200},
-	{ NCSP_LEDLBL_HEIGHT, 200},
+static NCS_PROP_ENTRY static5_props[] = {
+	{ NCSP_LEDLBL_COLOR, 0xFF0000FF },
+	{ NCSP_LEDLBL_WIDTH, 200 },
+	{ NCSP_LEDLBL_HEIGHT, 200 },
 	{ NCSP_STATIC_VALIGN, NCS_VALIGN_CENTER },
-	{0, 0}
+	{ 0, 0 }
 };
 
-static NCS_PROP_ENTRY static6_props [] = {
-	{ NCSP_LEDLBL_WIDTH, 30},
-	{ NCSP_LEDLBL_HEIGHT, 30},
+static NCS_PROP_ENTRY static6_props[] = {
+	{ NCSP_LEDLBL_WIDTH, 30 },
+	{ NCSP_LEDLBL_HEIGHT, 30 },
 	{ NCSP_STATIC_AUTOWRAP, 0 },
-	{0, 0}
+	{ 0, 0 }
 };
-
 
 //Controls
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+0,
 		10, 10, 160, 30,
 		WS_BORDER | WS_VISIBLE,
@@ -80,7 +83,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+1,
 		10, 50, 160, 30,
 		WS_BORDER | WS_VISIBLE,
@@ -94,7 +97,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+2,
 		10, 90, 160, 30,
 		WS_BORDER | WS_VISIBLE,
@@ -108,7 +111,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+3,
 		220, 10, 70, 120,
 		WS_BORDER | WS_VISIBLE,
@@ -122,7 +125,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+4,
 		315, 10, 70, 120,
 		WS_BORDER | WS_VISIBLE,
@@ -136,7 +139,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+5,
 		400, 10, 500, 500,
 		WS_BORDER | WS_VISIBLE,
@@ -150,7 +153,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+6,
 		10, 160, 220, 30,
 		WS_BORDER | WS_VISIBLE,
@@ -164,7 +167,7 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0 //add data
 	},
 	{
-		NCSCTRL_LEDLABEL , 
+		NCSCTRL_LEDLABEL ,
 		IDC_LEDLBL1+7,
 		10, 200, 220, 30,
 		WS_BORDER | WS_VISIBLE | NCSS_STATIC_PREFIX ,
@@ -177,47 +180,56 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 		0,
 		0 //add data
 	}
-
 };
 
 
 static NCS_EVENT_HANDLER mymain_handlers[] = {
-	{MSG_CREATE, mymain_onCreate},
-	{MSG_CLOSE, mymain_onClose},
-	{0, NULL}
+	{ MSG_CREATE, mymain_onCreate },
+	{ MSG_CLOSE, mymain_onClose },
+	{ 0, NULL }
 };
 
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_DIALOGBOX, 
+	NCSCTRL_DIALOGBOX,
 	1,
 	0, 0, 1024, 768,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
-    "static Test ....",
+	"static Test ....",
 	NULL,
 	NULL,
 	mymain_handlers,
 	_ctrl_templ,
-	sizeof(_ctrl_templ)/sizeof(NCS_WND_TEMPLATE),
+	sizeof(_ctrl_templ) / sizeof(NCS_WND_TEMPLATE),
 	0,
-	0, 0,
+	0,
+	0,
 };
 
 int MiniGUIMain(int argc, const char* argv[])
 {
 	ncsInitialize();
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
-                                (&mymain_templ, HWND_DESKTOP);
+
+	mDialogBox* mydlg = (mDialogBox*)ncsCreateMainWindowIndirect(
+			&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
+	ncsUninitialize();
 
-	MainWindowThreadCleanup(mydlg->hwnd);
 	return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+#else //_MGNCSCTRL_DIALOGBOX _MGNCSCTRL_LEDLABEL
 
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the dialogbox, ledlabel contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-dialogbox --enable-ledlabel ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_DIALOGBOX _MGNCSCTRL_LEDLABEL

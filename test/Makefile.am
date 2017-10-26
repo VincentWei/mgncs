@@ -1,3 +1,4 @@
+AUTOMAKE_OPTIONS=foreign
 
 TOP_DIR=..
 
@@ -5,11 +6,7 @@ INCLUDES=-I$(TOP_DIR) -I$(TOP_DIR)/include -I.
 
 SUBDIRS=databinding datasource imetest
 
-if MGNCS_HAVE_LIBSUFFIX
-COMMON_LADD= $(APP_LIBS) $(TOP_DIR)/src/.libs/libmgncs@MGNCS_LIBSUFFIX@.so -lmgplus@MGNCS_LIBSUFFIX@ -lmgutils@MGNCS_LIBSUFFIX@ -lminigui@MGNCS_LIBSUFFIX@ -lstdc++
-else
-COMMON_LADD= $(APP_LIBS) $(TOP_DIR)/src/.libs/libmgncs.so -lmgplus -lmgutils -lstdc++
-endif
+COMMON_LADD=$(TOP_DIR)/src/.libs/libmgncs.so @APP_LIBS@ -lmgplus -lmgutils -lstdc++
 
 noinst_PROGRAMS=static radiogroup container progressbar combobox \
 				spinbox spinner mainwnd image propsheet \
@@ -21,7 +18,8 @@ noinst_PROGRAMS=static radiogroup container progressbar combobox \
 				bindtest \
 				staticds \
 				textedit \
-				resdump list list_group
+				resdump list list_group \
+				imagebutton
 
 static_SOURCES=static.c
 static_LDFLAGS=$(COMMON_LADD)
@@ -136,6 +134,9 @@ list_group_LDFLAGS=$(COMMON_LADD)
 
 textedit_SOURCES=textedit.c
 textedit_LDFLAGS=$(COMMON_LADD)
+
+imagebutton_SOURCES=imagebutton.c
+imagebutton_LDFLAGS=$(COMMON_LADD)
 
 EXTRA_DIST=
 

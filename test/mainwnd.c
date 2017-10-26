@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,17 +8,18 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-#include "../include/mgncs.h"
+#include <mgncs/mgncs.h>
 #include "../include/mrdr.h"
+
 
 static const char* strbkname = NULL;
 static int mode = 0;
 
+
 static void mymain_onNCCreate(mMainWnd* self)
 {
 	printf("------ NCCREATE\n");
-	if(strbkname)
-	{
+	if (strbkname) {
 //		ncsSetRDRElementAttr(self->hwnd, RDR_BKIMAGE, (DWORD)strbkname);
 //		ncsSetRDRElementAttr(self->hwnd, RDR_BKIMAGE_MODE, (DWORD)mode);
 		_c(self)->setProperty(self, NCSP_WIDGET_BKIMAGE_FILE, (DWORD)strbkname);
@@ -85,7 +85,7 @@ static BOOL mymain_onClose(mWidget* self, int message)
 
 static BOOL mymain_onKeys(mWidget *self, int message, int scancode, DWORD key_flags)
 {
-	switch(message){
+	switch (message) {
 	case MSG_KEYDOWN:
 		printf("KeyDown : "); break;
 	case MSG_KEYUP:
@@ -93,14 +93,14 @@ static BOOL mymain_onKeys(mWidget *self, int message, int scancode, DWORD key_fl
 	case MSG_CHAR:
 		printf("Char : ");  break;
 	}
-	
-	printf(" cancode = %c (%d), key flags=%x\n", scancode, scancode, (int)key_flags); 
+
+	printf(" cancode = %c (%d), key flags=%x\n", scancode, scancode, (int)key_flags);
 	return TRUE;
 }
 
 static BOOL mymain_onMouses(mWidget * self, int message, int x, int y, DWORD key_flags)
 {
-	switch(message){
+	switch (message) {
 	case MSG_LBUTTONDOWN:
 		printf("Left Button Down : ");break;
 	case MSG_LBUTTONUP:
@@ -123,7 +123,7 @@ static BOOL mymain_onMouses(mWidget * self, int message, int x, int y, DWORD key
 
 static BOOL mymain_onNCMouses(mWidget* self, int message, int x, int y, int hit_code)
 {
-	switch(message){
+	switch (message) {
 	case MSG_NCLBUTTONDOWN:
 		printf("NC Left Button Down : ");break;
 	case MSG_NCLBUTTONUP:
@@ -152,40 +152,39 @@ static  void mymain_onDestroy(mWidget* self, int message)
 }
 
 static NCS_EVENT_HANDLER mymain_handlers [] = {
-	{MSG_NCCREATE, mymain_onNCCreate},
-	{MSG_CREATE, mymain_onCreate },
-	{MSG_ACTIVE, mymain_onActive },
-	//{MSG_SIZECHANGING, mymain_onSizeChanging },
-	{MSG_SIZECHANGED, mymain_onSizeChanged },
-	{MSG_CSIZECHANGED, mymain_onCSizeChanged },
-	{MSG_FONTCHANGING, mymain_onFontChanging },
-	{MSG_ERASEBKGND, mymain_onEraseBkgnd },
-	{MSG_PAINT, mymain_onPaint },
-	{MSG_CLOSE, mymain_onClose },
-	{MSG_KEYDOWN, mymain_onKeys },
-	{MSG_KEYUP, mymain_onKeys },
-	{MSG_CHAR, mymain_onKeys },
-	{MSG_LBUTTONDOWN, mymain_onMouses },
-	{MSG_LBUTTONUP, mymain_onMouses },
-	{MSG_LBUTTONDBLCLK, mymain_onMouses },
-	{MSG_MOUSEMOVE, mymain_onMouses },
-	{MSG_RBUTTONDOWN, mymain_onMouses },
-	{MSG_RBUTTONUP, mymain_onMouses },
-	{MSG_RBUTTONDBLCLK, mymain_onMouses },
-	{MSG_NCLBUTTONDOWN, mymain_onNCMouses },
-	{MSG_NCLBUTTONUP, mymain_onNCMouses },
-	{MSG_NCLBUTTONDBLCLK, mymain_onMouses },
-	{MSG_NCMOUSEMOVE, mymain_onNCMouses },
-	{MSG_NCRBUTTONDOWN, mymain_onNCMouses },
-	{MSG_NCRBUTTONUP, mymain_onNCMouses },
-	{MSG_NCRBUTTONDBLCLK, mymain_onMouses },
-	{MSG_DESTROY, mymain_onDestroy },
-	{0, NULL }
+	{ MSG_NCCREATE, mymain_onNCCreate },
+	{ MSG_CREATE, mymain_onCreate },
+	{ MSG_ACTIVE, mymain_onActive },
+	//{ MSG_SIZECHANGING, mymain_onSizeChanging },
+	{ MSG_SIZECHANGED, mymain_onSizeChanged },
+	{ MSG_CSIZECHANGED, mymain_onCSizeChanged },
+	{ MSG_FONTCHANGING, mymain_onFontChanging },
+	{ MSG_ERASEBKGND, mymain_onEraseBkgnd },
+	{ MSG_PAINT, mymain_onPaint },
+	{ MSG_CLOSE, mymain_onClose },
+	{ MSG_KEYDOWN, mymain_onKeys },
+	{ MSG_KEYUP, mymain_onKeys },
+	{ MSG_CHAR, mymain_onKeys },
+	{ MSG_LBUTTONDOWN, mymain_onMouses },
+	{ MSG_LBUTTONUP, mymain_onMouses },
+	{ MSG_LBUTTONDBLCLK, mymain_onMouses },
+	{ MSG_MOUSEMOVE, mymain_onMouses },
+	{ MSG_RBUTTONDOWN, mymain_onMouses },
+	{ MSG_RBUTTONUP, mymain_onMouses },
+	{ MSG_RBUTTONDBLCLK, mymain_onMouses },
+	{ MSG_NCLBUTTONDOWN, mymain_onNCMouses },
+	{ MSG_NCLBUTTONUP, mymain_onNCMouses },
+	{ MSG_NCLBUTTONDBLCLK, mymain_onMouses },
+	{ MSG_NCMOUSEMOVE, mymain_onNCMouses },
+	{ MSG_NCRBUTTONDOWN, mymain_onNCMouses },
+	{ MSG_NCRBUTTONUP, mymain_onNCMouses },
+	{ MSG_NCRBUTTONDBLCLK, mymain_onMouses },
+	{ MSG_DESTROY, mymain_onDestroy },
+	{ 0, NULL }
 };
 
-
 NCS_RDR_INFO rdr_info[] = {
-	{"fashion","fashion",NULL}
+	{ "fashion", "fashion", NULL }
 };
 
 int MiniGUIMain(int argc, const char* argv[])
@@ -197,21 +196,19 @@ int MiniGUIMain(int argc, const char* argv[])
 	printf("\t mode is:\n\t\t0 -- normal\n\t\t1 -- scaled\n\t\t2 -- title\n");
 
 	//get bkground bitmap
-	if(argc >= 2)
-	{
+	if (argc >= 2) {
 		strbkname = argv[1];
 		LoadResource(strbkname, RES_TYPE_IMAGE, (DWORD)HDC_SCREEN);
 	}
 
-	if(argc >=3)
-	{
+	if (argc >= 3) {
 		mode = atoi(argv[2]);
 	}
 
 	mWidget* mymain = ncsCreateMainWindow(NCSCTRL_MAINWND, "My Test",
 		WS_CAPTION|WS_BORDER|WS_VISIBLE,
 		WS_EX_NONE,
-		1, 
+		1,
 		0, 0, 600,480,
 		HWND_DESKTOP,
 		0, 0,
@@ -220,19 +217,14 @@ int MiniGUIMain(int argc, const char* argv[])
 		mymain_handlers,
 		(DWORD)"Hello");
 
-	while(GetMessage(&Msg, mymain->hwnd))
-	{
+	while (GetMessage(&Msg, mymain->hwnd)) {
 		TranslateMessage(&Msg);
 		DispatchMessage(&Msg);
 	}
 
-
-	MainWindowThreadCleanup(mymain->hwnd);
-
 	//ReleaseRes(Str2Key(strbkname));
+	ncsUninitialize();
 
 	return 0;
 }
-
-
 

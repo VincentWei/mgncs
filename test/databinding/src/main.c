@@ -13,10 +13,12 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 
 #include "resource.h"
 #include "ncs-windows.h"
+
+#ifdef _MGNCSCTRL_COMBOBOX
 
 #define ID_SENDER     100
 #define ID_LISTENER 101
@@ -370,3 +372,4 @@ NCS_WND_EXPORT mMainWnd* ntCreateMainEx(HPACKAGE package, HWND hParent, HICON h_
 		user_data);
 }
 
+#endif	//_MGNCSCTRL_COMBOBOX

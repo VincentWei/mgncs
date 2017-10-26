@@ -1,3 +1,4 @@
+#if defined _MGNCSENGINE_DIGITPY && defined _MGNCSCTRL_IMWORDSEL
 
 #ifndef MOBILE_IME_H
 #define MOBILE_IME_H
@@ -24,3 +25,4 @@ DECLARE_CLASS(mMobileIME, mIME)
 */
 
 #endif
+#endif // _MGNCSENGINE_IME

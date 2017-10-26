@@ -17,10 +17,12 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncs.h"
+#include <mgncs/mgncs.h>
 
 #include "resource.h"
 #include "ncs-windows.h"
+
+#ifdef _MGNCSCTRL_COMBOBOX
 
 int MiniGUIMain(int argc, const char* argv[])
 {
@@ -48,13 +50,23 @@ int MiniGUIMain(int argc, const char* argv[])
 		DispatchMessage(&Msg);
 	}
 
-	MainWindowThreadCleanup(mWin->hwnd);
 	ncsUnloadResPackage(hPkg);
+	ncsUninitialize();
 #endif
 
 	return 0;
 }
 
-#ifdef _MGRM_THREADS
-#include <minigui/dti.c>
-#endif
+#else //_MGNCSCTRL_COMBOBOX
+
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the combobox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-combobox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_COMBOBOX
+

@@ -11,6 +11,8 @@
 
 #include "../include/mgncs.h"
 
+#if defined _MGNCSCTRL_LISTVIEW && defined _MGNCSCTRL_DIALOGBOX && defined _MGNCSDB_STATIC
+
 #define IDC_LISTVIEW 100
 
 static const NCS_LISTV_CLMRD _header[] = {
@@ -38,10 +40,11 @@ static const char author[] = "dongjunjie";
 static const char version[] = "1.0";
 static const char date[] = "2009/08/10";
 
+
 #if 0
 static void show_recordset(mRecordSet *rs)
 {
-	if(rs == NULL)
+	if (rs == NULL)
 		return ;
 
 	int field_count = _c(rs)->getFieldCount(rs);
@@ -76,15 +79,14 @@ static BOOL mymain_onCreate(mWidget* self, DWORD add_data)
 	//TODO : initialize
 	mListView *lv = (mListView *)_c(self)->getChild(self, IDC_LISTVIEW);
 
-	if(lv)
-	{
+	if (lv) {
 		mRecordSet *rs;
 		rs = _c(g_pStaticDS)->selectRecordSet(g_pStaticDS, "/listview/header", NCS_DS_SELECT_READ);
 		_c(lv)->setSpecificData(lv, NCSSPEC_LISTV_HDR, (DWORD)rs, NULL);
 		rs = _c(g_pStaticDS)->selectRecordSet(g_pStaticDS, "/listview/content", NCS_DS_SELECT_READ);
 		_c(lv)->setSpecificData(lv, NCSSPEC_OBJ_CONTENT, (DWORD)rs, NULL);
 	}
-	
+
 	return TRUE;
 }
 
@@ -94,8 +96,6 @@ static void mymain_onClose(mWidget* self, int message)
 	PostQuitMessage(0);
 }
 
-
-
 static NCS_EVENT_HANDLER mymain_handlers[] = {
 	{MSG_CREATE, mymain_onCreate},
 	{MSG_CLOSE, mymain_onClose},
@@ -104,11 +104,11 @@ static NCS_EVENT_HANDLER mymain_handlers[] = {
 
 static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	{
-		NCSCTRL_LISTVIEW, 
+		NCSCTRL_LISTVIEW,
 		IDC_LISTVIEW,
-        10, 10, 320, 220,
-        WS_BORDER | WS_VISIBLE | NCSS_LISTV_SORT 
-            | NCSS_LISTV_LOOP,
+		10, 10, 320, 220,
+		WS_BORDER | WS_VISIBLE | NCSS_LISTV_SORT
+			| NCSS_LISTV_LOOP,
 		WS_EX_NONE,
 		"",
 		NULL, //props,
@@ -120,16 +120,14 @@ static NCS_WND_TEMPLATE _ctrl_templ[] = {
 	}
 };
 
-
-
 //define the main window template
 static NCS_MNWND_TEMPLATE mymain_templ = {
-	NCSCTRL_MAINWND, 
+	NCSCTRL_MAINWND,
 	1,
 	0, 0, 800, 600,
 	WS_CAPTION | WS_BORDER | WS_VISIBLE,
 	WS_EX_NONE,
-    "Data Source ....",
+	"Data Source ....",
 	NULL,
 	NULL,
 	mymain_handlers,
@@ -140,26 +138,36 @@ static NCS_MNWND_TEMPLATE mymain_templ = {
 };
 
 
-
 int MiniGUIMain(int argc,const  char* argv[])
 {
 	ncsInitialize();
-	
+
 	ncsRegisterStaticData("/listview/header", (void *)_header, 3,  sizeof(NCS_LISTV_CLMRD)/sizeof(DWORD), sizeof(DWORD),gListVColumnRecordTypes);
 	ncsRegisterStaticData("/listview/content", (void *)_content, 3,  3, sizeof(char*),NULL);
-	
+
 	ncsRegisterStaticValue("/version/author", (DWORD)author, NCS_BT_STR);
 	ncsRegisterStaticValue("/version/ver-info", (DWORD)version, NCS_BT_STR);
 	ncsRegisterStaticValue("/version/date", (DWORD)date, NCS_BT_STR);
 
-	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect 
-                                (&mymain_templ, HWND_DESKTOP);
+	mDialogBox* mydlg = (mDialogBox *)ncsCreateMainWindowIndirect
+								(&mymain_templ, HWND_DESKTOP);
 
 	_c(mydlg)->doModal(mydlg, TRUE);
 
-	MainWindowThreadCleanup(mydlg->hwnd);
+	ncsUninitialize();
 
 	return 0;
 }
+#else //_MGNCSCTRL_LISTVIEW _MGNCSCTRL_DIALOGBOX
 
+int main (void)
+{
+	printf("\n==========================================================\n");
+	printf("======== You haven't enable the listview, dialogbox contorl =====\n");
+	printf("==========================================================\n");
+	printf("============== ./configure --enable-listview --enable-dialogbox ==========\n");
+	printf("==========================================================\n\n");
+	return 0;
+}
+#endif	//_MGNCSCTRL_LISTVIEW _MGNCSCTRL_DIALOGBOX
 
