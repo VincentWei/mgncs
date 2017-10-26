@@ -1,13 +1,12 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-
-AC_PREREQ(2.61)
-AC_INIT([libmgncs], [1.0.8])
-AC_CONFIG_SRCDIR([src/mctrls.c])
+AC_PREREQ(2.60)
+AC_INIT(libmgncs, 1.0.9)
+AC_CONFIG_SRCDIR(src/mctrls.c)
 
 mgncs_MAJOR_VERSION=1
 mgncs_MINOR_VERSION=0
-mgncs_MICRO_VERSION=8
+mgncs_MICRO_VERSION=9
 mgncs_INTERFACE_AGE=0
 mgncs_BINARY_AGE=0
 mgncs_VERSION=$mgncs_MAJOR_VERSION.$mgncs_MINOR_VERSION.$mgncs_MICRO_VERSION
@@ -41,11 +40,17 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
+dnl ========================================================================
+dnl Need for cross-compiling
 AC_CANONICAL_SYSTEM
 
 dnl ========================================================================
+dnl Init automake
+AM_INIT_AUTOMAKE
+
+dnl ========================================================================
 # Checks for programs.
-dnl AC_PROG_CC
+AC_PROG_CC
 AC_PROG_LD
 AC_PROG_RANLIB
 AC_PROG_LIBTOOL
@@ -53,7 +58,6 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
-AM_INIT_AUTOMAKE(libmgncs,$mgncs_VERSION,-)
 dnl ========================================================================
 dnl Put the name and version of the package here
 

@@ -1,9 +1,8 @@
-
 SUBDIRS=renderer pieces datasource ime
 
-INCLUDES = -I$(abs_top_srcdir)/include -I. -I$(abs_top_srcdir)
-
 lib_LTLIBRARIES=libmgncs@MGNCS_LIBSUFFIX@.la
+
+AM_CPPFLAGS=-I$(abs_top_srcdir)/include -I. -I$(abs_top_srcdir)
 
 COMMON_SRCS= mobject.c mcomponent.c mwidget.c mresmanager.c \
 			mstatic.c mimage.c mrect.c mgroupbox.c mbuttongroup.c \

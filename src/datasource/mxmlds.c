@@ -8,8 +8,6 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#if _MGNCS_XML
-//#include "mcheck.h" for debug
 #include "mgncsconfig.h"
 
 #ifdef _MGNCSDB_XML
