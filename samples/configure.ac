@@ -2,7 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT([src/helloworld.c])
+AC_INIT([mgncs-samples],[1.0.8])
+AC_CONFIG_SRCDIR([src/helloworld.c])
 
 dnl ========================================================================
 dnl needed for cross-compiling
@@ -14,7 +15,8 @@ AC_PROG_MAKE_SET
 AC_PROG_CC
 #AC_PROG_LD
 
-AM_INIT_AUTOMAKE([mgncs-samples],[1.0.8],-)
+AM_INIT_AUTOMAKE
+
 dnl ========================================================================
 dnl Put the name and version of the package here
 
@@ -63,16 +65,6 @@ else
     else
         APP_LIBS="$APP_LIBS -lminigui_procs"
     fi  
-fi
-
-if test "x$threads_version" != "xyes"; then
-    lib_pthread="yes"
-    AC_CHECK_DECLS(_MGGAL_SHADOW, APP_LIBS="$APP_LIBS -lpthread", lib_pthread="no", [#include <minigui/common.h>])
-    if test "x$lib_pthread" = "xno"; then
-        AC_CHECK_DECLS(_MGGAL_MLSHADOW, APP_LIBS="$APP_LIBS -lpthread", no_pthread="no", [#include <minigui/common.h>])
-    fi
-else
-    APP_LIBS="$APP_LIBS -lpthread"
 fi
 
 AC_CHECK_DECLS(_HAVE_MATH_LIB, APP_LIBS="$APP_LIBS -lm", foo=bar, [#include <minigui/common.h>])

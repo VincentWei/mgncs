@@ -42,6 +42,8 @@ extern "C" {
 # endif
 #else
 #    include "mgncsconfig.h"
+#    undef PACKAGE
+#    undef VERSION
 #    undef PACKAGE_BUGREPORT
 #    undef PACKAGE_NAME
 #    undef PACKAGE_STRING

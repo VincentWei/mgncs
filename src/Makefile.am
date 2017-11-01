@@ -42,7 +42,7 @@ libmgncs@MGNCS_LIBSUFFIX@_la_LIBADD = renderer/classic/libclassic.la \
 						datasource/libdatasource.la \
 						ime/libime.la
 libmgncs@MGNCS_LIBSUFFIX@_la_SOURCES = $(COMMON_SRCS) $(RENDER_SRCS) $(TEXTEITOR_SRCS)
-libmgncs@MGNCS_LIBSUFFIX@_la_LDFLAGS = 
+libmgncs@MGNCS_LIBSUFFIX@_la_LDFLAGS = -release $(LT_RELEASE) -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 EXTRA_DIST= uthash.h iconview_content_data.c makefile.ng
 
