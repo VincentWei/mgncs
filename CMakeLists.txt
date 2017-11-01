@@ -9,7 +9,7 @@ add_definitions (-D__MGNCS_LIB__)
 
 set (MGNCS_MAJOR_VERSION 1)
 set (MGNCS_MINOR_VERSION 0)
-set (MGNCS_MICRO_VERSION 8)
+set (MGNCS_MICRO_VERSION 9)
 
 set (MGNCS_NAME "mgncs")
 set (MGNCS_LIBSUFFIX "")
