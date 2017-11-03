@@ -1,5 +1,5 @@
 
-AM_CPPFLAGS=-I$(abs_top_srcdir)/include -I$(abs_top_srcdir)/include/pieces -I. -I$(abs_top_srcdir) -I..
+AM_CPPFLAGS=-D__MGNCS_LIB__ -I$(abs_top_srcdir)/include -I$(abs_top_srcdir)/include/pieces -I. -I$(abs_top_srcdir) -I..
 
 noinst_LTLIBRARIES=libpieces.la
 

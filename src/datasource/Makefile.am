@@ -1,5 +1,5 @@
 
-AM_CPPFLAGS=-I$(abs_top_srcdir)/include -I. -I.. -I$(abs_top_srcdir)
+AM_CPPFLAGS=-D__MGNCS_LIB__ -I$(abs_top_srcdir)/include -I. -I.. -I$(abs_top_srcdir)
 
 noinst_LTLIBRARIES=libdatasource.la
 

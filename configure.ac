@@ -636,7 +636,7 @@ fi
 
 if test "x$build_datasource_xml" = "xyes"; then
     DEP_LIBS="$DEP_LIBS -lxml2"
-    CFLAGS="$CFLAGS -I/usr/include/libxml2"
+    CPPFLAGS="$CPPFLAGS -I/usr/include/libxml2"
 fi
 
 dnl ========================================================================
@@ -654,18 +654,17 @@ AC_CHECK_DECLS(_MGRM_PROCESSES, procs_version="yes", foo=bar, [#include <minigui
 standalone_version="no"
 AC_CHECK_DECLS(_MGRM_STANDALONE, standalone_version="yes", foo=bar, [#include <minigui/common.h>])
 
-CFLAGS="$CFLAGS -D__MGNCS_LIB__"
-
 if test "$ac_cv_prog_gcc" = "yes"; then
     CFLAGS="$CFLAGS -Wall -Wstrict-prototypes -pipe"
 fi
 
-APP_LIBS="$APP_LIBS $DEP_LIBS $MINIGUI_LIBS"
+APP_LIBS="$APP_LIBS -lmgncs$MGNCS_LIBSUFFIX $DEP_LIBS $MINIGUI_LIBS"
 AC_SUBST(APP_LIBS)
 AC_SUBST(DEP_LIBS)
 
 AC_CONFIG_FILES([
-    Makefile mgncs.pc
+    mgncs.pc
+    Makefile
     include/Makefile
     include/pieces/Makefile
     src/Makefile
@@ -677,6 +676,9 @@ AC_CONFIG_FILES([
     src/pieces/Makefile
     src/datasource/Makefile
     src/ime/Makefile
+    samples/Makefile
+    samples/src/Makefile
+    samples/src/res/Makefile
     etc/Makefile
     build/Makefile
 ])
