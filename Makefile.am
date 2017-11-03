@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS=foreign
 
 SUBDIRS=src include etc build
 
-EXTRA_DIST=makefile.ng rules.make README.md RELEASE-NOTES.md samples
+EXTRA_DIST=makefile.ng rules.make LICENSE README.md RELEASE-NOTES.md samples
 
 libmgncsincludedir=$(includedir)/mgncs
 
