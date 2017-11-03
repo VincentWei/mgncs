@@ -19,15 +19,15 @@ AC_SUBST(MGNCS_BINARY_AGE)
 AC_SUBST(MGNCS_VERSION)
 
 AC_DEFINE_UNQUOTED(MGNCS_MAJOR_VERSION, $MGNCS_MAJOR_VERSION,
-            [Major version of mgncs])
+            [Major version of mGNCS])
 AC_DEFINE_UNQUOTED(MGNCS_MINOR_VERSION, $MGNCS_MINOR_VERSION,
-            [Minor version of mgncs])
+            [Minor version of mGNCS])
 AC_DEFINE_UNQUOTED(MGNCS_MICRO_VERSION, $MGNCS_MICRO_VERSION,
-            [Micro version of mgncs])
+            [Micro version of mGNCS])
 AC_DEFINE_UNQUOTED(MGNCS_INTERFACE_AGE, $MGNCS_INTERFACE_AGE,
-            [Interface age of mgncs])
+            [Interface age of mGNCS])
 AC_DEFINE_UNQUOTED(MGNCS_BINARY_AGE, $MGNCS_BINARY_AGE,
-            [Binary age of mgncs])
+            [Binary age of mGNCS])
 
 # libtool versioning
 LT_RELEASE=$MGNCS_MAJOR_VERSION.$MGNCS_MINOR_VERSION
@@ -161,6 +161,8 @@ fi
 if test "x$enable_rdr_fashion" = "xyes"; then
 	AC_DEFINE(_MGNCS_RDR_FASHION, 1,
 		[Define if include fashion renderer])
+    PKG_CHECK_MODULES([MGPLUS], [mgplus >= 1.2.0])
+    DEP_LIBS="$DEP_LIBS $MGPLUS_LIBS"
 fi
 
 if test "x$enable_rdr_flat" = "xyes"; then
@@ -225,8 +227,6 @@ if test "x$build_ctrl_textedittitle" = "xyes"; then
 	AC_DEFINE(_MGNCSCTRL_TEXTEDITTITLE, 1,
 			  [Define if support title of new text editor])
 fi
-
-
 
 AC_ARG_WITH(libsuffix,
   [  --with-libsuffix=ARG    configure the suffix of the library name.])
@@ -625,107 +625,60 @@ if test "x$build_engine_digitpy" = "xyes"; then
         [Define if support digitpyengine])
 fi
 
-
 AC_DEFINE_UNQUOTED(MGNCS_ETCFILENAME, "${cfgfile}", [MGNCS configure file name])
 AM_CONDITIONAL(MGNCS_HAVE_LIBSUFFIX, test "x$have_libsuffix" = "xyes")
-AC_SUBST(MGNCS_LIBSUFFIX)
 AC_DEFINE_UNQUOTED(_MGNCS_LIBSUFFIX, "${MGNCS_LIBSUFFIX}", [MGNCS library suffix])
+AC_SUBST(MGNCS_LIBSUFFIX)
 
+if test "x$build_datasource_sqlite" = "xyes"; then
+    DEP_LIBS="$DEP_LIBS -lsqlite3"
+fi
+
+if test "x$build_datasource_xml" = "xyes"; then
+    DEP_LIBS="$DEP_LIBS -lxml2"
+    CFLAGS="$CFLAGS -I/usr/include/libxml2"
+fi
 
 dnl ========================================================================
 dnl check for run-time mode of MiniGUI
 dnl ========================================================================
 
-have_libminigui="no"
-AC_CHECK_HEADERS(minigui/common.h, have_libminigui=yes, foo=bar)
+PKG_CHECK_MODULES([MINIGUI], [minigui >= 3.0.10])
+PKG_CHECK_MODULES([MGUTILS], [mgutils >= 1.0.0])
+DEP_LIBS="$DEP_LIBS $MGUTILS_LIBS"
 
 threads_version="no"
 AC_CHECK_DECLS(_MGRM_THREADS, threads_version="yes", foo=bar, [#include <minigui/common.h>])
-
 procs_version="no"
 AC_CHECK_DECLS(_MGRM_PROCESSES, procs_version="yes", foo=bar, [#include <minigui/common.h>])
-
 standalone_version="no"
 AC_CHECK_DECLS(_MGRM_STANDALONE, standalone_version="yes", foo=bar, [#include <minigui/common.h>])
 
-
-if test "x$threads_version" = "xyes"; then
-   	CFLAGS="$CFLAGS -D_REENTRANT"
-    if test "x$have_libsuffix" = "xno"; then
-        APP_LIBS="$APP_LIBS -lminigui_ths"
-    fi
-else
-	if test "x$standalone_version" = "xyes"; then
-        if test "x$have_libsuffix" = "xno"; then
-            APP_LIBS="$APP_LIBS -lminigui_sa"
-        fi
-   	else
-        if test "x$have_libsuffix" = "xno"; then
-            APP_LIBS="$APP_LIBS -lminigui_procs"
-        fi
-   	fi  
-fi
-
-if test "x$have_libsuffix" = "xyes"; then
-    APP_LIBS="$APP_LIBS -lminigui_msd"
-fi
-
-if test "x$threads_version" != "xyes"; then
-    lib_pthread="yes"
-    AC_CHECK_DECLS(_MGGAL_SHADOW, APP_LIBS="$APP_LIBS -lpthread", lib_pthread="no", [#include <minigui/common.h>])
-    if test "x$lib_pthread" = "xno"; then
-        AC_CHECK_DECLS(_MGGAL_MLSHADOW, APP_LIBS="$APP_LIBS -lpthread", no_pthread="no", [#include <minigui/common.h>])
-    fi
-else
-	APP_LIBS="$APP_LIBS -lpthread"
-fi
-
-if test "x$build_datasource_sqlite" = "xyes"; then
-	APP_LIBS="$APP_LIBS -lsqlite3"
-fi
-
-if test "x$build_datasource_xml" = "xyes"; then
-	APP_LIBS="$APP_LIBS -lxml2"
-    CFLAGS="$CFLAGS -I/usr/include/libxml2"
-fi
-
 CFLAGS="$CFLAGS -D__MGNCS_LIB__"
-
-AC_CHECK_DECLS(_HAVE_MATH_LIB, APP_LIBS="$APP_LIBS -lm", foo=bar, [#include <minigui/common.h>])
-AC_CHECK_DECLS(_MGIMAGE_PNG, APP_LIBS="$APP_LIBS -lpng", foo=bar, [#include <minigui/common.h>])
-AC_CHECK_DECLS(_MGIMAGE_JPG, APP_LIBS="$APP_LIBS -ljpeg", foo=bar, [#include <minigui/common.h>])
-AC_CHECK_DECLS(_MGFONT_TTF, APP_LIBS="$APP_LIBS -lttf", foo=bar, [#include <minigui/common.h>])
-AC_CHECK_DECLS(_MGFONT_FT2, APP_LIBS="$APP_LIBS -lfreetype", foo=bar, [#include <minigui/common.h>])
-AC_CHECK_DECLS(_MGIAL_DLCUSTOM, APP_LIBS="$APP_LIBS -ldl", foo=bar, [#include <minigui/common.h>])
 
 if test "$ac_cv_prog_gcc" = "yes"; then
     CFLAGS="$CFLAGS -Wall -Wstrict-prototypes -pipe"
 fi
 
+APP_LIBS="$APP_LIBS $DEP_LIBS $MINIGUI_LIBS"
 AC_SUBST(APP_LIBS)
+AC_SUBST(DEP_LIBS)
 
-AC_CONFIG_FILES([Makefile mgncs.pc
-                 include/Makefile
-                 include/pieces/Makefile
-                 src/Makefile
-                 src/renderer/Makefile
-                 src/renderer/classic/Makefile
-                 src/renderer/skin/Makefile
-                 src/renderer/fashion/Makefile
-                 src/renderer/flat/Makefile
-                 src/pieces/Makefile
-                 src/datasource/Makefile
-                 src/ime/Makefile
-                 etc/Makefile
-                 build/Makefile])
+AC_CONFIG_FILES([
+    Makefile mgncs.pc
+    include/Makefile
+    include/pieces/Makefile
+    src/Makefile
+    src/renderer/Makefile
+    src/renderer/classic/Makefile
+    src/renderer/skin/Makefile
+    src/renderer/fashion/Makefile
+    src/renderer/flat/Makefile
+    src/pieces/Makefile
+    src/datasource/Makefile
+    src/ime/Makefile
+    etc/Makefile
+    build/Makefile
+])
 
 AC_OUTPUT
-
-if test "x$have_libminigui" != "xyes"; then
-    AC_MSG_WARN([
-        MiniGUI is not properly installed on the system. You need 
-        MiniGUI Ver 3.0.10 or later for building this package. 
-        Please configure and install MiniGUI Ver 3.0.10 first.
-    ])
-fi
-
