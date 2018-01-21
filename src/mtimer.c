@@ -20,7 +20,7 @@
 
 static HWND mTimer_getParent(mTimer* self)
 {
-	mWidget * widget = SAFE_CAST(mWidget,self->parent);
+	mWidget *widget = SAFE_CAST(mWidget, self->parent);
 
 	if(widget)
 		return widget->hwnd;
@@ -42,9 +42,9 @@ static void mTimer_destroy(mTimer *self)
 	}
 }
 
-static BOOL mTimer_timerProc(HWND hwnd, int id, DWORD total_count)
+static BOOL mTimer_timerProc(HWND hwnd, LINT id, DWORD total_count)
 {
-	mTimer * timer = (mTimer*)(intptr_t)id;
+	mTimer * timer = (mTimer*)id;
 
 	if(timer)
 	{
@@ -70,7 +70,7 @@ static BOOL mTimer_start(mTimer *self)
 
 	if(IsWindow(hwnd))
 	{
-		return SetTimerEx(hwnd, (int)(intptr_t)self, self->interval, (TIMERPROC)mTimer_timerProc);
+		return SetTimerEx(hwnd, (LINT)self, self->interval, (TIMERPROC)mTimer_timerProc);
 	}
 
 	return FALSE;
@@ -80,7 +80,7 @@ static void mTimer_stop(mTimer *self)
 {
 	HWND hwnd = _c(self)->getParent(self);
 
-	KillTimer(hwnd, (int)(intptr_t)self);
+	KillTimer(hwnd, (LINT)self);
 }
 
 static BOOL mTimer_setProperty(mTimer* self, int id, DWORD value)
@@ -96,7 +96,7 @@ static BOOL mTimer_setProperty(mTimer* self, int id, DWORD value)
 		hwnd = _c(self)->getParent(self);
 		if(HWND_NULL == hwnd)
 			return FALSE;
-		isStart = IsTimerInstalled(hwnd, (int)(intptr_t)self);
+		isStart = IsTimerInstalled(hwnd, (LINT)self);
 		if(isStart){
 			_M(self, stop);
 			self->interval = value;

@@ -396,7 +396,7 @@ static BOOL mIME_onCaretPos(mIME* self, int x, int y)
 
 static LRESULT _ime_proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int ret = 0;
+	LRESULT ret = 0;
 	mIME * ime = mIME_FromView(hwnd);
 	if(message == MSG_SETFOCUS
 		|| message == MSG_KILLFOCUS

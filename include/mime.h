@@ -180,7 +180,7 @@ MGNCS_EXPORT void mIME_passMessage(mIME* ime, UINT message, WPARAM wParam, LPARA
 
 #define mIMManagerClassHeader(clss, super)                     \
 	mObjectClassHeader(clss, super)                        \
-	PROTECTED int (*procIMMsg)(clss*,UINT,WPARAM,LPARAM,int*); \
+	PROTECTED int (*procIMMsg)(clss*,UINT,WPARAM,LPARAM,LRESULT*); \
 	PROTECTED BOOL (*nextIME)(clss*);                      \
 	PROTECTED BOOL (*setIME)(clss*, const char*);          \
 	PUBLIC BOOL (*addIME)(clss*, mIME *ime);               \
