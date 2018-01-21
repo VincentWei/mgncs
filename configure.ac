@@ -646,21 +646,6 @@ AM_CONDITIONAL(MGNCS_HAVE_LIBSUFFIX, test "x$have_libsuffix" = "xyes")
 AC_DEFINE_UNQUOTED(_MGNCS_LIBSUFFIX, "${MGNCS_LIBSUFFIX}", [MGNCS library suffix])
 AC_SUBST(MGNCS_LIBSUFFIX)
 
-dnl ========================================================================
-dnl check for run-time mode of MiniGUI
-dnl ========================================================================
-
-PKG_CHECK_MODULES([MINIGUI], [minigui >= 3.2.0])
-PKG_CHECK_MODULES([MGUTILS], [mgutils >= 1.2.0])
-DEP_LIBS="$DEP_LIBS $MGUTILS_LIBS"
-
-threads_version="no"
-AC_CHECK_DECLS(_MGRM_THREADS, threads_version="yes", foo=bar, [#include <minigui/common.h>])
-procs_version="no"
-AC_CHECK_DECLS(_MGRM_PROCESSES, procs_version="yes", foo=bar, [#include <minigui/common.h>])
-standalone_version="no"
-AC_CHECK_DECLS(_MGRM_STANDALONE, standalone_version="yes", foo=bar, [#include <minigui/common.h>])
-
 if test "x$devel_mode" = "xyes"; then
     if test "$ac_cv_prog_gcc" = "yes"; then
         CPPFLAGS="$CPPFLAGS -Werror -Wall"
@@ -670,6 +655,14 @@ fi
 if test "$ac_cv_prog_gcc" = "yes"; then
     CFLAGS="$CFLAGS -Wstrict-prototypes -pipe"
 fi
+
+dnl ========================================================================
+dnl check for run-time mode of MiniGUI
+dnl ========================================================================
+
+PKG_CHECK_MODULES([MINIGUI], [minigui >= 3.2.0])
+PKG_CHECK_MODULES([MGUTILS], [mgutils >= 1.2.0])
+DEP_LIBS="$DEP_LIBS $MGUTILS_LIBS"
 
 APP_LIBS="$APP_LIBS -lmgncs$MGNCS_LIBSUFFIX $DEP_LIBS $MINIGUI_LIBS"
 AC_SUBST(APP_LIBS)

@@ -514,7 +514,7 @@ MGNCS_EXPORT mMainWnd* ncsSyncCallCreate(HWND host, PNCS_CREATE_MAIN pCreateMain
 
 static WNDPROC _default_proc = NULL;
 
-static int _my_default_proc (HWND hwnd, int message, WPARAM wParam, LPARAM lParam)
+static LRESULT _my_default_proc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if(message == NCSM_SYNCREQ)
 	{
@@ -522,7 +522,7 @@ static int _my_default_proc (HWND hwnd, int message, WPARAM wParam, LPARAM lPara
 		{
 			syncreq_callcreate * pcc = (syncreq_callcreate*)lParam;
 			if(pcc && pcc->createMain){
-				return (int)(pcc->createMain)(pcc->h_pack, hwnd,
+				return (LRESULT)(pcc->createMain)(pcc->h_pack, hwnd,
 						pcc->h_icon, pcc->h_menu, pcc->user);
             }
 		}
