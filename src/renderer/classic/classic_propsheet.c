@@ -3,9 +3,7 @@
  **
  ** The classic renderer implementation of mPropsheet control.
  **
- ** Copyright (C) 2009 Feynman Software.
- **
- ** All rights reserved by Feynman Software.
+ ** Copyright (C) 2009~2018 FMSoft
  */
 
 #include <stdio.h>
@@ -168,14 +166,12 @@ static void classic_drawScrollBtn(mPropSheet *self, HDC hdc,
 static void classic_drawTab(mPropSheet *self, HDC hdc,
         RECT* rcTab, const char* title, HICON hIcon, BOOL active)
 {
-    DWORD light_c, fgcolor, bgcolor;
+    DWORD light_c, bgcolor;
 	RECT rc;
 	int x, ty, by;
     DWORD   style = GetWindowStyle (self->hwnd);
     int     offset = 0;
     gal_pixel old = 0, oldPenColor;
-
-    fgcolor = ncsGetElement((mWidget*)self, NCS_FGC_3DBODY);
 
     x = rcTab->left;
     ty = rcTab->top;

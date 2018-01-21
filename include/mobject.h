@@ -47,9 +47,10 @@ static ClassType(clss) * clss##ClassConstructor(ClassType(clss)* _class); \
 ClassType(clss) Class(clss) = { (PClassConstructor)clss##ClassConstructor }; \
 static const char* clss##_type_name = #clss; \
 static ClassType(clss) * clss##ClassConstructor(ClassType(clss)* _class) { \
-	unsigned short * _pintfOffset;                                         \
+	unsigned short * _pintfOffset = NULL; \
+	_pintfOffset = (PVOID)((UINT_PTR)_pintfOffset ^ 0); /* VW: prevent unused-but-set-variable warning */ \
 	_class = (ClassType(clss)*)((PClassConstructor)(Class(superCls).classConstructor))((mObjectClass*)_class); \
-	_class->super = &Class(superCls); \
+	_class->super = (void*)&Class(superCls); \
 	_class->typeName = clss##_type_name; \
 	_class->objSize = sizeof(clss);      \
 	_pintfOffset = &_class->intfOffset;
@@ -116,9 +117,9 @@ static ClassType(clss) * clss##ClassConstructor(ClassType(clss)* _class) { \
 	struct _##Interface { Interface##VTable *_vtable; };
 
 #define IMPLEMENT(Clss,Interface) \
-	_class->_##Interface##_obj_offset = (unsigned int)(void*)&(((Clss*)0)->Interface##_); \
+	_class->_##Interface##_obj_offset = (UINT_PTR)(void*)&(((Clss*)0)->Interface##_); \
 	_class->_##Interface##_next_offset = 0;                                                \
-	*_pintfOffset =  (unsigned short)(unsigned int)(void*)&(((ClassType(Clss)*)0)->_##Interface##_obj_offset); \
+	*_pintfOffset =  (unsigned short)(UINT_PTR)(void*)&(((ClassType(Clss)*)0)->_##Interface##_obj_offset); \
 	_pintfOffset = &_class->_##Interface##_next_offset;
 
 #define INTERFACE_CAST(Interface, pobj)  \
@@ -301,20 +302,7 @@ static inline mObject* initObjectArgs(mObject* pobj, mObjectClass* _class, ...)
 #define INIT_OBJEX(Clss, pobj, param)  ((Clss* )_initObject((mObject*)(pobj), (mObjectClass*)&Class(Clss), (DWORD)(param)))
 #define INIT_OBJ(Clss, pobj)  INIT_OBJEX(Clss, pobj, 0)
 #define INIT_OBJV(Clss, pobj, ...) ((Clss* )initObjectArgs((mObject*)(pobj), (mObjectClass*)&Class(Clss), ##__VA_ARGS__))
-static inline int GET_ARG_COUNT(va_list va){
-	union {
-		va_list va;
-		DWORD   dva;
-	}_va;
-	_va.va = va;
-	if(_va.dva == 0)
-		return 0;
-    return 1;
-}
 #define UNIT_OBJ(pobj)  (_c(pobj)->destroy(pobj))
-
-
-
 
 /** @} end of Object define */
 

@@ -13,7 +13,7 @@
 #include "piece.h"
 #include "mdatabinding.h"
 
-static BOOL processMessageHandlers(mWidget* widget, int message, WPARAM wParam, LPARAM lParam, int *pret);
+static BOOL processMessageHandlers(mWidget* widget, int message, WPARAM wParam, LPARAM lParam, LRESULT *pret);
 
 static void processNotifyMessage(HWND hwnd, int id, int nc_code,DWORD add_data);
 
@@ -249,9 +249,9 @@ static mWidget* createWidget(HWND hWnd)
 	return self;
 }
 
-static int _default_wnd_proc(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
+static LRESULT _default_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int ret = 0;
+	LRESULT ret = 0;
 	mWidget * self = NULL;
 	mWidgetClass *_class = NULL;
 
@@ -313,10 +313,10 @@ static int _default_wnd_proc(HWND hWnd, int message, WPARAM wParam, LPARAM lPara
 	return DefaultControlProc(hWnd, message, wParam, lParam);
 }
 
-static int ncsWndProc(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
+static LRESULT ncsWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     mWidget *self = NULL;
-    int ret;
+    LRESULT ret;
     BOOL cleanMainWnd = FALSE;
 
 	if(message == MSG_NCCREATE){
@@ -1004,7 +1004,7 @@ BEGIN_CMPT_CLASS(mWidget, mComponent)
 #endif
 END_CMPT_CLASS
 
-static BOOL processMessageHandlers(mWidget* widget, int message, WPARAM wParam, LPARAM lParam, int *pret)
+static BOOL processMessageHandlers(mWidget* widget, int message, WPARAM wParam, LPARAM lParam, LRESULT *pret)
 {
 	void *handler;
 

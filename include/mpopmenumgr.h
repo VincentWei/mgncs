@@ -16,7 +16,7 @@ typedef struct _mPopMenuMgr mPopMenuMgr;
 
 #define mPopMenuMgrClassHeader(clss, clsSuper) \
 	mObjectClassHeader(clss, clsSuper) \
-	BOOL (*addItem)(clss *, int type, const char* str, PBITMAP bmp, int id, int state,  mPopMenuMgr *subMenu, DWORD add_data); \
+	BOOL (*addItem)(clss *, UINT type, const char* str, PBITMAP bmp, int id, UINT state,  mPopMenuMgr *subMenu, DWORD add_data); \
 	HMENU (*createMenu)(clss *); \
 	void (*popMenu)(clss *, mObject *owner); \
 	BOOL (*addSeparator)(clss *); \

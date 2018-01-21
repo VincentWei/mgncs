@@ -39,13 +39,13 @@ extern "C" {
  * \var typedef unsigned int HPACKAGE;
  * \brief Handle to resource package.
  */
-typedef unsigned int        HPACKAGE;
+typedef GHANDLE HPACKAGE;
 
 /**
  * \def HPACKAGE_NULL
  * \brief Null resource package handle.
  */
-#define HPACKAGE_NULL       0
+#define HPACKAGE_NULL          ((GHANDLE)0)
 
 #define NCSRT_MASK             0x0FFF
 

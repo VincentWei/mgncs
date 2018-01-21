@@ -294,9 +294,9 @@ struct _mWidget
 	mComponentClassHeader(clsName, parentClass)                                     \
 	DWORD dlgCode;                                                                  \
 	mObject * (*createBody)(clsName*);                                              \
-	int (*wndProc)(clsName* , int, WPARAM, LPARAM);                                 \
+	LRESULT (*wndProc)(clsName* , UINT, WPARAM, LPARAM);                                 \
 	BOOL (*callUserHandler)(clsName* self, void *handler,                          \
-		int message, WPARAM wParam, LPARAM lParam, int *pRet);                      \
+		UINT message, WPARAM wParam, LPARAM lParam, LRESULT *pRet);                      \
 	BOOL (*onCreate)(clsName*, LPARAM);                                             \
 	BOOL (*addChildren)(clsName*, NCS_WND_TEMPLATE* children,int count);           \
 	void (*onPaint)(clsName*, HDC, const PCLIPRGN pClip);                           \

@@ -387,8 +387,8 @@ mSymbol ** ncsParserTestExpression(char** pstr)
 
 BOOL ncsExecTestExpression(mSymbol** symbols, mTextExpRuntime *prt, void* self)
 {
-	mSymbol* stack[256];
-	int   top = 0;
+	//mSymbol* stack[256];
+	//int   top = 0;
 	int   idx ;
 
 	for(idx=0; symbols[idx]; idx++)
@@ -417,10 +417,12 @@ BOOL ncsExecTestExpression(mSymbol** symbols, mTextExpRuntime *prt, void* self)
 				break;
 			}
 		}
+/* VW: FIXME
 		else
 		{
 			stack[top++] = symbols[idx];
 		}
+*/
 	}
 	return TRUE;
 }

@@ -120,7 +120,7 @@ static inline void _drawGridLine(mListView *self, HDC hdc, RECT  *rcDraw)
     }
 
     oldWidth = SetPenWidth(hdc, self->gridLineWidth);
-    oldColor = SetPenColor(hdc, DWORD2PIXEL(hdc, self->gridLineColor));
+    oldColor = SetPenColor(hdc, DWORD2Pixel(hdc, self->gridLineColor));
     //Rectangle (hdc, rcDraw->left, rcDraw->top, rcDraw->right, rcDraw->bottom);
     LineEx(hdc, rcDraw->left, rcDraw->top, rcDraw->right, rcDraw->top);
     LineEx(hdc, rcDraw->right, rcDraw->top, rcDraw->right, rcDraw->bottom);
@@ -194,7 +194,7 @@ static void _lv_draw_subitem (mListView* self, HITEM hItem,
             else if (!(GetWindowExStyle(self->hwnd) & WS_EX_TRANSPARENT)) {
                 if (!_c(self)->getBackground(self, row, -1, &color)) {
                     //draw custom item bgc
-                    SetBrushColor(hdc, DWORD2PIXEL(hdc, color));
+                    SetBrushColor(hdc, DWORD2Pixel(hdc, color));
                     FillBox(hdc, rcDraw->left, rcDraw->top,
                             RECTWP(rcDraw), RECTHP(rcDraw));
                 }
@@ -207,7 +207,7 @@ static void _lv_draw_subitem (mListView* self, HITEM hItem,
     if (!select && !(GetWindowExStyle(self->hwnd) & WS_EX_TRANSPARENT)) {
         if (!_c(self)->getBackground(self, row, col, &color)) {
             //draw custom item bgc
-            SetBrushColor(hdc, DWORD2PIXEL(hdc, color));
+            SetBrushColor(hdc, DWORD2Pixel(hdc, color));
             FillBox(hdc, rcSubItem.left, rcSubItem.top,
                     RECTW(rcSubItem), RECTH(rcSubItem));
         }
@@ -283,7 +283,7 @@ static void _lv_draw_subitem (mListView* self, HITEM hItem,
     text = _c(rowItem)->getText(rowItem, (HITEM)subItem);
     ret = _c(self)->getForeground(self, row, col, &color);
     if (!ret) {
-        oldColor = SetTextColor(hdc, DWORD2PIXEL(hdc, color));
+        oldColor = SetTextColor(hdc, DWORD2Pixel(hdc, color));
     }
 
     if (text) {
@@ -661,7 +661,11 @@ static void _get_sort_tree_pos (mListView *self,
 
         tmp = first;
 
+#if 0 /* VW: should use indexOf method to get row index */
         row = _c(self)->getItem(self, first);
+#else
+        row = _c(self)->indexOf(self, first);
+#endif
         string = (char*)_c(self)->getItemText(self, row, self->curCol);
         ret = strCmp(text, string, -1);
 
@@ -1114,7 +1118,7 @@ static HITEM mListView_createItem (mListView *self, HITEM prev, HITEM next,
         newItem = (HITEM)NEW(mListItem);
 
     if (!newItem)
-        return -1;
+        return 0;
 
     if (height >= 0)
         ((mItem*)newItem)->height = height;
@@ -1273,7 +1277,7 @@ static BOOL mListView_delColumn(mListView* self, int index)
 }
 
 /*============== ================*/
-
+#if 0 /* VW: not used */
 static int _get_item_indent (mListView *self, mListItem *item)
 {
     if (!item)
@@ -1281,6 +1285,7 @@ static int _get_item_indent (mListView *self, mListItem *item)
 
     return INDENT * item->depth;
 }
+#endif
 
 static int mListView_isInLVItem (mListView *self, int mouseX, int mouseY,
                      mListItem **pRet, POINT *pt)
@@ -1382,7 +1387,7 @@ static void _drag_border(mListView *self, int x, int y, int status)
 
     GetClientRect (self->hwnd, &rect);
     hdc = GetClientDC(self->hwnd);
-    oldColor = SetPenColor(hdc, DWORD2PIXEL(hdc, self->gridLineColor));
+    oldColor = SetPenColor(hdc, DWORD2Pixel(hdc, self->gridLineColor));
     oldRop = SetRasterOperation (hdc, ROP_XOR);
 
     if (status == NCST_LDOWN || status == NCST_LMOVE)
@@ -2112,14 +2117,14 @@ static BOOL mListView_setHeadText(mListView *self, int col, const char* text)
 static int mListView_setItemHeight (mListView *self, HITEM hItem, int height)
 {
     mListItem* item = (mListItem*)hItem;
-    int diff, itemH;
+    int /*diff, */itemH;
 
     if (!self || !item || height < 0 || height == item->height) return -1;
 
     if (height)
         item->showHeight = height;
 
-    diff = Class(mItemView).setItemHeight((mItemView*)self, hItem, height);
+    /*diff = */Class(mItemView).setItemHeight((mItemView*)self, hItem, height);
 
     //refresh client item
     itemH = _c(self)->getItemHeight(self, hItem);

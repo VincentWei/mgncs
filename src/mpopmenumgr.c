@@ -34,14 +34,15 @@
 #define PMIT_SEPARATOR 0x04
 
 struct mPopMenuItem{
-	unsigned int type:16;
-	unsigned int flags:16;
+	unsigned int type;
+	unsigned int flags;
 	mPopMenuItem * next;
+    DWORD   add_data [0];
 };
 
 static BOOL popmenuitem_to_menuitem(mPopMenuItem * pmi, MENUITEMINFO *pmii)
 {
-	UINT *data;
+	DWORD *add_data;
 	if(!pmi || !pmii)
 		return FALSE;
 	memset(pmii, 0, sizeof(MENUITEMINFO));
@@ -58,68 +59,66 @@ static BOOL popmenuitem_to_menuitem(mPopMenuItem * pmi, MENUITEMINFO *pmii)
 		pmii->type = MFT_SEPARATOR;
 	}
 
-	data = (UINT*)(((char*)pmi)+sizeof(mPopMenuItem));
-
-	if(pmi->flags & PMIF_STRING)
-	{
-		pmii->typedata = *data;
-		data ++;
+	add_data = pmi->add_data;
+	if (pmi->flags & PMIF_STRING) {
+		pmii->typedata = add_data[0];
+		add_data ++;
 	}
 
 	if(pmii->type == MFT_STRING && pmi->flags & PMIF_BITMAP)
 	{
 		if(pmi->flags & PMIF_STRING){
 			pmii->type = MFT_BMPSTRING;
-			pmii->uncheckedbmp = (PBITMAP)(*data);
+			pmii->uncheckedbmp = (PBITMAP)add_data[0];
 		}
 		else{
 			pmii->type = MFT_BITMAP;
-			pmii->typedata = *data;
+			pmii->typedata = add_data[0];
 		}
-		data ++;
+		add_data ++;
 	}
 
 	if(pmi->flags & PMIF_STATE)
 	{
 		pmii->mask |= MIIM_STATE;
-		pmii->state = *data;
-		data ++;
+		pmii->state = add_data[0];
+		add_data ++;
 	}
 
 	if(pmi->flags & PMIF_CHECKBMP){
 		pmii->mask |= MIIM_CHECKMARKS;
-		pmii->checkedbmp = (PBITMAP)*data;
-		data ++;
+		pmii->checkedbmp = (PBITMAP)add_data[0];
+		add_data ++;
 	}
 
 	if((pmii->type == MFT_RADIOCHECK || pmii->type == MFT_MARKCHECK)
 			 && pmi->flags & PMIF_UNCHECKBMP)
 	{
 		pmii->mask |= MIIM_CHECKMARKS;
-		pmii->uncheckedbmp = (PBITMAP)*data;
-		data ++;
+		pmii->uncheckedbmp = (PBITMAP)add_data[0];
+		add_data ++;
 	}
 
 	if(pmi->flags & PMIF_ID)
 	{
 		pmii->mask |= MIIM_ID;
-		pmii->id = *data;
-		data ++;
+		pmii->id = add_data[0];
+		add_data ++;
 	}
 	if(pmi->flags & PMIF_SUBMENU)
 	{
-		mPopMenuMgr * sub = (mPopMenuMgr*)(*data);
+		mPopMenuMgr * sub = (mPopMenuMgr*)add_data[0];
 		if(sub){
 			pmii->mask |= MIIM_SUBMENU;
 			pmii->hsubmenu = _c(sub)->createMenu(sub);
 		}
-		data ++;
+		add_data ++;
 	}
 
 	if(pmi->flags & PMIF_USERDATA)
 	{
 		pmii->mask |= MIIM_DATA;
-		pmii->itemdata = *data;
+		pmii->itemdata = add_data[0];
 	}
 
 	return TRUE;
@@ -138,9 +137,6 @@ static void mPopMenuMgr_destroy(mPopMenuMgr *self)
 	{
 		mPopMenuItem * tmp = self->head;
 		self->head = self->head->next;
-		if (tmp->flags & PMIF_STRING){
-			free (*(UINT *)(((char*)tmp) + sizeof(mPopMenuItem)));
-		}
 		SLAB_FREE(tmp);
 	}
 
@@ -148,11 +144,11 @@ static void mPopMenuMgr_destroy(mPopMenuMgr *self)
 }
 
 BOOL mPopMenuMgr_addItem(mPopMenuMgr *self,
-	int type, const char* str, PBITMAP bmp,
-	int id, int state, mPopMenuMgr *subMenu,
+	UINT type, const char* str, PBITMAP bmp,
+	int id, UINT state, mPopMenuMgr *subMenu,
 	DWORD add_data)
 {
-	UINT datas[8];
+	DWORD datas[8];
 	int count;
 	mPopMenuItem item, *pitem, *ptemp;
 
@@ -180,36 +176,36 @@ BOOL mPopMenuMgr_addItem(mPopMenuMgr *self,
 
 	if(str){
 		item.flags|=PMIF_STRING;
-		datas[count++] = (UINT)strdup(str);
+		datas[count++] = (DWORD)strdup(str);
 	}
 
 	if(bmp){
 		item.flags |= PMIF_BITMAP;
-		datas[count++] = (UINT)bmp;
+		datas[count++] = (DWORD)bmp;
 	}
 
 	if(state != 0){
 		item.flags |= PMIF_STATE;
-		datas[count++] = (UINT)state;
+		datas[count++] = (DWORD)state;
 	}
 
 	if(id>=0){
 		item.flags |= PMIF_ID;
-		datas[count++] = (UINT)id;
+		datas[count++] = (DWORD)id;
 	}
 
 	if(subMenu){
 		item.flags |= PMIF_SUBMENU;
-		datas[count++] = (UINT)subMenu;
+		datas[count++] = (DWORD)subMenu;
 	}
 
 	if(add_data != 0){
 		item.flags |= PMIF_USERDATA;
-		datas[count++] = (UINT)add_data;
+		datas[count++] = add_data;
 	}
 
 	//alloc mem
-	pitem = (mPopMenuItem*)SLAB_ALLOC(sizeof(mPopMenuItem)+count*sizeof(UINT));
+	pitem = (mPopMenuItem*)SLAB_ALLOC(sizeof(mPopMenuItem)+count*sizeof(DWORD));
 	if(!pitem)
 		return FALSE;
 
@@ -218,7 +214,7 @@ BOOL mPopMenuMgr_addItem(mPopMenuMgr *self,
 	pitem->flags = item.flags;
 	pitem->next = NULL;
 	if(count > 0)
-		memcpy(((char*)pitem)+sizeof(mPopMenuItem), datas, sizeof(UINT)*count);
+		memcpy (pitem->add_data, datas, sizeof(DWORD)*count);
 
 	ptemp = self->head;
 	if(ptemp == NULL){
@@ -274,7 +270,7 @@ static void mPopMenuMgr_popMenu(mPopMenuMgr *self, mObject *owner)
 
 static int get_popmenuitem_id(mPopMenuItem *item)
 {
-	UINT* data = (UINT*)(((char*)item)+sizeof(mPopMenuItem));
+	DWORD* data = item->add_data;
 	if(item->flags & PMIF_STRING)
 		data ++;
 	if(item->flags & PMIF_BITMAP)
@@ -310,8 +306,8 @@ static BOOL mPopMenuMgr_getMenuItem(mPopMenuMgr* self, int idx, MENUITEMINFO *pm
 
 BEGIN_MINI_CLASS(mPopMenuMgr, mObject)
 	CLASS_METHOD_MAP(mPopMenuMgr, construct)
-	CLASS_METHOD_MAP(mPopMenuMgr, destroy  )
-	CLASS_METHOD_MAP(mPopMenuMgr, addItem  )
+	CLASS_METHOD_MAP(mPopMenuMgr, destroy)
+	CLASS_METHOD_MAP(mPopMenuMgr, addItem)
 	CLASS_METHOD_MAP(mPopMenuMgr, addSeparator)
 	CLASS_METHOD_MAP(mPopMenuMgr, createMenu)
 	CLASS_METHOD_MAP(mPopMenuMgr, popMenu)

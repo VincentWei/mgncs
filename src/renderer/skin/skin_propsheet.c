@@ -174,17 +174,17 @@ static void skin_drawBorder(mPropSheet *self, HDC hdc, RECT* rcBorder)
     rcBorder->right--;
     rcBorder->bottom--;
 
-    SetPenColor(hdc, DWORD2PIXEL (hdc, light_c));
+    SetPenColor(hdc, DWORD2Pixel (hdc, light_c));
     MoveTo (hdc, rcBorder->left, rcBorder->bottom - 1);
     LineTo (hdc, rcBorder->left, rcBorder->top + 1);
     LineTo (hdc, rcBorder->right - 1, rcBorder->top + 1);
 
-    SetPenColor (hdc, DWORD2PIXEL (hdc, darkest_c));
+    SetPenColor (hdc, DWORD2Pixel (hdc, darkest_c));
     MoveTo (hdc, rcBorder->left, rcBorder->bottom);
     LineTo (hdc, rcBorder->right, rcBorder->bottom);
     LineTo (hdc, rcBorder->right, rcBorder->top + 1);
 
-    SetPenColor (hdc, DWORD2PIXEL (hdc, darker_c));
+    SetPenColor (hdc, DWORD2Pixel (hdc, darker_c));
     MoveTo (hdc, rcBorder->left + 1, rcBorder->bottom - 1);
     LineTo (hdc, rcBorder->right - 1, rcBorder->bottom - 1);
     LineTo (hdc, rcBorder->right - 1, rcBorder->top + 2);

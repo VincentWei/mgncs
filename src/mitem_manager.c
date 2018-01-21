@@ -88,7 +88,7 @@ static HITEM mItemManager_getItem(mItemManager* self, int index)
 
 static int mItemManager_indexOf(mItemManager* self, HITEM hItem)
 {
-    return (HITEM)mlGetItemIndex(&self->queue, (mItem*)hItem);
+    return (int)mlGetItemIndex(&self->queue, (mItem*)hItem);
 }
 
 static HITEM mItemManager_getNext(mItemManager* self, HITEM hItem)

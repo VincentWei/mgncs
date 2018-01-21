@@ -244,7 +244,7 @@ static void flat_trackbar_paint(mTrackBarPiece* self, HDC hdc, mWidget *owner, D
      * bits 0xFF000000  : enable or disable
      */
 
-	DWORD bgcolor;
+	//DWORD bgcolor;
 	RECT  rc;
 	fixed gap, tick;
 	int   tick_count = add_data & 0xFFFF;
@@ -252,7 +252,7 @@ static void flat_trackbar_paint(mTrackBarPiece* self, HDC hdc, mWidget *owner, D
 	if(!_c(self)->getRect(self, &rc))
 		return;
 
-	bgcolor = ncsGetElement(owner, NCS_BGC_3DBODY);
+	//bgcolor = ncsGetElement(owner, NCS_BGC_3DBODY);
 
 	if(!(NCS_PIECE_PAINT_VERT&add_data)) //horz
 	{
@@ -327,8 +327,8 @@ static void flat_draw_check(HDC hdc, const RECT *rc, int state, int check_state,
 	DWORD bgcolor;
 	DWORD fgcolor;
 	RECT  rctmp ;
-	gal_pixel old_brush;
-	gal_pixel old_pen;
+	//gal_pixel old_brush;
+	//gal_pixel old_pen;
 
 	rctmp.left = (rc->left + rc->right - MAX_CHECK_RADIO) / 2;
 	rctmp.top  = (rc->top + rc->bottom - MAX_CHECK_RADIO) / 2;
@@ -338,16 +338,16 @@ static void flat_draw_check(HDC hdc, const RECT *rc, int state, int check_state,
 	bgcolor = ncsGetElement(owner, NCS_BGC_3DBODY);
 	fgcolor = ncsGetElement(owner, NCS_FGC_3DBODY);
 
-	old_pen   = SetPenColor(hdc, ncsColor2Pixel(hdc, fgcolor));
+	/*old_pen   = */SetPenColor(hdc, ncsColor2Pixel(hdc, fgcolor));
 
 	//frame rect
 	frame(hdc, &rctmp);
 
 	//set state info
 	if(NCS_ABP_HILIGHT == state)
-		old_brush = flat_set_crosss_brush(hdc, ncsColor2Pixel(hdc, fgcolor));
+		/*old_brush = */flat_set_crosss_brush(hdc, ncsColor2Pixel(hdc, fgcolor));
 	else
-		old_brush = SetBrushColor(hdc, ncsColor2Pixel(hdc, bgcolor));
+		/*old_brush = */SetBrushColor(hdc, ncsColor2Pixel(hdc, bgcolor));
 
 	//fill state
 	rctmp.left += 1;

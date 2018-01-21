@@ -23,7 +23,6 @@ static BOOL update_time(mStatic *listener,
 	char szText[100];
 	time_t tim;
 	struct tm *ptm;
-	static int old_count = 0;
 
 	time(&tim);
 	ptm = localtime(&tim);
@@ -33,7 +32,6 @@ static BOOL update_time(mStatic *listener,
 			ptm->tm_hour,
 			ptm->tm_min,
             ptm->tm_sec);
-	old_count = total_count;
 
 	SetWindowText(listener->hwnd, szText);
     InvalidateRect(listener->hwnd, NULL, TRUE);

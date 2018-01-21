@@ -36,7 +36,7 @@ typedef struct strbuffer_s
 
 #define te_alloc                         malloc
 #define te_free                          free
-#define te_realloc(ptr, size, cpysize)   realloc(ptr, size)
+#define te_realloc(ptr, size)   realloc(ptr, size)
 
 /* alloc with a unit of blocksize */
 static inline void* testr_alloc (StrBuffer *txtbuff, size_t len, size_t blocksize)
@@ -53,11 +53,9 @@ static inline void* testr_realloc (StrBuffer *txtbuff, size_t len)
     if (len + 1 > (size_t)txtbuff->buffsize || 
              len + 1 < (size_t)(txtbuff->buffsize - txtbuff->blocksize)) {
         /* really realloc */
-        size_t old_size;
-        old_size  = txtbuff->buffsize;
         txtbuff->buffsize = (len + 1) + (txtbuff->blocksize - 
                             (len + 1)%txtbuff->blocksize);
-        txtbuff->string = (unsigned char *)te_realloc (txtbuff->string, txtbuff->buffsize, old_size);
+        txtbuff->string = (unsigned char *)te_realloc (txtbuff->string, txtbuff->buffsize);
     }
 
     return txtbuff->string;

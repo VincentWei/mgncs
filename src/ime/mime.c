@@ -22,7 +22,7 @@
 static int sb_len_first_char (const unsigned char* mstr, int len);
 static int single_retrieve_char(const char*word);
 
-static void send_to_target_direct(mIMManager* self, int message, WPARAM wParam, LPARAM lParam);
+static void send_to_target_direct(mIMManager* self, UINT message, WPARAM wParam, LPARAM lParam);
 
 ///////////////////////////////////////
 // interface declear
@@ -394,7 +394,7 @@ static BOOL mIME_onCaretPos(mIME* self, int x, int y)
 	return FALSE;
 }
 
-static int _ime_proc(HWND hwnd, int message, WPARAM wParam, LPARAM lParam)
+static LRESULT _ime_proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int ret = 0;
 	mIME * ime = mIME_FromView(hwnd);
@@ -422,7 +422,7 @@ void mIME_attach(mIME *ime, HWND hwnd)
 	ime->hwnd_view = hwnd;
 }
 
-void mIME_passMessage(mIME* ime, int message, WPARAM wParam, LPARAM lParam)
+void mIME_passMessage(mIME* ime, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if(ime && ime->ime_manager)
 		send_to_target_direct(ime->ime_manager, message, wParam,lParam);
@@ -493,7 +493,7 @@ static void mIMManager_destroy(mIMManager* self)
 	_SUPER(mObject, self, destroy);
 }
 /*
-static int immanger_wnd_proc(HWND hwnd, int message, WPARAM wParam, LPARAM lParam)
+static LRESULT immanger_wnd_proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int ret = 0;
 	mIMManager* self = (mIMManager*)GetWindowAdditionalData2(hwnd);
@@ -507,7 +507,7 @@ static int immanger_wnd_proc(HWND hwnd, int message, WPARAM wParam, LPARAM lPara
 		return DefaultMainWinProc(hwnd, message, wParam, lParam);
 }*/
 
-static void send_to_target_direct(mIMManager* self, int message, WPARAM wParam, LPARAM lParam)
+static void send_to_target_direct(mIMManager* self, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd_target;
 	//send to target
@@ -527,7 +527,7 @@ static void send_to_target_direct(mIMManager* self, int message, WPARAM wParam, 
 
 }
 
-static int mIMManager_procIMMsg(mIMManager* self, int message, WPARAM wParam, LPARAM lParam, int *pret)
+static int mIMManager_procIMMsg(mIMManager* self, int message, WPARAM wParam, LPARAM lParam, LRESULT *pret)
 {
 	//printf("---- message=%x\n", message);
 	switch(message)
@@ -567,7 +567,7 @@ static int mIMManager_procIMMsg(mIMManager* self, int message, WPARAM wParam, LP
 			return IME_STOP_MSG;
 
 		case MSG_IME_GETTARGET:
-			*pret = (int)(self->hwnd_target);
+			*pret = (LRESULT)(self->hwnd_target);
 			return IME_STOP_MSG;
 
 		case MSG_IME_SETSTATUS:

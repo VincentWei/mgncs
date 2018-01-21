@@ -246,7 +246,7 @@ static const char *bitmap_types [] =
 static inline BOOL is_image_file (const char *file)
 {
 	int i;
-	char *type = get_extension (file);
+	const char *type = get_extension (file);
 	
 	if (type == NULL)
 		return FALSE;

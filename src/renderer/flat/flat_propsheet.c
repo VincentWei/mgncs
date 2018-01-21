@@ -154,7 +154,7 @@ static void flat_drawBorder(mPropSheet *self,
     gal_pixel old;
 
     color = ncsGetElement((mWidget*)self, NCS_FGC_3DBODY);
-    old = SetPenColor (hdc, DWORD2PIXEL(hdc, color));
+    old = SetPenColor (hdc, DWORD2Pixel(hdc, color));
 
     Rectangle (hdc, rcBorder->left, rcBorder->top,
             rcBorder->right - 1, rcBorder->bottom - 2);
@@ -209,7 +209,7 @@ static void flat_drawTab(mPropSheet *self, HDC hdc,
     }
     else {
         bgcolor = ncsGetElement((mWidget*)self, NCS_BGC_PRPSHT_NMLTAB);
-        old = SetBrushColor(hdc, DWORD2PIXEL(hdc, bgcolor));
+        old = SetBrushColor(hdc, DWORD2Pixel(hdc, bgcolor));
     }
 
     if ((style&NCSS_PRPSHT_TABMASK) == NCSS_PRPSHT_BOTTOM) {
@@ -276,7 +276,7 @@ static void flat_drawTab(mPropSheet *self, HDC hdc,
 
     if (title) {
         /* draw the TEXT */
-        SetBkColor (hdc, DWORD2PIXEL (hdc, fgcolor));
+        SetBkColor (hdc, DWORD2Pixel (hdc, fgcolor));
         SetBkMode (hdc, BM_TRANSPARENT);
         SetRect(&rc, x, ty, rcTab->right, by);
         DrawText(hdc, title, -1, &rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);

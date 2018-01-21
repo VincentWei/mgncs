@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <assert.h>
 #include <time.h>
@@ -325,16 +326,14 @@ static void next_prev_month(mMonthCalendar *self, BOOL bprev )
 {
 	mHotPiece *year = get_yearspin_piece(self);
 	mHotPiece * month = get_monthspin_piece(self);
-	int iyear,
-        oldyear,
-        imonth;
+	int iyear, oldyear, imonth;
 
 	if(!year || !month )
 		return ;
 
 	iyear  = _c(year)->getProperty(year, NCSP_SPNRPIECE_CURPOS);
 	imonth = _c(month)->getProperty(month, NCSP_SPNRPIECE_CURPOS);
-	oldyear = (int)year;
+	oldyear = (int)(intptr_t)year;
 
 	if(bprev)
 	{

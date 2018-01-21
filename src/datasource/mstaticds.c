@@ -67,8 +67,8 @@ static mStaticDataNode * find_child_node(mStaticDataNode* pnode, const char* nam
 //static int on_find_node_name(mStaticDataNode** ppcur, char* name)
 static int on_find_node_name(void* ppcur_org, const char* name_org)
 {
-	const char* str;
-	int len;
+	//const char* str;
+	//int len;
 	mStaticDataNode* pcur;
 
 	mStaticDataNode **ppcur = (mStaticDataNode **)ppcur_org;
@@ -79,12 +79,14 @@ static int on_find_node_name(void* ppcur_org, const char* name_org)
 
 	name = ncsStrStrip(name);
 
+#if 0
 	str = strchr(name,'[');
 
 	if(str)
 		len = str - name;
 	else
 		len = strlen(name);
+#endif
 
 	pcur = *ppcur;
 

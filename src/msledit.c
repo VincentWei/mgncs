@@ -1080,13 +1080,13 @@ static void esright_input_char_refresh (mSlEdit *self, char *charBuffer, int cha
 
 static void esleft_input_char_refresh (mSlEdit *self, char *charBuffer, int chars)
 {
-    int old_caretpos_x, cur_caretpos_x;
+    int old_caretpos_x; //, cur_caretpos_x;
     int old_sel_start, old_sel_end;
     int old_sel_start_x, old_sel_end_x, cur_sel_start_x;
     RECT scroll_rc, refresh_rc;
     int scroll_len;
     int old_edit_pos_x, cur_edit_pos_x;
-    int old_nContX, cur_ncontx;
+    int old_nContX; //, cur_ncontx;
     int char_size, sel_size;
     int txtlen_x;
 
@@ -1106,8 +1106,8 @@ static void esleft_input_char_refresh (mSlEdit *self, char *charBuffer, int char
 
     calc_charpos_cx(self, self->editPos, &cur_edit_pos_x);
     calc_charpos_cx(self, old_sel_start, &cur_sel_start_x);
-    cur_ncontx = self->nContX;
-    cur_caretpos_x = get_caretpos_x(self->hwnd);
+    //cur_ncontx = self->nContX;
+    //cur_caretpos_x = get_caretpos_x(self->hwnd);
     char_size = cur_edit_pos_x - cur_sel_start_x;
     sel_size = abs(old_sel_start_x - old_sel_end_x);
 

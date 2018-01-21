@@ -794,7 +794,7 @@ mGIFAnimateFrames* ncsCreateAnimateFramesFromGIFFile (const char* file)
 		}
     }
 
-	gaf = NEWEX(mGIFAnimateFrames, (int)area);
+	gaf = NEWEX(mGIFAnimateFrames, (DWORD)area);
 
 	if(gaf == NULL || gaf->frames == NULL)
 		return NULL;
@@ -813,7 +813,7 @@ mGIFAnimateFrames* ncsCreateAnimateFramesFromGIFMem (const void* mem, int size)
         return NULL;
     }
 
-	gaf = NEWEX(mGIFAnimateFrames, (int)area);
+	gaf = NEWEX(mGIFAnimateFrames, (DWORD)area);
 
     MGUI_RWclose (area);
 

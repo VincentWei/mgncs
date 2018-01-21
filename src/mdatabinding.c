@@ -361,7 +361,11 @@ static BOOL _comp_register_test_exist(mBindProp* p, struct _comp_bin_prop_regist
 
 	return (cbp
 			&& cbp->host == pinfo->comp
+#if 0 /* VW: should be event_id */
 			&& cbp->event_id == (int)pinfo->comp
+#else
+			&& cbp->event_id == pinfo->event_id
+#endif
 			&& cbp->prop_id == pinfo->prop_id
 			&& (cbp->read?NCS_PROP_FLAG_READ:0) == (pinfo->flags&NCS_PROP_FLAG_READ)
 			&& (cbp->write?NCS_PROP_FLAG_WRITE:0) == (pinfo->flags&NCS_PROP_FLAG_WRITE));

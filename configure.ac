@@ -1,12 +1,12 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.60)
-AC_INIT(libmgncs, 1.0.9)
+AC_INIT(libmgncs, 1.2.0)
 AC_CONFIG_SRCDIR(src/mctrls.c)
 
 MGNCS_MAJOR_VERSION=1
-MGNCS_MINOR_VERSION=0
-MGNCS_MICRO_VERSION=9
+MGNCS_MINOR_VERSION=2
+MGNCS_MICRO_VERSION=0
 MGNCS_INTERFACE_AGE=0
 MGNCS_BINARY_AGE=0
 MGNCS_VERSION=$MGNCS_MAJOR_VERSION.$MGNCS_MINOR_VERSION.$MGNCS_MICRO_VERSION
@@ -102,8 +102,8 @@ build_ctrl_texteditor="yes"
 build_ctrl_textedittitle="no"
 
 build_datasource="yes"
-build_datasource_sqlite="no"
-build_datasource_xml="no"
+build_datasource_sqlite="yes"
+build_datasource_xml="yes"
 
 build_datasource_static="yes"
 build_datasource_text="yes"
@@ -140,6 +140,9 @@ build_engine_pinyin="yes"
 build_engine_digitpti="yes"
 build_engine_digitpy="yes"
 
+AC_ARG_ENABLE(develmode,
+[  --enable-develmode       developer mode <default=no>],
+devel_mode=$enableval)
 
 AC_ARG_ENABLE(skinrdr, 
 [ --enable-skinrdr          include skin renderer <default=yes>],
@@ -161,7 +164,7 @@ fi
 if test "x$enable_rdr_fashion" = "xyes"; then
 	AC_DEFINE(_MGNCS_RDR_FASHION, 1,
 		[Define if include fashion renderer])
-    PKG_CHECK_MODULES([MGPLUS], [mgplus >= 1.2.0])
+    PKG_CHECK_MODULES([MGPLUS], [mgplus >= 1.4.0])
     DEP_LIBS="$DEP_LIBS $MGPLUS_LIBS"
 fi
 
@@ -263,8 +266,14 @@ if test "x$build_datasource" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(dbsqlite,
-[ --enable-dbsqlite     enable sqlite datasource support <default=no>],
+[ --enable-dbsqlite     enable sqlite datasource support <default=yes>],
 build_datasource_sqlite=$enableval)
+
+if test "x$build_datasource_sqlite" = "xyes"; then
+    AC_CHECK_LIB(sqlite3, sqlite3_open_v2,
+        DEP_LIBS="$DEP_LIBS -lsqlite3",
+        build_datasource_sqlite=no)
+fi
 
 if test "x$build_datasource_sqlite" = "xyes"; then
     AC_DEFINE(_MGNCSDB_DATASOURCE, 1,
@@ -274,14 +283,21 @@ if test "x$build_datasource_sqlite" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(dbxml,
-[ --enable-dbxml    enable libxml2 datasource support <default=no>],
+[ --enable-dbxml    enable libxml2 datasource support <default=yes>],
 build_datasource_xml=$enableval)
+
+if test "x$build_datasource_xml" = "xyes"; then
+    AC_CHECK_LIB(xml2, xmlFree,
+        DEP_LIBS="$DEP_LIBS -lxml2",
+        build_datasource_xml=no)
+fi
 
 if test "x$build_datasource_xml" = "xyes"; then
     AC_DEFINE(_MGNCSDB_DATASOURCE, 1,
         [Define if support datasource])
     AC_DEFINE(_MGNCSDB_XML, 1,
 		[Define if support xml])
+    CPPFLAGS="$CPPFLAGS -I/usr/include/libxml2"
 fi
 
 AC_ARG_ENABLE(dbstatic, 
@@ -630,21 +646,12 @@ AM_CONDITIONAL(MGNCS_HAVE_LIBSUFFIX, test "x$have_libsuffix" = "xyes")
 AC_DEFINE_UNQUOTED(_MGNCS_LIBSUFFIX, "${MGNCS_LIBSUFFIX}", [MGNCS library suffix])
 AC_SUBST(MGNCS_LIBSUFFIX)
 
-if test "x$build_datasource_sqlite" = "xyes"; then
-    DEP_LIBS="$DEP_LIBS -lsqlite3"
-fi
-
-if test "x$build_datasource_xml" = "xyes"; then
-    DEP_LIBS="$DEP_LIBS -lxml2"
-    CPPFLAGS="$CPPFLAGS -I/usr/include/libxml2"
-fi
-
 dnl ========================================================================
 dnl check for run-time mode of MiniGUI
 dnl ========================================================================
 
-PKG_CHECK_MODULES([MINIGUI], [minigui >= 3.0.10])
-PKG_CHECK_MODULES([MGUTILS], [mgutils >= 1.0.0])
+PKG_CHECK_MODULES([MINIGUI], [minigui >= 3.2.0])
+PKG_CHECK_MODULES([MGUTILS], [mgutils >= 1.2.0])
 DEP_LIBS="$DEP_LIBS $MGUTILS_LIBS"
 
 threads_version="no"
@@ -654,8 +661,14 @@ AC_CHECK_DECLS(_MGRM_PROCESSES, procs_version="yes", foo=bar, [#include <minigui
 standalone_version="no"
 AC_CHECK_DECLS(_MGRM_STANDALONE, standalone_version="yes", foo=bar, [#include <minigui/common.h>])
 
+if test "x$devel_mode" = "xyes"; then
+    if test "$ac_cv_prog_gcc" = "yes"; then
+        CPPFLAGS="$CPPFLAGS -Werror -Wall"
+    fi
+fi
+
 if test "$ac_cv_prog_gcc" = "yes"; then
-    CFLAGS="$CFLAGS -Wall -Wstrict-prototypes -pipe"
+    CFLAGS="$CFLAGS -Wstrict-prototypes -pipe"
 fi
 
 APP_LIBS="$APP_LIBS -lmgncs$MGNCS_LIBSUFFIX $DEP_LIBS $MINIGUI_LIBS"

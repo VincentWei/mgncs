@@ -78,7 +78,7 @@ static void mPage_showPage (mPage* self, int showCmd)
     ShowWindow (self->hwnd, showCmd);
 
     focus = GetNextDlgTabItem (self->hwnd, (HWND)0, 0);
-    if (SendMessage (self->hwnd, MSG_SHOWPAGE, focus, showCmd)
+    if (SendMessage (self->hwnd, MSG_SHOWPAGE, (WPARAM)focus, (LPARAM)showCmd)
             && showCmd == SW_SHOW) {
         if (focus) SetFocus(focus);
     }
@@ -101,7 +101,7 @@ HICON mPage_getIcon(mPage* self)
     return self->hIcon;
 }
 
-BOOL mPage_callUserHandler(mPage *self, void* handler, int message, WPARAM wParam, LPARAM lParam, int *pret)
+BOOL mPage_callUserHandler(mPage *self, void* handler, UINT message, WPARAM wParam, LPARAM lParam, LRESULT *pret)
 {
 	if(handler == NULL)
 		return FALSE;

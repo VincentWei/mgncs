@@ -684,7 +684,7 @@ static long save_field(mTextDataSource* self, mTextRecordNode* rn)
 
 static BOOL textds_update_fields(mTextDataSource* self)
 {
-	BOOL must_save = FALSE;
+	//BOOL must_save = FALSE;
 	int  pos = 0;
 	mTextRecordNode* node = self->head;
 	mTextRecordNode* prev = NULL;
@@ -696,7 +696,6 @@ static BOOL textds_update_fields(mTextDataSource* self)
 		//if(!must_save)
 		//	pos = node->pos;
 
-
 		if(node->flags & NCS_TRNF_DELETED)
 		{
 			mTextRecordNode* tn = node;
@@ -707,7 +706,7 @@ static BOOL textds_update_fields(mTextDataSource* self)
 				prev->next = node;
 			textds_update_bindprops_del_node(self, tn, TSBP_UPF_DEL);
 			delete_record_node(tn, self->field_count);
-			must_save = TRUE;
+			//must_save = TRUE;
 			continue;
 		}
 

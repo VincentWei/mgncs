@@ -85,7 +85,7 @@ static HITEM mItemView_createItem (mItemView *self, HITEM prev, HITEM next,
     mItem*  newItem = (mItem*)NEW(mItem);
 
     if (!newItem)
-        return -1;
+        return 0;
 
     if (height < 0)
         newItem->height = self->defItemHeight;

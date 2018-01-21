@@ -165,7 +165,7 @@ static mHotPiece * mPushToolItem_createContent(mPushToolItem* self, mPushToolIte
 
 static BOOL mPushToolItem_setProperty(mPushToolItem *self, int id, DWORD value)
 {
-	if(Class(mAbstractButtonPiece).setProperty((mPushToolItem*)self, id, value))
+	if(Class(mAbstractButtonPiece).setProperty((mAbstractButtonPiece*)self, id, value))
 		return TRUE;
 
 	return self->body ? _c(self->body)->setProperty(self->body, id, value) : FALSE;
@@ -174,7 +174,7 @@ static BOOL mPushToolItem_setProperty(mPushToolItem *self, int id, DWORD value)
 static DWORD mPushToolItem_getProperty(mPushToolItem *self, int id)
 {
 	if(id >= ABP_PROP_BEGIN && id <= ABP_PROP_END)
-		return Class(mAbstractButtonPiece).getProperty(self, id);
+		return Class(mAbstractButtonPiece).getProperty((mAbstractButtonPiece*)self, id);
 	if(self->body)
 	{
 		return _c(self->body)->getProperty(self->body, id);

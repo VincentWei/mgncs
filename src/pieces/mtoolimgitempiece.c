@@ -72,7 +72,7 @@ static void mToolImageItemPiece_paint(mToolImageItemPiece* self, HDC hdc, mWidge
 	
 	}
 	
-	Class(mToolImagePiece).paint((mToolImagePiece*)self, hdc, owner, idx);
+	Class(mToolImagePiece).paint((mToolImagePiece*)self, hdc, (mObject *)owner, idx);
 }
 
 BEGIN_MINI_CLASS(mToolImageItemPiece, mToolImagePiece)

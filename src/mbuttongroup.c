@@ -202,6 +202,7 @@ static BOOL check_button_by_idx(mButtonGroup* self, int idx)
 	return TRUE;
 }
 
+/* VW: not used.
 static BOOL check_button(mButtonGroup* self, mWidget* btn)
 {
 	mWidget* pclear = NULL;
@@ -233,6 +234,7 @@ static BOOL check_button(mButtonGroup* self, mWidget* btn)
 	
 	return TRUE;
 }
+*/
 
 static DWORD mButtonGroup_getProperty(mButtonGroup* self, int id)
 {

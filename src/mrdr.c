@@ -681,7 +681,7 @@ void ncsCommRDRDrawCheckbox(HDC hdc, const RECT* rc, DWORD fgcolor, DWORD bgcolo
 	if(flag & NCSRF_FILL) {
 		//fill RECT
 		gal_pixel old_brush = SetBrushColor(hdc, 
-			DWORD2PIXEL(hdc, bgcolor));
+			DWORD2Pixel(hdc, bgcolor));
 		FillBox(hdc, rc->left+1, rc->top+1, RECTWP(rc)-1, RECTHP(rc)-1);
 		SetBrushColor(hdc, old_brush);
 	}
@@ -724,7 +724,7 @@ void ncsCommRDRDrawCheckbox(HDC hdc, const RECT* rc, DWORD fgcolor, DWORD bgcolo
 void ncsCommRDRDrawRadio(HDC hdc,const RECT* rc, DWORD fgcolor, DWORD bgcolor, DWORD discolor, DWORD flag)
 {
 	int pen_width;
-	int old_pen_width;
+	//int old_pen_width;
 
 	int xo, yo;
 	int r;
@@ -734,7 +734,7 @@ void ncsCommRDRDrawRadio(HDC hdc,const RECT* rc, DWORD fgcolor, DWORD bgcolor, D
 
 	//pen width
 	pen_width = calc_pen_width(rc);
-	old_pen_width = SetPenWidth(hdc, pen_width);
+	/*old_pen_width = */SetPenWidth(hdc, pen_width);
 
 	xo = (rc->left+rc->right)/2;
 	yo = (rc->top+rc->bottom)/2;

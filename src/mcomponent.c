@@ -248,14 +248,14 @@ PUBLIC static BOOL mComponent_queryByPath(mComponent* self, int *id_path, DWORD 
 
 static inline BOOL vquery(mComponent* self, int cmd_id, DWORD *pret, va_list va)
 {
-	DWORD ret;
+	//DWORD ret;
 	switch(cmd_id)
 	{
 	case QPC_SET_PROP:
-		ret = _c(self)->setProperty(self, va_arg(va,int), va_arg(va, DWORD));
+		/*ret = */_c(self)->setProperty(self, va_arg(va,int), va_arg(va, DWORD));
 		break;
 	case QPC_GET_PROP:
-		ret = _c(self)->getProperty(self, va_arg(va,int));
+		/*ret = */_c(self)->getProperty(self, va_arg(va,int));
 		break;
 	case QPC_ADD_EVENT:
 		ncsAddEventListener((mObject*)self,va_arg(va,mObject*),va_arg(va, NCS_CB_ONOBJEVENT),va_arg(va,int));
@@ -266,6 +266,7 @@ static inline BOOL vquery(mComponent* self, int cmd_id, DWORD *pret, va_list va)
 	default:
 		return FALSE;
 	}
+
 	return TRUE;
 }
 

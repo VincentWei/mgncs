@@ -34,7 +34,7 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
     RECT rcClient;
     DWORD uFormat = DT_WORDBREAK;
 	DWORD color = 0;
-	gal_pixel old_color;
+	//gal_pixel old_color;
     const char* str = self->str;
 
 
@@ -58,7 +58,7 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
 		}
 	}
 
-	old_color = SetTextColor(hdc, ncsColor2Pixel(hdc, color));
+	/* old_color = */SetTextColor(hdc, ncsColor2Pixel(hdc, color));
 
     if(self->align == NCS_ALIGN_CENTER)
         uFormat |= DT_CENTER ;

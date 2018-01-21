@@ -2022,11 +2022,11 @@ void ncsInitIniDataSource(void)
 }
 
 ////////////////////////////////////////////
-#if defined(__VXWORKS__) || !defined(__NOUNIX__)
+//#if defined(__VXWORKS__) || !defined(__NOUNIX__)
+#if !defined(HAVE_FTRUNCATE)
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 
 int ftruncate(int fd, off_t length)
 {
@@ -2043,7 +2043,9 @@ int ftruncate(int fd, off_t length)
     for (i = 0; i < statbuff.st_size - length; i ++)
     {
         char c = 0;
-        (void)write(fd, &c, 1);
+        if (write(fd, &c, 1) < 1) {
+            return -1;
+        }
     }
 
 

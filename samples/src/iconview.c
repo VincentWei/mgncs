@@ -194,7 +194,7 @@ static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
         case IDC_DELETE:
         {
             int     count, sel;
-            char    *label = NULL;
+            //char    *label = NULL;
             HITEM   hItem;
 
             sel     = _c(iconvObj)->getCurSel(iconvObj);
@@ -202,7 +202,7 @@ static void btn_notify(mWidget *self, int id, int nc, DWORD add_data)
             hItem   = _c(iconvObj)->getItem(iconvObj, sel);
 
             if (sel >= 0) {
-                label = (char*)_c(iconvObj)->getAddData(iconvObj, hItem);
+                //label = (char*)_c(iconvObj)->getAddData(iconvObj, hItem);
                 _c(iconvObj)->removeItem(iconvObj, hItem);
 
                 if (sel == count -1)

@@ -36,12 +36,12 @@ static void set_all_window_elements(HWND hwnd, const char* rdr)
 	SetWindowElementRenderer(hwnd, rdr, NULL);
 }
 
-static int color_dlg_proc(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
+static LRESULT color_dlg_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if(message == MSG_INITDIALOG)
 	{
 		MY_COLOR_DLG_DATA *pdata = (MY_COLOR_DLG_DATA*)lParam;
-		int ret;
+		LRESULT ret;
 		if(pdata && pdata->rdr_name){
 			ret = DefColorDialogProc(hWnd, message, wParam, lParam);
 			set_all_window_elements(hWnd, pdata->rdr_name);

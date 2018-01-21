@@ -286,9 +286,9 @@ static BOOL py_find_associate_key(mPinyinIterator* it, NCS_PINYIN_IME_TABLE* ime
 static BOOL py_find_associate_words(mPinyinIterator* it, NCS_PINYIN_IME_TABLE* ime_table)
 {
 	//int offset_idx;
-	NCS_PINYIN_PHOFFSET* pff;
+	//NCS_PINYIN_PHOFFSET* pff;
 	//NCS_PINYIN_PHOFFSET  phOff;
-	const char* word_table;
+	//const char* word_table;
 	int idx = it->startKey;
 	int i = 0;
 	int max_words;
@@ -298,9 +298,8 @@ static BOOL py_find_associate_words(mPinyinIterator* it, NCS_PINYIN_IME_TABLE* i
 	if(max_words > PINYIN_MAX_WORD)
 		max_words = PINYIN_MAX_WORD;
 
-	word_table = ime_table->wordFile + (ime_table->wordNum+1)* sizeof(NCS_PINYIN_PHOFFSET);
-
-	pff = (NCS_PINYIN_PHOFFSET*)ime_table->wordFile;
+	//word_table = ime_table->wordFile + (ime_table->wordNum+1)* sizeof(NCS_PINYIN_PHOFFSET);
+	//pff = (NCS_PINYIN_PHOFFSET*)ime_table->wordFile;
 	pindex = (int*)ime_table->assocFile;
 
 	while(i < max_words

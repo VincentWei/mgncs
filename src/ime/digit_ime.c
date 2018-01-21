@@ -531,7 +531,7 @@ static unsigned int make_key(const char* pinyin, int len)
 
 static int binsearch_pinyin(mDigitPyEngine* self, unsigned int key, unsigned int max_key, int len, int low, int high)
 {
-	int mid;
+	int mid = 0;
 	unsigned int* keys = self->keys;
 	//unsigned int  mask = pinyin_mask[len-1];
 

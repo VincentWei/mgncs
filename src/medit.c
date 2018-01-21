@@ -121,7 +121,7 @@ static int mEdit_wndProc(mEdit *self, int message, WPARAM wParam, LPARAM lParam)
 
 
 #ifdef _MGNCS_USE_DBEDIT
-static BOOL mEdit_callUserHandler(mEdit* self, void *handler, int message, WPARAM wParam, LPARAM lParam, int *pret)
+static BOOL mEdit_callUserHandler(mEdit* self, void *handler, UINT message, WPARAM wParam, LPARAM lParam, LRESULT *pret)
 {
 	if(pret)
 		*pret = 0;

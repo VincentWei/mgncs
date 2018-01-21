@@ -66,7 +66,7 @@ BOOL ncsInitSkinRenderers(void)
 static PBITMAP get_sub_bitmap (const DRAWINFO *di)
 {
     Uint8  *start_bits;
-    int     i, w, h, pitch;
+    int     i, w, h;
     PBITMAP _sbmp = NULL;
 
     if (di->nr_col <= 0 || di->nr_line <= 0){
@@ -82,7 +82,6 @@ static PBITMAP get_sub_bitmap (const DRAWINFO *di)
 
     w = di->bmp->bmWidth / di->nr_col;
     h = di->bmp->bmHeight / di->nr_line;
-	pitch = di->bmp->bmPitch / di->nr_col;
 
 	_sbmp->bmWidth = w;
 	_sbmp->bmHeight = h;

@@ -227,7 +227,7 @@ static BOOL lstv_init(mDialogBox* self)
 {
     int     i, j;
     int     color;
-    HITEM   hItem = 0, subItem;
+    HITEM   hItem = 0; //, subItem;
     HWND    lstvWnd = GetDlgItem (self->hwnd, IDC_LISTVIEW);
     mListView *lstvObj;
     NCS_LISTV_ITEMINFO  info;
@@ -264,7 +264,7 @@ static BOOL lstv_init(mDialogBox* self)
         for (j = 0; j < SCORE_NUM; j++) { //>
             info.parent = hItem;
             info.index = j;
-            subItem = add_score_item (lstvObj, &info);
+            /*subItem = */add_score_item (lstvObj, &info);
         }
 
     }

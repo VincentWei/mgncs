@@ -104,7 +104,6 @@ static BOOL calc_and_add(mIMWordSel* self, BOOL bFromEnd)
 	SIZE size;
 	mLabelPiece * lp;
 	mLineLayoutPiece * l;
-	int  i;
 	int  pos;
 	char szWord[128];
 
@@ -118,7 +117,6 @@ static BOOL calc_and_add(mIMWordSel* self, BOOL bFromEnd)
 
 	_c(l)->getRect(l, &rc);
 
-	i = 0;
 	if(bFromEnd)
 	{
 		int start_idx = -1;

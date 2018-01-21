@@ -207,7 +207,7 @@ static void _draw_listbox (mListBox *self, HDC hdc)
     HITEM hItem;
 
     gal_pixel gp_select_fgc;
-    gal_pixel gp_hilite_fgc;
+    //gal_pixel gp_hilite_fgc;
     gal_pixel gp_sign_fgc;
     gal_pixel gp_disabled_fgc;
     gal_pixel gp_normal_fgc;
@@ -223,7 +223,7 @@ static void _draw_listbox (mListBox *self, HDC hdc)
     hItem = _c(self)->getItem (self, topItem);
 
 	gp_select_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_SELECTED_ITEM));
-	gp_hilite_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_HILIGHT_ITEM));
+	//gp_hilite_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_HILIGHT_ITEM));
 	gp_sign_fgc   = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, WE_FGC_SIGNIFICANT_ITEM));
 	gp_disabled_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_DISABLED_ITEM));
 	gp_normal_fgc  = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_WINDOW));
@@ -1015,7 +1015,11 @@ static int mListBox_select (mListBox* self, HITEM hItem)
         return oldSel;
     }
 
+#if 0 /* VW: oldSel is an index */
     if (hItem != _c(self)->indexOf(self, oldSel)) {
+#else
+    if (hItem != _c(self)->getItem(self, oldSel)) {
+#endif
         _c(self)->deselectByIdx(self, oldSel);
         Class(mItemView).select((mItemView*)self, hItem);
     }

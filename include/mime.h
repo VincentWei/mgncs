@@ -174,13 +174,13 @@ MGNCS_EXPORT extern mIMEClass g_stmIMECls;
 #define mIME_FromView(hwnd)  ((mIME*)GetWindowAdditionalData(hwnd))
 MGNCS_EXPORT void mIME_attach(mIME *ime, HWND hwnd);
 
-MGNCS_EXPORT void mIME_passMessage(mIME* ime, int message, WPARAM wParam, LPARAM lParam);
+MGNCS_EXPORT void mIME_passMessage(mIME* ime, UINT message, WPARAM wParam, LPARAM lParam);
 #define mIMView_passMessage(hwnd, message, wParam, lParam) \
 	mIME_passMessage(mIME_FromView(hwnd), (message), (wParam), (lParam))
 
 #define mIMManagerClassHeader(clss, super)                     \
 	mObjectClassHeader(clss, super)                        \
-	PROTECTED int (*procIMMsg)(clss*,int,WPARAM,LPARAM,int*); \
+	PROTECTED int (*procIMMsg)(clss*,UINT,WPARAM,LPARAM,int*); \
 	PROTECTED BOOL (*nextIME)(clss*);                      \
 	PROTECTED BOOL (*setIME)(clss*, const char*);          \
 	PUBLIC BOOL (*addIME)(clss*, mIME *ime);               \

@@ -958,7 +958,7 @@ int ncsGetBitmap(HDC hdc, HPACKAGE package, Uint32 resId,  PBITMAP pBitmap)
     char        *data;
     NCSRM_IDITEM *item;
     int         ret;
-    CACHED_IMAGEDATA info;
+    //CACHED_IMAGEDATA info;
 
     if (package == HPACKAGE_NULL && (resId >>16) != NCSRT_IMAGE)
         return -1;
@@ -973,19 +973,21 @@ int ncsGetBitmap(HDC hdc, HPACKAGE package, Uint32 resId,  PBITMAP pBitmap)
     if (item->offset == 0) {
         ret = LoadBitmap (hdc, pBitmap,
                 ncsGetString(package, item->filename_id));
-        info.is_incore = FALSE;
+        //info.is_incore = FALSE;
     }
     else {
         NCSRM_INCORE_IMAGE* incore_image = (NCSRM_INCORE_IMAGE*)(data + item->offset);
         ret = LoadBitmapFromMem (hdc, pBitmap,
                 incore_image->data, incore_image->size, incore_image->ext);
-        info.is_incore = TRUE;
+        //info.is_incore = TRUE;
     }
 
+/*
     if (ret) {
         info.image = pBitmap;
         info.type = IMAGE_BITMAP;
     }
+*/
 
     return ret;
 }
@@ -1005,7 +1007,7 @@ int ncsGetMyBitmap(HPACKAGE package,
     char        *data;
     int         ret;
     NCSRM_IDITEM *item;
-    CACHED_IMAGEDATA info;
+    //CACHED_IMAGEDATA info;
 
     if (package == HPACKAGE_NULL && (resId >>16) != NCSRT_IMAGE)
         return -1;
@@ -1020,19 +1022,21 @@ int ncsGetMyBitmap(HPACKAGE package,
     if (item->offset == 0) {
         ret = LoadMyBitmap (myBmp, pal,
                 ncsGetString(package, item->filename_id));
-        info.is_incore = FALSE;
+        //info.is_incore = FALSE;
     }
     else {
         NCSRM_INCORE_IMAGE* incore_image = (NCSRM_INCORE_IMAGE*)(data + item->offset);
         ret = LoadMyBitmapFromMem (myBmp, pal, incore_image->data,
                 incore_image->size, incore_image->ext);
-        info.is_incore = TRUE;
+        //info.is_incore = TRUE;
     }
 
+/*
     if (ret) {
         info.image = myBmp;
         info.type = IMAGE_MYBITMAP;
     }
+*/
 
     return ret;
 }

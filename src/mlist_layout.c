@@ -1184,7 +1184,7 @@ static void mLHCenterBoxLayout_update(mLHCenterBoxLayout *self,
     mNode *node;
     RECT rcDraw;
 	POINT pt;
-    int centerX, centerY;
+    //int centerX, centerY;
 	int loop;
 
     if (!self || !pList || !rcVis || !rcCont || RECTWP(rcCont) <= 0)
@@ -1193,8 +1193,8 @@ static void mLHCenterBoxLayout_update(mLHCenterBoxLayout *self,
     nrCol = RECTWP(rcVis) > self->itemWidth ? RECTWP(rcVis)/self->itemWidth + 1: 1;
 
     loop = nrCol >>1;
-    centerX = pt.x = RECTWP(rcVis)>>1;
-    centerY = pt.y = RECTHP(rcVis)>>1;
+    /*centerX = */pt.x = RECTWP(rcVis)>>1;
+    /*centerY = */pt.y = RECTHP(rcVis)>>1;
 
     node = _c(pList)->getCurSel(pList);
     if (!node) {

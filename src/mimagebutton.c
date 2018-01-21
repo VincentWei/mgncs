@@ -46,12 +46,12 @@ static mHotPiece* mImageButton_createButtonBody(mImageButton* self, DWORD dwStyl
 
     _c(body)->setProperty(body, NCSP_ABP_NOREPEATMSG, 1);
 
-	return body;
+	return (mHotPiece *)body;
 }
 
 static mObject* mImageButton_createContent(mImageButton* self, DWORD dwStyle)
 {
-	return NEWPIECE(mToolImageItemPiece);
+	return (mObject *)NEWPIECE(mToolImageItemPiece);
 }
 
 static BOOL mImageButton_setProperty(mImageButton* self, int id, DWORD value)
@@ -66,7 +66,7 @@ static BOOL mImageButton_setProperty(mImageButton* self, int id, DWORD value)
 	else if(NCSP_IMGBTN_IMAGE == id)
 	{
 		if(value == 0)
-			return NULL;
+			return FALSE;
 		return SetBodyProp(NCSP_TOOLIMAGEPIECE_TOOLIMAGE, (DWORD)ncsNewToolImage((PBITMAP)value, 4, FALSE, FALSE));
 	}
 	else if(NCSP_IMGBTN_TOOLIMAGE == id) {
