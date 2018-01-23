@@ -1,8 +1,12 @@
+if MGNCS_HAVE_LIBSUFFIX
+SUBDIRS=etc include src build
+else
+SUBDIRS=etc include src build samples
+endif
+
 AUTOMAKE_OPTIONS=foreign
 
-SUBDIRS=src include etc build
-
-EXTRA_DIST=makefile.ng rules.make LICENSE README.md RELEASE-NOTES.md samples
+EXTRA_DIST=makefile.ng rules.make LICENSE README.md RELEASE-NOTES.md
 
 libmgncsincludedir=$(includedir)/mgncs
 

@@ -36,7 +36,7 @@ extern "C" {
  */
 
 /**
- * \var typedef unsigned int HPACKAGE;
+ * \var typedef GHANDLE HPACKAGE;
  * \brief Handle to resource package.
  */
 typedef GHANDLE HPACKAGE;
@@ -184,10 +184,10 @@ typedef struct _NCSRM_WINHEADER
 
 
     /** The x coordinate of the window. */
-    Sint32    x;
+    Sint32  x;
 
     /** The y coordinate of the window. */
-    Sint32    y;
+    Sint32  y;
 
     /** The width of the window. */
     Uint32  w;
@@ -196,13 +196,13 @@ typedef struct _NCSRM_WINHEADER
     Uint32  h;
 
     /** The style of the window. */
-    DWORD   style;
+    DWORD32 style;
 
     /** The extended style of the window. */
-    DWORD   ex_style;
+    DWORD32 ex_style;
 
 	/** The back color of window. */
-	DWORD   bk_color;
+	DWORD32 bk_color;
 
 	/** Reserved. The font id of window. */
 	Uint32  font_id;
@@ -269,7 +269,7 @@ typedef struct _NCSRM_LOCALEITEM
 typedef struct _NCSRM_INCORE_IMAGE
 {
     /** The size of incore real image data, not include header. */
-    int     size;
+    Uint32  size;
 
     /** The extended name of image data. \sa NCSRT_EXT_LEN */
     char    ext[NCSRT_EXT_LEN + 1];
@@ -336,7 +336,7 @@ typedef struct _NCSRM_PROP
     /** The identifier of property. */
 	Sint32 id;
     /** The value of property. */
-	DWORD value;
+	DWORD32 value;
 } NCSRM_PROP;
 
 /**

@@ -31,7 +31,7 @@
 #include "mresmgr.h"
 #include "mrdr.h"
 
-//#define _MGRM_DEBUG
+#define _MGRM_DEBUG
 
 #ifdef _MGRM_DEBUG
 #define _MGRM_PRINTF(fmt...) fprintf (stderr, fmt)
@@ -278,7 +278,7 @@ static void* mmap_file (const char *file_name, long *file_size)
         return NULL;
 
     if ((fp = fopen (file_name, "rb")) == NULL) {
-        _MGRM_PRINTF ("RESMANAGER>mmap: can't open file: %s\n", file_name);
+        _MGRM_PRINTF ("mGNCS>ResManager: mmap: can't open file: %s\n", file_name);
         return NULL;
     }
 
@@ -296,10 +296,10 @@ static void* mmap_file (const char *file_name, long *file_size)
 
 #if HAVE_MMAP
     if (!data || (data == MAP_FAILED)) {
-        _MGRM_PRINTF ("RESMANAGER>mmap: mmap file[%s] error.\n", file_name);
+        _MGRM_PRINTF ("mGNCS>ResManager: mmap: mmap file[%s] error.\n", file_name);
 #else
     if (!data) {
-        _MGRM_PRINTF ("RESMANAGER>mmap: read file[%s] error.\n", file_name);
+        _MGRM_PRINTF ("mGNCS>ResManager: mmap: read file[%s] error.\n", file_name);
 #endif
         return 0;
     }
@@ -469,7 +469,7 @@ static int get_ui_data(HPACKAGE package, Uint32 wnd_id,
     item = getIDItem (package, wnd_id, &ui);
 
     if (item == 0) {
-        _MGRM_PRINTF ("RESMANAGER>Error: No found ui resource by id.\n");
+        _MGRM_PRINTF ("mGNCS>ResManager: Error: No found ui resource by id.\n");
         return UIDATA_ERR;
     }
 
@@ -491,7 +491,7 @@ static int get_ui_data(HPACKAGE package, Uint32 wnd_id,
 
     *data = ui + item->offset;
 #ifdef _MGRM_DEBUG
-        dump_ui_data (package, (NCSRM_WINHEADER*)*data);
+    dump_ui_data (package, (NCSRM_WINHEADER*)*data);
 #endif
 
     /*ST:incore*/
@@ -673,18 +673,19 @@ static NCS_PROP_ENTRY *get_props (HPACKAGE package, NCSRM_WINHEADER *win_header)
 
     for(i = 0, each = props; i <win_header->nr_props; i++, each++)
     {
+        _MGRM_PRINTF ("mGNCS>ResManager: Properties base %p.\n", base);
         each->id = base->id;
 
         if (base->type == NCSRM_RDRTYPE_IMAGE) {
             const char* file = ncsGetImageFileName (package, base->value);
 
             if (!file) {
-                _MGRM_PRINTF("RESMANAGER>Error: Get image res id(%d) error.\n", base->id);
+                _MGRM_PRINTF("mGNCS>ResManager: Get image res id(%d) error.\n", base->id);
                 each->value = 0;
             }
             else {
                 if (!RegisterResFromFile(HDC_SCREEN, file))
-                    _MGRM_PRINTF("RESMANAGER>Error: Register res id(%d) error.\n", base->id);
+                    _MGRM_PRINTF("mGNCS>ResManager: Register res id(%d) error.\n", base->id);
 
                 each->value = (DWORD)GetBitmapFromRes(Str2Key(file));
             }
@@ -839,7 +840,7 @@ HPACKAGE ncsLoadResPackageFromFile (const char* fileName)
     //mgrp
     if (res_head->magic !=0x4d475250) {
 
-        _MGRM_PRINTF ("RESMANAGER>Error: Header info, No MiniGUI res package:0x%0x.\n",
+        _MGRM_PRINTF ("mgNCS>ResManager: Header info, No MiniGUI res package:0x%0x.\n",
                 res_head->magic);
 
         ncsUnloadResPackage((HPACKAGE)package);
@@ -929,7 +930,7 @@ const char* ncsGetString (HPACKAGE package, Uint32 resId)
     item = getIDItem (package, resId, &string);
 
     if (item == 0) {
-        _MGRM_PRINTF ("RESMANAGER>Error: Not found string resource"
+        _MGRM_PRINTF ("mgNCS>ResManager: Not found string resource"
                       "by id:0x%0x.\n", resId);
         return NULL;
     }
@@ -966,7 +967,7 @@ int ncsGetBitmap(HDC hdc, HPACKAGE package, Uint32 resId,  PBITMAP pBitmap)
     item = getIDItem (package, resId, &data);
 
     if (item == 0) {
-        _MGRM_PRINTF ("RESMANAGER>Error: Not found resource by id.\n");
+        _MGRM_PRINTF ("mgNCS>ResManager: Not found resource by id.\n");
         return -1;
     }
 
@@ -1015,7 +1016,7 @@ int ncsGetMyBitmap(HPACKAGE package,
     item = getIDItem (package, resId, &data);
 
     if (item == 0) {
-        _MGRM_PRINTF ("RESMANAGER>Error: Not found resource by id.\n");
+        _MGRM_PRINTF ("mgNCS>ResManager: Not found resource by id.\n");
         return -1;
     }
 
@@ -1179,7 +1180,7 @@ mMainWnd *ncsCreateMainWindowIndirectFromID (HPACKAGE package, Uint32 wndId,
     uitype = get_ui_data(package, wndId, (void*)&header, &id);
 
     if (uitype == UIDATA_ERR) {
-        printf ("Error=>ResManager: ID(0x%0x) isn't valid main window id. \n", wndId);
+        printf ("mGNCS>ResManager: ID(0x%0x) isn't valid main window id. \n", wndId);
         return NULL;
     }
 
@@ -1214,7 +1215,7 @@ mMainWnd *ncsCreateMainWindowIndirectFromID (HPACKAGE package, Uint32 wndId,
     del_list(package, id);
 
     if (mainWnd == NULL) {
-        printf ("RESMANAGER>Error: According to ID(0x%0x), create main window or dialog failure. \n", wndId);
+        printf ("mgNCS>ResManager: According to ID(0x%0x), create main window or dialog failure. \n", wndId);
         return NULL;
     }
 
@@ -1284,29 +1285,29 @@ BOOL ncsSetWinRdr(HWND hWnd, HPACKAGE package, Uint32 rdrId)
     mWidget         *self;
 
     if (package == HPACKAGE_NULL && rdrId>>16 != NCSRT_RDR) {
-        _MGRM_PRINTF ("RESMANAGER>Error: Invalid renderer resource id.\n");
+        _MGRM_PRINTF ("mGNCS>ResManager: Error: Invalid renderer resource id.\n");
         return FALSE;
     }
 
     self = ncsObjFromHandle(hWnd);
 
     if (!self) {
-        _MGRM_PRINTF ("RESMANAGER>Error: Invalid window class.\n");
+        _MGRM_PRINTF ("mGNCS>ResManager: Error: Invalid window class.\n");
         return FALSE;
     }
 
     if (get_rdr_info(package, rdrId, &rdrinfo, &clsname) == FALSE) {
-        _MGRM_PRINTF ("RESMANAGER>Error: Get renderer information failure.\n");
+        _MGRM_PRINTF ("mGNCS>ResManager: Error: Get renderer information failure.\n");
         return FALSE;
     }
 
 
-    _MGRM_PRINTF ("RESMANAGER>Info: ncsSetWinRdr, clsname:%s, rdr_name:%s; self information, ctrl_rdr:%s, className:%s \n",
+    _MGRM_PRINTF ("mGNCS>ResManager: Info: ncsSetWinRdr, clsname:%s, rdr_name:%s; self information, ctrl_rdr:%s, className:%s \n",
             clsname, rdrinfo->ctl_rdr, self->renderer->rdr_name, _c(self)->className);
 
     if (!ncsIsChildClass(_c(self)->className, clsname))
     {
-        _MGRM_PRINTF ("RESMANAGER>Error: %s is not %s's child class.\n", clsname, _c(self)->className);
+        _MGRM_PRINTF ("mGNCS>ResManager: Error: %s is not %s's child class.\n", clsname, _c(self)->className);
        free_rdr_info(rdrinfo);
        return FALSE;
     }
@@ -1322,7 +1323,7 @@ BOOL ncsSetWinRdr(HWND hWnd, HPACKAGE package, Uint32 rdrId)
         }
 
         if (!rdr) {
-            _MGRM_PRINTF ("RESMANAGER>Error: Get %s renderer class failure.\n", rdrinfo->ctl_rdr);
+            _MGRM_PRINTF ("mGNCS>ResManager: Error: Get %s renderer class failure.\n", rdrinfo->ctl_rdr);
             free_rdr_info (rdrinfo);
             return FALSE;
         }
@@ -1341,7 +1342,7 @@ BOOL ncsSetWinRdr(HWND hWnd, HPACKAGE package, Uint32 rdrId)
     free_rdr_info(rdrinfo);
     SetWindowElementRenderer(hWnd, rdrinfo->ctl_rdr, NULL);
 
-    _MGRM_PRINTF ("RESMANAGER>Info: ncsSetWinRdr ok.\n");
+    _MGRM_PRINTF ("mGNCS>ResManager: Info: ncsSetWinRdr ok.\n");
 
     return TRUE;
 }
@@ -1397,8 +1398,8 @@ static void dump_ui_data (HPACKAGE package, NCSRM_WINHEADER *win_header)
                     serial   No.:           0x%0x \n \
                     caption   ID:           0x%0x \n \
                     renderer  ID:           0x%0x \n \
-                    window style:           0x%lx \n \
-                    window extended style:  0x%lx \n \
+                    window style:           0x%0x \n \
+                    window extended style:  0x%0x \n \
                     position(x, y, w, h):   (%d,%d,%d,%d) \n \
                     window size:            0x%0x \n \
                     properties offset:      0x%0x \n \
@@ -1409,11 +1410,11 @@ static void dump_ui_data (HPACKAGE package, NCSRM_WINHEADER *win_header)
                     additional data size:   0x%0x \n",
                     win_header->class_id,
                     win_header->wnd_id,
-                    win_header->serial_num;
+                    win_header->serial_num,
                     win_header->caption_id,
                     win_header->rdr_id,
-                    win_header->style,
-                    win_header->ex_style,
+                    (Uint32)win_header->style,
+                    (Uint32)win_header->ex_style,
                     win_header->x,
                     win_header->y,
                     win_header->w,
@@ -1436,8 +1437,8 @@ static void dump_ui_data (HPACKAGE package, NCSRM_WINHEADER *win_header)
 
         for (i = 0; i < win_header->nr_props; i++) {
 
-            _MGRM_PRINTF ( "props[%d] id[0x%0x], value[0x%lx]. \n",
-                    i, props->id, props->value);
+            _MGRM_PRINTF ( "props[%d] id[0x%0x], value[0x%0x]. \n",
+                    i, props->id, (Uint32)props->value);
             props ++;
         }
     }
@@ -1712,7 +1713,7 @@ BOOL ncsGetWndTemplFromID(HPACKAGE package, Uint32 wndId, \
 	uitype = get_ui_data(package, wndId, (void*)&header, &id);
 
 	if(uitype == UIDATA_ERR) {
-        printf ("RESMANAGER>Error: According to ID(0x%0x), get window template information failure. \n", wndId);
+        printf ("mGNCS>ResManager: Error: According to ID(0x%0x), get window template information failure. \n", wndId);
 		return FALSE;
     }
 

@@ -340,7 +340,7 @@ static LRESULT ncsWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     _c(self)->release(self);
 
     //Note: for main window, we should cleanup to avoid memory leak.
-    //please don't process it in _default_wnd_proc£¬it will cause
+    //please don't process it in _default_wnd_proc, it will cause
     //invalid read when release widget.
     if (cleanMainWnd) {
         MainWindowCleanup(hWnd);
