@@ -12,7 +12,7 @@
 #include "mtype.h"
 #include "xquery.h"
 
-static inline int is_space(ch)
+static inline int is_space(char ch)
 {
 	return (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n');
 }

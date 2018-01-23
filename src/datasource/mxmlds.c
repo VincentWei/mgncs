@@ -17,7 +17,6 @@
 #include "mcommon.h"
 #include "mobject.h"
 #include "mtype.h"
-#include "mreferencedobj.h"
 #include "mcomponent.h"
 #include "mdatabinding.h"
 #include "mdatasource.h"
@@ -43,7 +42,7 @@ typedef struct _xml_rs_create_info {
 DWORD ncsXMLNodeGetContent(mXMLRecordSet* rs, int field_idx, xmlNodePtr node)
 {
     if(!rs || !node)
-        return NULL;
+        return 0;
     if(node->_private)
     {
     switch (_c(rs)->getFieldType(rs, field_idx))
@@ -66,7 +65,7 @@ DWORD ncsXMLNodeGetContent(mXMLRecordSet* rs, int field_idx, xmlNodePtr node)
                   return (DWORD)ret;
               }
         default:
-            return NULL;
+            return 0;
      }
     }else{
         node->_private = (void*)xmlNodeGetContent(node);
@@ -74,7 +73,7 @@ DWORD ncsXMLNodeGetContent(mXMLRecordSet* rs, int field_idx, xmlNodePtr node)
         {
              return ncsXMLNodeGetContent(rs, field_idx, node);
         }
-        return NULL;
+        return 0;
     }
 }
 
@@ -98,7 +97,7 @@ static xmlNodePtr _getField(xmlNodePtr node, char *str)
 //    	if ( xmlHasProp(node, str+1) )
 //    		return node;
 //    	return NULL;
-    	return (xmlNodePtr)xmlHasProp(node, str+1);
+    	return (xmlNodePtr)xmlHasProp(node, (xmlChar*)str + 1);
     }
     else if(*str == '$')
     {
@@ -191,7 +190,7 @@ static mXMLRecordSet * mXMLDataSource_selectRecordSet(mXMLDataSource* self, cons
 	cinfo.source = self;
 	cinfo.flags = select_type;
     cinfo.field_count = parse_xquery(xpath, xpath_buff, sizeof(xpath_buff)-1, &cinfo.fields);
-	cinfo.pxpathobj = _getXpathObject( self->pxmldoc, xpath_buff);
+	cinfo.pxpathobj = _getXpathObject( self->pxmldoc, (xmlChar*)xpath_buff);
     if( cinfo.pxpathobj == NULL )
     {
 		fprintf(stderr, "xml XPATH GET OBJ failed! \n" );
@@ -203,7 +202,7 @@ static mXMLRecordSet * mXMLDataSource_selectRecordSet(mXMLDataSource* self, cons
 
 static DWORD mXMLDataSource_getValue(mXMLDataSource *self, const char *xpath, BOOL *bok)
 {
-	return (DWORD)NULL;
+	return 0;
 
 }
 
@@ -242,7 +241,7 @@ static void mXMLRecordSet_destroy(mXMLRecordSet* self)
 {
     int i = 0;
     xmlNodePtr record_node, field_node;
-    record_node = _c(self)->seekCursor(self, NCS_RS_CURSOR_BEGIN, 0 );
+    record_node = (xmlNodePtr)_c(self)->seekCursor(self, NCS_RS_CURSOR_BEGIN, 0 );
     while( !_c(self)->isEnd(self ) )
     {
         for( i=0; i<self->field_count; i++ )
@@ -255,7 +254,7 @@ static void mXMLRecordSet_destroy(mXMLRecordSet* self)
                 xmlFree( field_node->_private );
             }
         }
-        record_node = _c(self)->seekCursor(self, NCS_RS_CURSOR_CUR, 1);
+        record_node = (xmlNodePtr)_c(self)->seekCursor(self, NCS_RS_CURSOR_CUR, 1);
     }
     xmlXPathFreeObject( self->pxpathobj );
 	Class(mRecordSet).destroy((mRecordSet*)self);
@@ -303,7 +302,7 @@ static DWORD mXMLRecordSet_seekCursor(mXMLRecordSet* self, int seek, int offset)
 	int index = 0;
     int count = _c(self)->getRecordCount(self);
 	if(!self || !self->source)
-		return NULL;
+		return 0;
 
 	switch(seek)
 	{
@@ -330,22 +329,22 @@ static DWORD mXMLRecordSet_seekCursor(mXMLRecordSet* self, int seek, int offset)
     {
     	self->cur_cursor = count - 1;
         self->is_end = TRUE;
-		return (DWORD)NULL;
+		return 0;
     }
     else if (self->cur_cursor < 0)
 	{
     	self->cur_cursor = 0;
         self->is_end = TRUE;
-		return (DWORD)NULL;
+		return 0;
 	}
     self->is_end = FALSE;
-    return ( DWORD )self->pxpathobj->nodesetval->nodeTab[index];
+    return (DWORD)self->pxpathobj->nodesetval->nodeTab[index];
 }
 
 static DWORD mXMLRecordSet_getField(mXMLRecordSet *self, int idx)
 {
     char* str;
-    xmlChar* retstr = NULL;
+    //xmlChar* retstr = NULL;
     xmlNodePtr cur_record, match_field;
 	if(idx <= 0 || idx > self->field_count)
 		return -1;
@@ -353,8 +352,9 @@ static DWORD mXMLRecordSet_getField(mXMLRecordSet *self, int idx)
     str = self->fields[idx-1]+1;
     match_field = _getField(cur_record, str);
     if(NULL == match_field)
-    	return NULL;
-    mtrace();
+    	return 0;
+
+    //mtrace();
     return ncsXMLNodeGetContent(self, idx, match_field);
     //return xmlNodeGetContent(match_field);
 #if 0
@@ -402,7 +402,7 @@ static BOOL mXMLRecordSet_newRecord(mXMLRecordSet* self, int insert_type)
 
     for ( ; idx < self->field_count; idx++ )
     {
-        _c(self)->setField(self, idx, NULL);
+        _c(self)->setField(self, idx, 0);
     }
 
 	switch(insert_type)

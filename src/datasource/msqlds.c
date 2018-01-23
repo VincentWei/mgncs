@@ -246,7 +246,7 @@ static DWORD mSQLiteRecordSet_getField(mSQLiteRecordSet* self, int idx)
 
 	str = (char *)sqlite3_column_text(self->stmt, idx - 1);
 
-	return str;
+	return (DWORD)str;
 }
 
 static DWORD mSQLiteRecordSet_getCursor(mSQLiteRecordSet* self)

@@ -42,7 +42,6 @@ int MiniGUIMain(int argc, const char* argv[])
 		printf ("load resource package:%s failure.\n", f_package);
 		return 1;
 	}
-	printf ("hPackage: %p\n", hPackage);
 // END_OF_LOADRESPKG
 
 // START_OF_GETSTRING
