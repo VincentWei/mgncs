@@ -31,7 +31,7 @@
 #include "mresmgr.h"
 #include "mrdr.h"
 
-#define _MGRM_DEBUG
+//#define _MGRM_DEBUG
 
 #ifdef _MGRM_DEBUG
 #define _MGRM_PRINTF(fmt...) fprintf (stderr, fmt)
@@ -673,7 +673,7 @@ static NCS_PROP_ENTRY *get_props (HPACKAGE package, NCSRM_WINHEADER *win_header)
 
     for(i = 0, each = props; i <win_header->nr_props; i++, each++)
     {
-        _MGRM_PRINTF ("mGNCS>ResManager: Properties base %p.\n", base);
+        _MGRM_PRINTF ("mGNCS>ResManager: Properties base %p, type (%x), id (%d).\n", base, base->type, base->id);
         each->id = base->id;
 
         if (base->type == NCSRM_RDRTYPE_IMAGE) {
@@ -699,7 +699,7 @@ static NCS_PROP_ENTRY *get_props (HPACKAGE package, NCSRM_WINHEADER *win_header)
         else {
             each->value = base->value;
         }
-        //FIXME ,TODO ,other type should be deal
+        //FIXME, TODO, other type should be deal
         base++;
     }
     //end info

@@ -13,7 +13,7 @@
 #include "piece.h"
 #include "mdatabinding.h"
 
-static BOOL processMessageHandlers(mWidget* widget, int message, WPARAM wParam, LPARAM lParam, LRESULT *pret);
+static BOOL processMessageHandlers(mWidget* widget, UINT message, WPARAM wParam, LPARAM lParam, LRESULT *pret);
 
 static void processNotifyMessage(HWND hwnd, int id, int nc_code,DWORD add_data);
 
@@ -217,7 +217,7 @@ static mWidget* createWidget(HWND hWnd)
 		NCS_MAIN_CREATE_INFO *main_create_info =
 			(NCS_MAIN_CREATE_INFO*)GetWindowAdditionalData(hWnd);
 		_class = ncsGetMainWndClass(main_create_info?main_create_info->className:NULL);
-		//set NCS_CREATE_INFO int to additonal data
+		//set NCS_CREATE_INFO in to additonal data
 		if(main_create_info)
 			SetWindowAdditionalData(hWnd, (DWORD)main_create_info->create_info);
 	}
@@ -390,7 +390,7 @@ static BOOL mWidget_refresh(mWidget *self)
 }
 #endif
 
-static int mWidget_wndProc(mWidget* self,  int message, WPARAM wParam, LPARAM lParam)
+static LRESULT mWidget_wndProc(mWidget* self, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	mWidgetClass* _class = self->_class;
 	mHotPiece * hotfocus, * body;
@@ -1004,7 +1004,7 @@ BEGIN_CMPT_CLASS(mWidget, mComponent)
 #endif
 END_CMPT_CLASS
 
-static BOOL processMessageHandlers(mWidget* widget, int message, WPARAM wParam, LPARAM lParam, LRESULT *pret)
+static BOOL processMessageHandlers(mWidget* widget, UINT message, WPARAM wParam, LPARAM lParam, LRESULT *pret)
 {
 	void *handler;
 
@@ -1237,12 +1237,13 @@ mWidget* ncsCreateMainWindowIndirect(const NCS_MNWND_TEMPLATE* tmpl, HWND host)
 {
 	HWND hMain;
 	WNDCLASS WndClass;
-	NCS_RDR_INFO *rdr_info;
+    NCS_RDR_INFO *rdr_info;
 	NCS_MAIN_CREATE_INFO main_create_info;
 	MAINWINCREATE MainCreate;
 
-	if(tmpl == NULL)
+	if (tmpl == NULL)
 		return NULL;
+
 	main_create_info.className = tmpl->class_name;
 	main_create_info.create_info = (NCS_CREATE_INFO*)&tmpl->props;
 
@@ -1277,7 +1278,7 @@ mWidget* ncsCreateMainWindowIndirect(const NCS_MNWND_TEMPLATE* tmpl, HWND host)
 #if MINIGUI_MAJOR_VERSION >= 3
 	hMain = CreateMainWindowEx(&MainCreate, \
 		rdr_info?rdr_info->glb_rdr:NULL, \
-		(const WINDOW_ELEMENT_ATTR*)(rdr_info && rdr_info->elements?rdr_info->elements:NULL),
+		(const WINDOW_ELEMENT_ATTR*)((rdr_info && rdr_info->elements)?rdr_info->elements:NULL),
 		NULL, NULL);
 #else
 	hMain = CreateMainWindow(&MainCreate);
