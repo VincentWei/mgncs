@@ -6,7 +6,7 @@ AM_CPPFLAGS=-I$(TOP_DIR) -I$(TOP_DIR)/include -I.
 
 SUBDIRS=res
 
-COMMON_LDADD=../../src/libmgncs.la $(APP_LIBS)
+COMMON_LDADD=../../src/.libs/libmgncs.a $(APP_LIBS)
 
 noinst_PROGRAMS=helloworld helloworld_domodal helloworld_dlgbox \
     wnd_template event_listener data_source data_binding \
