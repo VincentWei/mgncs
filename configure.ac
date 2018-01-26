@@ -693,3 +693,10 @@ AC_CONFIG_FILES([
 ])
 
 AC_OUTPUT
+
+echo
+echo "Creating include directory for samples"
+if test ! -h mgncs; then
+    ln -s include mgncs
+fi
+echo "Done."
