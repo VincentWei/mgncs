@@ -4,6 +4,8 @@ else
 SUBDIRS=etc include src build samples
 endif
 
+DIST_SUBDIRS=samples
+
 AUTOMAKE_OPTIONS=foreign
 
 EXTRA_DIST=makefile.ng rules.make LICENSE README.md RELEASE-NOTES.md

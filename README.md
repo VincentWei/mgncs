@@ -23,17 +23,12 @@ Run
     $ ./configure; make; sudo make install
 
 to configure, make, and install the headers and the libraries (libmgncs).
+The samples in `samples/` sub directory will be built as well.
 
 mGNCS also provides some configuration options to customize the features.
 For more information, please run
 
     $ ./configure --help
-
-After installed mGNCS successfully, you can change to samples/ to make
-the samples:
-
-    $ cd samples/
-    $ make
 
 ## Copying
 
