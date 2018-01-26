@@ -1,16 +1,60 @@
 # Release Notes
 
-## Version 1.0.9
+## Version 1.2.0
 
-The MiniGUI development team announces the availability of mGNCS 1.0.9 RC1.
-This release is the first Release Candidate for 1.0.9. All users of MiniGUI are
-encouraged to test this version carefully, and report any bugs and incompatibilities
-in [the bug tracking system](http://bugs.minigui.org) (see soon). 
+The MiniGUI development team announces the availability of mGNCS 1.2.0,
+which is compliant to MiniGUI 3.2.x.
+
+All users of MiniGUI are encouraged to use this version with your new MiniGUI
+apps, and report any bugs and incompatibilities to:
+
+    https://github.com/VincentWei/mgncs
 
 ### What's new in this version
 
-    * The autoconf/automake config scripts are cleaned up.
+  * Tune code to comply with MiniGUI 3.2.x.
+  * Tune code for 64-bit platform.
+  * Tune code to eliminate all warnings.
 
 ### API changes
 
-    (none).
+The handle type `HPACKAGE` is now defined as aliases of `PVOID` 
+(`typedef void* PVOID`). You may need to check your code to 
+reflect this change. 
+
+MiniGUI V3.2 now uses a `UINT` instead of an `int` integer for 
+the message identifier, and uses a `LRESULT` integer for the return 
+value of a window callback procedure. 
+
+Therefore, the property `wndProc` of `mWidget` changed from
+
+    int (*wndProc)(clsName* , int, WPARAM, LPARAM);
+to
+
+    LRESULT (*wndProc)(clsName* , UINT, WPARAM, LPARAM);
+
+the property of `callUserHandler` of `mWidget` changed from
+
+    BOOL (*callUserHandler)(clsName* self, void *handler, int message, \
+        WPARAM wParam, LPARAM lParam, int *pRet);
+
+to
+
+    BOOL (*callUserHandler)(clsName* self, void *handler, UINT message, \
+        WPARAM wParam, LPARAM lParam, LRESULT *pRet);
+
+## Version 1.0.9
+
+The MiniGUI development team announces the availability of mGNCS 1.0.9.
+All users of MiniGUI are encouraged to test this version carefully, and 
+report any bugs and incompatibilities to
+
+    https://github.com/VincentWei/mgncs
+
+### What's new in this version
+
+  * The autoconf/automake config scripts are cleaned up.
+
+### API changes
+
+(none).
