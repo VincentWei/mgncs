@@ -7,7 +7,6 @@
 #include <minigui/minigui.h>
 #include <minigui/gdi.h>
 #include <minigui/window.h>
-#include <mgutils/mgutils.h>
 
 #include "mgncsconfig.h"
 #include "mcommon.h"
@@ -19,6 +18,8 @@
 #include "piece.h"
 
 #ifdef _MGNCSCTRL_COLORBUTTON
+
+#include <mgutils/mgutils.h>
 
 typedef struct _my_color_dlg_data {
 	COLORDLGDATA data;
