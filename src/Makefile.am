@@ -34,7 +34,8 @@ RENDER_SRCS=mrdr.c hashtable.c
 
 TEXTEITOR_SRCS=mbtree.c mtextedit.c
 
-libmgncs@MGNCS_LIBSUFFIX@_la_LIBADD = renderer/classic/libclassic.la \
+libmgncs@MGNCS_LIBSUFFIX@_la_LIBADD = @DEP_LIBS@ \
+                        renderer/classic/libclassic.la \
 						renderer/skin/libskin.la \
 						renderer/fashion/libfashion.la \
 						renderer/flat/libflat.la \

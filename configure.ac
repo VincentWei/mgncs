@@ -279,7 +279,7 @@ if test "x$build_datasource_sqlite" = "xyes"; then
     AC_DEFINE(_MGNCSDB_DATASOURCE, 1,
         [Define if support datasource])
     AC_DEFINE(_MGNCSDB_SQLITE, 1,
-		[Define if support sqlite])
+		[Define if support sqlite datasource])
 fi
 
 AC_ARG_ENABLE(dbxml,
@@ -296,7 +296,7 @@ if test "x$build_datasource_xml" = "xyes"; then
     AC_DEFINE(_MGNCSDB_DATASOURCE, 1,
         [Define if support datasource])
     AC_DEFINE(_MGNCSDB_XML, 1,
-		[Define if support xml])
+		[Define if support xml datasource])
     CPPFLAGS="$CPPFLAGS -I/usr/include/libxml2"
 fi
 
