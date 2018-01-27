@@ -384,7 +384,7 @@ mComponent *ncsCompGetRoot(mComponent* self)
 }
 
 /////////////////////////////////////
-void * ncsSetComponentHandler(mComponent* comp, int message, void *handler)
+void * ncsSetComponentHandler(mComponent* comp, UINT message, void *handler)
 {
 	NCS_EVENT_HANDLER_NODE * handlers;
 	if(comp == NULL || handler == NULL)
@@ -451,7 +451,7 @@ void ncsSetComponentHandlers(mComponent* comp, NCS_EVENT_HANDLER* handlers, int 
 
 }
 
-void* ncsGetComponentHandler(mComponent* comp, int message)
+void* ncsGetComponentHandler(mComponent* comp, UINT message)
 {
 	NCS_EVENT_HANDLER_NODE * hnode ;
 	if(comp == NULL)

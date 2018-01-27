@@ -274,7 +274,7 @@ typedef struct _NCS_EVENT_HANDLER_NODE {
 	/**
 	 * The event code 
 	 */
-	int message;
+	UINT message;
 	/**
 	 * A callback of event
 	 * 
@@ -339,7 +339,7 @@ typedef struct _NCS_EVENT_HANDLER {
 	/**
 	 * The event code
 	 */
-	int message;
+	UINT message;
 	/**
 	 * The event callback pointer
 	 */
@@ -347,7 +347,7 @@ typedef struct _NCS_EVENT_HANDLER {
 }NCS_EVENT_HANDLER;
 
 /**
- * \fn void * ncsSetComponentHandler(mComponent* comp, int message, void *handler);
+ * \fn void * ncsSetComponentHandler(mComponent* comp, UINT message, void *handler);
  * \brief set the component handler
  *
  * \param comp the compont to set
@@ -358,7 +358,7 @@ typedef struct _NCS_EVENT_HANDLER {
  *
  * \sa ncsSetComponentHandlers
  */
-MGNCS_EXPORT void * ncsSetComponentHandler(mComponent* comp, int message, void *handler);
+MGNCS_EXPORT void * ncsSetComponentHandler(mComponent* comp, UINT message, void *handler);
 
 /**
  * \fn void ncsSetComponentHandlers(mComponent* comp, NCS_EVENT_HANDLER* handlers, int count);
@@ -376,7 +376,7 @@ MGNCS_EXPORT void * ncsSetComponentHandler(mComponent* comp, int message, void *
 MGNCS_EXPORT void ncsSetComponentHandlers(mComponent* comp, NCS_EVENT_HANDLER* handlers, int count);
 
 /**
- * \fn void* ncsGetComponentHandler(mComponent* comp, int message);
+ * \fn void* ncsGetComponentHandler(mComponent* comp, UINT message);
  * \brief get an event callback 
  *
  * \param comp 
@@ -384,7 +384,7 @@ MGNCS_EXPORT void ncsSetComponentHandlers(mComponent* comp, NCS_EVENT_HANDLER* h
  * 
  * \return void * the handler of message, or NULL if not set
  */
-MGNCS_EXPORT void* ncsGetComponentHandler(mComponent* comp, int message);
+MGNCS_EXPORT void* ncsGetComponentHandler(mComponent* comp, UINT message);
 
 /**
  * A struct of connection map
