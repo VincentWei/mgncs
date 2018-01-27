@@ -10,12 +10,7 @@
 
 #include <mgplus/mgplus.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mrdr.h"
+#include "mgncs.h"
 
 #include "fashion_common.h"
 

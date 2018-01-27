@@ -11,14 +11,7 @@
 
 #include <mgplus/mgplus.h>
 
-#ifdef __MGNCS_LIB__
-#   undef PACKAGE_BUGREPORT
-#   undef PACKAGE_NAME
-#   undef PACKAGE_STRING
-#   undef PACKAGE_TARNAME
-#   undef PACKAGE_VERSION
-#endif
-#include "mgncsconfig.h"
+#include "mgncs.h"
 #include "mcommon.h"
 #include "mobject.h"
 #include "mcomponent.h"

@@ -10,16 +10,7 @@
 
 #include <mgplus/mgplus.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mscroll_widget.h"
-#include "mcontainer.h"
-#include "mpage.h"
-#include "mpropsheet.h"
-#include "mrdr.h"
+#include "mgncs.h"
 #include "fashion_common.h"
 
 #ifdef _MGNCSCTRL_PROPSHEET
