@@ -42,7 +42,7 @@ DECLARE_OBJECT(mImageButton)
 
 typedef mButtonRenderer mImageButtonRenderer;
 
-DEFINE_OBJECT(mImageButton, mImageButton)
+DEFINE_OBJECT(mImageButton, mButton)
 
 enum mImageButtonProp {
 	NCSP_IMGBTN_IMAGE = NCSP_BUTTON_IMAGE,

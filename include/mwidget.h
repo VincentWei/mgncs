@@ -22,6 +22,7 @@
 #ifndef _MGUI_NCSCTRL_WIDGET_H
 #define _MGUI_NCSCTRL_WIDGET_H
  
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -1133,7 +1134,7 @@ MGNCS_EXPORT mWidget* ncsCreateWindowIndirect( const NCS_WND_TEMPLATE* tmpl, HWN
  */
 typedef struct _NCS_MNWND_TEMPLATE{
 	const char*         class_name;
-	int                 id;
+	intptr_t            id;
 	int                 x, y, w, h;
 	DWORD               style;
 	DWORD               ex_style;
@@ -1143,7 +1144,7 @@ typedef struct _NCS_MNWND_TEMPLATE{
 	NCS_RDR_INFO*       rdr_info;
 	NCS_EVENT_HANDLER*  handlers;
 	NCS_WND_TEMPLATE*   ctrls;
-	int                 count;
+	intptr_t            count;
 	DWORD               user_data;
 
 	//FIXED ME Maybe I  should not put these two param here

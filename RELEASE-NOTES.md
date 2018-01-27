@@ -18,9 +18,13 @@ apps, and report any bugs and incompatibilities to:
 
 ### API changes
 
+#### HPACKAGE
+
 The handle type `HPACKAGE` is now defined as aliases of `PVOID` 
 (`typedef void* PVOID`). You may need to check your code to 
 reflect this change. 
+
+#### Window procedure
 
 MiniGUI V3.2 now uses a `UINT` instead of an `int` integer for 
 the message identifier, and uses a `LRESULT` integer for the return 
@@ -42,6 +46,27 @@ to
 
     BOOL (*callUserHandler)(clsName* self, void *handler, UINT message, \
         WPARAM wParam, LPARAM lParam, LRESULT *pRet);
+
+#### Wiget identifier
+
+We now use a `intptr_t` integer for the identifier of a mWidget object. 
+So you can pass a pointer as the identifier of the animation on 64-bit 
+platform. 
+
+As a result, the definition of the struct `NCS_MNWND_TEMPLATE` changed:
+
+        typedef struct _NCS_MNWND_TEMPLATE{
+            const char*         class_name;
+            intptr_t            id;
+            int                 x, y, w, h;
+
+            ...
+
+            intptr_t            count;
+            DWORD               user_data;
+
+            ...
+        } NCS_MNWND_TEMPLATE;
 
 ## Version 1.0.9
 

@@ -48,9 +48,9 @@ ClassType(clss) Class(clss) = { (PClassConstructor)clss##ClassConstructor }; \
 static const char* clss##_type_name = #clss; \
 static ClassType(clss) * clss##ClassConstructor(ClassType(clss)* _class) { \
 	unsigned short * _pintfOffset = NULL; \
-	_pintfOffset = (PVOID)((UINT_PTR)_pintfOffset ^ 0); /* VW: prevent unused-but-set-variable warning */ \
+	_pintfOffset = (unsigned short *)((UINT_PTR)_pintfOffset ^ 0); /* VW: prevent unused-but-set-variable warning */ \
 	_class = (ClassType(clss)*)((PClassConstructor)(Class(superCls).classConstructor))((mObjectClass*)_class); \
-	_class->super = (void*)&Class(superCls); \
+	_class->super = (superCls##Class*)&Class(superCls); \
 	_class->typeName = clss##_type_name; \
 	_class->objSize = sizeof(clss);      \
 	_pintfOffset = &_class->intfOffset;
