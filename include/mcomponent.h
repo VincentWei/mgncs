@@ -30,11 +30,13 @@ extern "C"{
 /**
  * \def MAXLEN_CLASSNAME
  * \brief the max length of class name
+ * \note This value should be same as the MiniGUI's definition.
  */
-#define MAXLEN_CLASSNAME    15
+#define MAXLEN_CLASSNAME    31
+
 /**
  * \def NCSCLASSNAME
- * \brief the NCS class name surfix, (\a _MGNCS_CLASS_SUFFIX ("_")), distinguish from old constrol set
+ * \brief the NCS class name suffix, (\a _MGNCS_CLASS_SUFFIX ("_")), distinguish from old constrol set
  */
 #define NCSCLASSNAME(name)     name _MGNCS_CLASS_SUFFIX
 
