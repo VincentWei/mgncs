@@ -18,21 +18,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mscroll_widget.h"
-#include "mdblist.h"
-#include "mitem.h"
-#include "mitem_manager.h"
-#include "mitemview.h"
-#include "mscrollview.h"
-#include "mlistcolumn.h"
-#include "mlistitem.h"
-#include "mlistview.h"
-#include "mrdr.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSCTRL_LISTVIEW
 

@@ -9,15 +9,11 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mtype.h"
-
-
-#include "comm_parser.h"
+#include "mgncs.h"
 
 #if _MGNCSDB_DATASOURCE
+
+#include "comm_parser.h"
 
 #define IsSpace(ch)  ((ch) == ' ' || (ch)=='\t' || (ch)=='\n' || (ch)=='\r')
 

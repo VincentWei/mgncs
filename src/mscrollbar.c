@@ -16,16 +16,7 @@
 #include <minigui/window.h>
 #include <minigui/fixedmath.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mslider.h"
-#include "mscrollbar.h"
-#include "mrdr.h"
-
-#include "piece.h"
+#include "mgncs.h"
 
 #if _MGNCSCTRL_SCROLLBAR
 

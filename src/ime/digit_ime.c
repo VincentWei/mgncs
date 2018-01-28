@@ -9,15 +9,13 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
+#include "mgncs.h"
+
+#ifdef _MGNCSENGINE_DIGIT
+
 #include "mem-slab.h"
 
 #include "mime.h"
-
-#ifdef _MGNCSENGINE_DIGIT
 
 ///////////////////////////////////////////
 // mDigitEngine

@@ -9,10 +9,9 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mem-slab.h"
+#include "mgncs.h"
 
+#include "mem-slab.h"
 #include "hashtable.h"
 
 #define MIN_COUNT  5

@@ -19,17 +19,7 @@
 #include <sys/mman.h>
 #endif
 
-#include "mgncsconfig.h"
-
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mpanel.h"
-#include "mmainwnd.h"
-#include "mdialog.h"
-#include "mresmgr.h"
-#include "mrdr.h"
+#include "mgncs.h"
 
 //#define _MGRM_DEBUG
 

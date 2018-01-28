@@ -9,25 +9,11 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mdblist.h"
-#include "mitem.h"
-#include "mscroll_widget.h"
-#include "mitem_manager.h"
-#include "mitemview.h"
-#include "mscrollview.h"
-
-#include "medit.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSCTRL_OLD_MLEDIT
 
 #include "mmledit.h"
-
-#include "mrdr.h"
 
 /* default base line height */
 #define DEF_LINE_BASE_H         ( (GetWindowStyle(self->hwnd) & NCSS_EDIT_BASELINE) ? 2 : 0 )

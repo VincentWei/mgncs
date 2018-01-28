@@ -9,18 +9,13 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mem-slab.h"
-
-#include "mime.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSENGINE_PINYIN
 
+#include "mem-slab.h"
+#include "mime.h"
 #include "pinyin-dict.c"
-
 
 static void mPinyinIterator_empty(mPinyinIterator* self)
 {

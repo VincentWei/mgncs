@@ -17,19 +17,11 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h" 
-#include "mcomponent.h"
-
-#include "mwidget.h"
-#include "mrdr.h"
-#include "mscroll_widget.h"
+#include "mgncs.h"
 
 #include "mdblist.h"
 #include "mnode.h"
 #include "mabstractlist.h"
-
 
 #define nodelist_for_each(pos, node) \
     list_for_each(pos, &((mNode*)node)->children)

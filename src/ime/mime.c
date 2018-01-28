@@ -9,15 +9,12 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mem-slab.h"
-
-#include "mime.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSENGINE_IME
+
+#include "mem-slab.h"
+#include "mime.h"
 
 static int sb_len_first_char (const unsigned char* mstr, int len);
 static int single_retrieve_char(const char*word);

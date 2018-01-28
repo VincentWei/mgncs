@@ -8,16 +8,14 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSDB_XML
-#include "libxml/tree.h"
-#include "libxml/xpath.h"
-#include "libxml/parser.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mtype.h"
-#include "mcomponent.h"
+
+#include <libxml/tree.h>
+#include <libxml/xpath.h>
+#include <libxml/parser.h>
+
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #include "comm_parser.h"

@@ -17,14 +17,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mdblist.h"
-#include "mitem.h"
-#include "mdblist.h"
+#include "mgncs.h"
 
 static void mItem_setItemEditor(mItem* self, hEditor editor)
 {

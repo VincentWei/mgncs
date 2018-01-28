@@ -16,16 +16,7 @@
 #include <minigui/window.h>
 #include <minigui/fixedmath.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mslider.h"
-#include "mtrackbar.h"
-#include "mrdr.h"
-
-#include "piece.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSCTRL_TRACKBAR
 

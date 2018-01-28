@@ -8,19 +8,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mbutton.h"
-#include "mcheckbutton.h"
-#include "mradiobutton.h"
-#include "mstatic.h"
-#include "mcheckbutton.h"
-#include "mrdr.h"
-
-#include "piece.h"
+#include "mgncs.h"
 
 static mObject * mRadioButton_createButtonBody(mRadioButton *self, DWORD dwStyle, mHotPiece * content)
 {

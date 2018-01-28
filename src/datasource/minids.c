@@ -9,12 +9,10 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mtype.h"
-#include "mcomponent.h"
-//#if _MGNCSDB_DATASOURCE
+#include "mgncs.h"
+
+#ifdef _MGNCSDB_INI
+
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #include "minids.h"
@@ -35,8 +33,6 @@ extern int ftruncate(int fd, off_t length);
 #include <unistd.h>
 #include <sys/types.h>
 #endif
-
-#ifdef _MGNCSDB_INI
 
 /////////////////////////////////
 // Creating structs
@@ -2055,5 +2051,4 @@ int ftruncate(int fd, off_t length)
 #endif
 
 #endif //_MGNCSDB_INI
-//#endif
 

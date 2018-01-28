@@ -17,13 +17,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mrdr.h"
-#include "mscroll_widget.h"
+#include "mgncs.h"
 
 static void mScrollWidget_construct (mScrollWidget *self, DWORD addData)
 {

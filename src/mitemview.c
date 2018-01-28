@@ -17,18 +17,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mrdr.h"
-#include "mscroll_widget.h"
-
-#include "mdblist.h"
-#include "mitem.h"
-#include "mitem_manager.h"
-#include "mitemview.h"
+#include "mgncs.h"
 
 #define mglist_for_each(pos, itemlist) \
     list_for_each(pos, &((mItemManager *)itemlist)->queue)

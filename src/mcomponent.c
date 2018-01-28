@@ -9,15 +9,9 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mdatabinding.h"
-#include "mem-slab.h"
+#include "mgncs.h"
 
-#include "mwidget.h"
-#include "mrdr.h"
+#include "mem-slab.h"
 
 static void mComponent_construct(mComponent* self, DWORD addData)
 {

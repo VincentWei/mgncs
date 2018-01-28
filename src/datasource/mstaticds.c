@@ -9,12 +9,10 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mtype.h"
-#include "mcomponent.h"
-//#if _MGNCSDB_DATASOURCE
+#include "mgncs.h"
+
+#ifdef _MGNCSDB_STATIC
+
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #include "mstaticds.h"
@@ -22,8 +20,6 @@
 #include "mem-slab.h"
 
 #include "comm_parser.h"
-
-#ifdef _MGNCSDB_STATIC
 
 static mStaticDataSource gStaticDS;
 mDataSource * g_pStaticDS = NULL;

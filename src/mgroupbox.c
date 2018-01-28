@@ -8,14 +8,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mstatic.h"
-#include "mgroupbox.h"
-#include "mrdr.h"
+#include "mgncs.h"
 
 static void mGroupBox_onPaint(mGroupBox *self, HDC hdc, const PCLIPRGN pinv_clip)
 {

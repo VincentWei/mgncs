@@ -8,15 +8,13 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
+#include "mgncs.h"
+
 #if _MGNCSDB_DATASOURCE
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
+
 #include "mtype.h"
 #include "mdatabinding.h"
 #include "mdatasource.h"
-
 
 static mRecordSet * mDataSource_selectRecordSet(mDataSource* self, const char* select, int select_type)
 {

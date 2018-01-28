@@ -7,12 +7,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mpopmenumgr.h"
+#include "mgncs.h"
 #include "mem-slab.h"
 
 #define SLAB_ALLOC(size)  _SLAB_ALLOC(size)

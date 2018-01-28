@@ -17,15 +17,9 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h" 
-#include "mcomponent.h"
+#include "mgncs.h"
 
-#include "mwidget.h"
-#include "mrdr.h"
 #include "mscroll_widget.h"
-
 #include "mdblist.h"
 #include "mnode.h"
 #include "mabstractlist.h"

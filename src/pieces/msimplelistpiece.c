@@ -9,14 +9,10 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
+#include "mgncs.h"
+
 #include "mhotpiece.h"
 #include "mcontainerpiece.h"
-
 #include "mlayoutpiece.h"
 #include "mlinelayoutpiece.h"
 #include "msimplelistpiece.h"

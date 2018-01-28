@@ -10,13 +10,8 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
+#include "mgncs.h"
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mtype.h"
-#include "mcomponent.h"
-//#if _MGNCSDB_DATASOURCE
 #ifdef _MGNCSDB_SQLITE
 
 #include <sqlite3.h>

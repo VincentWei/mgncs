@@ -10,9 +10,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
+#include "mgncs.h"
 #include "mem-slab.h"
 
 extern BOOL ncsRemoveObjectBindProps(mObject *obj);

@@ -10,14 +10,10 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
+#include "mgncs.h"
+
 #include "manimateframes.h"
 #include "mbmparrayanimateframes.h"
-#include "mwidget.h"
-#include "piece.h"
 
 #define NCSF_BAAF_AUTODELETE 1
 

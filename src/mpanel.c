@@ -17,12 +17,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mpanel.h"
+#include "mgncs.h"
 
 static int
 mPanel_onKeyDown (mPanel* self, int scancode, int state)

@@ -9,20 +9,16 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mtype.h"
-#include "mcomponent.h"
-//#if _MGNCSDB_DATASOURCE
+#include "mgncs.h"
+
+#ifdef _MGNCSDB_TEXT
+
 #include "mdatabinding.h"
 #include "mdatasource.h"
 #include "comm_parser.h"
 #include "mtextds.h"
 
 #include "mem-slab.h"
-
-#ifdef _MGNCSDB_TEXT
 
 //static BOOL textds_get_fields(mTextDataSource* self, mTextRecordNode* rn, BOOL bfocus);
 

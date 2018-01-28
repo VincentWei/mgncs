@@ -8,8 +8,8 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
+#include "mgncs.h"
+
 #include "mem-slab.h"
 
 #define SLAB_ALLOC(size)   malloc(size)

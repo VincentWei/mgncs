@@ -10,7 +10,6 @@
 #include <minigui/window.h>
 
 #include "mgncs.h"
-#include "piece.h"
 #include "mdatabinding.h"
 
 static BOOL processMessageHandlers(mWidget* widget, UINT message, WPARAM wParam, LPARAM lParam, LRESULT *pret);

@@ -9,18 +9,14 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mem-slab.h"
-
-#include "mime.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSENGINE_PTI
 
-#include "mgpti_dict.c"
+#include "mem-slab.h"
+#include "mime.h"
 
+#include "mgpti_dict.c"
 
 inline static int word_1st_hash(int letter)
 {

@@ -10,13 +10,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "minvisible-component.h"
-#include "mtimer.h"
+#include "mgncs.h"
 
 static HWND mTimer_getParent(mTimer* self)
 {

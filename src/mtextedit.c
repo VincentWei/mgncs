@@ -15,24 +15,13 @@
 #include <ctype.h>
 #include <assert.h>
 
-
-#ifdef __MINIGUI_LIB__
-#include "common.h"
-#include "minigui.h"
-#include "gdi.h"
-#include "window.h"
-#include "object.h"
-#elif defined (__MGNCS_LIB__)
 #include <minigui/common.h>
 #include <minigui/minigui.h>
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 #include <minigui/ctrl/edit.h>
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#endif
+
+#include "mgncs.h"
 
 #if defined(_MGCTRL_TEXTEDIT_USE_NEW_IMPL) || defined(_MGNCSCTRL_TEXTEDITOR)
 

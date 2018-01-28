@@ -17,26 +17,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-#ifdef __MINIGUI_LIB__
-#include "common.h"
-#include "minigui.h"
-#include "gdi.h"
-#include "window.h"
-
-#include "object.h"
-#elif __MGNCS_LIB__
 #include <minigui/common.h>
 #include <minigui/minigui.h>
 #include <minigui/gdi.h>
 #include <minigui/window.h>
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#endif
 
-//#if _MGHAVE_NEWTEXTEDIT || _MGNCSCTRL_TEXTEDITOR
+#include "mgncs.h"
+
 #if defined(_MGNCSCTRL_TEXTEDITOR) || (defined(_MGCTRL_TEXTEDIT) && defined(_MGCTRL_TEXTEDIT_USE_NEW_IMPL))
 
 #include "mbtree.h"

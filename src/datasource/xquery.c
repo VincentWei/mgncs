@@ -6,10 +6,10 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
+#include "mgncs.h"
+
 #if _MGNCSDB_XML
-#include "mcommon.h"
-#include "mtype.h"
+
 #include "xquery.h"
 
 static inline int is_space(char ch)

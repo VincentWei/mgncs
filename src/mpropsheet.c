@@ -17,16 +17,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mscroll_widget.h"
-#include "mpanel.h"
-#include "mcontainer.h"
-#include "mpage.h"
-#include "mpropsheet.h"
+#include "mgncs.h"
 
 #ifdef _MGNCSCTRL_PROPSHEET
 

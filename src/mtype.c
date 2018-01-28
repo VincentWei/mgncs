@@ -9,10 +9,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-
-#include "mtype.h"
+#include "mgncs.h"
 
 static void int_to_str(int src, NCS_SET_VALUE set_value, void* self){
 	char buff[32];

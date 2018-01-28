@@ -10,14 +10,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "manimateframes.h"
-#include "mmemanimateframes.h"
-#include "mwidget.h"
-#include "piece.h"
+#include "mgncs.h"
 
 struct mem_bitmap_info {
 	PBITMAP *pbmps;

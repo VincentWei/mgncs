@@ -12,13 +12,6 @@
 #include <mgplus/mgplus.h>
 
 #include "mgncs.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-
-#include "mrdr.h"
-#include "piece.h"
 #include "fashion_common.h"
 
 #ifdef _MGNCS_RDR_FASHION

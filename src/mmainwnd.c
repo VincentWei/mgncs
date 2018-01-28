@@ -8,14 +8,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mpanel.h"
-#include "mmainwnd.h"
-#include "piece.h"
+#include "mgncs.h"
 
 #define WS_EX_MODALDISABLED     0x10000000L
 

@@ -11,7 +11,6 @@
 #include <mgplus/mgplus.h>
 
 #include "mgncs.h"
-
 #include "fashion_common.h"
 
 #ifdef _MGNCS_RDR_FASHION

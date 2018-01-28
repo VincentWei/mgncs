@@ -9,21 +9,7 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
-#include "mwidget.h"
-#include "mhotpiece.h"
-#include "mcontainerpiece.h"
-#include "mabstractbuttonpiece.h"
-
-#include "mstatic.h"
-#include "mgroupbox.h"
-#include "mbuttongroup.h"
-#include "mbutton.h"
-#include "mcheckbutton.h"
-#include "mradiobutton.h"
+#include "mgncs.h"
 
 static void mAbstractButtonPiece_construct(mAbstractButtonPiece* self, DWORD add_data)
 {

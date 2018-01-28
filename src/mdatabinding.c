@@ -8,12 +8,8 @@
 #include <minigui/gdi.h>
 #include <minigui/window.h>
 
-#include "mgncsconfig.h"
-#include "mcommon.h"
-#include "mobject.h"
-#include "mcomponent.h"
+#include "mgncs.h"
 
-#include "mtype.h"
 #include "mdatabinding.h"
 #include "hashtable.h"
 #include "mem-slab.h"
