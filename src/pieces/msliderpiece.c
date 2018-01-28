@@ -335,9 +335,10 @@ static void mSliderPiece_paint(mSliderPiece *self, HDC hdc, mWidget * owner, DWO
         newadd |= (self->max - self->min)&0xFFFF;
     
     BitBlt (hdc, 0, 0, 0, 0, tmpDC, 0, 0, 0);
-
 	Class(mContainerPiece).paint((mContainerPiece*)self,
             tmpDC, (mObject*)owner, newadd);
+    BitBlt (tmpDC, 0, 0, 0, 0, hdc, 0, 0, 0);
+    DeleteMemDC (tmpDC);
 
 	if(self->thumb)
 		_c(self->thumb)->paint(self->thumb, hdc, (mObject*)owner,
