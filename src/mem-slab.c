@@ -355,7 +355,7 @@ void slab_free_mem(void *heap, void *p)
 int slab_init_default_heap()
 {
     if(!default_heap)
-        default_heap = slab_new_heap(8, 256);
+        default_heap = slab_new_heap(8, 512);
 
     return default_heap != NULL;
 }
