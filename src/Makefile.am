@@ -34,14 +34,17 @@ RENDER_SRCS=mrdr.c hashtable.c
 
 TEXTEITOR_SRCS=mbtree.c mtextedit.c
 
-libmgncs@MGNCS_LIBSUFFIX@_la_LIBADD = @DEP_LIBS@ \
-                        renderer/classic/libclassic.la \
-						renderer/skin/libskin.la \
-						renderer/fashion/libfashion.la \
-						renderer/flat/libflat.la \
-						pieces/libpieces.la \
-						datasource/libdatasource.la \
-						ime/libime.la
+SUBLIBS = \
+    renderer/classic/libclassic.la \
+    renderer/skin/libskin.la \
+    renderer/fashion/libfashion.la \
+    renderer/flat/libflat.la \
+    pieces/libpieces.la \
+    datasource/libdatasource.la \
+    ime/libime.la
+
+libmgncs@MGNCS_LIBSUFFIX@_la_LIBADD = $(SUBLIBS) @DEP_LIBS@
+libmgncs@MGNCS_LIBSUFFIX@_la_DEPENDENCIES = $(SUBLIBS)
 libmgncs@MGNCS_LIBSUFFIX@_la_SOURCES = $(COMMON_SRCS) $(RENDER_SRCS) $(TEXTEITOR_SRCS)
 libmgncs@MGNCS_LIBSUFFIX@_la_LDFLAGS = -release $(LT_RELEASE) -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
