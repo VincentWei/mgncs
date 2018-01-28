@@ -647,9 +647,12 @@ AC_DEFINE_UNQUOTED(_MGNCS_LIBSUFFIX, "${MGNCS_LIBSUFFIX}", [MGNCS library suffix
 AC_SUBST(MGNCS_LIBSUFFIX)
 
 if test "x$devel_mode" = "xyes"; then
+    CPPFLAGS="$CPPFLAGS -D_DEBUG"
     if test "$ac_cv_prog_gcc" = "yes"; then
         CPPFLAGS="$CPPFLAGS -Werror -Wall"
     fi
+else
+    CPPFLAGS="$CPPFLAGS -DNDEBUG"
 fi
 
 if test "$ac_cv_prog_gcc" = "yes"; then
