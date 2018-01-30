@@ -1566,8 +1566,8 @@ static void dump_hash_table (ncs_hash_table_t *table)
     for (tmp = table; tmp != NULL; tmp = tmp->hh.next) {
         msg = _find_element(table, tmp->id, tmp->clsname);
         if (msg) {
-            fprintf (stderr, "id:0x%0x, clsname:%s, value:%0x \n", 
-                msg->id, msg->clsname, (int)msg->value);
+            fprintf (stderr, "mGNCS>RDR: id: 0x%0x, clsname: %s, value: %lx \n", 
+                msg->id, msg->clsname, msg->value);
         }
     }
 }
