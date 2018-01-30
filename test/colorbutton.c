@@ -19,7 +19,7 @@
 static BOOL mymain_oncolorchanged(mMainWnd* self, mColorButton *sender,
 		int id, DWORD param)
 {
-	SetWindowBkColor(self->hwnd, DWORD2PIXEL(HDC_SCREEN, param));
+	SetWindowBkColor(self->hwnd, DWORD2Pixel (HDC_SCREEN, param));
 	InvalidateRect(self->hwnd, NULL, TRUE);
 
 	return FALSE;
