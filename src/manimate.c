@@ -13,8 +13,6 @@
 
 #define ID_TIMER 10001
 
-#define DEBUG() fprintf(stderr, "line: %d, func: %s\n", __LINE__, __func__)
-
 #include "iconview_content_data.c"
 
 #ifdef _MGNCS_GUIBUILDER_SUPPORT

@@ -9,8 +9,6 @@
 
 #include "mgncs.h"
 
-#define DEBUG() fprintf(stderr, "line: %d, func: %s\n", __LINE__, __func__)
-
 static mWidget* get_selected_button(mButtonGroup* self, int *pidx)
 {
 	mButtonNode* pnode = self->pBtnList;
