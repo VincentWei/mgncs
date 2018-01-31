@@ -14,7 +14,7 @@
 
 static BOOL processMessageHandlers(mWidget* widget, UINT message, WPARAM wParam, LPARAM lParam, LRESULT *pret);
 
-static void processNotifyMessage(HWND hwnd, int id, int nc_code,DWORD add_data);
+static void processNotifyMessage(HWND hwnd, LINT id, int nc_code,DWORD add_data);
 
 static mWidgetRenderer* getCtrlRDR (const char* rdrName, mWidgetClass *_class)
 {
@@ -116,7 +116,7 @@ static void mWidget_construct(mWidget *self, DWORD addData)
 	else
 		self->body = NULL;
 
-	SetNotificationCallback(self->hwnd,processNotifyMessage);
+	SetNotificationCallback (self->hwnd, processNotifyMessage);
 }
 
 static void mWidget_destroy(mWidget *self)
@@ -1018,7 +1018,7 @@ static BOOL processMessageHandlers(mWidget* widget, UINT message, WPARAM wParam,
 	return _c(widget)->callUserHandler(widget, handler, message, wParam, lParam, pret);
 }
 
-static void processNotifyMessage(HWND hWnd, int id, int nc_code,DWORD add_data)
+static void processNotifyMessage(HWND hWnd, LINT id, int nc_code, DWORD add_data)
 {
 	mWidget* widget;
 	void *handler;

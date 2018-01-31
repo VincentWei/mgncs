@@ -149,7 +149,7 @@ static void inline calcRect (mCombobox* self)
     }
 }
 
-static void editNotifyProc (HWND hCtrl, int id, int code, DWORD add_data)
+static void editNotifyProc (HWND hCtrl, LINT id, int code, DWORD add_data)
 {
     HWND hwnd = GetParent(hCtrl);
     mCombobox *self = (mCombobox*)ncsObjFromHandle(hwnd);
@@ -161,7 +161,7 @@ static void editNotifyProc (HWND hCtrl, int id, int code, DWORD add_data)
     return;
 }
 
-static void listboxNotifyProc (HWND hCtrl, int id, int code, DWORD add_data)
+static void listboxNotifyProc (HWND hCtrl, LINT id, int code, DWORD add_data)
 {
     int sel;
     const char *str;
