@@ -2,14 +2,8 @@
 
 rm config.cache config.status -f
 
-prefix_flags=""
-
-if test "x$PREFIX" != "x"; then
-prefix_flags="--prefix=$PREFIX"
-fi
-
 ./configure \
-	$prefix_flags \
+	$prefix_config \
     --disable-static \
     --with-targetname=mstudio \
     --with-libsuffix=msd  \
