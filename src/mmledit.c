@@ -2332,7 +2332,7 @@ static void mMlEdit_destroy (mMlEdit *self)
     Class(mEdit).destroy((mEdit*)self);
 }
 
-static int mMlEdit_wndProc (mMlEdit *self, int message, WPARAM wParam, LPARAM lParam)
+static LRESULT mMlEdit_wndProc (mMlEdit *self, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch(message)
     {

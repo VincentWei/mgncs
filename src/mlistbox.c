@@ -1,11 +1,34 @@
 /*
- ** $Id: mlistbox.c 1681 2017-10-26 06:46:31Z weiym $
- **
- ** The implementation of mListBox class.
- **
- ** Copyright (C) 2009 Feynman Software.
- **
- ** All rights reserved by Feynman Software.
+    The implementation of mListBox class.
+
+    This file is part of mGNCS, a component for MiniGUI.
+
+    Copyright (C) 2008~2018, Beijing FMSoft Technologies Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Or,
+
+    As this program is a library, any link to this program must follow
+    GNU General Public License version 3 (GPLv3). If you cannot accept
+    GPLv3, you need to be licensed from FMSoft.
+
+    If you have got a commercial license of this program, please use it
+    under the terms and conditions of the commercial license.
+
+    For more information about the commercial license, please refer to
+    <http://www.minigui.com/en/about/licensing-policy/>.
  */
 
 #include <stdio.h>
@@ -924,8 +947,7 @@ static BOOL mListBox_bold(mListBox* self,
     return FALSE;
 }
 
-static int mListBox_wndProc(mListBox* self,
-            int message, WPARAM wParam, LPARAM lParam)
+static LRESULT mListBox_wndProc(mListBox* self, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch(message){
         case MSG_CHAR:
@@ -1045,8 +1067,7 @@ static int mListBox_selectByIdx (mListBox* self, int index)
     return self->itemHilighted;
 }
 
-static int procMouseMsg (mListBox* self,
-        int x, int y, DWORD key_flags, int message)
+static int procMouseMsg (mListBox* self, int x, int y, DWORD key_flags, UINT message)
 {
     int     oldSel, hit;
     DWORD   dwStyle = GetWindowStyle (self->hwnd), flags;

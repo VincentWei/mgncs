@@ -319,7 +319,7 @@ struct _mWidget
  *  - DWORD \b dlgCode \n
  *    The Dialog Code of this widget, return When the widget recieve the message MSG_GETDLGCODE
  *
- *  - int \b wndProc (\ref mWidgetClass *self, \a int message, \a WPARAM wParam, \a LPARAM lParam); \n
+ *  - int \b wndProc (\ref mWidgetClass *self, \a UINT message, \a WPARAM wParam, \a LPARAM lParam); \n
  *    The Window Proc which is used to dispatch message 
  *    \param self - this pointer
  *    \param message - the code of message
@@ -328,7 +328,7 @@ struct _mWidget
  *    \return int, by message
  *
  *  - BOOL \b callUserHandler (\ref mWidget *self, \a void *handler, \
- *     \a int message, \a WPARAM wParam, \a LPARAM lParam, \a int *pRet); \n
+ *     \a UINT message, \a WPARAM wParam, \a LPARAM lParam, \a int *pRet); \n
  *     call the user defined handlers, \b PRIVATE \b METHOD
  *    \param handler - the handler defined by user
  *    \param message - the message processing
@@ -523,7 +523,7 @@ typedef BOOL (*NCS_CB_ONCREATE)(mWidget*, DWORD dwAddData);
 typedef BOOL (*NCS_CB_ONINITDLG)(mWidget*, HWND hFocus, DWORD dwAddData);
 
 /**
- * \typedef BOOL (*NCS_CB_ONVOID)(mWidget*, int message);
+ * \typedef BOOL (*NCS_CB_ONVOID)(mWidget*, UINT message);
  * \brief the callback of events \a MSG_ACTIVE \a MSG_FONTCHANGED \a MSG_KEYLONGPRESS \a MSG_KEYALWAYSPRESS \a MSG_DESTROY
  *
  * \param mWidget * the pointer of sender
@@ -532,7 +532,7 @@ typedef BOOL (*NCS_CB_ONINITDLG)(mWidget*, HWND hFocus, DWORD dwAddData);
  * \return NCSR_CONTINUE_MSG, NCSR_STOP_MSG 
  *         except MSG_DESTROY, the return value woulbe be ignored
  */
-typedef BOOL (*NCS_CB_ONVOID)(mWidget*, int message);
+typedef BOOL (*NCS_CB_ONVOID)(mWidget*, UINT message);
 /**
  * \typedef void (*NCS_CB_ONSZCHGING)(mWidget*, const PRECT prcExpect, PRECT prcResult);
  * \brief the callback of event \a MSG_SIZECHANGING, when a widget's bound is changing.
@@ -620,7 +620,7 @@ typedef void (*NCS_CB_ONPAINT)(mWidget*, HDC hdc, const PCLIPRGN clipRgn);
 typedef BOOL (*NCS_CB_ONCLOSE)(mWidget*);
 
 /**
- * \typedef BOOL (*NCS_CB_ONKEY)(mWidget*, int message, int code, DWORD keyStatus);
+ * \typedef BOOL (*NCS_CB_ONKEY)(mWidget*, UINT message, int code, DWORD keyStatus);
  * \brief the callback of event \a MSG_KEYDOWN \a MSG_KEYUP \a MSG_CHAR \a MSG_SYSKEYDOWN 
  *        \a MSG_SYSKEYUP \a MSG_SYSCHAR
  *
@@ -632,10 +632,10 @@ typedef BOOL (*NCS_CB_ONCLOSE)(mWidget*);
  *
  * \return NCSR_CONTINUE_MSG, NCSR_STOP_MSG 
  */
-typedef BOOL (*NCS_CB_ONKEY)(mWidget*, int message, int code, DWORD keyStatus);
+typedef BOOL (*NCS_CB_ONKEY)(mWidget*, UINT message, int code, DWORD keyStatus);
 
 /**
- * \typedef BOOL(*NCS_CB_ONMOUSE)(mWidget*, int message, int x, int y, DWORD keyStatus);
+ * \typedef BOOL(*NCS_CB_ONMOUSE)(mWidget*, UINT message, int x, int y, DWORD keyStatus);
  * \brief the callback of events \a MSG_LBUTTONDOWN \a MSG_LBUTTONUP \a MSG_LBUTTONDBCLK
  *        \a MSG_MOUSEMOVE \a MSG_RBUTTONDOWN \a MSG_RBUTTONUP \a MSG_RBUTTONDBCLK
  *
@@ -647,9 +647,9 @@ typedef BOOL (*NCS_CB_ONKEY)(mWidget*, int message, int code, DWORD keyStatus);
  *
  * \return NCSR_CONTINUE_MSG, NCSR_STOP_MSG 
  */
-typedef BOOL(*NCS_CB_ONMOUSE)(mWidget*, int message, int x, int y, DWORD keyStatus);
+typedef BOOL(*NCS_CB_ONMOUSE)(mWidget*, UINT message, int x, int y, DWORD keyStatus);
 /**
- * \typedef BOOL (*NCS_CB_ONNCMOUSE)(mWidget*, int message, int x, int y, int  hitCode);
+ * \typedef BOOL (*NCS_CB_ONNCMOUSE)(mWidget*, UINT message, int x, int y, int  hitCode);
  * \brief the callback of events \a MSG_NCLBUTTONDOWN \a MSG_NCLBUTTONUP \a MSG_NCLBUTTONDBCLK
  *        \a MSG_NCMOUSEMOVE \a MSG_NCRBUTTONDOWN \a MSG_NCRBUTTONUP \a MSG_NCRBUTTONDBCLK
  *
@@ -661,9 +661,9 @@ typedef BOOL(*NCS_CB_ONMOUSE)(mWidget*, int message, int x, int y, DWORD keyStat
  *
  * \return NCSR_CONTINUE_MSG, NCSR_STOP_MSG 
  */
-typedef BOOL (*NCS_CB_ONNCMOUSE)(mWidget*, int message, int x, int y, int  hitCode);
+typedef BOOL (*NCS_CB_ONNCMOUSE)(mWidget*, UINT message, int x, int y, int  hitCode);
 /**
- * \typedef int (*NCS_CB_ONHITTEST)(mWidget*, int message,int x, int y);
+ * \typedef int (*NCS_CB_ONHITTEST)(mWidget*, UINT message,int x, int y);
  * \brief the callback of events \a MSG_HITTEST \a MSG_NCHITTEST
  *
  * \param mWidget * the sender pointer
@@ -673,10 +673,10 @@ typedef BOOL (*NCS_CB_ONNCMOUSE)(mWidget*, int message, int x, int y, int  hitCo
  *
  * \return int hit code 
  */
-typedef int (*NCS_CB_ONHITTEST)(mWidget*, int message,int x, int y);
+typedef int (*NCS_CB_ONHITTEST)(mWidget*, UINT message,int x, int y);
 
 /**
- * \typedef void (*NCS_CB_ONSCROLL)(mWidget*, int message, int code, int pos);
+ * \typedef void (*NCS_CB_ONSCROLL)(mWidget*, UINT message, int code, int pos);
  * \brief the callback of events \a MSG_HSCROLL , \a MSG_VSCROLL
  *
  * \param mWidget * the sender pointer
@@ -684,7 +684,7 @@ typedef int (*NCS_CB_ONHITTEST)(mWidget*, int message,int x, int y);
  * \param nc the scrolling code, see \a MSG_HSCROLL and \a MSG_VSCROOL in MiniGUI
  *
  */
-typedef void (*NCS_CB_ONSCROLL)(mWidget*, int message, int code, int pos);
+typedef void (*NCS_CB_ONSCROLL)(mWidget*, UINT message, int code, int pos);
 /**
  * \typedef BOOL (*NCS_CB_ONCMD)(mWidget*, int id, int nc, HWND hCtrl);
  * \brief the callback of event \a MSG_COMMAND
@@ -707,7 +707,7 @@ typedef BOOL (*NCS_CB_ONCMD)(mWidget*, int id, int nc, HWND hCtrl);
  */
 typedef void (*NCS_CB_WIDGET_ONTIMER)(mWidget*, int id, DWORD count);
 /**
- * \typedef int (*NCS_CB_ONMSG)(mWidget*, int message, WPARAM wParam, LPARAM lParam);
+ * \typedef int (*NCS_CB_ONMSG)(mWidget*, UINT message, WPARAM wParam, LPARAM lParam);
  * \brief the callback of a common message event
  *
  * \param mWidget * sender pointer
@@ -718,7 +718,7 @@ typedef void (*NCS_CB_WIDGET_ONTIMER)(mWidget*, int id, DWORD count);
  * \return int - this value will be as the finally return value of event, and none 
  *         default processing would be called
  */
-typedef int (*NCS_CB_ONMSG)(mWidget*, int message, WPARAM wParam, LPARAM lParam);
+typedef int (*NCS_CB_ONMSG)(mWidget*, UINT message, WPARAM wParam, LPARAM lParam);
 /**
  * \typedef void (*NCS_CB_NOTIFY)(mWidget*, int id, int ncCode, DWORD param);
  * \brief the callback of all notification event
@@ -1288,10 +1288,10 @@ MGNCS_EXPORT void ncsDestroyWindow(mWidget* self, DWORD endCode);
 	}                                                    \
 }while(0)
 
-MGNCS_EXPORT BOOL ncsBindEventsToMessage(mObject *sender, HWND hwnd_listener, int message, int* event_ids);
-MGNCS_EXPORT BOOL ncsBindEventToMessage(mObject* sender, HWND hwnd_listener, int message, int event_ids);
+MGNCS_EXPORT BOOL ncsBindEventsToMessage(mObject *sender, HWND hwnd_listener, UINT message, int* event_ids);
+MGNCS_EXPORT BOOL ncsBindEventToMessage(mObject* sender, HWND hwnd_listener, UINT message, int event_ids);
 MGNCS_EXPORT void ncsRemoveBindWindow(HWND hwnd_listener);
-MGNCS_EXPORT void ncsRemoveBindMessage(HWND hwnd_listener, int message,mObject* sender/*=NULL*/, int event_id/*=0*/);
+MGNCS_EXPORT void ncsRemoveBindMessage(HWND hwnd_listener, UINT message, mObject* sender/*=NULL*/, int event_id/*=0*/);
 
 
 /** @} end of global_control_function */
