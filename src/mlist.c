@@ -654,10 +654,10 @@ static int mList_onChar(mList* self, int asciiCode, DWORD keyFlags)
 	int start = 0;
 	unsigned char head[2];
 
-	if (HIBYTE_WORD16 (asciiCode))
+	if (HIBYTE (asciiCode))
         return 1;
 
-    head [0] = LOBYTE_WORD16 (asciiCode);
+    head [0] = LOBYTE (asciiCode);
     head [1] = '\0';
 
     if (head[0] == ' ') {

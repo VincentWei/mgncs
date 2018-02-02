@@ -1679,27 +1679,31 @@ RETURN:
 static void mSlEdit_onChar (mSlEdit *self, WPARAM wParam, LPARAM lParam)
 {
     int chars;
-    unsigned char charBuffer [3];
+    unsigned char charBuffer [4];
     DWORD dwStyle = GetWindowStyle(self->hwnd);
-
-    if (wParam == 127) // BS
-        wParam = '\b';
 
     if (dwStyle & NCSS_EDIT_READONLY)
         return ;
 
-    charBuffer [0] = LOBYTE_WORD16 (wParam);
-    charBuffer [1] = HIBYTE_WORD16 (wParam);
-    charBuffer [2] = (0x00ff0000 & wParam) >> 16;
+    charBuffer [0] = FIRSTBYTE (wParam);
+    charBuffer [1] = SECONDBYTE (wParam);
+    charBuffer [2] = THIRDBYTE (wParam);
+    charBuffer [3] = FOURTHBYTE (wParam);
 
-    if (charBuffer [2]) {
+    if (charBuffer [3]) {
+        chars = 4;
+    }
+    else if (charBuffer [2]) {
         chars = 3;
     }
-    else if (HIBYTE_WORD16 (wParam)) {
+    else if (charBuffer [1]) {
         chars = 2;
     }
     else {
         chars = 1;
+
+        if (charBuffer [0] == 127) // BS
+            charBuffer [0] = '\b';
 
         if (dwStyle & NCSS_EDIT_UPPERCASE) {
             charBuffer [0] = toupper (charBuffer[0]);

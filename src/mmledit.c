@@ -2490,7 +2490,7 @@ static void mMlEdit_onPaint (mMlEdit *self, HDC hdc, const PCLIPRGN pclip)
 static void mMlEdit_onChar (mMlEdit *self, WPARAM wParam, LPARAM lParam)
 {
     int chlen;
-    unsigned char ch[3];
+    unsigned char ch[4];
     TextNode *node;
     TextMark *mark;
     TextDoc *txtDoc;
@@ -2504,11 +2504,15 @@ static void mMlEdit_onChar (mMlEdit *self, WPARAM wParam, LPARAM lParam)
         return;
     }
 
-    ch [0] = LOBYTE_WORD16 (wParam);
-    ch [1] = HIBYTE_WORD16 (wParam);
-    ch [2] = (0x0ff0000 & wParam) >> 16;
+    ch [0] = FIRSTBYTE (wParam);
+    ch [1] = SECONDBYTE (wParam);
+    ch [2] = THIRDBYTE (wParam);
+    ch [3] = FOURTHBYTE (wParam);
 
-    if (ch[2]) {
+    if (ch[3]) {
+        chlen = 4;
+    }
+    else if (ch[2]) {
         chlen = 3;
     }
     else if (ch[1]) {

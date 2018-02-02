@@ -4337,25 +4337,29 @@ static int texteditor_get_text_char_size(mTextEditor* self, int begin)
     return char_size;
 }
 
-static int mTextEditor_onChar(mTextEditor *self, int asciiCode, DWORD keyFlags)
+static int mTextEditor_onChar(mTextEditor *self, WPARAM eucCode, DWORD keyFlags)
 {
     int selBegin, selEnd, chlen;
-    unsigned char ch[3];
+    unsigned char ch[4];
     int replace_char_size = 0;
 
     if (!TE_VALID_OBJ(self) || _read_only(self) || (keyFlags & KS_CTRL))
         return 0;
 
-    if(asciiCode == 127 || asciiCode == '\b')
-    {
+    if(eucCode == 127 || eucCode == '\b') {
         _remove_chars(self, TRUE);
         return 0;
     }
 
-    ch [0] = LOBYTE_WORD16 (asciiCode);
-    ch [1] = HIBYTE_WORD16 (asciiCode);
-    ch [2] = (0x0ff0000 & asciiCode) >> 16;
-    if (ch[2]) {
+    ch [0] = FIRSTBYTE (eucCode);
+    ch [1] = SECONDBYTE (eucCode);
+    ch [2] = THIRDBYTE (eucCode);
+    ch [3] = FOURTHBYTE (eucCode);
+
+    if (ch[3]) {
+        chlen = 4;
+    }
+    else if (ch[2]) {
         chlen = 3;
     }
     else if (ch[1]) {
@@ -4394,10 +4398,10 @@ static int mTextEditor_onChar(mTextEditor *self, int asciiCode, DWORD keyFlags)
 
     if (chlen == 1) {
         if (GetWindowStyle(self->hwnd) & NCSS_TE_UPPERCASE) {
-            asciiCode = toupper(asciiCode);
+            eucCode = toupper(eucCode);
         }
         else if (GetWindowStyle(self->hwnd) & NCSS_TE_LOWERCASE) {
-            asciiCode = tolower(asciiCode);
+            eucCode = tolower(eucCode);
         }
     }
 
@@ -4411,7 +4415,7 @@ static int mTextEditor_onChar(mTextEditor *self, int asciiCode, DWORD keyFlags)
 
 
     _c(self->textBuffer)->replace(self->textBuffer,
-            selBegin, selEnd - selBegin, (char*)&asciiCode, -1);
+            selBegin, selEnd - selBegin, (char*)&eucCode, -1);
 
     ncsNotifyParent (self, NCSN_TE_CHANGE);
     _set_cont_changed(self, TRUE);
