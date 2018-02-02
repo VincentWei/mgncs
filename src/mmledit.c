@@ -2504,8 +2504,8 @@ static void mMlEdit_onChar (mMlEdit *self, WPARAM wParam, LPARAM lParam)
         return;
     }
 
-    ch [0] = LOBYTE (wParam);
-    ch [1] = HIBYTE (wParam);
+    ch [0] = LOBYTE_WORD16 (wParam);
+    ch [1] = HIBYTE_WORD16 (wParam);
     ch [2] = (0x0ff0000 & wParam) >> 16;
 
     if (ch[2]) {

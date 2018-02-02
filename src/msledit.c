@@ -1688,14 +1688,14 @@ static void mSlEdit_onChar (mSlEdit *self, WPARAM wParam, LPARAM lParam)
     if (dwStyle & NCSS_EDIT_READONLY)
         return ;
 
-    charBuffer [0] = LOBYTE (wParam);
-    charBuffer [1] = HIBYTE (wParam);
+    charBuffer [0] = LOBYTE_WORD16 (wParam);
+    charBuffer [1] = HIBYTE_WORD16 (wParam);
     charBuffer [2] = (0x00ff0000 & wParam) >> 16;
 
     if (charBuffer [2]) {
         chars = 3;
     }
-    else if (HIBYTE (wParam)) {
+    else if (HIBYTE_WORD16 (wParam)) {
         chars = 2;
     }
     else {
