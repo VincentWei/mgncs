@@ -28,13 +28,6 @@
  *   For more information about the commercial license, please refer to
  *   <http://www.minigui.com/en/about/licensing-policy/>.
  */
-/*
- ** $Id: classic_propsheet.c 1681 2017-10-26 06:46:31Z weiym $
- **
- ** The classic renderer implementation of mPropsheet control.
- **
- ** Copyright (C) 2009~2018 FMSoft
- */
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -28,15 +28,6 @@
  *   For more information about the commercial license, please refer to
  *   <http://www.minigui.com/en/about/licensing-policy/>.
  */
-/*
- ** $Id: fashion_combobox.c 1681 2017-10-26 06:46:31Z weiym $
- **
- ** The fashion renderer implementation of mCombobox.
- **
- ** Copyright (C) 2009 Feynman Software.
- **
- ** All rights reserved by Feynman Software.
- */
 
 #include <stdio.h>
 #include <stdlib.h>

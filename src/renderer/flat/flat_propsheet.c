@@ -28,15 +28,6 @@
  *   For more information about the commercial license, please refer to
  *   <http://www.minigui.com/en/about/licensing-policy/>.
  */
-/*
- ** $Id: flat_propsheet.c 303 2009-07-03 02:24:38Z xwyan $
- **
- ** The flat renderer implementation of mPropsheet control.
- **
- ** Copyright (C) 2009 Feynman Software.
- **
- ** All rights reserved by Feynman Software.
- */
 
 #include <stdio.h>
 #include <stdlib.h>

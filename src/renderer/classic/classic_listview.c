@@ -29,16 +29,6 @@
  *   <http://www.minigui.com/en/about/licensing-policy/>.
  */
 
-/*
- ** $Id: classic_listview.c 1681 2017-10-26 06:46:31Z weiym $
- **
- ** The classic renderer implementation of mListView control.
- **
- ** Copyright (C) 2009 Feynman Software.
- **
- ** All rights reserved by Feynman Software.
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -28,12 +28,6 @@
  *   For more information about the commercial license, please refer to
  *   <http://www.minigui.com/en/about/licensing-policy/>.
  */
-/**
- ** flat_combobox.c
- **
- ** wangjian<wangjian@minigui.org>
- **
- */
 
 #include <stdio.h>
 #include <stdlib.h>

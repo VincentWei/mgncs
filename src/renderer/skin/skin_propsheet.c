@@ -28,15 +28,6 @@
  *   For more information about the commercial license, please refer to
  *   <http://www.minigui.com/en/about/licensing-policy/>.
  */
-/*
- ** $Id: skin_propsheet.c 155 2009-04-20 06:26:41Z dongjunjie $
- **
- ** The skin renderer implementation of mPropsheet control.
- **
- ** Copyright (C) 2009 Feynman Software.
- **
- ** All rights reserved by Feynman Software.
- */
 
 #include <stdio.h>
 #include <stdlib.h>

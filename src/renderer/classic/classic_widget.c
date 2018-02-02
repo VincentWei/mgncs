@@ -28,6 +28,7 @@
  *   For more information about the commercial license, please refer to
  *   <http://www.minigui.com/en/about/licensing-policy/>.
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
