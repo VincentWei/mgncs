@@ -89,6 +89,10 @@ AM_CONFIG_HEADER(mgncsconfig.h)
 
 dnl ===============================================
 dnl System wide options
+
+devel_mode="no"
+detail_debug="no"
+
 have_ctrlsuffix="yes"
 enable_rdr_skin="yes"
 enable_rdr_fashion="yes"
@@ -143,6 +147,10 @@ build_engine_digitpy="yes"
 AC_ARG_ENABLE(develmode,
 [  --enable-develmode       developer mode <default=no>],
 devel_mode=$enableval)
+
+AC_ARG_ENABLE(detail_debug,
+[  --enable-detaildebug     detailed debug information <default=no>],
+detail_debug=$enableval)
 
 AC_ARG_ENABLE(skinrdr, 
 [ --enable-skinrdr          include skin renderer <default=yes>],
@@ -647,7 +655,11 @@ AC_DEFINE_UNQUOTED(_MGNCS_LIBSUFFIX, "${MGNCS_LIBSUFFIX}", [MGNCS library suffix
 AC_SUBST(MGNCS_LIBSUFFIX)
 
 if test "x$devel_mode" = "xyes"; then
-    CPPFLAGS="$CPPFLAGS -DDEBUG -D_DEBUG"
+    CPPFLAGS="$CPPFLAGS -D_DEBUG"
+    if test "x$detail_debug" = "xyes"; then
+        CPPFLAGS="$CPPFLAGS -DDEBUG"
+    fi
+
     if test "$ac_cv_prog_gcc" = "yes"; then
         CPPFLAGS="$CPPFLAGS -Werror -Wall"
     fi
