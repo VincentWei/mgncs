@@ -637,7 +637,7 @@ static int utf16le_len_first_char (const unsigned char* mstr, int len)
     if (len < 2)
         return 0;
 
-    w1 = MAKEWORD (mstr[0], mstr[1]);
+    w1 = MAKEWORD16 (mstr[0], mstr[1]);
 
     if (w1 < 0xD800 || w1 > 0xDFFF)
         return 2;
@@ -645,7 +645,7 @@ static int utf16le_len_first_char (const unsigned char* mstr, int len)
     if (w1 >= 0xD800 && w1 <= 0xDBFF) {
         if (len < 4)
             return 0;
-        w2 = MAKEWORD (mstr[2], mstr[3]);
+        w2 = MAKEWORD16 (mstr[2], mstr[3]);
         if (w2 < 0xDC00 || w2 > 0xDFFF)
             return 0;
     }
@@ -660,7 +660,7 @@ static int utf16be_len_first_char (const unsigned char* mstr, int len)
     if (len < 2)
         return 0;
 
-    w1 = MAKEWORD (mstr[1], mstr[0]);
+    w1 = MAKEWORD16 (mstr[1], mstr[0]);
 
     if (w1 < 0xD800 || w1 > 0xDFFF)
         return 2;
@@ -668,7 +668,7 @@ static int utf16be_len_first_char (const unsigned char* mstr, int len)
     if (w1 >= 0xD800 && w1 <= 0xDBFF) {
         if (len < 4)
             return 0;
-        w2 = MAKEWORD (mstr[3], mstr[2]);
+        w2 = MAKEWORD16 (mstr[3], mstr[2]);
         if (w2 < 0xDC00 || w2 > 0xDFFF)
             return 0;
     }
