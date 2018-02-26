@@ -1087,7 +1087,7 @@ struct _NCS_WND_TEMPLATE{
 	/**
 	 * The id of commponet
 	 */
-	int                 id;
+	intptr_t            id;
 	/**
 	 * The Location and Size of mWidget, ignored if class_name is a \ref mInvsbComp
 	 */
@@ -1115,7 +1115,7 @@ struct _NCS_WND_TEMPLATE{
 	NCS_RDR_INFO*       rdr_info;
 	NCS_EVENT_HANDLER*  handlers;
 	NCS_WND_TEMPLATE*   ctrls;
-	int                 count;
+	intptr_t            count;
 	DWORD               user_data;
 
 	//FIXED ME Maybe I  should not put these two param here
