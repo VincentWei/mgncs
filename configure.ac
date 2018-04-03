@@ -700,9 +700,6 @@ AC_CONFIG_FILES([
     src/pieces/Makefile
     src/datasource/Makefile
     src/ime/Makefile
-    samples/Makefile
-    samples/src/Makefile
-    samples/src/res/Makefile
     etc/Makefile
     build/Makefile
 ])
