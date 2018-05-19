@@ -59,7 +59,7 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
 	//draw Text
     RECT rcClient;
     DWORD uFormat = DT_WORDBREAK;
-	DWORD color = 0;
+	DWORD fg_color = 0, bg_color = 0;
 	//gal_pixel old_color;
     const char* str = self->str;
 
@@ -70,21 +70,24 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
     SelectFont(hdc, GetWindowFont(owner->hwnd));
 	_c(self)->getRect(self, &rcClient);
 
-    if ((NCS_PIECE_PAINT_STATE_MASK&add_data) == PIECE_STATE_DISABLE) //is disable
-        color = ncsGetElement(owner, NCS_FGC_DISABLED_ITEM);
-    else
-	{
-		if(mLabelPiece_isSelected(self))
-		{
-			color = ncsGetElement(owner, NCS_FGC_SELECTED_ITEM);
+    if ((NCS_PIECE_PAINT_STATE_MASK&add_data) == PIECE_STATE_DISABLE) {
+        //is disable
+        fg_color = ncsGetElement(owner, NCS_FGC_DISABLED_ITEM);
+        bg_color = ncsGetElement(owner, NCS_BGC_DISABLED_ITEM);
+    }
+    else {
+		if(mLabelPiece_isSelected(self)) {
+			fg_color = ncsGetElement(owner, NCS_BGC_SELECTED_ITEM);
+			bg_color = ncsGetElement(owner, NCS_FGC_SELECTED_ITEM);
 		}
-		else
-		{
-			color = ncsGetElement(owner, NCS_FGC_3DBODY);
+		else {
+			fg_color = ncsGetElement(owner, NCS_FGC_3DBODY);
+			bg_color = ncsGetElement(owner, NCS_BGC_3DBODY);
 		}
 	}
 
-	/* old_color = */SetTextColor(hdc, ncsColor2Pixel(hdc, color));
+	SetTextColor(hdc, ncsColor2Pixel(hdc, fg_color));
+	SetBrushColor(hdc, ncsColor2Pixel(hdc, bg_color));
 
     if(self->align == NCS_ALIGN_CENTER)
         uFormat |= DT_CENTER ;
@@ -105,14 +108,15 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
 
     if(!mLabelPiece_isPrefix(self))
         uFormat |= DT_NOPREFIX;
-/*
- * for vertical text
- */	
+    /*
+     * for vertical text
+     */	
 	if(mLabelPiece_isWordBreak(self))
 		uFormat |= DT_WORDBREAK;
 
+    FillBox (hdc, rcClient.left, rcClient.top, RECTW(rcClient), RECTH(rcClient));
+
     SetBkMode(hdc, BM_TRANSPARENT);
-    
 	DrawText(hdc, str, -1, &rcClient, uFormat);
 }
 
