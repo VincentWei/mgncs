@@ -45,7 +45,7 @@ typedef struct _mHotPiece mHotPiece;
 	mObjectClassHeader(clss, superCls) \
 	mHotPiece* (*hitTest)(clss *,  int x, int y); \
 	void (*paint)(clss *, HDC hdc, mObject * owner, DWORD add_data); \
-	int (*processMessage)(clss *, int message, WPARAM, LPARAM, mObject *owner); \
+	LRESULT (*processMessage)(clss *, UINT message, WPARAM, LPARAM, mObject *owner); \
 	BOOL (*setProperty)(clss *, int id, DWORD value); \
 	DWORD(*getProperty)(clss *, int id); \
 	BOOL (*enable)(clss *, BOOL benable); \

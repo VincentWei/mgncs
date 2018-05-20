@@ -59,7 +59,7 @@ static void mHotPiece_paint(mHotPiece * self, HDC hdc, mWidget *owner, DWORD add
 
 }
 
-static int mHotPiece_processMessage(mHotPiece *self, int message, WPARAM wParam, LPARAM lParam, mWidget *owner)
+static LRESULT mHotPiece_processMessage(mHotPiece *self, UINT message, WPARAM wParam, LPARAM lParam, mWidget *owner)
 {
 	return 0;
 }

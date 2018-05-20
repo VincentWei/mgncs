@@ -81,8 +81,8 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
 			bg_color = ncsGetElement(owner, NCS_FGC_SELECTED_ITEM);
 		}
 		else {
-			fg_color = ncsGetElement(owner, NCS_FGC_3DBODY);
-			bg_color = ncsGetElement(owner, NCS_BGC_3DBODY);
+			fg_color = ncsGetElement(owner, NCS_FGC_WINDOW);
+			bg_color = ncsGetElement(owner, NCS_BGC_WINDOW);
 		}
 	}
 

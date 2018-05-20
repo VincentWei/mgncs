@@ -519,9 +519,10 @@ MGNCS_EXPORT mComponentClass * ncsClassFromMagicNum(DWORD magic_num, BOOL check,
                 dwStyle, dwExStyle, idCursor, idBkColor)) \
 		return FALSE;}while(0)
 
+/* NOTE: use WE_BGC_WINDOW as the default background color instead of WE_MAINC_THREED_BODY */
 #define MGNCS_REGISTER_COMPONENT(className) \
 	MGNCS_REGISTER_COMPONENT_EX(className, \
-                WS_NONE, WS_EX_NONE, IDC_ARROW, WE_MAINC_THREED_BODY)
+                WS_NONE, WS_EX_NONE, IDC_ARROW, WE_BGC_WINDOW)
 
 #define MGNCS_UNREG_COMPONENT(clssName) \
 	UnregisterWindowClass(Class(clssName).className)	
