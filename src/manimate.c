@@ -86,10 +86,7 @@ static mStaticPiece* mAnimate_createBody(mAnimate *self)
 	if(dwStyle & NCSS_ANMT_AUTOFIT)
 		_c(body)->setProperty(body, NCSP_ANIMATEPIECE_AUTOFIT, 1);
 	if(dwStyle & NCSS_ANMT_AUTOPLAY)
-	{
 		_c(body)->setProperty(body, NCSP_ANIMATEPIECE_AUTOPLAY, 1);
-		self->state = ANIM_PLAY;
-	}
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
 	_c(body)->setProperty(body, NCSP_ANIMATEPIECE_BMPARRAY, (DWORD)get_default_bmparray());
 #endif
@@ -140,7 +137,7 @@ static BOOL mAnimate_setProperty(mAnimate *self, int id, DWORD value)
 					return FALSE;
 				self->interval = interval & 0x00FFFFFF;
 				if(self->state == ANIM_PLAY || self->state == ANIM_PAUSE){
-					KillTimer(self->hwnd, ID_TIMER);
+					KillTimer (self->hwnd, ID_TIMER);
 					SetTimer (self->hwnd, ID_TIMER, self->interval);
 				}
 			}
@@ -171,7 +168,10 @@ static LRESULT mAnimate_wndProc(mAnimate* self, UINT message, WPARAM wParam, LPA
 {
 	switch (message) {
 		case MSG_CREATE:
-			SetTimer (self->hwnd, ID_TIMER, self->interval);
+	        if (GetWindowStyle (self->hwnd) & NCSS_ANMT_AUTOPLAY) {
+			    SetTimer (self->hwnd, ID_TIMER, self->interval);
+		        self->state = ANIM_PLAY;
+            }
 			break;
 		case MSG_TIMER:
 			if(self->state == ANIM_PAUSE || self->state == ANIM_STOP)
