@@ -40,22 +40,22 @@
 
 #include "mgncs.h"
 
-/*static BOOL mStatic_onCreate(mStatic *self, LPARAM lParam)
+/*
+static BOOL mStatic_onCreate(mStatic *self, LPARAM lParam)
 {
-	printf("-- static oncreate=%p\n", self->body);
-	if(self->body)
-	{
+	if(self->body) {
 		SetBodyProp(NCSP_LABELPIECE_LABEL, 
 			(DWORD)GetWindowCaption(self->hwnd));
 		InvalidateRect(self->hwnd, NULL, TRUE);
 	}
 	return TRUE;
-}*/
+}
 
 static void mStatic_onLButtonDown(mStatic *self)
 {
     ncsNotifyParent((mWidget*)self, NCSN_WIDGET_CLICKED);
 }
+*/
 
 static mObject* mStatic_createBody(mStatic *self)
 {
@@ -116,14 +116,17 @@ static DWORD mStatic_getProperty(mStatic *self, int id)
 static LRESULT mStatic_wndProc(mStatic* self, UINT message, WPARAM wParam, LPARAM lParam)
 {	
     switch(message){
+        case MSG_LBUTTONDOWN:
+            ncsNotifyParent((mWidget *)self, NCSN_WIDGET_CLICKED);
+			break;
         case MSG_LBUTTONDBLCLK:
             ncsNotifyParent((mWidget *)self, NCSN_WIDGET_DBCLICKED);
 			break;
         case MSG_FONTCHANGED:
             InvalidateRect (self->hwnd, NULL, TRUE);
             return 0;
-            
-  /*      case MSG_SETTEXT:
+
+        case MSG_SETTEXT:
             SetWindowCaption (self->hwnd, (const char*)lParam);
 			if(self->body)
 			{
@@ -132,7 +135,8 @@ static LRESULT mStatic_wndProc(mStatic* self, UINT message, WPARAM wParam, LPARA
 				InvalidateRect(self->hwnd, NULL, TRUE);
 			}
             return 0;
-    */    default:
+
+        default:
             break;
     }
 	
@@ -144,7 +148,7 @@ BEGIN_CMPT_CLASS(mStatic, mWidget)
 //	CLASS_METHOD_MAP(mStatic, onCreate)
 	CLASS_METHOD_MAP(mStatic, setProperty)
 	CLASS_METHOD_MAP(mStatic, getProperty)
-	CLASS_METHOD_MAP(mStatic, onLButtonDown)
+//	CLASS_METHOD_MAP(mStatic, onLButtonDown)
 	CLASS_METHOD_MAP(mStatic, wndProc)
 END_CMPT_CLASS
 
