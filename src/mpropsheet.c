@@ -85,7 +85,7 @@ static mPage* createPage (mPropSheet* self,
     page = (mPage*)ncsCreateWindow (
                         NCSCTRL_PAGE,
                         dlgTemplate->caption,
-                        WS_VISIBLE,
+                        WS_NONE, /* WS_VISIBLE */
                         exStyle,
                         IDC_PAGE,
                         rcPage.left, rcPage.top,
@@ -448,7 +448,10 @@ static mPage* mPropSheet_addPage(mPropSheet* self,
 
     self->pageCount++;
 
-    changeActivePage(self, page, style, TRUE);
+    if (self->pageCount == 1) {
+        /* only set the first page as the active page */
+        changeActivePage(self, page, style, TRUE);
+    }
 
     return page;
 }
