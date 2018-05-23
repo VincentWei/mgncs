@@ -1994,6 +1994,21 @@ static int mSlEdit_onKeyDown(mSlEdit* self, int scancode, DWORD key_flags)
             }
             break;
 
+        case SCANCODE_BACKSPACE:
+            {
+                int del;
+
+                if (dwStyle & NCSS_EDIT_READONLY)
+                    return 0;
+                if (self->editPos == 0 && self->selStart == self->selEnd)
+                    return 0;
+
+                del = - CHLENPREV( self->content.string, 
+                        (self->content.string + self->editPos) );
+                sleInsertText (self, NULL, del);
+            }
+            break;
+
         case SCANCODE_A:
             {
                 if (key_flags & KS_CTRL) {

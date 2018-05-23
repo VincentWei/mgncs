@@ -4499,10 +4499,10 @@ mTextEditor_onKeyDown(mTextEditor *self, int scancode, DWORD keyFlags)
     if (!TE_VALID_OBJ(self)) return 1;
 
     switch (scancode) {
-        /*case SCANCODE_BACKSPACE:
+        case SCANCODE_BACKSPACE:
             if (!_read_only(self))
                 _remove_chars(self,TRUE);
-            return 0;*/
+            return 0;
 
         case SCANCODE_INSERT:
             if(mTextEditor_isReplaceMode(self))
