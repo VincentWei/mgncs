@@ -53,7 +53,7 @@ static void flat_uninit(mWidgetRenderer *rdr)
 
 static void flat_drawFocusFrame(mWidget *self, HDC hdc, const RECT* rc)
 {
-	ncsCommRDRDrawFocusFrame(self->hwnd, hdc, rc);
+	//ncsCommRDRDrawFocusFrame(self->hwnd, hdc, rc);
 }
 
 static BOOL flat_drawBkground(mWidget *self, HDC hdc, const RECT* inv_rc)

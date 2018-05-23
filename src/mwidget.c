@@ -947,6 +947,7 @@ static BOOL mWidget_onEraseBkgnd(mWidget* self, HDC hdc, const RECT *pinv)
 
 	if(!self->bkimg.img.pbmp || IS_ALPHA_BMP(self->bkimg.img.pbmp))
 	{
+        _MG_PRINTF ("BkColor for window %s: %lx\n", GetWindowCaption (self->hwnd), bkcolor);
 		old = SetBrushColor(hdc, bkcolor);
         FillBox(hdc, pinv->left, pinv->top, RECTWP(pinv), RECTHP(pinv));
 		SetBrushColor(hdc, old);

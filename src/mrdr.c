@@ -135,7 +135,7 @@ mWidgetRenderer *ncsRetriveCtrlRDR (const char *rendererName, const char *classN
 		return NULL;
 
 	if(rendererName == NULL )
-		htRenderer = _sys_renderer 	;
+		htRenderer = _sys_renderer;
 	else 
 		htRenderer = (HashTable*) hash_get(rendererFactroy, str2key(rendererName));
 
@@ -1468,7 +1468,9 @@ static NCS_RDR_ID_NAME config_str[]=
     {"bgc_window",              NCS_BGC_WINDOW}, 
     {"fgc_3dbody",              NCS_FGC_3DBODY}, 
     {"bgc_3dbody",              NCS_BGC_3DBODY}, 
-    {"metrics_3dbody_round_radius",   NCS_METRICS_3DBODY_ROUND_RADIUS}, 
+
+    {"metrics_border_width",    NCS_METRICS_BORDER_WIDTH}, 
+    {"metrics_border_radius",   NCS_METRICS_BORDER_RADIUS}, 
     {"metrics_3dbody_roundx",   NCS_METRICS_3DBODY_ROUNDX}, 
     {"metrics_3dbody_roundy",   NCS_METRICS_3DBODY_ROUNDY}, 
 

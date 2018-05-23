@@ -64,141 +64,72 @@ void flat_draw_3dbox(HDC hdc, const RECT *rc, int flag ,int state, int check_sta
 	DWORD fgcolor;
 	gal_pixel old_brush;
 	gal_pixel old_pen;
-//	int   round_x, round_y;
+	int old_width;
+    int border_width;
+    int border_radius;
 
 	bgcolor = ncsGetElement(owner, NCS_BGC_3DBODY);
 	fgcolor = ncsGetElement(owner, NCS_FGC_3DBODY);
 
-//	round_x = ncsGetElement(owner, NCS_METRICS_3DBODY_ROUNDX);
-//	round_y = ncsGetElement(owner, NCS_METRICS_3DBODY_ROUNDY);
+	border_radius = ncsGetElement (owner, NCS_METRICS_BORDER_RADIUS);
+	border_width = ncsGetElement (owner, NCS_METRICS_BORDER_WIDTH);
 
-//	if(round_x < 0)
-//		round_x = 0;
-//	if(round_y < 0)
-//		round_y = 0;
+	if (border_width < 1)
+		border_width = 1;
+	if (border_radius < 0)
+		border_radius = 0;
 
-	old_brush = SetBrushColor(hdc, ncsColor2Pixel(hdc, bgcolor));
-	old_pen   = SetPenColor(hdc, ncsColor2Pixel(hdc, fgcolor));
+    SetPenType (hdc, PT_SOLID);
+    SetPenJoinStyle (hdc, PT_JOIN_ROUND);
+    SetBrushType (hdc, BT_SOLID);
+	old_brush = SetBrushColor (hdc, ncsColor2Pixel(hdc, bgcolor));
+	old_pen   = SetPenColor (hdc, ncsColor2Pixel(hdc, fgcolor));
+	old_width = SetPenWidth (hdc, border_width);
 
 	//fill back with bgcolor
-/*	if(round_x > 0 && round_y > 0)
-	{
-		if(flag & NCSRF_FILL)
-			RoundRect(hdc,
-				rc->left,
-				rc->top,
-				rc->right - 1,
-				rc->bottom - 1,
-				round_x,
-				round_y);
+	if (border_radius > 0) {
+		if (flag & NCSRF_FILL) {
+			RoundRect (hdc, rc->left, rc->top, rc->right - 1, rc->bottom - 1, border_radius, border_radius);
+        }
 		else
-			ncsCommRDRDrawHalfRoundRect(hdc, rc, round_x, round_y, fgcolor, NCS_ROUND_CORNER_ALL|NCS_BORDER_ALL);
+			ncsCommRDRDrawHalfRoundRect (hdc, rc, border_radius, border_radius, fgcolor,
+				NCS_ROUND_CORNER_ALL|NCS_BORDER_ALL);
 	}
-	else{
-		if(flag & NCSRF_FILL)
-			FillBox(hdc, rc->left+1, rc->top+1, RECTWP(rc) - 2, RECTHP(rc) -2);
-		Rectangle(hdc, rc->left, rc->top, rc->right-1, rc->bottom-1);
-	}*/
-/*	if(RECTWP(rc) <= 16  || RECTHP(rc) <= 16)
-		ncsCommRDRDrawSmallHalfRoundBox(hdc, rc, 0, flag & NCSRF_FILL);
-	else
-*/		ncsCommRDRDrawSmallHalfRoundBox(hdc, rc, (flag&0x80000000)?0:NCS_BORDER_ALL , flag & NCSRF_FILL);
-
-	//draw state
-	if(state == NCS_ABP_HILIGHT || state == NCS_ABP_PUSHED)
-	{
-		//draw to line arround the rect
-		RECT rctmp = {
-			rc->left + 2,
-			rc->top + 2,
-			rc->right - 3,
-			rc->bottom - 3
-			/*
-			rc->left + 1 + (round_x>1?(round_x / 2):1),
-			rc->top + 1 + (round_y>1?(round_y / 2):1),
-			rc->right - 2 - (round_x>1?(round_x / 2):1),
-			rc->bottom - 2 - (round_y>1?(round_y / 2):1)*/
-		};
-		int size = 4;
-
-		if(size > RECTW(rctmp)/2)
-			size = RECTW(rctmp)/2;
-		if(size > RECTH(rctmp)/2)
-			size = RECTH(rctmp)/2;
-
-		if(size <= 0)
-			size = 1;
-
-		//left-top
-		MoveTo(hdc, rctmp.left + size, rctmp.top);
-		LineTo(hdc, rctmp.left, rctmp.top);
-		LineTo(hdc, rctmp.left, rctmp.top + size);
-
-		//left-bottom
-		MoveTo(hdc, rctmp.left, rctmp.bottom - size);
-		LineTo(hdc, rctmp.left, rctmp.bottom);
-		LineTo(hdc, rctmp.left + size, rctmp.bottom);
-
-		//right-bottom
-		MoveTo(hdc, rctmp.right - size, rctmp.bottom);
-		LineTo(hdc, rctmp.right, rctmp.bottom);
-		LineTo(hdc, rctmp.right, rctmp.bottom - size);
-
-		//right-top
-		MoveTo(hdc, rctmp.right, rctmp.top + size);
-		LineTo(hdc, rctmp.right, rctmp.top);
-		LineTo(hdc, rctmp.right - size, rctmp.top);
-
+	else {
+		if (flag & NCSRF_FILL)
+			FillBox (hdc, rc->left+1, rc->top+1, RECTWP(rc) - 2, RECTHP(rc) -2);
+		Rectangle (hdc, rc->left, rc->top, rc->right-1, rc->bottom-1);
 	}
 
-	if(check_state == NCS_ABP_CHECKED)
-	{
-		/*if(round_x > 0 && round_y > 0)
-		{
-			//arc
-			ArcEx(hdc, rc->left +  2, rc->top + 2, round_x*2, round_y*2,
+	if(check_state == NCS_ABP_CHECKED) {
+		if (border_radius > 0) {
+			ArcEx (hdc, rc->left +  2, rc->top + 2, border_radius*2, border_radius*2,
 				90*64, 90*64);
-		}*/
+		}
 
-		//MoveTo(hdc, rc->left + round_x + 2 , rc->top + 2);
-		MoveTo(hdc, rc->left + 3 , rc->top + 2);
-		//LineTo(hdc, (rc->right - round_x )*85/100, rc->top+2);
-		LineTo(hdc, (rc->right - 2 )*85/100, rc->top+2);
+		MoveTo (hdc, rc->left + border_radius + 2 , rc->top + 2);
+		LineTo (hdc, (rc->right - border_radius )*85/100, rc->top+2);
 
-		//MoveTo(hdc, rc->left + 2 , rc->top + round_y + 2);
-		MoveTo(hdc, rc->left + 2 , rc->top + 3);
-		//LineTo(hdc, rc->left + 2, (rc->bottom - round_y)*85/100);
-		LineTo(hdc, rc->left + 2, (rc->bottom - 1)*85/100);
-
-
+		MoveTo (hdc, rc->left + 2 , rc->top + border_radius + 2);
+		LineTo (hdc, rc->left + 2, (rc->bottom - border_radius)*85/100);
 	}
-	else if(check_state == NCS_ABP_HALFCHECKED)
-	{
-	/*	if(round_x > 0 && round_y > 0)
-		{
-			//arc
-			ArcEx(hdc, rc->right - round_x * 2 - 3, rc->bottom - round_y*2  - 3, round_x*2, round_y*2,
+	else if (check_state == NCS_ABP_HALFCHECKED) {
+		if (border_radius > 0) {
+			ArcEx (hdc, rc->right - border_radius * 2 - 3, 
+				rc->bottom - border_radius*2  - 3, border_radius*2, border_radius*2,
 				270*64, 90*64);
 		}
-*/
-		//MoveTo(hdc, rc->right - 3 , (rc->top + round_y)*100/85);
-		MoveTo(hdc, rc->right - 3 , (rc->top + 1)*100/85);
-		//LineTo(hdc, rc->right - 3, rc->bottom - round_y - 3);
-		LineTo(hdc, rc->right - 3, rc->bottom - 1 - 3);
 
-		//MoveTo(hdc, rc->right - round_x - 3 , rc->bottom - 3);
-		MoveTo(hdc, rc->right - 3 , rc->bottom - 3);
-		//LineTo(hdc, (rc->left + round_x) * 100 / 85, rc->bottom - 3);
-		LineTo(hdc, (rc->left + 1) * 100 / 85, rc->bottom - 3);
+		MoveTo(hdc, rc->right - 3 , (rc->top + border_radius)*100/85);
+		LineTo(hdc, rc->right - 3, rc->bottom - border_radius - 3);
 
-
+		MoveTo(hdc, rc->right - border_radius - 3 , rc->bottom - 3);
+		LineTo(hdc, (rc->left + border_radius) * 100 / 85, rc->bottom - 3);
 	}
 
-
-	SetBrushColor(hdc, old_brush);
-	SetPenColor(hdc, old_pen);
-
-
+	SetBrushColor (hdc, old_brush);
+	SetPenColor (hdc, old_pen);
+	SetPenWidth (hdc, old_width);
 }
 
 
