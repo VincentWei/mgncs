@@ -791,7 +791,7 @@ static void flat_progress_paint(mProgressPiece *self, HDC hdc, mWidget *owner, D
 	if(IsRectEmpty(&rc_prog))
 		return ;
 
-	prog_color = ncsColor2Pixel(hdc, ncsGetElement(owner, NCS_FGC_WINDOW));
+	prog_color = ncsColor2Pixel(hdc, ncsGetElement(owner, NCS_FGC_HILIGHT_ITEM));
 
     old_color = SetBrushColor (hdc, prog_color);
 
