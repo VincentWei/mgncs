@@ -137,8 +137,7 @@ static BOOL mAnimate_setProperty(mAnimate *self, int id, DWORD value)
 					return FALSE;
 				self->interval = interval & 0x00FFFFFF;
 				if(self->state == ANIM_PLAY || self->state == ANIM_PAUSE){
-					KillTimer (self->hwnd, ID_TIMER);
-					SetTimer (self->hwnd, ID_TIMER, self->interval);
+				    ResetTimer (self->hwnd, ID_TIMER, self->interval);
 				}
 			}
 			return TRUE;
@@ -211,10 +210,19 @@ static LRESULT mAnimate_wndProc(mAnimate* self, UINT message, WPARAM wParam, LPA
 			}
 			break;
 		case ANIM_STARTPLAY:
+			if (!IsTimerInstalled (self->hwnd, ID_TIMER)) {
+				SetTimer (self->hwnd, ID_TIMER, self->interval);
+			}
 			return _c(self)->play(self);
 		case ANIM_PAUSE_RESUME:
+			if (!IsTimerInstalled (self->hwnd, ID_TIMER)) {
+				SetTimer (self->hwnd, ID_TIMER, self->interval);
+			}
 			return _c(self)->pauseResume(self);
 		case ANIM_STOPPLAY:
+			if (IsTimerInstalled (self->hwnd, ID_TIMER)) {
+				KillTimer (self->hwnd, ID_TIMER);
+			}
 			return _c(self)->stop(self);
 		default:
 			break;
