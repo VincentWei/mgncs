@@ -89,7 +89,8 @@ void flat_draw_3dbox(HDC hdc, const RECT *rc, int flag ,int state, int check_sta
 	//fill back with bgcolor
 	if (border_radius > 0) {
 		if (flag & NCSRF_FILL) {
-			RoundRect (hdc, rc->left, rc->top, rc->right - 1, rc->bottom - 1, border_radius, border_radius);
+			RoundRect (hdc, rc->left + (border_width >> 1), rc->top + (border_width >> 1),
+                    rc->right - (border_width >> 1), rc->bottom - (border_width >> 1), border_radius, border_radius);
         }
 		else
 			ncsCommRDRDrawHalfRoundRect (hdc, rc, border_radius, border_radius, fgcolor,

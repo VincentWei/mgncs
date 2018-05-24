@@ -53,12 +53,12 @@ static inline void line(HDC hdc, int x0,int y0, int x1, int y1, gal_pixel color)
 	SetPenColor(hdc, old);
 }
 
-static void mSeparatorPiece_paint(mSeparatorPiece *self, HDC hdc, mWidget *onwer, DWORD add_data)
+static void mSeparatorPiece_paint(mSeparatorPiece *self, HDC hdc, mWidget *owner, DWORD add_data)
 {
 	gal_pixel darker_pixel;
 	gal_pixel lighter_pixel;
 	{
-		DWORD bkcolor = PIXEL2DWORD(hdc, GetWindowBkColor(onwer->hwnd));
+		DWORD bkcolor = GetWindowElementAttr (owner->hwnd, WE_FGC_ACTIVE_WND_BORDER);
 		DWORD darkercolor  = ncsCommRDRCalc3dboxColor(bkcolor, NCSR_COLOR_DARKER);
 		DWORD lightercolor = ncsCommRDRCalc3dboxColor(bkcolor, NCSR_COLOR_LIGHTER);
 		darker_pixel  = ncsColor2Pixel(hdc, darkercolor);
