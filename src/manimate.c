@@ -167,8 +167,8 @@ static LRESULT mAnimate_wndProc(mAnimate* self, UINT message, WPARAM wParam, LPA
 {
 	switch (message) {
 		case MSG_CREATE:
+			SetTimer (self->hwnd, ID_TIMER, self->interval);
 	        if (GetWindowStyle (self->hwnd) & NCSS_ANMT_AUTOPLAY) {
-			    SetTimer (self->hwnd, ID_TIMER, self->interval);
 		        self->state = ANIM_PLAY;
             }
 			break;
@@ -210,19 +210,10 @@ static LRESULT mAnimate_wndProc(mAnimate* self, UINT message, WPARAM wParam, LPA
 			}
 			break;
 		case ANIM_STARTPLAY:
-			if (!IsTimerInstalled (self->hwnd, ID_TIMER)) {
-				SetTimer (self->hwnd, ID_TIMER, self->interval);
-			}
 			return _c(self)->play(self);
 		case ANIM_PAUSE_RESUME:
-			if (!IsTimerInstalled (self->hwnd, ID_TIMER)) {
-				SetTimer (self->hwnd, ID_TIMER, self->interval);
-			}
 			return _c(self)->pauseResume(self);
 		case ANIM_STOPPLAY:
-			if (IsTimerInstalled (self->hwnd, ID_TIMER)) {
-				KillTimer (self->hwnd, ID_TIMER);
-			}
 			return _c(self)->stop(self);
 		default:
 			break;
