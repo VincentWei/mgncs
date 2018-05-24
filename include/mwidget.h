@@ -902,7 +902,7 @@ typedef struct _NCS_RDR_INFO {
  */
 
 typedef struct _NCS_CREATE_NOTIFY_INFO {
-    void (*onCreated)(struct _NCS_CREATE_NOTIFY_INFO*, mComponent* , DWORD special_id);
+    BOOL (*onCreated)(struct _NCS_CREATE_NOTIFY_INFO*, mComponent*, DWORD special_id);
 }NCS_CREATE_NOTIFY_INFO;
 
 typedef struct _NCS_CREATE_INFO{

@@ -1140,7 +1140,7 @@ static void cb_on_create_child(create_notify_t * info, mComponent* self, DWORD s
 }
 
 #define INIT_CREATE_NOTIFY(cn, cb)  \
-    ((NCS_CREATE_NOTIFY_INFO*)(cn))->onCreated = (void(*)(NCS_CREATE_NOTIFY_INFO*,mComponent*, DWORD))(cb)
+    ((NCS_CREATE_NOTIFY_INFO*)(cn))->onCreated = (BOOL(*)(NCS_CREATE_NOTIFY_INFO*, mComponent*, DWORD))(cb)
 
 
 static mObject* find_connect_obj(ncs_connect_node_t* head, DWORD serial)

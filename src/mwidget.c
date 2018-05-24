@@ -71,11 +71,11 @@ static void widget_add_comp(mWidget* self, mComponent* comp)
 }
 
 
-static void init_create_info(mWidget*self, NCS_CREATE_INFO *create_info)
+static BOOL init_create_info(mWidget*self, NCS_CREATE_INFO *create_info)
 {
 	int i;
 	if(create_info == NULL)
-		return ;
+		return TRUE;
 
 	SetWindowAdditionalData(self->hwnd, create_info->user_data);
 /*
@@ -109,9 +109,10 @@ static void init_create_info(mWidget*self, NCS_CREATE_INFO *create_info)
 	_c(self)->addChildren(self, create_info->ctrls, create_info->ctrl_count);
 
     //call notify
-    if(create_info->notify_info && create_info->notify_info->onCreated)
-        create_info->notify_info->onCreated(create_info->notify_info, (mComponent*)self, create_info->special_id);
+    if (create_info->notify_info && create_info->notify_info->onCreated)
+        return create_info->notify_info->onCreated (create_info->notify_info, (mComponent*)self, create_info->special_id);
 
+    return TRUE;
 }
 
 /*

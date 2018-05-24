@@ -100,7 +100,6 @@ static mInvsbComp * mInvsbComp_createComponent(mComponent* parent, mInvsbCompCla
     if(tmpl->notify_info && tmpl->notify_info->onCreated)
         tmpl->notify_info->onCreated(tmpl->notify_info, (mComponent*)self, tmpl->special_id);
 
-
 	return self;
 }
 
