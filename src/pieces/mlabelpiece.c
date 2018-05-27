@@ -63,7 +63,6 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
 	//gal_pixel old_color;
     const char* str = self->str;
 
-
     if(owner == NULL || str == NULL)
         return ;
 
