@@ -89,16 +89,16 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
 	//SetBrushColor(hdc, ncsColor2Pixel(hdc, bg_color));
 
     if(self->align == NCS_ALIGN_CENTER)
-        uFormat |= DT_CENTER ;
+        uFormat |= DT_CENTER;
     else if(self->align == NCS_ALIGN_RIGHT)
-        uFormat |= DT_RIGHT ;
+        uFormat |= DT_RIGHT;
     else
         uFormat |= DT_LEFT;
 
     if(self->valign == NCS_VALIGN_CENTER)
-        uFormat |= DT_VCENTER ;
+        uFormat |= DT_VCENTER;
     else if(self->valign == NCS_VALIGN_BOTTOM)
-        uFormat |= DT_BOTTOM ;
+        uFormat |= DT_BOTTOM;
     else
         uFormat |= DT_TOP;
 
@@ -107,16 +107,29 @@ static void mLabelPiece_paint(mLabelPiece *self, HDC hdc, mWidget *owner, DWORD 
 
     if(!mLabelPiece_isPrefix(self))
         uFormat |= DT_NOPREFIX;
+
     /*
      * for vertical text
      */	
-	if(mLabelPiece_isWordBreak(self))
+	if (mLabelPiece_isWordBreak(self))
 		uFormat |= DT_WORDBREAK;
 
-    //FillBox (hdc, rcClient.left, rcClient.top, RECTW(rcClient), RECTH(rcClient));
+    if (!(uFormat & DT_SINGLELINE)) {
+        RECT rcText = {0, 0, RECTW (rcClient), RECTH (rcClient)};
+        DrawText (hdc, str, -1, &rcText, uFormat | DT_CALCRECT);
 
-    SetBkMode(hdc, BM_TRANSPARENT);
-	DrawText(hdc, str, -1, &rcClient, uFormat);
+        /* adjust rcClient accoding valign property */
+        if (self->valign == NCS_VALIGN_CENTER) {
+            int offset_h = (RECTH (rcClient) - RECTH (rcText)) >> 1;
+            OffsetRect (&rcClient, 0, offset_h);
+        }
+        else if(self->valign == NCS_VALIGN_BOTTOM) {
+            rcClient.top = rcClient.bottom - RECTH (rcText);
+        }
+    }
+
+    SetBkMode (hdc, BM_TRANSPARENT);
+	DrawText (hdc, str, -1, &rcClient, uFormat);
 }
 
 static BOOL mLabelPiece_setProperty(mLabelPiece *self, int id, DWORD value)
