@@ -1598,7 +1598,7 @@ static void dump_hash_table (ncs_hash_table_t *table)
     for (tmp = table; tmp != NULL; tmp = tmp->hh.next) {
         msg = _find_element(table, tmp->id, tmp->clsname);
         if (msg) {
-            fprintf (stderr, "mGNCS>RDR: id: 0x%0x, clsname: %s, value: %lx \n", 
+            _DBG_PRINTF ("mGNCS>RDR: id: 0x%0x, clsname: %s, value: %lx \n", 
                 msg->id, msg->clsname, msg->value);
         }
     }
@@ -1839,10 +1839,8 @@ static BOOL _lookup_etcfile (const char* filename)
 	char * env_path;
 	struct passwd *pwd;
 
-
 	//try from NCS_CFG_PATH
-	if((env_path = getenv("NCS_CFG_PATH")))
-	{
+	if((env_path = getenv("NCS_CFG_PATH"))) {
 		sprintf(etcfile, "%s/%s", env_path,filename);
 		fp = fopen(etcfile,"r");
 		if(fp){
