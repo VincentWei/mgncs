@@ -903,10 +903,10 @@ static mComponent* mWidget_setReleated(mWidget *self, mComponent* comp, int rele
 static mComponent* mWidget_getChild(mWidget* self, int id)
 {
 	HWND hwnd = self->hwnd;
-	HWND hchild ;
+	HWND hchild;
 	mComponent * comp = self->comps;
-	while(comp)
-	{
+
+	while (comp) {
 		if(_c(comp)->getId(comp) == id)
 			return comp;
 		comp = _c(comp)->getReleated(comp, NCS_CMPT_NEXT);
