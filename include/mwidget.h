@@ -244,29 +244,29 @@ enum ncsRDRArrow {
  *    \param color - the frame color of box
  *    \param flag - the state (\ref ncsRendererState) and flag (\ref ncsRendererFlag) of 3dbox
  *
- *  - void \b drawCheckbox( \ref mWidget *, \a HDC hdc, \a const \a RECT *, \a DWORD flag); \n
+ *  - void \b drawCheckbox (\ref mWidget *, \a HDC hdc, \a const \a RECT *rc, \a DWORD flag);\n
  *    draw a checkbox into a DC
  *    \param hdc - the DC in which draw checkbox
- *    \param RECT * - the location and size of checkbox
- *    \param \b flag - the flag of check box (\ref ncsRendererFlag)
+ *    \param rc - the location and size of checkbox
+ *    \param flag - the flag of check box (\ref ncsRendererFlag)
  *
  *  - void \b drawRadio (\ref mWidget *, \a HDC hdc, \a const \a RECT *rc, \a DWORD flag);\n
  *    draw a radio box into a DC \n
  *    \param hdc - the DC in which draw radiobox
  *    \param rc - the location and size of radio box
- *    \param \b flag - the flag of radiobox (\ref ncsRendererFlag)
+ *    \param flag - the flag of radiobox (\ref ncsRendererFlag)
  *
- *  - void \b drawArrow(\ref mWidget *, \a HDC hdc, \a const \a RECT * , \a int arrow, \a DWORD color, \a DWORD flag);\n
- *    draw a arrow for dc
- *    \param hdc
- *    \param RECT * - the Rectangle around arrow, its size bigger than arrow
+ *  - void \b drawArrow (\ref mWidget *, \a HDC hdc, \a const \a RECT *rc, \a int arrow, \a DWORD color, \a DWORD flag);\n
+ *    draw an arrow for dc
+ *    \param hdc - the handle to DC
+ *    \param rc - the Rectangle around arrow, its size bigger than arrow
  *    \param arrow - arrow type (\ref ncsRDRArrow)
  *    \param color - the filling color of arrow
  *    \param flag - the flag of arrow (\ref ncsRendererFlag)
  *
- *  - void \b drawItem (\ref mWidget*, \a HDC , \a const \a RECT *, \a DWORD \a color);\n
- *    draw a item
- *    \param RECT * - the Rectanle of item
+ *  - void \b drawItem (\ref mWidget*, \a HDC hdc, \a const \a RECT *rc, \a DWORD \a color);\n
+ *    draw an item
+ *    \param rc - the rectanle of item
  *    \param color - the filling color of item
  *
  *  \sa mWidget, mWidgetClass
@@ -529,7 +529,7 @@ typedef BOOL (*NCS_CB_ONCREATE)(mWidget*, DWORD dwAddData);
 
 /**
  * \typedef  BOOL (*NCS_CB_ONINITDLG)(mWidget*, HWND hFocus, DWORD dwAddData);
- * \brief the callback of event \a MSG_INITDIALOG, only valid in \ref mDialogBox, when a dialog is created
+ * \brief the callback of event \a MSG_INITDIALOG, only valid in \a mDialogBox, when a dialog is created
  *
  * \param mWidget * the sender pointer of event
  * \param hFocus the focus window when dialog is created

@@ -62,7 +62,7 @@ extern "C"{
 
 /**
  * \def NCSCLASSNAME
- * \brief the NCS class name suffix, (\a _MGNCS_CLASS_SUFFIX ("_")), distinguish from old constrol set
+ * \brief Define a NCS class name with a default suffix, distinguish the class name from old constrol set
  */
 #define NCSCLASSNAME(name)     name _MGNCS_CLASS_SUFFIX
 

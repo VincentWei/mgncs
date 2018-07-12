@@ -167,7 +167,7 @@ struct _IInterface {
 	unsigned short _##Interface##_next_offset; \
 
 /**
- * \def INTERFACE_ADJUST
+ * \def INTEFACE_ADJUST
  * \brief adjust the pointer as the real pointer
  */
 #define INTEFACE_ADJUST(piobj)  (_TYPEOF(piobj))((unsigned char*)(piobj) -  \
@@ -294,7 +294,7 @@ struct _mObject {
 
 
 /**
- * \fn void ncsRefObjFreeSpecial(DWORD key, DWORD value)
+ * \fn void ncsRefObjFreeSpecificData(DWORD key, DWORD value)
  */
 MGNCS_EXPORT void ncsRefObjFreeSpecificData(DWORD key, DWORD value);
 

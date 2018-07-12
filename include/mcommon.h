@@ -63,7 +63,7 @@ Allocator * ncsGetDefaultAllocator(void);
 
 
 /**
- * \enum Align
+ * \enum enumNCSAlign
  */
 enum enumNCSAlign{
 	NCS_ALIGN_LEFT = 0,
@@ -72,7 +72,7 @@ enum enumNCSAlign{
 };
 
 /**
- * \enum VAlign
+ * \enum enumNCSVAlign
  */
 enum enumNCSVAlign{
 	NCS_VALIGN_TOP = 0,
@@ -81,7 +81,7 @@ enum enumNCSVAlign{
 };
 
 /**
- * \enum ImageDrawMode
+ * \enum enumNCSImageDrawMode
  */
 enum enumNCSImageDrawMode{
 	NCS_DM_NORMAL = 0,

@@ -1,5 +1,5 @@
 /**
- * \file texteditbase.h
+ * \file mtexteditbase.h
  * \author 
  * \date 
  *

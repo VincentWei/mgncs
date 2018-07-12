@@ -175,7 +175,7 @@ MGNCS_EXPORT extern mButtonClass g_stmButtonCls;
 enum mButtonProp {
 	/**
 	 * \brief Set the button text horizontal align
-	 *  - Type \ref enumNCSAlign
+	 *  - Type \a enumNCSAlign
 	 *  - Read Write
 	 *  - set the horizontal align value of the text on button
 	 *
@@ -183,7 +183,7 @@ enum mButtonProp {
 	NCSP_BUTTON_ALIGN = NCSP_WIDGET_MAX + 1,
 	/**
 	 * \brief Set the button text vertical align
-	 *  - Type \ref enumNCSVAlign
+	 *  - Type \a enumNCSVAlign
 	 *  - Read Write
 	 *  - set the vertical align value of the text on button
 	 *

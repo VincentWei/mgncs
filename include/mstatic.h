@@ -121,7 +121,7 @@ MGNCS_EXPORT extern mStaticClass g_stmStaticCls;
 enum mStaticProp {
 	/**
 	 * \brief Align the content of static controller in horizontal mode
-	 *  - Type \ref enumNCSAlign
+	 *  - Type \a enumNCSAlign
 	 *  - Read Write
 	 *  - set the horizontal mode of static controller
 	 *
@@ -129,7 +129,7 @@ enum mStaticProp {
 	NCSP_STATIC_ALIGN = NCSP_WIDGET_MAX + 1,
 	/**
 	 * \brief Align the content of static controller in vertical mode
-	 *  - Type \ref enumNCSVAlign
+	 *  - Type \a enumNCSVAlign
 	 *  - Read Write
 	 *  - set the vertical mode of static controller
 	 *

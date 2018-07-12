@@ -130,7 +130,7 @@ enum mImageProp {
 	NCSP_IMAGE_IMAGEFILE,
 	/**
 	 * \brief Set image draw mode
-	 *  - Type \ref enumNCSImageDrawMode
+	 *  - Type \a enumNCSImageDrawMode
 	 *  - Read Write
 	 *  - set the image draw mode to NCS_DM_NORMAL/NCS_DM_SCALED/NCS_DM_TILED
 	 *
