@@ -437,24 +437,9 @@ static BOOL mSpinBox_onCreate(mSpinBox *self, LPARAM lParam)
 	return FALSE;
 }
 
-static inline BOOL is_system_font(PLOGFONT logfont)
-{
-    if(logfont){
-        for(int font_id = 0; font_id < NR_SYSLOGFONTS; ++font_id)
-        {
-            if(logfont == g_SysLogFont[font_id])
-            {
-                return TRUE;
-            }
-
-        }
-    }
-    return FALSE;
-}
-
 static LRESULT mSpinBox_wndProc (mSpinBox* self, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    PLOGFONT self_font,editor_font,old_font;
+    PLOGFONT self_font;
     switch(message) {
         case MSG_SETFOCUS:
         {
@@ -471,15 +456,7 @@ static LRESULT mSpinBox_wndProc (mSpinBox* self, UINT message, WPARAM wParam, LP
         {
             /* set editor's font with mSpinBox object's font */
             self_font = GetWindowFont(self->hwnd);
-            editor_font = is_system_font(self_font)
-                    ? self_font
-                    : CreateLogFontIndirect(self_font);
-            old_font = SetWindowFont (GetDlgItem(self->hwnd, EDITOR_CHILD_ID), editor_font);
-            /* can't destroy system font */
-            if (!is_system_font(old_font))
-            {
-                DestroyLogFont(old_font);
-            }
+            SetWindowFont (GetDlgItem(self->hwnd, EDITOR_CHILD_ID), self_font);
             break;
         }
 		default:
