@@ -43,6 +43,8 @@
 
 #ifdef _MGNCSCTRL_SPINBOX
 
+#define EDITOR_CHILD_ID 100
+
 struct _mSpinBoxItemInfo{
 	char * string;
 	mSpinBoxItemInfo * next;
@@ -148,7 +150,7 @@ static BOOL mSpinBox_setItem (mSpinBox *self, int index, char *string)
 		info->string = strdup(string);
 
 		if (index == GetBodyProp(NCSP_SPNRPIECE_CURPOS)){
-			SetWindowText(GetDlgItem(self->hwnd, 100), info->string);
+			SetWindowText(GetDlgItem(self->hwnd, EDITOR_CHILD_ID), info->string);
             InvalidateRect(self->hwnd, NULL, TRUE);
 		}
 
@@ -310,7 +312,7 @@ static mObject* mSpinBox_createBody(mSpinBox *self)
 	mWidget * editor = ncsCreateWindow(NCSCTRL_SLEDIT, "",
 		spinbox_style_to_editor_style(dwStyle),
 		WS_EX_NONE,
-		100,
+		EDITOR_CHILD_ID,
 		0, 0, 0, 0,
 		self->hwnd,
 		NULL,
@@ -391,7 +393,7 @@ static void mSpinBox_destroy(mSpinBox *self)
 static BOOL mSpinBox_refresh(mSpinBox *self)
 {
     DWORD dwStyle = GetWindowStyle(self->hwnd);
-	mWidget * editor = ncsGetChildObj(self->hwnd, 100);
+	mWidget * editor = ncsGetChildObj(self->hwnd, EDITOR_CHILD_ID);
 	if(editor == NULL)
 	{
 		return Class(mWidget).refresh((mWidget*)self);
@@ -422,13 +424,13 @@ static BOOL mSpinBox_onCreate(mSpinBox *self, LPARAM lParam)
 		{
 			const char* str = _c(self)->getItem(self, cur);
 			if(str)
-				SetWindowText(GetDlgItem(self->hwnd, 100), str);
+				SetWindowText(GetDlgItem(self->hwnd, EDITOR_CHILD_ID), str);
 		}
 		else
 		{
 			char szNum[32];
 			sprintf(szNum, "%d", cur);
-			SetWindowText(GetDlgItem(self->hwnd, 100), szNum);
+			SetWindowText(GetDlgItem(self->hwnd, EDITOR_CHILD_ID), szNum);
 		}
 		return TRUE;
 	}
@@ -437,16 +439,24 @@ static BOOL mSpinBox_onCreate(mSpinBox *self, LPARAM lParam)
 
 static LRESULT mSpinBox_wndProc (mSpinBox* self, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    PLOGFONT self_font;
     switch(message) {
         case MSG_SETFOCUS:
         {
             if ((GetWindowStyle(self->hwnd) & NCSS_SPNBOX_AUTOFOCUS))
-                SetFocusChild (GetDlgItem(self->hwnd, 100));
+                SetFocusChild (GetDlgItem(self->hwnd, EDITOR_CHILD_ID));
             break;
         }
         case MSG_KILLFOCUS:
         {
-			SendDlgItemMessage (self->hwnd, 100, MSG_KILLFOCUS, 0, 0);
+            SendDlgItemMessage (self->hwnd, EDITOR_CHILD_ID, MSG_KILLFOCUS, 0, 0);
+            break;
+        }
+        case MSG_FONTCHANGED:
+        {
+            /* set editor's font with mSpinBox object's font */
+            self_font = GetWindowFont(self->hwnd);
+            SetWindowFont (GetDlgItem(self->hwnd, EDITOR_CHILD_ID), self_font);
             break;
         }
 		default:

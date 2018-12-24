@@ -1248,7 +1248,6 @@ int ncsCreateModalDialogFromID (HPACKAGE package, Uint32 dlgId,
 
     if (dialog) {
         ret = _c(dialog)->doModal(dialog, TRUE);
-        MainWindowThreadCleanup(dialog->hwnd);
     }
 
     return ret;
