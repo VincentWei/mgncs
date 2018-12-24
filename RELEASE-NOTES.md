@@ -1,5 +1,19 @@
 # Release Notes
 
+## Version 1.2.1
+
+The MiniGUI development team announces the availability of mGNCS 1.2.1,
+which is compliant to MiniGUI 3.2.x.
+
+All users of MiniGUI are encouraged to use this version with your new MiniGUI
+apps, and report any bugs and incompatibilities to:
+
+    https://github.com/VincentWei/mgncs
+
+### What's new in this version
+
+  * Fix som bugs by merged pull requests from https://github.com/10km.
+
 ## Version 1.2.0
 
 The MiniGUI development team announces the availability of mGNCS 1.2.0,
