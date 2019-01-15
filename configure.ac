@@ -1,12 +1,12 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.60)
-AC_INIT(libmgncs, 1.2.1)
+AC_INIT(libmgncs, 1.2.2)
 AC_CONFIG_SRCDIR(src/mctrls.c)
 
 MGNCS_MAJOR_VERSION=1
 MGNCS_MINOR_VERSION=2
-MGNCS_MICRO_VERSION=1
+MGNCS_MICRO_VERSION=2
 MGNCS_INTERFACE_AGE=0
 MGNCS_BINARY_AGE=1
 MGNCS_VERSION=$MGNCS_MAJOR_VERSION.$MGNCS_MINOR_VERSION.$MGNCS_MICRO_VERSION
