@@ -37,6 +37,12 @@ static int single_retrieve_char(const char*word)
 
 #if !defined(_MGNCS_CHARSET_ICONV) || defined(WIN32)
 
+#if (_MINIGUI_VERSION_CODE >= _VERSION_CODE(3,4,0))
+#define UChar32 Uchar32
+#define sbc_devfont devfonts[0]
+#define mbc_devfont devfonts[1]
+#endif
+
 #ifdef _MGCHARSET_UNICODE
 #define MAX_ENCODING_SUPPORT   8
 PLOGFONT  _encoding_fonts[MAX_ENCODING_SUPPORT];
@@ -399,7 +405,7 @@ static inline NCSCB_LEN_FIRST_CHAR get_lenfirstchar_callback_from_logfont(PLOGFO
 
     return plogfont->sbc_devfont
             ? (plogfont->sbc_devfont->charset_ops
-                ? ((CHARSETOPS_INFO*)(plogfont->mbc_devfont->charset_ops))->len_first_char
+                ? ((CHARSETOPS_INFO*)(plogfont->sbc_devfont->charset_ops))->len_first_char
                 : NULL )
             : NULL;
 }

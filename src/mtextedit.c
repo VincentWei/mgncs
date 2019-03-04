@@ -3832,6 +3832,10 @@ static void _update_content_dirty_region(mTextEditor* self)
 
 }
 
+#if (_MINIGUI_VERSION_CODE >= _VERSION_CODE(3,4,0))
+#define mbc_devfont devfonts[1]
+#endif
+
 static int texteditor_get_text_count(mTextEditor* self, int start_with, BOOL bText, const char* str, int len)
 {
     PLOGFONT plogfont;
