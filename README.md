@@ -1,15 +1,13 @@
 # mGNCS
 
 mGNCS provides a new control set for MiniGUI application.
-By using mGNCS, you can use miniStudio to develop MiniGUI
-application in WYSIWYG way. 
 
-This is the mainline release of mGNCS for MiniGUI V3.2.x or later.
+This is the mainline release of mGNCS for MiniGUI V4.0.x or later.
 
 ## Prerequisites
 
-  * MiniGUI: v3.2.10 or later
-  * mGUtils: v1.2.0 or later
+  * MiniGUI: v4.0.0 or later
+  * mGUtils: v1.2.2 or later
   * mGPlus: v1.4.0 or later
   * SQLite3 (optional)
   * XML2 (optional)

@@ -3,7 +3,7 @@
 ## Version 1.2.4
 
 The MiniGUI development team announces the availability of mGNCS 1.2.4,
-which is compliant to MiniGUI 3.4.x.
+which is compliant to MiniGUI 4.0.x.
 
 All users of MiniGUI are encouraged to use this version with your new MiniGUI
 apps, and report any bugs and incompatibilities to:
@@ -12,7 +12,7 @@ apps, and report any bugs and incompatibilities to:
 
 ### What's new in this version
 
-  * Tune code to comply with MiniGUI 3.4.x.
+  * Tune code to comply with MiniGUI 4.0.x.
 
 ## Version 1.2.2
 

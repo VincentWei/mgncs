@@ -675,10 +675,10 @@ dnl ========================================================================
 dnl check for run-time mode of MiniGUI
 dnl ========================================================================
 
-PKG_CHECK_MODULES([MINIGUI], [minigui >= 3.2.0])
+PKG_CHECK_MODULES([MINIGUI], [minigui >= 4.0.0])
 
 if test "x$build_ctrl_colorbutton" = "xyes"; then
-    PKG_CHECK_MODULES([MGUTILS], [mgutils >= 1.2.0])
+    PKG_CHECK_MODULES([MGUTILS], [mgutils >= 1.2.2])
     DEP_LIBS="$DEP_LIBS $MGUTILS_LIBS"
 fi
 
