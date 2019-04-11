@@ -1,4 +1,4 @@
-/* 
+/*
     The implementation of mListItem class.
 
     This file is part of mGNCS, a component for MiniGUI.
@@ -48,7 +48,7 @@
 
 static void mListItem_construct (mListItem *self, DWORD addData)
 {
-	Class(mItemManager).construct((mItemManager*)self, addData);
+    Class(mItemManager).construct((mItemManager*)self, addData);
     self->nrChild = 0;
     self->parent = 0;
     self->depth = -1;
@@ -114,11 +114,11 @@ static BOOL mListItem_setFold(mListItem *self, BOOL fold)
 
     isFold = self->flags & NCSF_LSTITM_FOLD;
 
-    if (fold && !isFold) 
+    if (fold && !isFold)
         self->flags |= NCSF_LSTITM_FOLD;
     else if (!fold && isFold)
         self->flags &= ~NCSF_LSTITM_FOLD;
-    else 
+    else
         return FALSE;
 
     return TRUE;
@@ -255,10 +255,10 @@ static int mListItem_getForeground(mListItem *self, int index, int *color)
     return -1;
 }
 
-static HITEM mListItem_createItem(mListItem* self, 
+static HITEM mListItem_createItem(mListItem* self,
         HITEM prev, HITEM next, int index, int *pos)
 {
-    mItem *newItem = 
+    mItem *newItem =
         (mItem*) Class(mItemManager).createItem(
                 (mItemManager*)self, prev, next, index, pos);
 
@@ -271,8 +271,8 @@ static HITEM mListItem_createItem(mListItem* self,
 static int mListItem_removeItem(mListItem* self, HITEM hItem)
 {
     if (hItem) {
-        free((mCellItemInfo*)(((mItem*)hItem)->addData)); 
-		return Class(mItemManager).removeItem((mItemManager*)self, hItem);
+        free((mCellItemInfo*)(((mItem*)hItem)->addData));
+        return Class(mItemManager).removeItem((mItemManager*)self, hItem);
     }
 
     return -1;
@@ -317,22 +317,22 @@ static DWORD mListItem_getAddData(mListItem* self, HITEM hItem)
 
 static BOOL mListItem_setProperty(mListItem* self, int id, DWORD value)
 {
-	if( id >= NCSP_LSTITM_MAX)
-		return FALSE;
+    if( id >= NCSP_LSTITM_MAX)
+        return FALSE;
 
     if (id >= NCSP_LSTITM_NRCHILD)
         return FALSE;
 
-	return Class(mItemManager).setProperty((mItemManager*)self, id, value);
+    return Class(mItemManager).setProperty((mItemManager*)self, id, value);
 }
 
 static DWORD mListItem_getProperty(mListItem* self, int id)
 {
-	if( id >= NCSP_LSTITM_MAX)
-		return -1;
+    if( id >= NCSP_LSTITM_MAX)
+        return -1;
 
-	switch(id)
-	{
+    switch(id)
+    {
         case NCSP_LSTITM_NRCHILD:
             return self->nrChild;
 
@@ -343,13 +343,13 @@ static DWORD mListItem_getProperty(mListItem* self, int id)
             return self->showHeight;
     }
 
-	return Class(mItemManager).getProperty((mItemManager*)self, id);
+    return Class(mItemManager).getProperty((mItemManager*)self, id);
 }
 
 BEGIN_MINI_CLASS(mListItem, mItemManager)
     CLASS_METHOD_MAP(mListItem, construct)
-	CLASS_METHOD_MAP(mListItem, setProperty)
-	CLASS_METHOD_MAP(mListItem, getProperty)
+    CLASS_METHOD_MAP(mListItem, setProperty)
+    CLASS_METHOD_MAP(mListItem, getProperty)
     CLASS_METHOD_MAP(mListItem, createItem)
     CLASS_METHOD_MAP(mListItem, removeItem)
     CLASS_METHOD_MAP(mListItem, setAddData)

@@ -55,7 +55,7 @@
 
 static void mListBox_construct (mListBox *self, DWORD addData)
 {
-	g_stmItemViewCls.construct((mItemView*)self, addData);
+    g_stmItemViewCls.construct((mItemView*)self, addData);
 
     self->font = CreateLogFontIndirect(
             (PLOGFONT)ncsGetElement((mWidget*)self, WE_FONT_MENU));
@@ -74,7 +74,7 @@ static void mListBox_destroy(mListBox *self)
     if (self->font != INV_LOGFONT)
         DestroyLogFont(self->font);
 
-	self->hwnd = HWND_NULL;
+    self->hwnd = HWND_NULL;
     Class(mItemView).destroy((mItemView*)self);
 }
 
@@ -188,9 +188,9 @@ static int mListBox_getRectByIdx(mListBox *self,
         _c(self)->contentToWindow(self, &(rcItem->left), &(rcItem->top));
         _c(self)->contentToWindow(self, &(rcItem->right), &(rcItem->bottom));
     }
-	
-	_M(self, getVisRect, &rcVis);
-	IntersectRect(rcItem, rcItem, &rcVis);
+    
+    _M(self, getVisRect, &rcVis);
+    IntersectRect(rcItem, rcItem, &rcVis);
 
     return 0;
 }
@@ -223,20 +223,20 @@ static void _draw_listbox (mListBox *self, HDC hdc)
     gal_pixel gp_normal_fgc;
     gal_pixel gp_bkcolor;
 
-	if (_c(self)->getItemCount(self) <= 0)
+    if (_c(self)->getItemCount(self) <= 0)
         return;
 
-	style = GetWindowStyle (self->hwnd);
+    style = GetWindowStyle (self->hwnd);
 
     checkmark_height = getCheckMarkHeight (self);
     topItem = TOPITEM;
     hItem = _c(self)->getItem (self, topItem);
 
-	gp_select_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_SELECTED_ITEM));
-	//gp_hilite_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_HILIGHT_ITEM));
-	gp_sign_fgc   = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, WE_FGC_SIGNIFICANT_ITEM));
-	gp_disabled_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_DISABLED_ITEM));
-	gp_normal_fgc  = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_WINDOW));
+    gp_select_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_SELECTED_ITEM));
+    //gp_hilite_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_HILIGHT_ITEM));
+    gp_sign_fgc   = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, WE_FGC_SIGNIFICANT_ITEM));
+    gp_disabled_fgc = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_DISABLED_ITEM));
+    gp_normal_fgc  = ncsColor2Pixel(hdc, ncsGetElement((mWidget*)self, NCS_FGC_WINDOW));
 
     SetBkMode (hdc, BM_TRANSPARENT);
     gp_bkcolor = GetBkColor (hdc);
@@ -257,7 +257,7 @@ static void _draw_listbox (mListBox *self, HDC hdc)
             self->renderer->drawItem (self, hdc, &rect, NCSRS_SELECTED);
         }
         else {
-			DWORD dwExStyle = GetWindowExStyle(self->hwnd);
+            DWORD dwExStyle = GetWindowExStyle(self->hwnd);
             SetTextColor (hdc, gp_normal_fgc);
 
             /** render normal item */
@@ -507,9 +507,9 @@ mListBox_insertString(mListBox* self,
         invalidateUnderItem (self, itemIndex, TRUE);
         _c(self)->setScrollInfo(self, TRUE);
     }
-	else {
+    else {
         invalidateUnderItem (self, itemIndex, TRUE);
-	}
+    }
 
     return itemIndex;
 }
@@ -742,24 +742,24 @@ static DWORD mListBox_setProperty(mListBox* self,
         int id, DWORD value)
 {
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
-	if(id == NCSP_DEFAULT_CONTENT)
-	{
-		int i;
-		char szText[100];
+    if(id == NCSP_DEFAULT_CONTENT)
+    {
+        int i;
+        char szText[100];
 
-		_c(self)->removeAll(self);
-		for(i=0; i<3; i++)
-		{
-			sprintf(szText,"Item %d", i+1);
-			_c(self)->addString(self, szText, 0);
-		}
-		return 0;
-	}
+        _c(self)->removeAll(self);
+        for(i=0; i<3; i++)
+        {
+            sprintf(szText,"Item %d", i+1);
+            _c(self)->addString(self, szText, 0);
+        }
+        return 0;
+    }
 #endif
-	if( id >= NCSP_LSTBOX_MAX)
-		return -1;
+    if( id >= NCSP_LSTBOX_MAX)
+        return -1;
 
-	switch (id)
+    switch (id)
     {
         case NCSP_LSTBOX_ITEMHEIGHT:
             return _c(self)->setItemHeight(self, 0, value);
@@ -771,15 +771,15 @@ static DWORD mListBox_setProperty(mListBox* self,
             return _c(self)->setCurSel(self, value);
     }
 
-	return Class(mItemView).setProperty((mItemView*)self, id, value);
+    return Class(mItemView).setProperty((mItemView*)self, id, value);
 }
 
 static DWORD mListBox_getProperty(mListBox* self, int id)
 {
-	if( id >= NCSP_LSTBOX_MAX)
-		return -1;
+    if( id >= NCSP_LSTBOX_MAX)
+        return -1;
 
-	switch (id)
+    switch (id)
     {
         case NCSP_LSTBOX_ITEMHEIGHT:
             return _c(self)->getItemHeight(self, 0);
@@ -794,7 +794,7 @@ static DWORD mListBox_getProperty(mListBox* self, int id)
 
     }
 
-	return Class(mItemView).getProperty((mItemView*)self, id);
+    return Class(mItemView).getProperty((mItemView*)self, id);
 }
 
 static int mListBox_removeItemByIdx(mListBox* self, int index)
@@ -978,7 +978,7 @@ static LRESULT mListBox_wndProc(mListBox* self, UINT message, WPARAM wParam, LPA
             break;
     }
 
-	return Class(mItemView).wndProc((mItemView*)self,
+    return Class(mItemView).wndProc((mItemView*)self,
             message, wParam, lParam);
 }
 
@@ -1664,72 +1664,72 @@ static BOOL mListBox_getSelection(mListBox* self,
 #ifdef _MGNCSDB_DATASOURCE
 static BOOL mListBox_setSpecificData(mListBox* self, DWORD key, DWORD value, PFreeSpecificData free_special)
 {
-	if(key == NCSSPEC_OBJ_CONTENT)
-	{
-		mRecordSet *rs = SAFE_CAST(mRecordSet, value);
-		int field_count;
-		int field_type;
-		if(!rs)
-			return FALSE;
-		field_count = _c(rs)->getFieldCount(rs);
-		if(field_count <= 0)
-			return FALSE;
+    if(key == NCSSPEC_OBJ_CONTENT)
+    {
+        mRecordSet *rs = SAFE_CAST(mRecordSet, value);
+        int field_count;
+        int field_type;
+        if(!rs)
+            return FALSE;
+        field_count = _c(rs)->getFieldCount(rs);
+        if(field_count <= 0)
+            return FALSE;
 
-		_c(self)->freeze(self, TRUE);
+        _c(self)->freeze(self, TRUE);
 
-		//reset content
-		_c(self)->resetContent(self);
+        //reset content
+        _c(self)->resetContent(self);
 
-		field_type = _c(rs)->getFieldType(rs, 1);
+        field_type = _c(rs)->getFieldType(rs, 1);
 
-		_BEGIN_AUTO_STR
-		_c(rs)->seekCursor(rs, NCS_RS_CURSOR_BEGIN, 0);
-		while(!_c(rs)->isEnd(rs))
-		{
-			DWORD dw = _c(rs)->getField(rs, 1);
-			if(field_count > 1)
+        _BEGIN_AUTO_STR
+        _c(rs)->seekCursor(rs, NCS_RS_CURSOR_BEGIN, 0);
+        while(!_c(rs)->isEnd(rs))
+        {
+            DWORD dw = _c(rs)->getField(rs, 1);
+            if(field_count > 1)
                 _c(self)->addString(self, _AUTO_STR(dw, field_type), _c(rs)->getField(rs,2));
-			else
+            else
                 _c(self)->addString(self, _AUTO_STR(dw, field_type), 0);
 
-			_RESET_AUTO_STR
-			_c(rs)->seekCursor(rs,NCS_RS_CURSOR_CUR, 1);
-		}
-		_c(self)->freeze(self, FALSE);
+            _RESET_AUTO_STR
+            _c(rs)->seekCursor(rs,NCS_RS_CURSOR_CUR, 1);
+        }
+        _c(self)->freeze(self, FALSE);
 
-		_END_AUTO_STR
-	}
+        _END_AUTO_STR
+    }
 
-	return Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special);
+    return Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special);
 }
 #endif
 
 BEGIN_CMPT_CLASS(mListBox, mItemView)
     CLASS_METHOD_MAP(mListBox, construct);
-	CLASS_METHOD_MAP(mListBox, destroy);
-	CLASS_METHOD_MAP(mListBox, onPaint);
+    CLASS_METHOD_MAP(mListBox, destroy);
+    CLASS_METHOD_MAP(mListBox, onPaint);
     CLASS_METHOD_MAP(mListBox, wndProc);
-	CLASS_METHOD_MAP(mListBox, onSizeChanged);
-	CLASS_METHOD_MAP(mListBox, onKeyDown);
-	CLASS_METHOD_MAP(mListBox, onLButtonDown);
-	CLASS_METHOD_MAP(mListBox, onLButtonUp);
-	CLASS_METHOD_MAP(mListBox, onMouseMove);
-	CLASS_METHOD_MAP(mListBox, addString);
-	CLASS_METHOD_MAP(mListBox, findString);
-	CLASS_METHOD_MAP(mListBox, insertString);
-	CLASS_METHOD_MAP(mListBox, delString);
-	CLASS_METHOD_MAP(mListBox, addItems);
-	CLASS_METHOD_MAP(mListBox, removeItem);
-	CLASS_METHOD_MAP(mListBox, removeItemByIdx);
+    CLASS_METHOD_MAP(mListBox, onSizeChanged);
+    CLASS_METHOD_MAP(mListBox, onKeyDown);
+    CLASS_METHOD_MAP(mListBox, onLButtonDown);
+    CLASS_METHOD_MAP(mListBox, onLButtonUp);
+    CLASS_METHOD_MAP(mListBox, onMouseMove);
+    CLASS_METHOD_MAP(mListBox, addString);
+    CLASS_METHOD_MAP(mListBox, findString);
+    CLASS_METHOD_MAP(mListBox, insertString);
+    CLASS_METHOD_MAP(mListBox, delString);
+    CLASS_METHOD_MAP(mListBox, addItems);
+    CLASS_METHOD_MAP(mListBox, removeItem);
+    CLASS_METHOD_MAP(mListBox, removeItemByIdx);
     CLASS_METHOD_MAP(mListBox, getCurSel);
     CLASS_METHOD_MAP(mListBox, setCurSel);
     CLASS_METHOD_MAP(mListBox, setSel);
-	CLASS_METHOD_MAP(mListBox, resetContent);
-	CLASS_METHOD_MAP(mListBox, select);
-	CLASS_METHOD_MAP(mListBox, selectByIdx);
-	CLASS_METHOD_MAP(mListBox, deselectAll);
-	CLASS_METHOD_MAP(mListBox, deselectByIdx);
-	CLASS_METHOD_MAP(mListBox, onChar);
+    CLASS_METHOD_MAP(mListBox, resetContent);
+    CLASS_METHOD_MAP(mListBox, select);
+    CLASS_METHOD_MAP(mListBox, selectByIdx);
+    CLASS_METHOD_MAP(mListBox, deselectAll);
+    CLASS_METHOD_MAP(mListBox, deselectByIdx);
+    CLASS_METHOD_MAP(mListBox, onChar);
     CLASS_METHOD_MAP(mListBox, setProperty);
     CLASS_METHOD_MAP(mListBox, getProperty);
     CLASS_METHOD_MAP(mListBox, bold);
@@ -1737,20 +1737,20 @@ BEGIN_CMPT_CLASS(mListBox, mItemView)
     CLASS_METHOD_MAP(mListBox, enableByIdx);
     CLASS_METHOD_MAP(mListBox, setCheckMark);
     CLASS_METHOD_MAP(mListBox, getCheckMark);
-	CLASS_METHOD_MAP(mListBox, hilight)
-	CLASS_METHOD_MAP(mListBox, getHilight)
-	CLASS_METHOD_MAP(mListBox, isHilight)
-	CLASS_METHOD_MAP(mListBox, isHilightByIdx)
-	CLASS_METHOD_MAP(mListBox, setItemHeight)
-	CLASS_METHOD_MAP(mListBox, getItemHeight)
-	CLASS_METHOD_MAP(mListBox, getSelection)
-	CLASS_METHOD_MAP(mListBox, getSelectionCount)
-	CLASS_METHOD_MAP(mListBox, freeze)
+    CLASS_METHOD_MAP(mListBox, hilight)
+    CLASS_METHOD_MAP(mListBox, getHilight)
+    CLASS_METHOD_MAP(mListBox, isHilight)
+    CLASS_METHOD_MAP(mListBox, isHilightByIdx)
+    CLASS_METHOD_MAP(mListBox, setItemHeight)
+    CLASS_METHOD_MAP(mListBox, getItemHeight)
+    CLASS_METHOD_MAP(mListBox, getSelection)
+    CLASS_METHOD_MAP(mListBox, getSelectionCount)
+    CLASS_METHOD_MAP(mListBox, freeze)
 #ifdef _MGNCSDB_DATASOURCE
-	CLASS_METHOD_MAP(mListBox, setSpecificData)
+    CLASS_METHOD_MAP(mListBox, setSpecificData)
 #endif
-	CLASS_METHOD_MAP(mListBox, getRect)
-	SET_DLGCODE(DLGC_WANTARROWS | DLGC_WANTCHARS | DLGC_WANTENTER);
+    CLASS_METHOD_MAP(mListBox, getRect)
+    SET_DLGCODE(DLGC_WANTARROWS | DLGC_WANTCHARS | DLGC_WANTENTER);
 END_CMPT_CLASS
 
 #endif //_MGNCSCTRL_LISTBOX

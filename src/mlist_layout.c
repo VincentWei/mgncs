@@ -56,7 +56,7 @@ extern void mList_drawFocusFrame(mList *self, mNode *node, HDC hdc, RECT *rcNode
 
 static void mListLayout_construct(mListLayout *self, DWORD  addData)
 {
-	Class(mObject).construct((mObject*)self, addData);
+    Class(mObject).construct((mObject*)self, addData);
     self->list = NULL;
     self->itemHeight = 18;
     self->itemWidth = 0;
@@ -64,7 +64,7 @@ static void mListLayout_construct(mListLayout *self, DWORD  addData)
 
 static void mListLayout_destroy(mListLayout *self)
 {
-	Class(mObject).destroy((mObject*)self);
+    Class(mObject).destroy((mObject*)self);
 }
 
 #define _LAYOUT_BAK_VAL(self, refresh, oldVal, isH) \
@@ -82,10 +82,10 @@ static BOOL mListLayout_recalcContSize(mListLayout *self, int flags)
     mNode*  first ;
     int     oldVal = 0, width = 0, maxWidth = 0, totalHeight = 0;
 
-	if (!self || !pList || !flags)
+    if (!self || !pList || !flags)
         return FALSE;
 
-	first = _c(pList)->getNode(pList, 0);
+    first = _c(pList)->getNode(pList, 0);
 
     while(first) {
         _c(first)->computeSize(first, hdc, &size);
@@ -145,8 +145,8 @@ static void mListLayout_init(mListLayout *self,
 
 static BOOL mListLayout_setProperty(mListLayout *self, int id, DWORD value)
 {
-	if( id >= NCSP_LIST_LAYOUT_MAX || !self)
-		return FALSE;
+    if( id >= NCSP_LIST_LAYOUT_MAX || !self)
+        return FALSE;
 
     switch (id) {
         case NCSP_LIST_LAYOUT_DEFITEMHEIGHT:
@@ -164,8 +164,8 @@ static BOOL mListLayout_setProperty(mListLayout *self, int id, DWORD value)
 
 static DWORD mListLayout_getProperty(mListLayout *self, int id)
 {
-	if( id >= NCSP_LIST_LAYOUT_MAX || !self)
-		return -1;
+    if( id >= NCSP_LIST_LAYOUT_MAX || !self)
+        return -1;
 
     switch (id) {
         case NCSP_LIST_LAYOUT_DEFITEMHEIGHT:
@@ -179,14 +179,14 @@ static DWORD mListLayout_getProperty(mListLayout *self, int id)
 
 static int mListLayout_getNodeRect(mListLayout *self, mNode *node, RECT *rcNode)
 {
-	mNode *first;
+    mNode *first;
     int height = 0;
     BOOL found = FALSE;
 
-	if (!self || !pList || !rcNode || !node)
+    if (!self || !pList || !rcNode || !node)
         return -1;
 
-	first  = _c(pList)->getNode(pList, 0);
+    first  = _c(pList)->getNode(pList, 0);
 
     while (first) {
         if (first == node) {
@@ -212,9 +212,9 @@ static int mListLayout_getNodeRect(mListLayout *self, mNode *node, RECT *rcNode)
 
 static mNode* mListLayout_onMouseHit(mListLayout *self, int mouseX, int mouseY)
 {
-	int nodesHeight;
-	mNode* tmp;
-	int h;
+    int nodesHeight;
+    mNode* tmp;
+    int h;
     if (!self || !pList)
         return NULL;
 
@@ -222,7 +222,7 @@ static mNode* mListLayout_onMouseHit(mListLayout *self, int mouseX, int mouseY)
     if (mouseY < 0 || mouseY >= nodesHeight)
         return NULL;
 
-	tmp = _c(pList)->getNode(pList, 0);
+    tmp = _c(pList)->getNode(pList, 0);
     h = 0;
 
     while (tmp) {
@@ -240,8 +240,8 @@ static mNode* mListLayout_onMouseHit(mListLayout *self, int mouseX, int mouseY)
 static void mListLayout_update(mListLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
-	int height;
-	mNode *node;
+    int height;
+    mNode *node;
     if (!self || !pList || !rcVis || !rcCont || RECTWP(rcCont) <= 0)
         return;
 
@@ -272,9 +272,9 @@ static void mListLayout_update(mListLayout *self,
 static mNode* mListLayout_onDirKey(mListLayout *self,
         mNode *refNode, int direct)
 {
-	BOOL loop = direct & NCSF_LIST_LOOP;
+    BOOL loop = direct & NCSF_LIST_LOOP;
     mNode *node = NULL;
-	int direct_flags = direct & NCSF_LIST_DIRMASK;
+    int direct_flags = direct & NCSF_LIST_DIRMASK;
     if (!self)
         return 0;
 
@@ -416,17 +416,17 @@ static void mListLayout_nodeEvent(mListLayout *self,
 }
 
 BEGIN_MINI_CLASS(mListLayout, mObject)
-	CLASS_METHOD_MAP(mListLayout, construct)
-	CLASS_METHOD_MAP(mListLayout, init)
-	CLASS_METHOD_MAP(mListLayout, destroy)
-	CLASS_METHOD_MAP(mListLayout, setProperty)
-	CLASS_METHOD_MAP(mListLayout, getProperty)
-	CLASS_METHOD_MAP(mListLayout, onMouseHit)
-	CLASS_METHOD_MAP(mListLayout, onDirKey)
-	CLASS_METHOD_MAP(mListLayout, getNodeRect)
-	CLASS_METHOD_MAP(mListLayout, nodeEvent)
-	CLASS_METHOD_MAP(mListLayout, update)
-	CLASS_METHOD_MAP(mListLayout, recalcContSize)
+    CLASS_METHOD_MAP(mListLayout, construct)
+    CLASS_METHOD_MAP(mListLayout, init)
+    CLASS_METHOD_MAP(mListLayout, destroy)
+    CLASS_METHOD_MAP(mListLayout, setProperty)
+    CLASS_METHOD_MAP(mListLayout, getProperty)
+    CLASS_METHOD_MAP(mListLayout, onMouseHit)
+    CLASS_METHOD_MAP(mListLayout, onDirKey)
+    CLASS_METHOD_MAP(mListLayout, getNodeRect)
+    CLASS_METHOD_MAP(mListLayout, nodeEvent)
+    CLASS_METHOD_MAP(mListLayout, update)
+    CLASS_METHOD_MAP(mListLayout, recalcContSize)
 END_MINI_CLASS
 
 /*============================mLVIconLayout=======================*/
@@ -457,7 +457,7 @@ GETRECT_EX(_lhicon_getrect_byidx, mLHIconLayout, nrRow, %, /);
                 InvalidateRect(pList->hwnd, &lastrc, TRUE);             \
             }                                                           \
             else {                                                      \
-				RECT rect;                                              \
+                RECT rect;                                              \
                 if (_c(node)->indexOf(node) - offIdx == lastIdx) {            \
                     _c(pList)->refreshNode(pList, node, NULL);                 \
                     return;                                             \
@@ -532,7 +532,7 @@ static BOOL mLVIconLayout_recalcContSize(mLVIconLayout *self, int flags)
 
 static void mLVIconLayout_construct(mLVIconLayout *self, DWORD addData)
 {
-	Class(mListLayout).construct((mListLayout*)self, addData);
+    Class(mListLayout).construct((mListLayout*)self, addData);
     self->itemHeight = 64;
     self->itemWidth = 64;
     self->nrCol = 1;
@@ -540,8 +540,8 @@ static void mLVIconLayout_construct(mLVIconLayout *self, DWORD addData)
 
 static BOOL mLVIconLayout_setProperty(mLVIconLayout *self, int id, DWORD value)
 {
-	if( id >= NCSP_LIST_LAYOUT_MAX || !self)
-		return FALSE;
+    if( id >= NCSP_LIST_LAYOUT_MAX || !self)
+        return FALSE;
 
     switch (id) {
         case NCSP_LIST_LAYOUT_DEFITEMHEIGHT:
@@ -561,7 +561,7 @@ static BOOL mLVIconLayout_setProperty(mLVIconLayout *self, int id, DWORD value)
 
 static int mLVIconLayout_getNodeRect(mLVIconLayout *self, mNode *node, RECT *rcNode)
 {
-	int index;
+    int index;
     if (!self || !pList || !rcNode || !node)
         return -1;
 
@@ -575,7 +575,7 @@ static int mLVIconLayout_getNodeRect(mLVIconLayout *self, mNode *node, RECT *rcN
 
 static mNode* mLVIconLayout_onMouseHit(mLVIconLayout *self, int mouseX, int mouseY)
 {
-	int index;
+    int index;
     if (!self || !pList || mouseY < 0 || mouseX < 0)
         return NULL;
 
@@ -589,7 +589,7 @@ static mNode* mLVIconLayout_onMouseHit(mLVIconLayout *self, int mouseX, int mous
 static void mLVIconLayout_update(mLVIconLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
-	int i = 0;
+    int i = 0;
     mNode *node;
     RECT rcDraw;
     if (!self || !pList || !rcVis || !rcCont || RECTWP(rcCont) <= 0)
@@ -623,10 +623,10 @@ static void mLVIconLayout_update(mLVIconLayout *self,
 static mNode* mLVIconLayout_onDirKey(mLVIconLayout *self,
         mNode *refNode, int direct)
 {
-	BOOL loop = direct & NCSF_LIST_LOOP;
+    BOOL loop = direct & NCSF_LIST_LOOP;
     mNode *node = NULL;
     int direct_flags, dstIdx;
-	int count;
+    int count;
     if (!self)
         return NULL;
     count = _c(pList->root)->getProperty(pList->root, NCSP_NODE_CHILDRENCOUNT);
@@ -756,8 +756,8 @@ static void mLVIconLayout_nodeEvent(mLVIconLayout *self,
         {
             if (eventInfo) {
                 mNode *parentNode, *node = (mNode*)eventInfo;
-				int oldVal, count;
-				BOOL refresh = FALSE;
+                int oldVal, count;
+                BOOL refresh = FALSE;
 
                 parentNode = (mNode*)_c(node)->getProperty(node, NCSP_NODE_PARENTNODE);
                 count = _c(parentNode)->getProperty(parentNode, NCSP_NODE_CHILDRENCOUNT);
@@ -779,14 +779,14 @@ static void mLVIconLayout_nodeEvent(mLVIconLayout *self,
 }
 
 BEGIN_MINI_CLASS(mLVIconLayout, mListLayout)
-	CLASS_METHOD_MAP(mLVIconLayout, construct)
-	CLASS_METHOD_MAP(mLVIconLayout, setProperty)
-	CLASS_METHOD_MAP(mLVIconLayout, onMouseHit)
-	CLASS_METHOD_MAP(mLVIconLayout, onDirKey)
-	CLASS_METHOD_MAP(mLVIconLayout, getNodeRect)
-	CLASS_METHOD_MAP(mLVIconLayout, nodeEvent)
-	CLASS_METHOD_MAP(mLVIconLayout, update)
-	CLASS_METHOD_MAP(mLVIconLayout, recalcContSize)
+    CLASS_METHOD_MAP(mLVIconLayout, construct)
+    CLASS_METHOD_MAP(mLVIconLayout, setProperty)
+    CLASS_METHOD_MAP(mLVIconLayout, onMouseHit)
+    CLASS_METHOD_MAP(mLVIconLayout, onDirKey)
+    CLASS_METHOD_MAP(mLVIconLayout, getNodeRect)
+    CLASS_METHOD_MAP(mLVIconLayout, nodeEvent)
+    CLASS_METHOD_MAP(mLVIconLayout, update)
+    CLASS_METHOD_MAP(mLVIconLayout, recalcContSize)
 END_MINI_CLASS
 
 /*==========================mLHIconLayout==================================*/
@@ -826,7 +826,7 @@ static BOOL mLHIconLayout_recalcContSize(mLHIconLayout *self, int flags)
 
 static void mLHIconLayout_construct(mLHIconLayout *self, DWORD addData)
 {
-	Class(mListLayout).construct((mListLayout*)self, addData);
+    Class(mListLayout).construct((mListLayout*)self, addData);
     self->nrRow = 1;
     self->itemHeight = 64;
     self->itemWidth = 64;
@@ -834,8 +834,8 @@ static void mLHIconLayout_construct(mLHIconLayout *self, DWORD addData)
 
 static BOOL mLHIconLayout_setProperty(mLHIconLayout *self, int id, DWORD value)
 {
-	if( id >= NCSP_LIST_LAYOUT_MAX || !self)
-		return FALSE;
+    if( id >= NCSP_LIST_LAYOUT_MAX || !self)
+        return FALSE;
 
     switch (id) {
         case NCSP_LIST_LAYOUT_DEFITEMHEIGHT:
@@ -854,7 +854,7 @@ static BOOL mLHIconLayout_setProperty(mLHIconLayout *self, int id, DWORD value)
 
 static int mLHIconLayout_getNodeRect(mLHIconLayout *self, mNode *node, RECT *rcNode)
 {
-	int index;
+    int index;
     if (!self || !pList || !rcNode || !node)
         return -1;
 
@@ -868,7 +868,7 @@ static int mLHIconLayout_getNodeRect(mLHIconLayout *self, mNode *node, RECT *rcN
 
 static mNode* mLHIconLayout_onMouseHit(mLHIconLayout *self, int mouseX, int mouseY)
 {
-	int row, col, index;
+    int row, col, index;
     if (!self || !pList || mouseY < 0 || mouseX < 0 || mouseX > pList->contWidth)
         return NULL;
 
@@ -882,7 +882,7 @@ static mNode* mLHIconLayout_onMouseHit(mLHIconLayout *self, int mouseX, int mous
 static void mLHIconLayout_update(mLHIconLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
-	int i = 0;
+    int i = 0;
     mNode *node;
     RECT rcDraw;
     if (!self || !pList || !rcVis || !rcCont || RECTWP(rcCont) <= 0)
@@ -916,12 +916,12 @@ static void mLHIconLayout_update(mLHIconLayout *self,
 static mNode* mLHIconLayout_onDirKey(mLHIconLayout *self,
         mNode *refNode, int direct)
 {
-	BOOL loop = direct & NCSF_LIST_LOOP;
+    BOOL loop = direct & NCSF_LIST_LOOP;
     mNode *node = NULL;
     int direct_flags, dstIdx;
-	int count;
+    int count;
 
-	if (!self)
+    if (!self)
         return 0;
     count = _c(pList->root)->getProperty(pList->root, NCSP_NODE_CHILDRENCOUNT);
     if (count <= 0)
@@ -1092,7 +1092,7 @@ static void mLHIconLayout_nodeEvent(mLHIconLayout *self,
                 }
                 if (!refresh) {
                     _lhicon_refresh_nodes(self, node, count - 1, 0, 0);
-				}
+                }
             }
             break;
         }
@@ -1101,8 +1101,8 @@ static void mLHIconLayout_nodeEvent(mLHIconLayout *self,
         {
             if (eventInfo) {
                 mNode *parentNode, *node = (mNode*)eventInfo;
-				int count;
-				BOOL refresh = FALSE;
+                int count;
+                BOOL refresh = FALSE;
                 parentNode = (mNode*)_c(node)->getProperty(node, NCSP_NODE_PARENTNODE);
                 count = _c(parentNode)->getProperty(parentNode, NCSP_NODE_CHILDRENCOUNT);
 
@@ -1126,19 +1126,19 @@ static void mLHIconLayout_nodeEvent(mLHIconLayout *self,
 }
 
 BEGIN_MINI_CLASS(mLHIconLayout, mListLayout)
-	CLASS_METHOD_MAP(mLHIconLayout, construct)
-	CLASS_METHOD_MAP(mLHIconLayout, setProperty)
-	CLASS_METHOD_MAP(mLHIconLayout, onMouseHit)
-	CLASS_METHOD_MAP(mLHIconLayout, onDirKey)
-	CLASS_METHOD_MAP(mLHIconLayout, getNodeRect)
-	CLASS_METHOD_MAP(mLHIconLayout, nodeEvent)
-	CLASS_METHOD_MAP(mLHIconLayout, update)
-	CLASS_METHOD_MAP(mLHIconLayout, recalcContSize)
+    CLASS_METHOD_MAP(mLHIconLayout, construct)
+    CLASS_METHOD_MAP(mLHIconLayout, setProperty)
+    CLASS_METHOD_MAP(mLHIconLayout, onMouseHit)
+    CLASS_METHOD_MAP(mLHIconLayout, onDirKey)
+    CLASS_METHOD_MAP(mLHIconLayout, getNodeRect)
+    CLASS_METHOD_MAP(mLHIconLayout, nodeEvent)
+    CLASS_METHOD_MAP(mLHIconLayout, update)
+    CLASS_METHOD_MAP(mLHIconLayout, recalcContSize)
 END_MINI_CLASS
 
 static void mLHCenterBoxLayout_construct(mLHCenterBoxLayout *self, DWORD addData)
 {
-	Class(mLHIconLayout).construct((mLHIconLayout*)self, addData);
+    Class(mLHIconLayout).construct((mLHIconLayout*)self, addData);
     self->nrRow = 1;
     self->offx = 0;
 }
@@ -1189,12 +1189,12 @@ static mNode* mLHCenterBoxLayout_onDirKey(mLHCenterBoxLayout *self,
 static void mLHCenterBoxLayout_update(mLHCenterBoxLayout *self,
         HDC hdc, const RECT* rcVis, RECT *rcCont)
 {
-	int i = 0, centerIdx, firstIdx, nrCol;
+    int i = 0, centerIdx, firstIdx, nrCol;
     mNode *node;
     RECT rcDraw;
-	POINT pt;
+    POINT pt;
     //int centerX, centerY;
-	int loop;
+    int loop;
 
     if (!self || !pList || !rcVis || !rcCont || RECTWP(rcCont) <= 0)
         return;
@@ -1251,8 +1251,8 @@ static void mLHCenterBoxLayout_update(mLHCenterBoxLayout *self,
 
 static int mLHCenterBoxLayout_getNodeRect(mLHCenterBoxLayout *self, mNode *node, RECT *rcNode)
 {
-	int index;
-	RECT rc;
+    int index;
+    RECT rc;
     if (!self || !pList || !rcNode || !node)
         return -1;
 
@@ -1277,18 +1277,18 @@ static mNode* mLHCenterBoxLayout_onMouseHit(mLHCenterBoxLayout *self, int mouseX
 }
 
 BEGIN_MINI_CLASS(mLHCenterBoxLayout, mLHIconLayout)
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, construct)
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, onMouseHit)
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, update)
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, getNodeRect)
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, onDirKey)
-	CLASS_METHOD_MAP(mLHCenterBoxLayout, recalcContSize)
+    CLASS_METHOD_MAP(mLHCenterBoxLayout, construct)
+    CLASS_METHOD_MAP(mLHCenterBoxLayout, onMouseHit)
+    CLASS_METHOD_MAP(mLHCenterBoxLayout, update)
+    CLASS_METHOD_MAP(mLHCenterBoxLayout, getNodeRect)
+    CLASS_METHOD_MAP(mLHCenterBoxLayout, onDirKey)
+    CLASS_METHOD_MAP(mLHCenterBoxLayout, recalcContSize)
 END_MINI_CLASS
 
 /*===========================mLGroupLayout=========================*/
 static void mLGroupLayout_construct(mLGroupLayout *self, DWORD  addData)
 {
-	Class(mLVIconLayout).construct((mLVIconLayout*)self, addData);
+    Class(mLVIconLayout).construct((mLVIconLayout*)self, addData);
     self->cbInGroup = NULL;
     self->cbCmpNode = NULL;
     self->cbCmpGroup= _ncs_defcmp_node;
@@ -1306,7 +1306,7 @@ static void mLGroupLayout_destroy(mLGroupLayout *self)
 
     //reset list node cmparation
     pList->nodeCmp = self->cbCmpNode;
-	Class(mLVIconLayout).destroy((mLVIconLayout*)self);
+    Class(mLVIconLayout).destroy((mLVIconLayout*)self);
 }
 
 static int is_current_group(mGroupNode *node, DWORD id)
@@ -1421,10 +1421,10 @@ static void _update_list_and_layout(mLGroupLayout *self)
                 unnamedNode->count = count;
         }
         else if (count > 0) {
-			int groupId;
-			mGroupNode *groupNode;
+            int groupId;
+            mGroupNode *groupNode;
             mNode *first;
-			_c(pList)->sortNodes(pList, mLGroupLayout_nodeCmpFunc, NULL);
+            _c(pList)->sortNodes(pList, mLGroupLayout_nodeCmpFunc, NULL);
 
             //reset count
             first = _c(pList)->getNode(pList, 0);
@@ -1589,8 +1589,8 @@ mLGroupLayout_setInGroupFunc(mLGroupLayout *self, NCS_CB_INGROUP func)
 
 static int mLGroupLayout_getNodeRect(mLGroupLayout *self, mNode *node, RECT *rcNode)
 {
-	mNode *groupNode;
-	int offh = 0, index, count = 0, nrChild;
+    mNode *groupNode;
+    int offh = 0, index, count = 0, nrChild;
 
     if (!self || !pList || !rcNode || !node)
         return -1;
@@ -1638,8 +1638,8 @@ static int mLGroupLayout_getNodeRect(mLGroupLayout *self, mNode *node, RECT *rcN
 
 static mNode* mLGroupLayout_onMouseHit(mLGroupLayout *self, int mouseX, int mouseY)
 {
-	int head = 0, offh = 0, index = -1, count = 0, nrChild;
-	mNode* groupNode;
+    int head = 0, offh = 0, index = -1, count = 0, nrChild;
+    mNode* groupNode;
     if (!self || !pList || mouseY < 0 || mouseX < 0)
         return NULL;
 
@@ -1686,7 +1686,7 @@ static void mLGroupLayout_update(mLGroupLayout *self,
     if (!self || !pList || !rcVis || !rcCont || RECTWP(rcCont) <= 0)
         return;
 
-	head = rcCont->top;
+    head = rcCont->top;
     groupNode = _c(self->groupRoot)->getNode(self->groupRoot, 0);
     while(groupNode) {
 
@@ -1815,8 +1815,8 @@ static int _get_node_index_ingroup(mLGroupLayout *self, mNode *node)
 
 static int _lgroup_get_group_info(mLGroupLayout *self, mNode *group, int *offTop, int *startIdx)
 {
-	int offh = 0, index = 0, nrChild;
-	mNode *groupNode;
+    int offh = 0, index = 0, nrChild;
+    mNode *groupNode;
     if (!self || !group || !self->groupRoot || !(offTop || startIdx))
         return -1;
 
@@ -1854,7 +1854,7 @@ static int _lgroup_get_group_info(mLGroupLayout *self, mNode *group, int *offTop
 static void _lgroup_refresh_onegroup(mLGroupLayout *self,
         mNode *groupNode, mNode *node, int lastIdx)
 {
-	int offTop = 0, offIdx = 0;
+    int offTop = 0, offIdx = 0;
     if (!self || !groupNode || !pList)
         return;
 
@@ -1866,7 +1866,7 @@ static void _lgroup_refresh_onegroup(mLGroupLayout *self,
 
 static void _lgroup_refresh_groups(mLGroupLayout *self, mNode *groupNode)
 {
-	int offTop = 0, offIdx = 0;
+    int offTop = 0, offIdx = 0;
     RECT rc;
     mNode *first = NULL;
     if (!self || !groupNode || !pList)
@@ -1999,8 +1999,8 @@ static void mLGroupLayout_nodeEvent(mLGroupLayout *self,
 
 static BOOL mLGroupLayout_setProperty(mLGroupLayout *self, int id, DWORD value)
 {
-	if( id >= NCSP_LGROUP_LAYOUT_MAX || !self)
-		return FALSE;
+    if( id >= NCSP_LGROUP_LAYOUT_MAX || !self)
+        return FALSE;
 
     switch (id) {
         case NCSP_LGROUP_LAYOUT_GROUPCMPFUNC:
@@ -2021,8 +2021,8 @@ static BOOL mLGroupLayout_setProperty(mLGroupLayout *self, int id, DWORD value)
 
 static DWORD mLGroupLayout_getProperty(mLGroupLayout *self, int id)
 {
-	if( id >= NCSP_LGROUP_LAYOUT_MAX || !self)
-		return -1;
+    if( id >= NCSP_LGROUP_LAYOUT_MAX || !self)
+        return -1;
 
     switch (id) {
         case NCSP_LGROUP_LAYOUT_NODECMPFUNC:
@@ -2035,21 +2035,21 @@ static DWORD mLGroupLayout_getProperty(mLGroupLayout *self, int id)
 }
 
 BEGIN_MINI_CLASS(mLGroupLayout, mLVIconLayout)
-	CLASS_METHOD_MAP(mLGroupLayout, construct)
-	CLASS_METHOD_MAP(mLGroupLayout, destroy)
-	CLASS_METHOD_MAP(mLGroupLayout, getProperty)
-	CLASS_METHOD_MAP(mLGroupLayout, setProperty)
-	CLASS_METHOD_MAP(mLGroupLayout, decorateNodeCmp)
-	CLASS_METHOD_MAP(mLGroupLayout, resetGroup)
-	CLASS_METHOD_MAP(mLGroupLayout, setInGroupFunc)
-	CLASS_METHOD_MAP(mLGroupLayout, init)
-	CLASS_METHOD_MAP(mLGroupLayout, onMouseHit)
-	CLASS_METHOD_MAP(mLGroupLayout, getNodeRect)
-	CLASS_METHOD_MAP(mLGroupLayout, update)
-	CLASS_METHOD_MAP(mLGroupLayout, nodeEvent)
-	CLASS_METHOD_MAP(mLGroupLayout, onDirKey)
-	CLASS_METHOD_MAP(mLGroupLayout, setGroupInfo)
-	CLASS_METHOD_MAP(mLGroupLayout, recalcContSize)
+    CLASS_METHOD_MAP(mLGroupLayout, construct)
+    CLASS_METHOD_MAP(mLGroupLayout, destroy)
+    CLASS_METHOD_MAP(mLGroupLayout, getProperty)
+    CLASS_METHOD_MAP(mLGroupLayout, setProperty)
+    CLASS_METHOD_MAP(mLGroupLayout, decorateNodeCmp)
+    CLASS_METHOD_MAP(mLGroupLayout, resetGroup)
+    CLASS_METHOD_MAP(mLGroupLayout, setInGroupFunc)
+    CLASS_METHOD_MAP(mLGroupLayout, init)
+    CLASS_METHOD_MAP(mLGroupLayout, onMouseHit)
+    CLASS_METHOD_MAP(mLGroupLayout, getNodeRect)
+    CLASS_METHOD_MAP(mLGroupLayout, update)
+    CLASS_METHOD_MAP(mLGroupLayout, nodeEvent)
+    CLASS_METHOD_MAP(mLGroupLayout, onDirKey)
+    CLASS_METHOD_MAP(mLGroupLayout, setGroupInfo)
+    CLASS_METHOD_MAP(mLGroupLayout, recalcContSize)
 END_MINI_CLASS
 
 #endif //_MGNCSCTRL_LIST

@@ -1,4 +1,4 @@
-/* 
+/*
     This file is part of mGNCS, a component for MiniGUI.
 
     Copyright (C) 2008~2018, Beijing FMSoft Technologies Co., Ltd.
@@ -95,7 +95,7 @@ static inline int get_text_extent(mSlEdit* self, int len/*=-1*/, SIZE *psize)
 {
     int ret;
     HDC hdc;
-	DWORD dwStyle;
+    DWORD dwStyle;
     char* string = (char*)self->content.string;
     hdc = GETDC(self);
     dwStyle  = GetWindowStyle(self->hwnd);
@@ -112,7 +112,7 @@ static inline int get_text_extentpoint(mSlEdit* self, int len/* =-1 */, int max_
 {
     int ret;
     HDC hdc;
-	DWORD dwStyle;
+    DWORD dwStyle;
     char* string = (char*)self->content.string;
     hdc = GETDC(self);
     dwStyle  = GetWindowStyle(self->hwnd);
@@ -157,14 +157,14 @@ static void setup_dc (mSlEdit *self, HDC hdc, BOOL bSel)
     DWORD dwStyle = GetWindowStyle (self->hwnd);
     if (!bSel) {
         SetBkMode (hdc, BM_TRANSPARENT);
-        SetTextColor (hdc, ncsColor2Pixel(hdc, 
+        SetTextColor (hdc, ncsColor2Pixel(hdc,
                     ncsGetElement(self, (dwStyle & WS_DISABLED) ? NCS_FGC_DISABLED_ITEM : NCS_FGC_WINDOW)));
         SetBkColor (hdc, GetWindowBkColor (self->hwnd));
     }
     else {
         SetBkMode (hdc, BM_OPAQUE);
 
-        SetTextColor (hdc, ncsColor2Pixel(hdc, 
+        SetTextColor (hdc, ncsColor2Pixel(hdc,
                     ncsGetElement(self, (dwStyle & WS_DISABLED) ? NCS_FGC_DISABLED_ITEM : NCS_FGC_SELECTED_ITEM)));
 
         if (self->status & NCST_SLEDIT_FOCUSED)
@@ -176,39 +176,39 @@ static void setup_dc (mSlEdit *self, HDC hdc, BOOL bSel)
 
 static void update_view_rect(mSlEdit * self)
 {
-	int width, height;
-	int font_width = 8;
-	PLOGFONT logfont;
-	FONTMETRICS fm;
+    int width, height;
+    int font_width = 8;
+    PLOGFONT logfont;
+    FONTMETRICS fm;
 
-	GetClientRect(self->hwnd, &self->rcVis);
+    GetClientRect(self->hwnd, &self->rcVis);
 
-	width = RECTW(self->rcVis);
+    width = RECTW(self->rcVis);
 
-	logfont = GetWindowFont(self->hwnd);
-	GetFontMetrics(logfont, &fm);
-	font_width = fm.max_width;
+    logfont = GetWindowFont(self->hwnd);
+    GetFontMetrics(logfont, &fm);
+    font_width = fm.max_width;
 
-	if(width <= (self->leftMargin + self->rightMargin + font_width))
-	{
-		if(self->leftMargin < (width - font_width)/2)
-		{
-			self->rcVis.left += self->leftMargin;
-			self->rcVis.right = self->rcVis.left + font_width ;
-		}
-		else {
-			self->rcVis.right -= self->rightMargin;
-			self->rcVis.left = self->rcVis.right - font_width ;
-		}
-	}
-	else {
-		self->rcVis.left += self->leftMargin;
-		self->rcVis.right -= self->rightMargin;
-	}
+    if(width <= (self->leftMargin + self->rightMargin + font_width))
+    {
+        if(self->leftMargin < (width - font_width)/2)
+        {
+            self->rcVis.left += self->leftMargin;
+            self->rcVis.right = self->rcVis.left + font_width ;
+        }
+        else {
+            self->rcVis.right -= self->rightMargin;
+            self->rcVis.left = self->rcVis.right - font_width ;
+        }
+    }
+    else {
+        self->rcVis.left += self->leftMargin;
+        self->rcVis.right -= self->rightMargin;
+    }
 
-	height = RECTH(self->rcVis);
-	self->rcVis.top += (height - fm.font_height) / 2;
-	self->rcVis.bottom = self->rcVis.top + fm.font_height;
+    height = RECTH(self->rcVis);
+    self->rcVis.top += (height - fm.font_height) / 2;
+    self->rcVis.bottom = self->rcVis.top + fm.font_height;
 
 }
 
@@ -216,7 +216,7 @@ static void update_view_rect(mSlEdit * self)
 
 static void get_content_width (mSlEdit *self)
 {
-	update_view_rect(self);
+    update_view_rect(self);
 
     self->nVisW = self->rcVis.right - self->rcVis.left;
 }
@@ -284,7 +284,7 @@ static BOOL make_charpos_visible (mSlEdit *self, int charPos, int *cx)
     if (charPos <= 0)
         txtsize.cx = 0;
     else {
-        get_text_extent(self, charPos, &txtsize); 
+        get_text_extent(self, charPos, &txtsize);
     }
     if (cx)
         *cx = self->startX + txtsize.cx;
@@ -298,7 +298,7 @@ static void calc_content_width(mSlEdit *self, int charPos, int *cx)
     if (charPos <= 0)
         txtsize.cx = 0;
     else {
-       get_text_extent(self, charPos, &txtsize); 
+       get_text_extent(self, charPos, &txtsize);
     }
     if (cx)
         *cx = txtsize.cx;
@@ -313,7 +313,7 @@ calc_charpos_cx (mSlEdit *self, int charPos, int *cx)
     if (charPos <= 0)
         txtsize.cx = 0;
     else {
-       get_text_extent(self, charPos, &txtsize); 
+       get_text_extent(self, charPos, &txtsize);
     }
     if (cx)
         *cx = self->startX + txtsize.cx;
@@ -1338,7 +1338,7 @@ static void mSlEdit_construct (mSlEdit *self, DWORD addData)
     }
     else
         self->tipText = NULL;
-    
+
     caption = strdup(GetWindowCaption(self->hwnd));
 
     if (dwStyle & NCSS_EDIT_UPPERCASE) {
@@ -1370,8 +1370,8 @@ static void mSlEdit_destroy (mSlEdit *self)
     if ((GetWindowStyle(self->hwnd) & NCSS_SLEDIT_TIP) && self->tipText) {
         FreeFixStr (self->tipText);
     }
-	if(self->tipText)
-		FreeFixStr(self->tipText);
+    if(self->tipText)
+        FreeFixStr(self->tipText);
 
     if (self->content.string) {
         testr_free (&self->content);
@@ -1394,21 +1394,21 @@ static BOOL mSlEdit_setProperty (mSlEdit *self, int id, DWORD value)
                 if (!(GetWindowStyle(self->hwnd) & NCSS_SLEDIT_TIP) || !tip)
                     return FALSE;
 
-				if(!tip)
-					len = 0;
-				else
-					len = strlen(tip);
-				if(self->tipText)
+                if(!tip)
+                    len = 0;
+                else
+                    len = strlen(tip);
+                if(self->tipText)
                 {
                     FreeFixStr (self->tipText);
                 }
-				if(len > 0)
-				{
-					self->tipText = FixStrAlloc(len+1);
-					strcpy (self->tipText, tip);
-				}
-				else
-					self->tipText = NULL;
+                if(len > 0)
+                {
+                    self->tipText = FixStrAlloc(len+1);
+                    strcpy (self->tipText, tip);
+                }
+                else
+                    self->tipText = NULL;
 
                 if (self->content.txtlen <= 0)
                     InvalidateRect (self->hwnd, NULL, TRUE);
@@ -1432,10 +1432,10 @@ static BOOL mSlEdit_setProperty (mSlEdit *self, int id, DWORD value)
                     return FALSE;
                 }
                 else {
-					if((int)value <= 0)
-						self->hardLimit = -1;
-					else
-						self->hardLimit = (int)value;
+                    if((int)value <= 0)
+                        self->hardLimit = -1;
+                    else
+                        self->hardLimit = (int)value;
                     return TRUE;
                 }
             }
@@ -1449,7 +1449,7 @@ static BOOL mSlEdit_setProperty (mSlEdit *self, int id, DWORD value)
             break;
     }
 
-	return Class(mEdit).setProperty ((mEdit *)self, id, value);
+    return Class(mEdit).setProperty ((mEdit *)self, id, value);
 }
 
 static DWORD mSlEdit_getProperty (mSlEdit *self, int id)
@@ -1478,16 +1478,16 @@ static DWORD mSlEdit_getProperty (mSlEdit *self, int id)
             {
                 return (DWORD)self->editPos;
             }
-		case NCSP_WIDGET_TEXT:
-			{
-				self->content.string[self->content.txtlen] = 0;
-				return (DWORD)self->content.string;
-			}
+        case NCSP_WIDGET_TEXT:
+            {
+                self->content.string[self->content.txtlen] = 0;
+                return (DWORD)self->content.string;
+            }
         default:
             break;
     }
 
-	return Class(mEdit).getProperty ((mEdit *)self, id);
+    return Class(mEdit).getProperty ((mEdit *)self, id);
 }
 
 static LRESULT mSlEdit_wndProc (mSlEdit *self, UINT message, WPARAM wParam, LPARAM lParam)
@@ -1507,7 +1507,7 @@ static LRESULT mSlEdit_wndProc (mSlEdit *self, UINT message, WPARAM wParam, LPAR
             CreateCaret (self->hwnd, NULL, 1, pLogFont->size);
 
             recalcSize (self, FALSE);
-			InvalidateRect(self->hwnd, NULL, TRUE);
+            InvalidateRect(self->hwnd, NULL, TRUE);
 
             return 0;
         }
@@ -1594,7 +1594,7 @@ static LRESULT mSlEdit_wndProc (mSlEdit *self, UINT message, WPARAM wParam, LPAR
         }
     }
 
-	return Class(mEdit).wndProc((mEdit*)self, message, wParam, lParam);
+    return Class(mEdit).wndProc((mEdit*)self, message, wParam, lParam);
 }
 
 static int mSlEdit_onSizeChanged (mSlEdit *self, RECT *rcClient)
@@ -1617,10 +1617,10 @@ static void mSlEdit_onPaint (mSlEdit *self, HDC hdc, const PCLIPRGN pclip)
     {
         //setup_dc (self, hdc, FALSE);
         SetBkMode (hdc, BM_TRANSPARENT);
-        SetTextColor (hdc, ncsColor2Pixel(hdc, 
+        SetTextColor (hdc, ncsColor2Pixel(hdc,
                     ncsGetElement(self, NCS_FGC_DISABLED_ITEM)));
         TextOut (hdc, self->leftMargin, startY, self->tipText);
-		goto RETURN;
+        goto RETURN;
     }
 
     if (dwStyle & NCSS_SLEDIT_PASSWORD) {
@@ -2003,7 +2003,7 @@ static int mSlEdit_onKeyDown(mSlEdit* self, int scancode, DWORD key_flags)
                 if (self->editPos == 0 && self->selStart == self->selEnd)
                     return 0;
 
-                del = - CHLENPREV( self->content.string, 
+                del = - CHLENPREV( self->content.string,
                         (self->content.string + self->editPos) );
                 sleInsertText (self, NULL, del);
             }
@@ -2119,24 +2119,24 @@ static int mSlEdit_setContent (mSlEdit *self, const char* str, int start, int le
     int i;
     char* buffer;
     DWORD dwStyle;
-	int   slen = 0;
+    int   slen = 0;
 
     if (!str)
-	{
-		_c(self)->resetContent(self);
+    {
+        _c(self)->resetContent(self);
         return 0;
-	}
+    }
 
-	slen = strlen(str + start);
+    slen = strlen(str + start);
 
     if (len == -1 || len > slen)
     {
-		len = slen;
+        len = slen;
         buffer = strdup(str + start);
     } else {
         buffer = (char *)calloc(len + 1 ,sizeof(char));
         strncpy(buffer, str + start, len);
-		buffer[len] = 0;
+        buffer[len] = 0;
     }
 
     dwStyle = GetWindowStyle(self->hwnd);
@@ -2210,7 +2210,7 @@ static void mSlEdit_replaceText(mSlEdit *self, const char* str,
 
     sleInsertText (self, (char* )buffer, strlen(buffer));
 
-	free(buffer);
+    free(buffer);
     self->changed = TRUE;
     ncsNotifyParent ((mWidget*)self, NCSN_EDIT_UPDATE);
 
@@ -2242,8 +2242,8 @@ static int mSlEdit_getContent(mSlEdit *self, char *strBuff, int bufLen, int star
     if(start < 0 || start > self->content.txtlen || start > end)
         return -1;
 
-	if(strBuff == NULL || bufLen <=0)
-		return end-start;
+    if(strBuff == NULL || bufLen <=0)
+        return end-start;
 
     len = MIN ((int)bufLen, end - start);
     memcpy (strBuff, self->content.string + start, len);
@@ -2292,7 +2292,7 @@ static RECT *mSlEdit_setMargin(mSlEdit *self, int left, int top, int right, int 
     self->rightMargin  = right;
     self->bottomMargin = bottom;
 
-	recalcSize(self, TRUE);
+    recalcSize(self, TRUE);
 
     InvalidateRect(self->hwnd, NULL, TRUE);
     return 0;
@@ -2368,25 +2368,25 @@ static TextUndoRedoInfo *mSlEdit_setUndoRedo(mSlEdit *self, TextUndoRedoInfo *ur
 
 static void mSlEdit_makevisible (mSlEdit *self, int pos)
 {
-	BOOL bRefresh;
-	int  cx;
-	if(pos < 0)
-		pos = 0;
-	else if(pos > self->content.txtlen)
-		pos = self->content.txtlen;
+    BOOL bRefresh;
+    int  cx;
+    if(pos < 0)
+        pos = 0;
+    else if(pos > self->content.txtlen)
+        pos = self->content.txtlen;
     self->selStart = self->selEnd = self->editPos = pos;
 
-	bRefresh = make_charpos_visible(self, pos, &cx);
+    bRefresh = make_charpos_visible(self, pos, &cx);
 
-	if(pos < self->content.txtlen && cx >= self->rcVis.right - 1)
-	{
-		make_charpos_visible(self, pos + 1, &cx);
-		bRefresh = TRUE;
-	}
+    if(pos < self->content.txtlen && cx >= self->rcVis.right - 1)
+    {
+        make_charpos_visible(self, pos + 1, &cx);
+        bRefresh = TRUE;
+    }
 
-	mySetCaretPos(self, cx);
-	if(bRefresh)
-	    InvalidateRect (self->hwnd, NULL, TRUE);
+    mySetCaretPos(self, cx);
+    if(bRefresh)
+        InvalidateRect (self->hwnd, NULL, TRUE);
 }
 
 static void mSlEdit_resetContent(mSlEdit *self)
@@ -2407,22 +2407,22 @@ static void mSlEdit_resetContent(mSlEdit *self)
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
 static BOOL mSlEdit_refresh(mSlEdit *self)
 {
-	DWORD dwStyle = GetWindowStyle(self->hwnd);
-	if(dwStyle & (NCSS_EDIT_UPPERCASE|NCSS_EDIT_LOWERCASE))
-	{
-		int i;
-		if(dwStyle&NCSS_EDIT_UPPERCASE)
-		{
-			for(i=0; i<self->content.txtlen; i++)
-				self->content.string[i] = toupper(self->content.string[i]);
-		}
-		else
-		{
-			for(i=0; i<self->content.txtlen; i++)
-				self->content.string[i] = tolower(self->content.string[i]);
-		}
-	}
-	return TRUE;
+    DWORD dwStyle = GetWindowStyle(self->hwnd);
+    if(dwStyle & (NCSS_EDIT_UPPERCASE|NCSS_EDIT_LOWERCASE))
+    {
+        int i;
+        if(dwStyle&NCSS_EDIT_UPPERCASE)
+        {
+            for(i=0; i<self->content.txtlen; i++)
+                self->content.string[i] = toupper(self->content.string[i]);
+        }
+        else
+        {
+            for(i=0; i<self->content.txtlen; i++)
+                self->content.string[i] = tolower(self->content.string[i]);
+        }
+    }
+    return TRUE;
 }
 #endif
 

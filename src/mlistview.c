@@ -55,10 +55,10 @@
 #define DEF_ICON_WIDTH  48
 #define DEF_ICON_HEIGHT 48
 
-#define LVST_NORMAL	    0x0000    //normal status
-#define LVST_BDDRAG	    0x0001    //the border is being dragged
-#define LVST_HEADCLICK	0x0002    //the header is being clicked
-#define LVST_INHEAD	    0x0004    //mouse move in header
+#define LVST_NORMAL        0x0000    //normal status
+#define LVST_BDDRAG        0x0001    //the border is being dragged
+#define LVST_HEADCLICK    0x0002    //the header is being clicked
+#define LVST_INHEAD        0x0004    //mouse move in header
 #define LVST_ITEMDRAG   0x0008    //mouse drag item
 #define LVST_CAPTURED   0x0010    //captured status
 #define LVST_OPERATECOL     0x1000
@@ -172,8 +172,8 @@ static void _lv_draw_subitem (mListView* self, HITEM hItem,
     int         color;
     gal_pixel   oldColor = 0;
     int         ret;
-	DWORD		image;
-	const char* text;
+    DWORD        image;
+    const char* text;
 
     subItem = _c(rowItem)->getItem(rowItem, col);
     if (!subItem)
@@ -184,8 +184,8 @@ static void _lv_draw_subitem (mListView* self, HITEM hItem,
     colItem = (mListColumn *) _c(self)->getColumn(self, col);
     _get_subitem_rect(colItem, &rcSubItem, rcDraw);
 
-	if (!DoesIntersect(&rcSubItem, rcDraw))
-		return;
+    if (!DoesIntersect(&rcSubItem, rcDraw))
+        return;
 
     CopyRect (&rcSubItemText, &rcSubItem);
     row = _c(self)->indexOf(self, hItem);
@@ -227,7 +227,7 @@ static void _lv_draw_subitem (mListView* self, HITEM hItem,
     rcSubItemText.bottom -= 2;
 
     if (col == 0) {
-		  rcSubItemText.left += _c(self)->getColumn(self, rowItem->depth)->startX;
+          rcSubItemText.left += _c(self)->getColumn(self, rowItem->depth)->startX;
         if (_c(self)->getChildCount(self, hItem) > 0) {
             RECT rcFold;
             DWORD flags = LFRDR_TREE_CHILD;
@@ -550,7 +550,7 @@ static int _lv_cmp_func (mItemManager *manager, HITEM hItem1, HITEM hItem2)
 
 static void mListView_construct (mListView *self, DWORD addData)
 {
-	g_stmItemViewCls.construct((mItemView*)self, addData);
+    g_stmItemViewCls.construct((mItemView*)self, addData);
 
     LV_HDR_HEIGHT       = GetWindowFont(self->hwnd)->size + 6;
     self->hdrW          = 0;
@@ -611,8 +611,8 @@ static int _getSubItems(mListView *self, mListItem *parent,
     if (!pPrev && !pNext)
         return -1;
 
-	if (index < 0)
-		index = parent->nrChild;
+    if (index < 0)
+        index = parent->nrChild;
 
     first = _M(self, getRelatedItem, (HITEM)parent, NCSID_LISTV_IR_FIRSTCHILD);
 
@@ -622,11 +622,11 @@ static int _getSubItems(mListView *self, mListItem *parent,
         if (pNext)
             *pNext = first;
     } else if (index == parent->nrChild) {
-		if (pPrev)
-			*pPrev = _M(self, getRelatedItem, (HITEM)parent, NCSID_LISTV_IR_LASTCHILD);
-		if (pNext)
-			*pNext = 0;
-	} else {
+        if (pPrev)
+            *pPrev = _M(self, getRelatedItem, (HITEM)parent, NCSID_LISTV_IR_LASTCHILD);
+        if (pNext)
+            *pNext = 0;
+    } else {
         while (first) {
             next = _M(self, getRelatedItem, first, NCSID_LISTV_IR_NEXTSIBLING);
             if (i == index - 1)
@@ -717,7 +717,7 @@ static HITEM mListView_addItem(mListView *self, NCS_LISTV_ITEMINFO *info)
     mListItem   *parent;
     DWORD       style;
     char*       text = NULL;
-	
+    
     if (!info || _c(self)->getColumnCount(self) <= 0)
         return 0;
 
@@ -739,10 +739,10 @@ static HITEM mListView_addItem(mListView *self, NCS_LISTV_ITEMINFO *info)
     if ((style & NCSS_LISTV_SORT)) {
         if (NULL != (text = _get_sort_column_text(self, info->data))){
             _get_sort_tree_pos(self, parent, text, &prev, &next);
-		}
+        }
     } else {
         _getSubItems(self, parent, info->index, &prev, &next);
-	}
+    }
 
     if (next)
         prev = 0;
@@ -947,9 +947,9 @@ static BOOL mListView_setItemText(mListView* self, int row, int col, const char*
     subItem = (mItem*) _c(pRow)->getItem(pRow, col);
 
     if (!subItem)
-		return FALSE;
+        return FALSE;
 
-	ret = _c(subItem)->setItemString(subItem, str);
+    ret = _c(subItem)->setItemString(subItem, str);
 
     if (mListView_getSubItemRect(self, (HITEM)pRow, row, col, &rcSubItem))
         InvalidateRect(self->hwnd, &rcSubItem, TRUE);
@@ -1338,8 +1338,8 @@ static void _toggle_sort_status (mListColumn *pCol)
         case NCSID_LSTCLM_LOSORTED:
             pCol->sort = NCSID_LSTCLM_HISORTED;
             break;
-		default:
-			break;
+        default:
+            break;
     }
 }
 
@@ -1696,7 +1696,7 @@ static LRESULT mListView_wndProc(mListView* self, UINT message, WPARAM wParam, L
             }
     }
 
-	return Class(mItemView).wndProc((mItemView*)self, message, wParam, lParam);
+    return Class(mItemView).wndProc((mItemView*)self, message, wParam, lParam);
 }
 
 static void mListView_onHScroll (mListView* self, int code, int mouseX)
@@ -2009,16 +2009,16 @@ static HITEM mListView_getRelatedItem(mListView* self,
 
         case NCSID_LISTV_IR_NEXTSIBLING:
         {
-			if (GetWindowStyle(self->hwnd) & NCSS_LISTV_TREE){
-				HITEM last, tmp;
-				last = _c(self)->getRelatedItem(self, (HITEM)item, NCSID_LISTV_IR_LASTCHILD);
-				tmp = _c(self)->getRelatedItem(self, (HITEM)item->parent, NCSID_LISTV_IR_LASTCHILD);
-				if (tmp == last)
-					return 0;
-				return _c(self)->getNext (self, last);
-			} else {
-				return _M(self, getNext, item);
-			}
+            if (GetWindowStyle(self->hwnd) & NCSS_LISTV_TREE){
+                HITEM last, tmp;
+                last = _c(self)->getRelatedItem(self, (HITEM)item, NCSID_LISTV_IR_LASTCHILD);
+                tmp = _c(self)->getRelatedItem(self, (HITEM)item->parent, NCSID_LISTV_IR_LASTCHILD);
+                if (tmp == last)
+                    return 0;
+                return _c(self)->getNext (self, last);
+            } else {
+                return _M(self, getNext, item);
+            }
         }
 
         case NCSID_LISTV_IR_PREVSIBLING:
@@ -2100,7 +2100,7 @@ static int mListView_foldItem(mListView *self, HITEM hItem, BOOL fold)
 
 static BOOL mListView_setHeadText(mListView *self, int col, const char* text)
 {
-	HITEM hCol;
+    HITEM hCol;
 
     if (!self)
         return FALSE;
@@ -2229,55 +2229,55 @@ static BOOL mListView_setProperty(mListView* self, int id, DWORD value)
 {
 
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
-	if(id == NCSP_DEFAULT_CONTENT)
-	{
-    	NCS_LISTV_CLMINFO lvcol;
-		char szText[100];
-		HITEM hItem;
-		NCS_LISTV_ITEMINFO info;
-		int i,j;
-		memset(&lvcol,0, sizeof(lvcol));
-		lvcol.text = szText;
-		lvcol.width = 80;
-		lvcol.flags = NCSF_LSTCLM_CENTERALIGN | NCSF_LSTHDR_CENTERALIGN;
-		for(i=0; i< 3; i++)
-		{
-			lvcol.index = i;
-			sprintf(szText, "Header %d", i+1);
-			_c(self)->addColumn(self, &lvcol);
-		}
+    if(id == NCSP_DEFAULT_CONTENT)
+    {
+        NCS_LISTV_CLMINFO lvcol;
+        char szText[100];
+        HITEM hItem;
+        NCS_LISTV_ITEMINFO info;
+        int i,j;
+        memset(&lvcol,0, sizeof(lvcol));
+        lvcol.text = szText;
+        lvcol.width = 80;
+        lvcol.flags = NCSF_LSTCLM_CENTERALIGN | NCSF_LSTHDR_CENTERALIGN;
+        for(i=0; i< 3; i++)
+        {
+            lvcol.index = i;
+            sprintf(szText, "Header %d", i+1);
+            _c(self)->addColumn(self, &lvcol);
+        }
 
-		memset(&info, 0, sizeof(info));
-		info.height = 25;
-		info.dataSize = 3;
-		for(i=0; i<3; i++)
-		{
-			NCS_LISTV_ITEMDATA subdatas[3];
-			char szText[3][32];
-			info.parent = 0;
-			info.index = i;
-			info.data = subdatas;
-			//add item
-			memset(subdatas, 0, sizeof(subdatas));
-			for(j=0; j<3; j++)
-			{
-				subdatas[j].row = i;
-				subdatas[j].col = j;
-				subdatas[j].text = szText[j];
-				sprintf(szText[j],"LVItem%d %d", i, j);
-			}
-			hItem = _c(self)->addItem(self, &info);
-		}
+        memset(&info, 0, sizeof(info));
+        info.height = 25;
+        info.dataSize = 3;
+        for(i=0; i<3; i++)
+        {
+            NCS_LISTV_ITEMDATA subdatas[3];
+            char szText[3][32];
+            info.parent = 0;
+            info.index = i;
+            info.data = subdatas;
+            //add item
+            memset(subdatas, 0, sizeof(subdatas));
+            for(j=0; j<3; j++)
+            {
+                subdatas[j].row = i;
+                subdatas[j].col = j;
+                subdatas[j].text = szText[j];
+                sprintf(szText[j],"LVItem%d %d", i, j);
+            }
+            hItem = _c(self)->addItem(self, &info);
+        }
 
-		return TRUE;
-	}
+        return TRUE;
+    }
 #endif
 
-	if( id >= NCSP_LISTV_MAX)
-		return FALSE;
+    if( id >= NCSP_LISTV_MAX)
+        return FALSE;
 
-	switch(id)
-	{
+    switch(id)
+    {
         case NCSP_LISTV_HDRHEIGHT:
             return _set_head_height(self, value);
 
@@ -2314,15 +2314,15 @@ static BOOL mListView_setProperty(mListView* self, int id, DWORD value)
             return FALSE;
     }
 
-	return Class(mItemView).setProperty((mItemView*)self, id, value);
+    return Class(mItemView).setProperty((mItemView*)self, id, value);
 }
 
 static DWORD mListView_getProperty(mListView* self, int id)
 {
-	if( id >= NCSP_LISTV_MAX)
-		return -1;
+    if( id >= NCSP_LISTV_MAX)
+        return -1;
 
-	switch (id)
+    switch (id)
     {
         case NCSP_LISTV_HDRVISIBLE:
             return !(self->status & LVST_HIDEHEAD);
@@ -2346,7 +2346,7 @@ static DWORD mListView_getProperty(mListView* self, int id)
             return _c(self)->getColumnCount(self);
     }
 
-	return Class(mItemView).getProperty((mItemView*)self, id);
+    return Class(mItemView).getProperty((mItemView*)self, id);
 }
 
 static void mListView_setAutoSortItem (mListView *self)
@@ -2428,112 +2428,112 @@ mListView_onKeyDown(mListView* self, int scancode, int state)
 static BOOL mListView_setSpecificData(mListView *self, DWORD key, DWORD value, PFreeSpecificData free_special)
 {
 
-	if(key == NCSSPEC_LISTV_HDR)
-	{
-		mRecordSet * rs = SAFE_CAST(mRecordSet, value);
-		NCS_LISTV_CLMINFO colInfo;
-		int i;
-		if(!rs)
-			return FALSE;
-		if(!Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special))
-			return FALSE;
+    if(key == NCSSPEC_LISTV_HDR)
+    {
+        mRecordSet * rs = SAFE_CAST(mRecordSet, value);
+        NCS_LISTV_CLMINFO colInfo;
+        int i;
+        if(!rs)
+            return FALSE;
+        if(!Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special))
+            return FALSE;
 
-		_c(self)->freeze(self, TRUE);
-		//reset content
-		_c(self)->removeAll(self);
-		//delete columns
-		i = _c(self)->getColumnCount(self);
-		while(i>0)
-		{
-			_c(self)->delColumn(self, 0);
-			i --;
-		}
+        _c(self)->freeze(self, TRUE);
+        //reset content
+        _c(self)->removeAll(self);
+        //delete columns
+        i = _c(self)->getColumnCount(self);
+        while(i>0)
+        {
+            _c(self)->delColumn(self, 0);
+            i --;
+        }
 
-		memset(&colInfo, 0, sizeof(colInfo));
-		_c(rs)->seekCursor(rs, NCS_RS_CURSOR_BEGIN,0);
-		while(!_c(rs)->isEnd(rs))
-		{
-			colInfo.text = (char*)_c(rs)->getField(rs,1);
-			colInfo.image = (DWORD)GetResource(Str2Key((const char*)_c(rs)->getField(rs,2)));
-			colInfo.width = (int)_c(rs)->getField(rs, 3);
-			colInfo.flags = _c(rs)->getField(rs,4);
-			_c(self)->addColumn(self, &colInfo);
-			_c(rs)->seekCursor(rs, NCS_RS_CURSOR_CUR,1);
-			colInfo.index ++;
-		}
-		_c(self)->freeze(self,FALSE);
-		return TRUE;
-	}
-	else if(key == NCSSPEC_OBJ_CONTENT)
-	{
-		mRecordSet * rs = SAFE_CAST(mRecordSet, value);
-		NCS_LISTV_ITEMINFO itemInfo;
-		NCS_LISTV_ITEMDATA *subdatas;
-		int col_count;
-		int field_count;
-		int i;
-		DWORD cursor;
+        memset(&colInfo, 0, sizeof(colInfo));
+        _c(rs)->seekCursor(rs, NCS_RS_CURSOR_BEGIN,0);
+        while(!_c(rs)->isEnd(rs))
+        {
+            colInfo.text = (char*)_c(rs)->getField(rs,1);
+            colInfo.image = (DWORD)GetResource(Str2Key((const char*)_c(rs)->getField(rs,2)));
+            colInfo.width = (int)_c(rs)->getField(rs, 3);
+            colInfo.flags = _c(rs)->getField(rs,4);
+            _c(self)->addColumn(self, &colInfo);
+            _c(rs)->seekCursor(rs, NCS_RS_CURSOR_CUR,1);
+            colInfo.index ++;
+        }
+        _c(self)->freeze(self,FALSE);
+        return TRUE;
+    }
+    else if(key == NCSSPEC_OBJ_CONTENT)
+    {
+        mRecordSet * rs = SAFE_CAST(mRecordSet, value);
+        NCS_LISTV_ITEMINFO itemInfo;
+        NCS_LISTV_ITEMDATA *subdatas;
+        int col_count;
+        int field_count;
+        int i;
+        DWORD cursor;
 
-		if(!rs)
-			return FALSE;
+        if(!rs)
+            return FALSE;
 
-		field_count = _c(rs)->getFieldCount(rs);
-		if(field_count <= 0)
-			return FALSE;
+        field_count = _c(rs)->getFieldCount(rs);
+        if(field_count <= 0)
+            return FALSE;
 
-		if(!Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special))
-			return FALSE;
+        if(!Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special))
+            return FALSE;
 
-		col_count = _c(self)->getColumnCount(self);
-		if(col_count<=0)
-			return FALSE;
+        col_count = _c(self)->getColumnCount(self);
+        if(col_count<=0)
+            return FALSE;
 
-		_c(self)->freeze(self, TRUE);
-		//reset content
-		_c(self)->removeAll(self);
+        _c(self)->freeze(self, TRUE);
+        //reset content
+        _c(self)->removeAll(self);
 
-		col_count = col_count < field_count?col_count:field_count;
+        col_count = col_count < field_count?col_count:field_count;
 
-		subdatas = (NCS_LISTV_ITEMDATA*)calloc(col_count, sizeof(NCS_LISTV_ITEMDATA));
-		memset(&itemInfo, 0, sizeof(itemInfo));
-		itemInfo.data = subdatas;
-		itemInfo.dataSize = col_count;
-		itemInfo.height = 25;
+        subdatas = (NCS_LISTV_ITEMDATA*)calloc(col_count, sizeof(NCS_LISTV_ITEMDATA));
+        memset(&itemInfo, 0, sizeof(itemInfo));
+        itemInfo.data = subdatas;
+        itemInfo.dataSize = col_count;
+        itemInfo.height = 25;
 
-		cursor = _c(rs)->seekCursor(rs, NCS_RS_CURSOR_BEGIN,0);
-		_BEGIN_AUTO_STR
-		while(!_c(rs)->isEnd(rs))
-		{
-			memset(subdatas, 0, sizeof(NCS_LISTV_ITEMDATA)*col_count);
-			_RESET_AUTO_STR
-			for(i = 1; i<=col_count; i++)
-			{
-				DWORD data = _c(rs)->getField(rs, i);
-				int type =_c(rs)->getFieldType(rs, i);
-				subdatas[i-1].row = itemInfo.index;
-				subdatas[i-1].col = i-1;
-				if(type == NCS_BT_STR)
-				{
-					subdatas[i-1].text = (char*)data;
-				}
-				else
-				{
-					subdatas[i-1].text = _AUTO_STR(data, type);
-				}
+        cursor = _c(rs)->seekCursor(rs, NCS_RS_CURSOR_BEGIN,0);
+        _BEGIN_AUTO_STR
+        while(!_c(rs)->isEnd(rs))
+        {
+            memset(subdatas, 0, sizeof(NCS_LISTV_ITEMDATA)*col_count);
+            _RESET_AUTO_STR
+            for(i = 1; i<=col_count; i++)
+            {
+                DWORD data = _c(rs)->getField(rs, i);
+                int type =_c(rs)->getFieldType(rs, i);
+                subdatas[i-1].row = itemInfo.index;
+                subdatas[i-1].col = i-1;
+                if(type == NCS_BT_STR)
+                {
+                    subdatas[i-1].text = (char*)data;
+                }
+                else
+                {
+                    subdatas[i-1].text = _AUTO_STR(data, type);
+                }
 
-			}
-			itemInfo.addData = cursor;
-			_c(self)->addItem(self, &itemInfo);
-			cursor = _c(rs)->seekCursor(rs, NCS_RS_CURSOR_CUR,1);
-			itemInfo.index ++;
-		}
-		_END_AUTO_STR
-		free(subdatas);
-		_c(self)->freeze(self, FALSE);
-		return TRUE;
-	}
+            }
+            itemInfo.addData = cursor;
+            _c(self)->addItem(self, &itemInfo);
+            cursor = _c(rs)->seekCursor(rs, NCS_RS_CURSOR_CUR,1);
+            itemInfo.index ++;
+        }
+        _END_AUTO_STR
+        free(subdatas);
+        _c(self)->freeze(self, FALSE);
+        return TRUE;
+    }
 
-	return Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special);
+    return Class(mItemView).setSpecificData((mItemView*)self, key, value, free_special);
 }
 #endif
 
@@ -2561,9 +2561,9 @@ static NCS_CB_DRAWITEM mListView_setSubItemDraw(mListView *self, NCS_CB_DRAWITEM
 
 BEGIN_CMPT_CLASS(mListView, mItemView)
     CLASS_METHOD_MAP(mListView, construct)
-	CLASS_METHOD_MAP(mListView, destroy)
-	CLASS_METHOD_MAP(mListView, setSubItemDraw)
-	CLASS_METHOD_MAP(mListView, setItemBkDraw)
+    CLASS_METHOD_MAP(mListView, destroy)
+    CLASS_METHOD_MAP(mListView, setSubItemDraw)
+    CLASS_METHOD_MAP(mListView, setItemBkDraw)
     CLASS_METHOD_MAP(mListView, setProperty);
     CLASS_METHOD_MAP(mListView, getProperty);
     CLASS_METHOD_MAP(mListView, wndProc)
@@ -2576,10 +2576,10 @@ BEGIN_CMPT_CLASS(mListView, mItemView)
     CLASS_METHOD_MAP(mListView, onMouseMove)
     CLASS_METHOD_MAP(mListView, onLButtonDBClk)
     CLASS_METHOD_MAP(mListView, onHScroll)
-	CLASS_METHOD_MAP(mListView, setItemHeight)
-	CLASS_METHOD_MAP(mListView, insertItem)
-	CLASS_METHOD_MAP(mListView, createItem)
-	CLASS_METHOD_MAP(mListView, addItem)
+    CLASS_METHOD_MAP(mListView, setItemHeight)
+    CLASS_METHOD_MAP(mListView, insertItem)
+    CLASS_METHOD_MAP(mListView, createItem)
+    CLASS_METHOD_MAP(mListView, addItem)
     CLASS_METHOD_MAP(mListView, findItem)
     CLASS_METHOD_MAP(mListView, setItemInfo)
     CLASS_METHOD_MAP(mListView, getItemInfo)
@@ -2613,21 +2613,21 @@ BEGIN_CMPT_CLASS(mListView, mItemView)
     CLASS_METHOD_MAP(mListView, getChildCount)
     CLASS_METHOD_MAP(mListView, setAutoSortItem)
     CLASS_METHOD_MAP(mListView, sortItems)
-	CLASS_METHOD_MAP(mListView, setItemCmpFunc)
-	CLASS_METHOD_MAP(mListView, getChildItem)
+    CLASS_METHOD_MAP(mListView, setItemCmpFunc)
+    CLASS_METHOD_MAP(mListView, getChildItem)
 #ifdef _MGNCSDB_DATASOURCE
-	CLASS_METHOD_MAP(mListView, setSpecificData)
+    CLASS_METHOD_MAP(mListView, setSpecificData)
 #endif
-	SET_DLGCODE(DLGC_WANTARROWS | DLGC_WANTCHARS)
+    SET_DLGCODE(DLGC_WANTARROWS | DLGC_WANTCHARS)
 END_CMPT_CLASS
 
 
 const unsigned char gListVColumnRecordTypes[] = {
-	NCS_BT_STR,
-	NCS_BT_STR,
-	NCS_BT_INT,
-	NCS_BT_INT,
-	0
+    NCS_BT_STR,
+    NCS_BT_STR,
+    NCS_BT_INT,
+    NCS_BT_INT,
+    0
 };
 
 #endif //_MGNCSCTRL_LISTVIEW

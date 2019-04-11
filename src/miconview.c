@@ -105,7 +105,7 @@ static void mIconView_construct (mIconView *self, DWORD addData)
 {
     RECT rcWnd;
 
-	g_stmItemViewCls.construct((mItemView*)self, addData);
+    g_stmItemViewCls.construct((mItemView*)self, addData);
 
     GetClientRect (self->hwnd, &rcWnd);
 
@@ -278,7 +278,7 @@ static HITEM mIconView_addItem(mIconView *self,
 
 static int mIconView_onSizeChanged(mIconView* self, RECT *rcClient)
 {
-	int oldH, newH, newCol;
+    int oldH, newH, newCol;
 
     Class(mScrollWidget).onSizeChanged((mScrollWidget*)self, rcClient);
 
@@ -302,7 +302,7 @@ static int mIconView_onSizeChanged(mIconView* self, RECT *rcClient)
 
 static void mIconView_setIconSize(mIconView *self, int width, int height)
 {
-	RECT rc;
+    RECT rc;
     if (width <= 0)
         self->defItemWidth = DEF_ICON_WIDTH;
     else
@@ -318,8 +318,8 @@ static void mIconView_setIconSize(mIconView *self, int width, int height)
     if (self->nrCol <= 0)
         self->nrCol = 1;
 
-	GetClientRect(self->hwnd, &rc);
-	_c(self)->onSizeChanged(self, &rc);
+    GetClientRect(self->hwnd, &rc);
+    _c(self)->onSizeChanged(self, &rc);
 
     InvalidateRect(self->hwnd, NULL, TRUE);
 }
@@ -394,28 +394,28 @@ static void mIconView_onPaint(mIconView *self, HDC hdc, const PCLIPRGN pinv_clip
 static BOOL mIconView_setProperty(mIconView* self, int id, DWORD value)
 {
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
-	if(id == NCSP_DEFAULT_CONTENT)
-	{
-		NCS_ICONV_ITEMINFO ivii;
-		char szText[100];
-		int pos = 0;
-		memset(&ivii, 0, sizeof(ivii));
-		ivii.bmp = get_iconview_content();
-		ivii.label = szText;
-		_c(self)->setIconSize(self, 55,65);
-		for(ivii.index = 0; ivii.index < 3; ivii.index ++)
-		{
-			pos = 0;
-			sprintf(szText,"Item %d", ivii.index + 1);
-			_c(self)->addItem(self, &ivii, &pos);
-		}
-	}
+    if(id == NCSP_DEFAULT_CONTENT)
+    {
+        NCS_ICONV_ITEMINFO ivii;
+        char szText[100];
+        int pos = 0;
+        memset(&ivii, 0, sizeof(ivii));
+        ivii.bmp = get_iconview_content();
+        ivii.label = szText;
+        _c(self)->setIconSize(self, 55,65);
+        for(ivii.index = 0; ivii.index < 3; ivii.index ++)
+        {
+            pos = 0;
+            sprintf(szText,"Item %d", ivii.index + 1);
+            _c(self)->addItem(self, &ivii, &pos);
+        }
+    }
 #endif
-	if( id >= NCSP_ICONV_MAX)
-		return FALSE;
+    if( id >= NCSP_ICONV_MAX)
+        return FALSE;
 
-	switch(id)
-	{
+    switch(id)
+    {
         case NCSP_ICONV_DEFICONHEIGHT:
             if (value <= 0)
                 return FALSE;
@@ -429,21 +429,21 @@ static BOOL mIconView_setProperty(mIconView* self, int id, DWORD value)
             return TRUE;
     }
 
-	return Class(mItemView).setProperty((mItemView*)self, id, value);
+    return Class(mItemView).setProperty((mItemView*)self, id, value);
 }
 
 static DWORD mIconView_getProperty(mIconView* self, int id)
 {
-	if( id >= NCSP_ICONV_MAX)
-		return -1;
+    if( id >= NCSP_ICONV_MAX)
+        return -1;
 
-	switch(id)
-	{
+    switch(id)
+    {
         case NCSP_ICONV_DEFICONWIDTH:
             return self->defItemWidth;
     }
 
-	return Class(mItemView).getProperty((mItemView*)self, id);
+    return Class(mItemView).getProperty((mItemView*)self, id);
 }
 
 static int mIconView_getItemHeight(mIconView *self, HITEM hItem)
@@ -468,7 +468,7 @@ BEGIN_CMPT_CLASS(mIconView, mItemView)
     CLASS_METHOD_MAP(mIconView, getFirstVisItem);
     CLASS_METHOD_MAP(mIconView, setIconSize);
     CLASS_METHOD_MAP(mIconView, getItemHeight);
-	SET_DLGCODE(DLGC_WANTARROWS);
+    SET_DLGCODE(DLGC_WANTARROWS);
 END_CMPT_CLASS
 
-#endif		//_MGNCSCTRL_ICONVIEW
+#endif        //_MGNCSCTRL_ICONVIEW

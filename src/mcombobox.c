@@ -1,4 +1,4 @@
-/* 
+/*
     This file is part of mGNCS, a component for MiniGUI.
 
     Copyright (C) 2008~2018, Beijing FMSoft Technologies Co., Ltd.
@@ -58,7 +58,7 @@
 static BOOL mCombobox_addItem (mCombobox *self, const char *item, DWORD addData)
 {
     if(self == NULL || !INSTANCEOF(self, mCombobox))
-		return -1;
+        return -1;
 
     _c(self->listbox)->addString (self->listbox, item, addData);
 
@@ -68,7 +68,7 @@ static BOOL mCombobox_addItem (mCombobox *self, const char *item, DWORD addData)
 static const char *mCombobox_getItem (mCombobox *self, int index)
 {
     if(self == NULL || !INSTANCEOF(self, mCombobox))
-		return NULL;
+        return NULL;
 
     return _c(self->listbox)->getTextByIdx (self->listbox, index);
 }
@@ -76,36 +76,36 @@ static const char *mCombobox_getItem (mCombobox *self, int index)
 static BOOL mCombobox_setItem (mCombobox *self, int index, const char *string)
 {
     if(self == NULL || !INSTANCEOF(self, mCombobox))
-		return FALSE;
+        return FALSE;
 
     _c(self->listbox)->setTextByIdx (self->listbox, index, string);
-	if(self->edit &&  _c(self->listbox)->getCurSel(self->listbox) == index)
-	{
-		SetWindowText(self->edit->hwnd, _c(self->listbox)->getTextByIdx(self->listbox, index));
-	}
+    if(self->edit &&  _c(self->listbox)->getCurSel(self->listbox) == index)
+    {
+        SetWindowText(self->edit->hwnd, _c(self->listbox)->getTextByIdx(self->listbox, index));
+    }
 
     return TRUE;
 }
 
 static BOOL mCombobox_removeItem (mCombobox *self, int index)
 {
-	int cur_sel;
+    int cur_sel;
     if(self == NULL || !INSTANCEOF(self, mCombobox))
-		return -1;
+        return -1;
 
-	cur_sel = _c(self->listbox)->getCurSel(self->listbox);
+    cur_sel = _c(self->listbox)->getCurSel(self->listbox);
     _c(self->listbox)->delString (self->listbox, index);
 
-	if(cur_sel == index)
-	{
-		int new_sel = _c(self->listbox)->getCurSel(self->listbox);
-		if(new_sel == -1)
-			SetWindowText(self->edit->hwnd, "");
-		else
-			SetWindowText(self->edit->hwnd, _c(self->listbox)->getTextByIdx(self->listbox, new_sel));
+    if(cur_sel == index)
+    {
+        int new_sel = _c(self->listbox)->getCurSel(self->listbox);
+        if(new_sel == -1)
+            SetWindowText(self->edit->hwnd, "");
+        else
+            SetWindowText(self->edit->hwnd, _c(self->listbox)->getTextByIdx(self->listbox, new_sel));
 
-    	ncsNotifyParent((mWidget *)self, NCSN_CMBOX_SELCHANGE);
-	}
+        ncsNotifyParent((mWidget *)self, NCSN_CMBOX_SELCHANGE);
+    }
 
    return TRUE;
 }
@@ -222,12 +222,12 @@ static void listboxNotifyProc (HWND hCtrl, LINT id, int code, DWORD add_data)
 
 static void mCombobox_construct (mCombobox *self, DWORD addData)
 {
-	NCS_RDR_INFO edit_rdr_info, list_rdr_info;
+    NCS_RDR_INFO edit_rdr_info, list_rdr_info;
     DWORD list_style, edit_style, ex_style, combo_style;
 
-	g_stmPanelCls.construct((mPanel*)self, addData);
+    g_stmPanelCls.construct((mPanel*)self, addData);
 
-	combo_style = GetWindowStyle(self->hwnd);
+    combo_style = GetWindowStyle(self->hwnd);
 
     list_style = WS_VSCROLL | NCSS_NOTIFY | WS_THINFRAME;
 
@@ -254,9 +254,9 @@ static void mCombobox_construct (mCombobox *self, DWORD addData)
     else
         ex_style = WS_EX_NONE;
 
-	edit_rdr_info.glb_rdr = self->renderer->rdr_name;
-	edit_rdr_info.ctl_rdr = self->renderer->rdr_name;
-	edit_rdr_info.elements = NULL;
+    edit_rdr_info.glb_rdr = self->renderer->rdr_name;
+    edit_rdr_info.ctl_rdr = self->renderer->rdr_name;
+    edit_rdr_info.elements = NULL;
 
     self->edit= (mSlEdit *)ncsCreateWindow (NCSCTRL_SLEDIT,
             GetWindowCaption(self->hwnd), edit_style, ex_style,
@@ -266,18 +266,18 @@ static void mCombobox_construct (mCombobox *self, DWORD addData)
     if (GetWindowStyle(self->hwnd) & NCSS_CMBOX_DROPDOWNLIST) {
         ex_style |= 0x20000000L; // (WS_EX_CTRLASMAINWIN)
     }
-	SetWindowFont(self->edit->hwnd, GetWindowFont(self->hwnd));
+    SetWindowFont(self->edit->hwnd, GetWindowFont(self->hwnd));
 
-	list_rdr_info.glb_rdr = self->renderer->rdr_name;
-	list_rdr_info.ctl_rdr = self->renderer->rdr_name;
-	list_rdr_info.elements = NULL;
+    list_rdr_info.glb_rdr = self->renderer->rdr_name;
+    list_rdr_info.ctl_rdr = self->renderer->rdr_name;
+    list_rdr_info.elements = NULL;
 
     self->listbox = (mListBox *)ncsCreateWindow (NCSCTRL_LISTBOX,
             "", list_style, ex_style ,
             IDC_CLISTBOX, 0, 0, 10, 10, self->hwnd,
             NULL, &list_rdr_info, NULL, 0);
 
-	SetWindowFont(self->listbox->hwnd, GetWindowFont(self->hwnd));
+    SetWindowFont(self->listbox->hwnd, GetWindowFont(self->hwnd));
 
     SetNotificationCallback(self->edit->hwnd, editNotifyProc);
     SetNotificationCallback(self->listbox->hwnd, listboxNotifyProc);
@@ -306,8 +306,8 @@ static LRESULT mCombobox_wndProc (mCombobox* self, UINT message, WPARAM wParam, 
                 ncsNotifyParent ((mWidget *)self, NCSN_CMBOX_SELECTCANCEL);
                 ncsNotifyParent ((mWidget *)self, NCSN_CMBOX_CLOSEUP);
             }
-			
-			SendMessage (self->edit->hwnd, MSG_KILLFOCUS, 0, 0);
+
+            SendMessage (self->edit->hwnd, MSG_KILLFOCUS, 0, 0);
 
             ncsNotifyParent ((mWidget *)self, NCSN_CMBOX_KILLFOCUS);
             break;
@@ -340,17 +340,17 @@ static LRESULT mCombobox_wndProc (mCombobox* self, UINT message, WPARAM wParam, 
             }
             break;
         }
-		case MSG_FONTCHANGED:
-		{
-			if(self->edit)
-				SetWindowFont(self->edit->hwnd, GetWindowFont(self->hwnd));
-			if(self->listbox)
-				SetWindowFont(self->listbox->hwnd, GetWindowFont(self->hwnd));
-			return 0;
-		}
+        case MSG_FONTCHANGED:
+        {
+            if(self->edit)
+                SetWindowFont(self->edit->hwnd, GetWindowFont(self->hwnd));
+            if(self->listbox)
+                SetWindowFont(self->listbox->hwnd, GetWindowFont(self->hwnd));
+            return 0;
+        }
     }
 
-	return Class(mPanel).wndProc((mPanel*)self, message, wParam, lParam);
+    return Class(mPanel).wndProc((mPanel*)self, message, wParam, lParam);
 }
 
 static int mCombobox_onMouseMove(mCombobox *self, int x, int y, DWORD key_flags)
@@ -358,20 +358,20 @@ static int mCombobox_onMouseMove(mCombobox *self, int x, int y, DWORD key_flags)
     if (GetWindowStyle(self->hwnd) & NCSS_CMBOX_DROPDOWNLIST)
     {
         if(PtInRect(&self->rcBtn, x, y))
-		{
+        {
             if(!IS_SET (self, NCSF_CMBOX_HILIGHT)) {
-           	 	SET_STATE (self, NCSF_CMBOX_HILIGHT);
-            	InvalidateRect (self->hwnd, &self->rcBtn, TRUE);
-				return 0;
-        	}
-		}
-		else
-		{
+                    SET_STATE (self, NCSF_CMBOX_HILIGHT);
+                InvalidateRect (self->hwnd, &self->rcBtn, TRUE);
+                return 0;
+            }
+        }
+        else
+        {
             if(IS_SET (self, NCSF_CMBOX_HILIGHT)) {
-	            CLEAR_STATE (self, NCSF_CMBOX_HILIGHT);
-    	        InvalidateRect (self->hwnd, &self->rcBtn, TRUE);
-				return 0;
-			}
+                CLEAR_STATE (self, NCSF_CMBOX_HILIGHT);
+                InvalidateRect (self->hwnd, &self->rcBtn, TRUE);
+                return 0;
+            }
         }
     }
     return 1;
@@ -394,7 +394,7 @@ static int mCombobox_onLButtonDown(mCombobox *self, int x, int y, DWORD key_flag
         } else {
             SetFocusChild (self->listbox->hwnd);
         }
-		return 0;
+        return 0;
     }
 
     return 1; //call default value
@@ -497,13 +497,13 @@ static void mCombobox_onPaint (mCombobox *self, HDC hdc, const PCLIPRGN pinv_cli
 static BOOL mCombobox_setProperty (mCombobox* self, int id, DWORD value)
 {
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
-	if(id == NCSP_DEFAULT_CONTENT)
-	{
-		if(self->listbox)
-			_c(self->listbox)->setProperty(self->listbox, id, value);
+    if(id == NCSP_DEFAULT_CONTENT)
+    {
+        if(self->listbox)
+            _c(self->listbox)->setProperty(self->listbox, id, value);
         _c(self)->setProperty(self, NCSP_COMB_SELECT, 0);
-		return TRUE;
-	}
+        return TRUE;
+    }
 #endif
     if (id == NCSP_COMB_ITEMHEIGHT || id == NCSP_COMB_ITEMCOUNT)
         return _c(self->listbox)->setProperty(self->listbox, id, value);
@@ -527,7 +527,7 @@ static BOOL mCombobox_setProperty (mCombobox* self, int id, DWORD value)
                         RECTW(rc), self->dropWidth, TRUE);
             } else { //NCSS_CMBOX_SIMPLE
                 int edit_h = GetSysFontHeight (SYSLOGFONT_CONTROL) + 6;
-				GetWindowRect(self->hwnd, &rc);
+                GetWindowRect(self->hwnd, &rc);
                 MoveWindow(self->hwnd, rc.left, rc.top, RECTW(rc),
                         edit_h + self->dropWidth + 2, TRUE);
             }
@@ -564,21 +564,21 @@ static BOOL mCombobox_setProperty (mCombobox* self, int id, DWORD value)
 
             return TRUE;
         }
-		case NCSP_WIDGET_RDR:
-		{
-			if(Class(mPanel).setProperty((mPanel*)self, id, value))
-			{
-				if(self->edit)
-					_c(self->edit)->setProperty(self->edit, id, value);
-				if(self->listbox)
-					_c(self->listbox)->setProperty(self->listbox, id, value);
-				return TRUE;
-			}
-			return FALSE;
-		}
+        case NCSP_WIDGET_RDR:
+        {
+            if(Class(mPanel).setProperty((mPanel*)self, id, value))
+            {
+                if(self->edit)
+                    _c(self->edit)->setProperty(self->edit, id, value);
+                if(self->listbox)
+                    _c(self->listbox)->setProperty(self->listbox, id, value);
+                return TRUE;
+            }
+            return FALSE;
+        }
     }
 
-	return Class(mPanel).setProperty ((mPanel *)self, id, value);
+    return Class(mPanel).setProperty ((mPanel *)self, id, value);
 }
 
 static DWORD mCombobox_getProperty (mCombobox* self, int id)
@@ -587,10 +587,10 @@ static DWORD mCombobox_getProperty (mCombobox* self, int id)
         return _c(self->listbox)->getProperty(self->listbox, id);
 
     if (id >= NCSP_COMB_MAX)
-		return 0;
+        return 0;
 
-	switch (id)
-	{
+    switch (id)
+    {
         case NCSP_COMB_DROPDOWNHEIGHT :
         {
             return (DWORD)self->dropWidth;
@@ -619,37 +619,37 @@ static DWORD mCombobox_getProperty (mCombobox* self, int id)
 
         case NCSP_COMB_SELECT:
             return (DWORD)_c(self->listbox)->getCurSel(self->listbox);
-	}
+    }
 
-	return Class(mPanel).getProperty ((mPanel *)self, id);
+    return Class(mPanel).getProperty ((mPanel *)self, id);
 }
 
 static BOOL mCombobox_setSpecificData(mCombobox* self, DWORD key, DWORD value, PFreeSpecificData free_special)
 {
-	if(key == NCSSPEC_OBJ_CONTENT)
-	{
-		if(!self->listbox)
-			return FALSE;
-		return _c(self->listbox)->setSpecificData(self->listbox, key, value, free_special);
-	}
+    if(key == NCSSPEC_OBJ_CONTENT)
+    {
+        if(!self->listbox)
+            return FALSE;
+        return _c(self->listbox)->setSpecificData(self->listbox, key, value, free_special);
+    }
 
-	return Class(mPanel).setSpecificData((mPanel*)self, key, value, free_special);
+    return Class(mPanel).setSpecificData((mPanel*)self, key, value, free_special);
 }
 
 static DWORD mCombobox_getSpecificData(mCombobox* self, DWORD key, BOOL *pok)
 {
-	if(key == NCSSPEC_OBJ_CONTENT)
-	{
-		if(!self->listbox)
-		{
-			if(*pok)
-				*pok = FALSE;
-			return 0L;
-		}
-		return _c(self->listbox)->getSpecificData(self->listbox, key, pok);
-	}
+    if(key == NCSSPEC_OBJ_CONTENT)
+    {
+        if(!self->listbox)
+        {
+            if(*pok)
+                *pok = FALSE;
+            return 0L;
+        }
+        return _c(self->listbox)->getSpecificData(self->listbox, key, pok);
+    }
 
-	return Class(mPanel).getSpecificData((mPanel*)self, key, pok);
+    return Class(mPanel).getSpecificData((mPanel*)self, key, pok);
 }
 
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
@@ -720,20 +720,20 @@ BEGIN_CMPT_CLASS (mCombobox, mPanel)
     CLASS_METHOD_MAP (mCombobox, onLButtonDown)
     CLASS_METHOD_MAP (mCombobox, onKeyDown)
     CLASS_METHOD_MAP (mCombobox, onSizeChanged)
-	CLASS_METHOD_MAP (mCombobox, setProperty)
-	CLASS_METHOD_MAP (mCombobox, getProperty)
-	CLASS_METHOD_MAP (mCombobox, addItem)
-	CLASS_METHOD_MAP (mCombobox, removeItem)
-	CLASS_METHOD_MAP (mCombobox, setItem)
-	CLASS_METHOD_MAP (mCombobox, getItem)
-	CLASS_METHOD_MAP (mCombobox, setAddData)
-	CLASS_METHOD_MAP (mCombobox, getAddData)
-	CLASS_METHOD_MAP (mCombobox, setSpecificData)
-	CLASS_METHOD_MAP (mCombobox, getSpecificData)
+    CLASS_METHOD_MAP (mCombobox, setProperty)
+    CLASS_METHOD_MAP (mCombobox, getProperty)
+    CLASS_METHOD_MAP (mCombobox, addItem)
+    CLASS_METHOD_MAP (mCombobox, removeItem)
+    CLASS_METHOD_MAP (mCombobox, setItem)
+    CLASS_METHOD_MAP (mCombobox, getItem)
+    CLASS_METHOD_MAP (mCombobox, setAddData)
+    CLASS_METHOD_MAP (mCombobox, getAddData)
+    CLASS_METHOD_MAP (mCombobox, setSpecificData)
+    CLASS_METHOD_MAP (mCombobox, getSpecificData)
 #ifdef _MGNCS_GUIBUILDER_SUPPORT
     CLASS_METHOD_MAP (mCombobox, refresh)
 #endif
-	SET_DLGCODE(DLGC_WANTALLKEYS)
+    SET_DLGCODE(DLGC_WANTALLKEYS)
 END_CMPT_CLASS
 
-#endif		//_MGNCSCTRL_COMBOBOX
+#endif        //_MGNCSCTRL_COMBOBOX

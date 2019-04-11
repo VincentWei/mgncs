@@ -1,4 +1,4 @@
-/* 
+/*
     This file is part of mGNCS, a component for MiniGUI.
 
     Copyright (C) 2008~2018, Beijing FMSoft Technologies Co., Ltd.
@@ -86,7 +86,7 @@ struct _MAPFILELIST
 typedef struct _RPINFO
 {
     PMAPFILELIST head;
-	int          ref;
+    int          ref;
     void         *data;
     long         data_size;
 }RPINFO;
@@ -160,7 +160,7 @@ static void del_alllist(HPACKAGE package)
 
     while(head) {
 #ifdef WIN32
-		win_munmap(head->data);
+        win_munmap(head->data);
 #else
 #if HAVE_MMAP
         munmap (head->data, head->data_size);
@@ -215,7 +215,7 @@ static int del_list(HPACKAGE package, Uint32 filename_id)
 
     if (found == TRUE) {
 #ifdef WIN32
-		win_munmap(list->data);
+        win_munmap(list->data);
 #else
 #if HAVE_MMAP
         munmap (list->data, list->data_size);
@@ -283,7 +283,7 @@ binary_search_iditem (Uint32 *sect_base, Uint32 res_id)
 static void* mmap_file (const char *file_name, long *file_size)
 {
 #ifdef WIN32
-	return win_mmap(file_name);
+    return win_mmap(file_name);
 #else
     FILE* fp = NULL;
     void* data;
@@ -355,10 +355,10 @@ static char* get_res_sectaddr (HPACKAGE hPackage, int type)
     NCSRM_HEADER     *res_head;
     NCSRM_TYPEITEM   *type_item;
 
-	if(!hPackage)
-		return NULL;
+    if(!hPackage)
+        return NULL;
 
-	res_head = ((PRPINFO)hPackage)->data;
+    res_head = ((PRPINFO)hPackage)->data;
 
     type_item = search_type_item (res_head, type);
 
@@ -530,7 +530,7 @@ static BOOL get_rdr_info (HPACKAGE package, Uint32 rdr_id,
     NCSRM_IDITEM     *item;
     NCSRM_RDRINFO    *info;
     int             i = 0;
-	NCS_RDR_ELEMENT *elements;
+    NCS_RDR_ELEMENT *elements;
     DWORD           value;
 
     if (rdr_id <= 0 || (rdr_id>>16 != NCSRT_RDR && rdr_id>>16 != NCSRT_RDRSET))
@@ -584,25 +584,25 @@ static BOOL get_rdr_info (HPACKAGE package, Uint32 rdr_id,
             value = (DWORD)Str2Key(file);
         }
         else{
-			//FIXED ME : Speical for skin
-			if((WE_ATTR_TYPE_RDR==(WE_ATTR_TYPE_MASK&info->id))
-				&& ((WE_ATTR_INDEX_MASK&info->id)>=1 && (WE_ATTR_INDEX_MASK&info->id)<WE_LFSKIN_NUMBER))
-			{
-				//global skin
-				const char* file = ncsGetImageFileName(package, info->value);
-				if (RegisterResFromFile(HDC_SCREEN, file))
-                	_MGRM_PRINTF("register res %s ok. \n", file);
-            	else
-                	_MGRM_PRINTF("register res error.\n");
-				value = (DWORD)file;
-			}
-			else if (WE_ATTR_TYPE_FONT==(WE_ATTR_TYPE_MASK&info->id)){
+            //FIXED ME : Speical for skin
+            if((WE_ATTR_TYPE_RDR==(WE_ATTR_TYPE_MASK&info->id))
+                && ((WE_ATTR_INDEX_MASK&info->id)>=1 && (WE_ATTR_INDEX_MASK&info->id)<WE_LFSKIN_NUMBER))
+            {
+                //global skin
+                const char* file = ncsGetImageFileName(package, info->value);
+                if (RegisterResFromFile(HDC_SCREEN, file))
+                    _MGRM_PRINTF("register res %s ok. \n", file);
+                else
+                    _MGRM_PRINTF("register res error.\n");
+                value = (DWORD)file;
+            }
+            else if (WE_ATTR_TYPE_FONT==(WE_ATTR_TYPE_MASK&info->id)){
                 const char *font_name = ncsGetString(package, info->value);
                 value = (DWORD)LoadResource(font_name, RES_TYPE_FONT, 0L);
             } else {
-            	value = info->value;
+                value = info->value;
             }
-		}
+        }
 
         elements[i].id = info->id;
         elements[i].value = value;
@@ -705,12 +705,12 @@ static NCS_PROP_ENTRY *get_props (HPACKAGE package, NCSRM_WINHEADER *win_header)
                 each->value = (DWORD)GetBitmapFromRes(Str2Key(file));
             }
         }
-		else if( base->type == NCSRM_RDRTYPE_STRING
+        else if( base->type == NCSRM_RDRTYPE_STRING
                  || base->type == NCSRM_RDRTYPE_TEXT
                  || base->type == NCSRM_RDRTYPE_FILE )
-		{
-			each->value = (DWORD)ncsGetString(package, base->value);
-		}
+        {
+            each->value = (DWORD)ncsGetString(package, base->value);
+        }
         else {
             each->value = base->value;
         }
@@ -745,8 +745,8 @@ static void construct_wnd_template (HPACKAGE package,
     tmpl->style = win_header->style;
     tmpl->ex_style = win_header->ex_style;
     tmpl->caption = ncsGetString(package, win_header->caption_id);
-	tmpl->bk_color = win_header->bk_color;
-	tmpl->font_name = ncsGetString(package, win_header->font_id);
+    tmpl->bk_color = win_header->bk_color;
+    tmpl->font_name = ncsGetString(package, win_header->font_id);
     /*tmpl->handlers = get_event_handler(win_header->wnd_id, handlers); */
     tmpl->handlers = get_event_handler(win_header->serial_num, handlers); /* use serial_num to find event handler */
     tmpl->props = get_props (package, win_header);
@@ -874,7 +874,7 @@ HPACKAGE ncsLoadResPackageFromFile (const char* fileName)
     //set ncs system renderer for default renderer
     ncsSetSystemRenderer(ncsGetString((HPACKAGE)package, NCSRM_SYSSTR_DEFRDR));
 
-	package->ref = 1;
+    package->ref = 1;
     return (HPACKAGE)package;
 }
 
@@ -899,32 +899,32 @@ HPACKAGE ncsLoadResPackageFromMem (const void* mem, int size)
 
     _set_locale_info((HPACKAGE)package);
     ncsSetSystemRenderer(ncsGetString((HPACKAGE)package, NCSRM_SYSSTR_DEFRDR));
-	package->ref = 1;
+    package->ref = 1;
     return (HPACKAGE)package;
 }
 
 
 int ncsAddRefResPackage(HPACKAGE package)
 {
-	PRPINFO prpinfo;
+    PRPINFO prpinfo;
     if (package == HPACKAGE_NULL)
         return 0;
 
-	prpinfo = (PRPINFO)package;
-	if(!prpinfo)
-		return 0;
-	return ++prpinfo->ref;
+    prpinfo = (PRPINFO)package;
+    if(!prpinfo)
+        return 0;
+    return ++prpinfo->ref;
 }
 
 void ncsUnloadResPackage (HPACKAGE package)
 {
-	PRPINFO prpinfo;
+    PRPINFO prpinfo;
     if (package == HPACKAGE_NULL)
         return;
 
-	prpinfo = (PRPINFO)package;
-	if(!prpinfo || --prpinfo->ref > 0)
-		return ;
+    prpinfo = (PRPINFO)package;
+    if(!prpinfo || --prpinfo->ref > 0)
+        return ;
 
     del_alllist(package);
     free (prpinfo);
@@ -1179,8 +1179,8 @@ static void free_connect_nodes(ncs_connect_node_t* head)
 mMainWnd *ncsCreateMainWindowIndirectFromID (HPACKAGE package, Uint32 wndId,
                     HWND owner, HICON hIcon, HMENU hMenu,
                     NCS_EVENT_HANDLER_INFO* handlers,
-					NCS_EVENT_CONNECT_INFO *connects,
-					DWORD user_data)
+                    NCS_EVENT_CONNECT_INFO *connects,
+                    DWORD user_data)
 {
     int         uitype;
     Uint32      id;
@@ -1207,7 +1207,7 @@ mMainWnd *ncsCreateMainWindowIndirectFromID (HPACKAGE package, Uint32 wndId,
 
     construct_wnd_template (package, header, (NCS_WND_TEMPLATE*)&tmpl,
             handlers, (NCS_CREATE_NOTIFY_INFO*)(connects?&create_notify:NULL), TRUE);
-	tmpl.user_data = user_data;
+    tmpl.user_data = user_data;
 
     tmpl.hIcon = hIcon;
     tmpl.hMenu = hMenu;
@@ -1220,7 +1220,7 @@ mMainWnd *ncsCreateMainWindowIndirectFromID (HPACKAGE package, Uint32 wndId,
     deconstruct_wnd_template(&tmpl);
 
     //insert children
-	if(connects)
+    if(connects)
     {
         if(mainWnd)
             connect_events(create_notify.connect_head, connects);
@@ -1715,33 +1715,33 @@ static void dumpUIResInfo (HPACKAGE hPackage)
 
 
 BOOL ncsGetWndTemplFromID(HPACKAGE package, Uint32 wndId, \
-			NCS_MNWND_TEMPLATE * ptempl,
-			NCS_EVENT_HANDLER_INFO* handlers)
+            NCS_MNWND_TEMPLATE * ptempl,
+            NCS_EVENT_HANDLER_INFO* handlers)
 {
-	int               uitype;
-	Uint32            id;
-	NCSRM_WINHEADER  *header;
-	if(package == 0|| wndId == 0 || ptempl == NULL)
-		return FALSE;
+    int               uitype;
+    Uint32            id;
+    NCSRM_WINHEADER  *header;
+    if(package == 0|| wndId == 0 || ptempl == NULL)
+        return FALSE;
 
-	uitype = get_ui_data(package, wndId, (void*)&header, &id);
+    uitype = get_ui_data(package, wndId, (void*)&header, &id);
 
-	if(uitype == UIDATA_ERR) {
+    if(uitype == UIDATA_ERR) {
         printf ("mGNCS>ResManager: Error: According to ID(0x%0x), get window template information failure. \n", wndId);
-		return FALSE;
+        return FALSE;
     }
 
-	construct_wnd_template(package, header, (NCS_WND_TEMPLATE*)ptempl, handlers, NULL, TRUE);
+    construct_wnd_template(package, header, (NCS_WND_TEMPLATE*)ptempl, handlers, NULL, TRUE);
 
-	return TRUE;
+    return TRUE;
 
 }
 
 void ncsFreeWndTemplate(NCS_MNWND_TEMPLATE *ptempl)
 {
-	if(!ptempl)
-		return ;
-	deconstruct_wnd_template(ptempl);
+    if(!ptempl)
+        return ;
+    deconstruct_wnd_template(ptempl);
 }
 
 
