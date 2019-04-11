@@ -11,3 +11,5 @@ libmgncsinclude_HEADERS = mgncsconfig.h
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA=mgncs.pc
 
+docs:
+	doxygen Doxyfile
