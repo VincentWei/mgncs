@@ -154,7 +154,6 @@ static void mWidget_destroy(mWidget *self)
 {
 	if(self)
 	{
-        PLOGFONT font = GetWindowFont(self->hwnd);
 		mComponent* comp = self->comps;
 		if(mWidget_getCapturedHotPiece(self))
 			mWidget_releaseCapturedHotPiece();
@@ -163,8 +162,12 @@ static void mWidget_destroy(mWidget *self)
 		if(mWidget_getInputFocus(self))
 			mWidget_releaseInputFocus();
 
+#if 0
+        PLOGFONT font = GetWindowFont(self->hwnd);
         if (font)
             ReleaseRes(((FONT_RES *)font)->key);
+#endif
+
 		DELPIECE(self->body);
 		ncsCleanImageDrawInfo(&self->bkimg);
 
@@ -1084,7 +1087,6 @@ BOOL ncsSetFont (HWND hWnd, const char *font_name)
     
 	font = (PLOGFONT)LoadResource(font_name, RES_TYPE_FONT, 0L);
     of = SetWindowFont (hWnd, font);
-    
 	if(of)
 	    ReleaseRes(((FONT_RES *)of)->key);
 
