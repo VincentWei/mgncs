@@ -154,7 +154,8 @@ static void mWidget_destroy(mWidget *self)
 {
     if(self)
     {
-        PLOGFONT font = GetWindowFont(self->hwnd);
+        // VM: this is a dangrous operation to call ReleaseRes on current font
+        // PLOGFONT font = GetWindowFont(self->hwnd);
         mComponent* comp = self->comps;
         if(mWidget_getCapturedHotPiece(self))
             mWidget_releaseCapturedHotPiece();
@@ -163,8 +164,10 @@ static void mWidget_destroy(mWidget *self)
         if(mWidget_getInputFocus(self))
             mWidget_releaseInputFocus();
 
-        if (font)
-            ReleaseRes(((FONT_RES *)font)->key);
+        // VM: this is a dangrous operation to call ReleaseRes on current font
+        // if (font) {
+        //     ReleaseRes(((FONT_RES *)font)->key);
+        // }
         DELPIECE(self->body);
         ncsCleanImageDrawInfo(&self->bkimg);
 
@@ -1081,7 +1084,6 @@ static void processNotifyMessage(HWND hWnd, LINT id, int nc_code, DWORD add_data
 BOOL ncsSetFont (HWND hWnd, const char *font_name)
 {
     PLOGFONT font, of;
-
     font = (PLOGFONT)LoadResource(font_name, RES_TYPE_FONT, 0L);
     of = SetWindowFont (hWnd, font);
 
