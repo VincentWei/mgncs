@@ -2,7 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT([mainwnd.c])
+AC_INIT(mgncs-test, 1.2.0)
+AC_CONFIG_SRCDIR([mainwnd.c])
 
 AC_CANONICAL_SYSTEM
 
@@ -11,7 +12,10 @@ dnl ========================================================================
 AC_PROG_MAKE_SET
 AC_PROG_CC
 
-AM_INIT_AUTOMAKE(mgncs-test,1.0.0,-)
+dnl ========================================================================
+dnl Init automake
+AM_INIT_AUTOMAKE
+
 dnl ========================================================================
 dnl Put the name and version of the package here
 
@@ -67,21 +71,23 @@ AC_CHECK_DECLS(_MGRM_STANDALONE, standalone_version="yes", foo=bar, [#include <m
 
 have_libsuffix="no"
 
+APP_LIBS="-lmgncs -lmgplus -lmgutils"
+
 if test "x$threads_version" = "xyes"; then
-   	CFLAGS="$CFLAGS -D_REENTRANT"
+       CFLAGS="$CFLAGS -D_REENTRANT"
     if test "x$have_libsuffix" = "xno"; then
         APP_LIBS="$APP_LIBS -lminigui_ths"
     fi
 else
-	if test "x$standalone_version" = "xyes"; then
+    if test "x$standalone_version" = "xyes"; then
         if test "x$have_libsuffix" = "xno"; then
             APP_LIBS="$APP_LIBS -lminigui_sa"
         fi
-   	else
+    else
         if test "x$have_libsuffix" = "xno"; then
             APP_LIBS="$APP_LIBS -lminigui_procs"
         fi
-   	fi  
+    fi
 fi
 
 if test "x$have_libsuffix" = "xyes"; then
