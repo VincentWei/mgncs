@@ -3151,6 +3151,7 @@ static int mTextRender_calc(mTextRender* self, HDC hdc,
         if(ptext_count && visible_str_count < str_count)
             *ptext_count += (str_count - visible_str_count);
     }
+
     return rel_count;
 }
 
@@ -3273,7 +3274,6 @@ static int mTextRender_getCaretSize(mTextRender* self, HDC hdc, ITextIterator* i
         else
             len = 0;
     }
-
 
     return 1;
 }
@@ -4356,7 +4356,7 @@ static int mTextEditor_onChar(mTextEditor *self, WPARAM eucCode, DWORD keyFlags)
         return 0;
     }
 #else
-    if (eucCode == 127 || (eucCode <= 0x20 && eucCode != '\r')) {
+    if (eucCode == 127 || (eucCode < 0x20 && eucCode != '\t' && eucCode != '\r')) {
         // ignore all control characters
         return 0;
     }
