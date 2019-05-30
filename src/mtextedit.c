@@ -4350,10 +4350,17 @@ static int mTextEditor_onChar(mTextEditor *self, WPARAM eucCode, DWORD keyFlags)
     if (!TE_VALID_OBJ(self) || _read_only(self) || (keyFlags & KS_CTRL))
         return 0;
 
-    if(eucCode == 127 || eucCode == '\b') {
+#if 0 // VW 2019-05-30
+    if (eucCode == 127 || eucCode == '\b') {
         _remove_chars(self, TRUE);
         return 0;
     }
+#else
+    if (eucCode == 127 || eucCode <= 0x20) {
+        // ignore all control characters
+        return 0;
+    }
+#endif
 
     ch [0] = FIRSTBYTE (eucCode);
     ch [1] = SECONDBYTE (eucCode);
