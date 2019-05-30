@@ -4356,7 +4356,7 @@ static int mTextEditor_onChar(mTextEditor *self, WPARAM eucCode, DWORD keyFlags)
         return 0;
     }
 #else
-    if (eucCode == 127 || eucCode <= 0x20) {
+    if (eucCode == 127 || (eucCode <= 0x20 && eucCode != '\r')) {
         // ignore all control characters
         return 0;
     }
