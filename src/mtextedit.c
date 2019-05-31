@@ -3151,6 +3151,7 @@ static int mTextRender_calc(mTextRender* self, HDC hdc,
         if(ptext_count && visible_str_count < str_count)
             *ptext_count += (str_count - visible_str_count);
     }
+
     return rel_count;
 }
 
@@ -3273,7 +3274,6 @@ static int mTextRender_getCaretSize(mTextRender* self, HDC hdc, ITextIterator* i
         else
             len = 0;
     }
-
 
     return 1;
 }
@@ -3832,6 +3832,10 @@ static void _update_content_dirty_region(mTextEditor* self)
 
 }
 
+#if (_MINIGUI_VERSION_CODE >= _VERSION_CODE(3,4,0))
+#define mbc_devfont devfonts[1]
+#endif
+
 static int texteditor_get_text_count(mTextEditor* self, int start_with, BOOL bText, const char* str, int len)
 {
     PLOGFONT plogfont;
@@ -4346,10 +4350,17 @@ static int mTextEditor_onChar(mTextEditor *self, WPARAM eucCode, DWORD keyFlags)
     if (!TE_VALID_OBJ(self) || _read_only(self) || (keyFlags & KS_CTRL))
         return 0;
 
-    if(eucCode == 127 || eucCode == '\b') {
+#if 0 // VW 2019-05-30
+    if (eucCode == 127 || eucCode == '\b') {
         _remove_chars(self, TRUE);
         return 0;
     }
+#else
+    if (eucCode == 127 || (eucCode < 0x20 && eucCode != '\t' && eucCode != '\r')) {
+        // ignore all control characters
+        return 0;
+    }
+#endif
 
     ch [0] = FIRSTBYTE (eucCode);
     ch [1] = SECONDBYTE (eucCode);

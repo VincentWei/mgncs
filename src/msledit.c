@@ -1713,10 +1713,17 @@ static void mSlEdit_onChar (mSlEdit *self, WPARAM wParam, LPARAM lParam)
         }
     }
 
+#if 0 // VW 2019-05-31
     if (chars == 1) {
         if (charBuffer [0] < 0x20 && charBuffer[0] != '\b') //FIXME
-            return ;
+            return;
     }
+#else
+    if (chars == 1 && charBuffer [0] < 0x20) {
+        // ignore all control characters
+        return;
+    }
+#endif
 
     if (wParam == '\b') { //backspace
         int del;
