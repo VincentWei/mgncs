@@ -152,7 +152,7 @@ AC_ARG_ENABLE(detail_debug,
 [  --enable-detaildebug     detailed debug information <default=no>],
 detail_debug=$enableval)
 
-AC_ARG_ENABLE(skinrdr, 
+AC_ARG_ENABLE(skinrdr,
 [ --enable-skinrdr          include skin renderer <default=yes>],
 enable_rdr_skin=$enableval)
 
@@ -181,11 +181,11 @@ if test "x$enable_rdr_flat" = "xyes"; then
 		[Define if include flat renderer])
 fi
 
-AC_ARG_ENABLE(ctrlsuffix, 
+AC_ARG_ENABLE(ctrlsuffix,
 [ --enable-ctrlsuffix       have or not the prefix of ncs name<default=yes>],
 have_ctrlsuffix=$enableval)
 
-if test "x$have_ctrlsuffix" = "xyes"; 
+if test "x$have_ctrlsuffix" = "xyes";
 then
 	AC_DEFINE(_MGNCS_CLASS_SUFFIX, "_",
 		[Define the control surfix name])
@@ -212,7 +212,7 @@ if test "x$guibuilder_support" = "xyes"; then
 		[Define if support guibuilder])
 fi
 
-AC_ARG_ENABLE(ctrlold-mledit, 
+AC_ARG_ENABLE(ctrlold-mledit,
 [ --enable-ctrlold-mledit support the old multiline editor <default=no>],
 build_ctrl_oldmledit=$enableval)
 
@@ -308,344 +308,344 @@ if test "x$build_datasource_xml" = "xyes"; then
     CPPFLAGS="$CPPFLAGS -I/usr/include/libxml2"
 fi
 
-AC_ARG_ENABLE(dbstatic, 
+AC_ARG_ENABLE(dbstatic,
 [ --enable-dbstatic         enable the staticdatasource support or not <default=yes>],
 build_datasource_static=$enableval)
 
 if test "x$build_datasource_static" = "xyes"; then
     AC_DEFINE(_MGNCSDB_DATASOURCE, 1,
         [Define if support datasource])
-    AC_DEFINE(_MGNCSDB_STATIC, 1, 
+    AC_DEFINE(_MGNCSDB_STATIC, 1,
         [Define if support staticdatasource])
 fi
 
-AC_ARG_ENABLE(dbtext, 
+AC_ARG_ENABLE(dbtext,
 [ --enable-dbtext         enable the textdatasource support or not <default=yes>],
 build_datasource_text=$enableval)
 
 if test "x$build_datasource_text" = "xyes"; then
     AC_DEFINE(_MGNCSDB_DATASOURCE, 1,
         [Define if support datasource])
-    AC_DEFINE(_MGNCSDB_TEXT, 1, 
+    AC_DEFINE(_MGNCSDB_TEXT, 1,
         [Define if support textdatasource])
 fi
 
-AC_ARG_ENABLE(dbini, 
+AC_ARG_ENABLE(dbini,
 [ --enable-dbini         enable the inidatasource support or not <default=yes>],
 build_datasource_ini=$enableval)
 
 if test "x$build_datasource_ini" = "xyes"; then
     AC_DEFINE(_MGNCSDB_DATASOURCE, 1,
         [Define if support datasource])
-    AC_DEFINE(_MGNCSDB_INI, 1, 
+    AC_DEFINE(_MGNCSDB_INI, 1,
         [Define if support inidatasource])
 fi
 
-AC_ARG_ENABLE(ctrlanimate, 
+AC_ARG_ENABLE(ctrlanimate,
 [ --enable-ctrlanimate         enable the animate support or not <default=yes>],
 build_ctrl_animate=$enableval)
 
 if test "x$build_ctrl_animate" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_ANIMATE, 1, 
+    AC_DEFINE(_MGNCSCTRL_ANIMATE, 1,
         [Define if support animate])
 fi
 
-AC_ARG_ENABLE(ctrlcolorbutton, 
+AC_ARG_ENABLE(ctrlcolorbutton,
 [ --enable-ctrlcolorbutton         enable the colorbutton support or not <default=yes>],
 build_ctrl_colorbutton=$enableval)
 
 if test "x$build_ctrl_colorbutton" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_COLORBUTTON, 1, 
+    AC_DEFINE(_MGNCSCTRL_COLORBUTTON, 1,
         [Define if support colorbutton])
 fi
 
-AC_ARG_ENABLE(ctrlcontainer, 
+AC_ARG_ENABLE(ctrlcontainer,
 [ --enable-ctrlcontainer         enable the container support or not <default=yes>],
 build_ctrl_container=$enableval)
 
 if test "x$build_ctrl_container" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_CONTAINER, 1, 
+    AC_DEFINE(_MGNCSCTRL_CONTAINER, 1,
         [Define if support container])
 fi
 
-AC_ARG_ENABLE(ctrlpage, 
+AC_ARG_ENABLE(ctrlpage,
 [ --enable-ctrlpage         enable the page support or not <default=yes>],
 build_ctrl_page=$enableval)
 
 if test "x$build_ctrl_page" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_CONTAINER, 1, 
+    AC_DEFINE(_MGNCSCTRL_CONTAINER, 1,
         [Define if support container])
-    AC_DEFINE(_MGNCSCTRL_PAGE, 1, 
+    AC_DEFINE(_MGNCSCTRL_PAGE, 1,
         [Define if support page])
 fi
 
-AC_ARG_ENABLE(ctrlpropsheet, 
+AC_ARG_ENABLE(ctrlpropsheet,
 [ --enable-ctrlpropsheet         enable the propsheet support or not <default=yes>],
 build_ctrl_propsheet=$enableval)
 
 if test "x$build_ctrl_propsheet" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_CONTAINER, 1, 
+    AC_DEFINE(_MGNCSCTRL_CONTAINER, 1,
         [Define if support container])
-    AC_DEFINE(_MGNCSCTRL_PAGE, 1, 
+    AC_DEFINE(_MGNCSCTRL_PAGE, 1,
         [Define if support page])
-    AC_DEFINE(_MGNCSCTRL_PROPSHEET, 1, 
+    AC_DEFINE(_MGNCSCTRL_PROPSHEET, 1,
         [Define if support propsheet])
 fi
 
-AC_ARG_ENABLE(ctrllistbox, 
+AC_ARG_ENABLE(ctrllistbox,
 [ --enable-ctrllistbox         enable the listbox support or not <default=yes>],
 build_ctrl_listbox=$enableval)
 
 if test "x$build_ctrl_listbox" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_LISTBOX, 1, 
+    AC_DEFINE(_MGNCSCTRL_LISTBOX, 1,
         [Define if support listbox])
 fi
 
-AC_ARG_ENABLE(ctrlcombobox, 
+AC_ARG_ENABLE(ctrlcombobox,
 [ --enable-ctrlcombobox         enable the combobox support or not <default=yes>],
 build_ctrl_combobox=$enableval)
 
 if test "x$build_ctrl_combobox" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_LISTBOX, 1, 
+    AC_DEFINE(_MGNCSCTRL_LISTBOX, 1,
         [Define if support listbox])
-    AC_DEFINE(_MGNCSCTRL_COMBOBOX, 1, 
+    AC_DEFINE(_MGNCSCTRL_COMBOBOX, 1,
         [Define if support combobox])
 fi
 
-AC_ARG_ENABLE(ctrldialogbox, 
+AC_ARG_ENABLE(ctrldialogbox,
 [ --enable-ctrldialogbox         enable the dialogbox support or not <default=yes>],
 build_ctrl_dialogbox=$enableval)
 
 if test "x$build_ctrl_dialogbox" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_DIALOGBOX, 1, 
+    AC_DEFINE(_MGNCSCTRL_DIALOGBOX, 1,
         [Define if support dialogbox])
 fi
 
-AC_ARG_ENABLE(ctrliconview, 
+AC_ARG_ENABLE(ctrliconview,
 [ --enable-ctrliconview         enable the iconview support or not <default=yes>],
 build_ctrl_iconview=$enableval)
 
 if test "x$build_ctrl_iconview" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_ICONVIEW, 1, 
+    AC_DEFINE(_MGNCSCTRL_ICONVIEW, 1,
         [Define if support iconview])
 fi
 
-AC_ARG_ENABLE(ctrlimagebutton, 
+AC_ARG_ENABLE(ctrlimagebutton,
 [ --enable-ctrlimagebutton         enable the imagebutton support or not <default=yes>],
 build_ctrl_imagebutton=$enableval)
 
 if test "x$build_ctrl_imagebutton" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_IMAGEBUTTON, 1, 
+    AC_DEFINE(_MGNCSCTRL_IMAGEBUTTON, 1,
         [Define if support imagebutton])
 fi
 
-AC_ARG_ENABLE(ctrlledlabel, 
+AC_ARG_ENABLE(ctrlledlabel,
 [ --enable-ctrlledlabel         enable the ledlabel support or not <default=yes>],
 build_ctrl_ledlabel=$enableval)
 
 if test "x$build_ctrl_ledlabel" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_LEDLABEL, 1, 
+    AC_DEFINE(_MGNCSCTRL_LEDLABEL, 1,
         [Define if support ledlabel])
 fi
 
-AC_ARG_ENABLE(ctrllist, 
+AC_ARG_ENABLE(ctrllist,
 [ --enable-ctrllist         enable the list support or not <default=yes>],
 build_ctrl_list=$enableval)
 
 if test "x$build_ctrl_list" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_LIST, 1, 
+    AC_DEFINE(_MGNCSCTRL_LIST, 1,
         [Define if support list])
 fi
 
-AC_ARG_ENABLE(ctrllistview, 
+AC_ARG_ENABLE(ctrllistview,
 [ --enable-ctrllistview         enable the listview support or not <default=yes>],
 build_ctrl_listview=$enableval)
 
 if test "x$build_ctrl_listview" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_LISTVIEW, 1, 
+    AC_DEFINE(_MGNCSCTRL_LISTVIEW, 1,
         [Define if support listview])
 fi
 
-AC_ARG_ENABLE(ctrlmenubutton, 
+AC_ARG_ENABLE(ctrlmenubutton,
 [ --enable-ctrlmenubutton         enable the menubutton support or not <default=yes>],
 build_ctrl_menubutton=$enableval)
 
 if test "x$build_ctrl_menubutton" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_MENUBUTTON, 1, 
+    AC_DEFINE(_MGNCSCTRL_MENUBUTTON, 1,
         [Define if support menubutton])
 fi
 
-AC_ARG_ENABLE(ctrlprogressbar, 
+AC_ARG_ENABLE(ctrlprogressbar,
 [ --enable-ctrlprogressbar         enable the progressbar support or not <default=yes>],
 build_ctrl_progressbar=$enableval)
 
 if test "x$build_ctrl_progressbar" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_PROGRESSBAR, 1, 
+    AC_DEFINE(_MGNCSCTRL_PROGRESSBAR, 1,
         [Define if support progressbar])
 fi
 
-AC_ARG_ENABLE(ctrlrectangle, 
+AC_ARG_ENABLE(ctrlrectangle,
 [ --enable-ctrlrectangle         enable the rectangle support or not <default=yes>],
 build_ctrl_rectangle=$enableval)
 
 if test "x$build_ctrl_rectangle" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_RECTANGLE, 1, 
+    AC_DEFINE(_MGNCSCTRL_RECTANGLE, 1,
         [Define if support rectangle])
 fi
 
-AC_ARG_ENABLE(ctrlspinner, 
+AC_ARG_ENABLE(ctrlspinner,
 [ --enable-ctrlspinner         enable the spinner support or not <default=yes>],
 build_ctrl_spinner=$enableval)
 
 if test "x$build_ctrl_spinner" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_SPINNER, 1, 
+    AC_DEFINE(_MGNCSCTRL_SPINNER, 1,
         [Define if support spinner])
 fi
 
-AC_ARG_ENABLE(ctrlspinbox, 
+AC_ARG_ENABLE(ctrlspinbox,
 [ --enable-ctrlspinbox         enable the spinbox support or not <default=yes>],
 build_ctrl_spinbox=$enableval)
 
 if test "x$build_ctrl_spinbox" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_SPINNER, 1, 
+    AC_DEFINE(_MGNCSCTRL_SPINNER, 1,
         [Define if support spinner])
-    AC_DEFINE(_MGNCSCTRL_SPINBOX, 1, 
+    AC_DEFINE(_MGNCSCTRL_SPINBOX, 1,
         [Define if support spinbox])
 fi
 
-AC_ARG_ENABLE(ctrlmonthcalendar, 
+AC_ARG_ENABLE(ctrlmonthcalendar,
 [ --enable-ctrlmonthcalendar         enable the monthcalendar support or not <default=yes>],
 build_ctrl_monthcalendar=$enableval)
 
 if test "x$build_ctrl_monthcalendar" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_SPINNER, 1, 
+    AC_DEFINE(_MGNCSCTRL_SPINNER, 1,
         [Define if support spinner])
-    AC_DEFINE(_MGNCSCTRL_SPINBOX, 1, 
+    AC_DEFINE(_MGNCSCTRL_SPINBOX, 1,
         [Define if support spinbox])
-    AC_DEFINE(_MGNCSCTRL_MONTHCALENDAR, 1, 
+    AC_DEFINE(_MGNCSCTRL_MONTHCALENDAR, 1,
         [Define if support monthcalendar])
 fi
 
-AC_ARG_ENABLE(ctrlslider, 
+AC_ARG_ENABLE(ctrlslider,
 [ --enable-ctrlslider         enable the slider support or not <default=yes>],
 build_ctrl_slider=$enableval)
 
 if test "x$build_ctrl_slider" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_SLIDER, 1, 
+    AC_DEFINE(_MGNCSCTRL_SLIDER, 1,
         [Define if support slider])
 fi
 
-AC_ARG_ENABLE(ctrlscrollbar, 
+AC_ARG_ENABLE(ctrlscrollbar,
 [ --enable-ctrlscrollbar         enable the scrollbar support or not <default=yes>],
 build_ctrl_scrollbar=$enableval)
 
 if test "x$build_ctrl_scrollbar" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_SLIDER, 1, 
+    AC_DEFINE(_MGNCSCTRL_SLIDER, 1,
         [Define if support slider])
-    AC_DEFINE(_MGNCSCTRL_SCROLLBAR, 1, 
+    AC_DEFINE(_MGNCSCTRL_SCROLLBAR, 1,
         [Define if support scrollbar])
 fi
 
-AC_ARG_ENABLE(ctrltrackbar, 
+AC_ARG_ENABLE(ctrltrackbar,
 [ --enable-ctrltrackbar         enable the trackbar support or not <default=yes>],
 build_ctrl_trackbar=$enableval)
 
 if test "x$build_ctrl_trackbar" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_SLIDER, 1, 
+    AC_DEFINE(_MGNCSCTRL_SLIDER, 1,
         [Define if support slider])
-    AC_DEFINE(_MGNCSCTRL_TRACKBAR, 1, 
+    AC_DEFINE(_MGNCSCTRL_TRACKBAR, 1,
         [Define if support trackbar])
 fi
 
-AC_ARG_ENABLE(ctrltoolbar, 
+AC_ARG_ENABLE(ctrltoolbar,
 [ --enable-ctrltoolbar         enable the toolbar support or not <default=yes>],
 build_ctrl_toolbar=$enableval)
 
 if test "x$build_ctrl_toolbar" = "xyes"; then
-    AC_DEFINE(_MGNCSCTRL_TOOLBAR, 1, 
+    AC_DEFINE(_MGNCSCTRL_TOOLBAR, 1,
         [Define if support toolbar])
 fi
 
-AC_ARG_ENABLE(engineime, 
+AC_ARG_ENABLE(engineime,
 [ --enable-engineime         enable the imeengine support or not <default=yes>],
 build_engine_ime=$enableval)
 
 if test "x$build_engine_ime" = "xyes"; then
-    AC_DEFINE(_MGNCSENGINE_IME, 1, 
+    AC_DEFINE(_MGNCSENGINE_IME, 1,
         [Define if support imeengine])
 fi
 
-AC_ARG_ENABLE(ctrlimwordsel, 
+AC_ARG_ENABLE(ctrlimwordsel,
 [ --enable-ctrlimwordsel         enable the imwordsel support or not <default=yes>],
 build_ctrl_imwordsel=$enableval)
 
 if test "x$build_ctrl_imwordsel" = "xyes"; then
-    AC_DEFINE(_MGNCSENGINE_IME, 1, 
+    AC_DEFINE(_MGNCSENGINE_IME, 1,
         [Define if support imeengine])
-    AC_DEFINE(_MGNCSCTRL_IMWORDSEL, 1, 
+    AC_DEFINE(_MGNCSCTRL_IMWORDSEL, 1,
         [Define if support imwordsel])
 fi
 
-AC_ARG_ENABLE(enginepinyin, 
+AC_ARG_ENABLE(enginepinyin,
 [ --enable-enginepinyin         enable the pinyinengine support or not <default=yes>],
 build_engine_pinyin=$enableval)
 
 if test "x$build_engine_pinyin" = "xyes"; then
-    AC_DEFINE(_MGNCSENGINE_IME, 1, 
+    AC_DEFINE(_MGNCSENGINE_IME, 1,
         [Define if support imeengine])
-    AC_DEFINE(_MGNCSENGINE_PINYIN, 1, 
+    AC_DEFINE(_MGNCSENGINE_PINYIN, 1,
         [Define if support pinyinengine])
 fi
 
-AC_ARG_ENABLE(enginedigit, 
+AC_ARG_ENABLE(enginedigit,
 [ --enable-enginedigit         enable the digitengine support or not <default=yes>],
 build_engine_digit=$enableval)
 
 if test "x$build_engine_digit" = "xyes"; then
-    AC_DEFINE(_MGNCSENGINE_IME, 1, 
+    AC_DEFINE(_MGNCSENGINE_IME, 1,
         [Define if support imeengine])
-    AC_DEFINE(_MGNCSENGINE_DIGIT, 1, 
+    AC_DEFINE(_MGNCSENGINE_DIGIT, 1,
         [Define if support digitengine])
 fi
 
-AC_ARG_ENABLE(enginepti, 
+AC_ARG_ENABLE(enginepti,
 [ --enable-enginepti         enable the ptiengine support or not <default=yes>],
 build_engine_pti=$enableval)
 
 if test "x$build_engine_pti" = "xyes"; then
-    AC_DEFINE(_MGNCSENGINE_IME, 1, 
+    AC_DEFINE(_MGNCSENGINE_IME, 1,
         [Define if support imeengine])
-    AC_DEFINE(_MGNCSENGINE_PTI, 1, 
+    AC_DEFINE(_MGNCSENGINE_PTI, 1,
         [Define if support ptiengine])
 fi
 
-AC_ARG_ENABLE(enginedigitpti, 
+AC_ARG_ENABLE(enginedigitpti,
 [ --enable-enginedigitpti         enable the digitptiengine support or not <default=yes>],
 build_engine_digitpti=$enableval)
 
 if test "x$build_engine_digitpti" = "xyes"; then
-    AC_DEFINE(_MGNCSENGINE_IME, 1, 
+    AC_DEFINE(_MGNCSENGINE_IME, 1,
         [Define if support imeengine])
-    AC_DEFINE(_MGNCSENGINE_DIGIT, 1, 
+    AC_DEFINE(_MGNCSENGINE_DIGIT, 1,
         [Define if support digitengine])
-    AC_DEFINE(_MGNCSENGINE_PTI, 1, 
+    AC_DEFINE(_MGNCSENGINE_PTI, 1,
         [Define if support ptiengine])
-    AC_DEFINE(_MGNCSENGINE_DIGITPTI, 1, 
+    AC_DEFINE(_MGNCSENGINE_DIGITPTI, 1,
         [Define if support digitptiengine])
 fi
 
-AC_ARG_ENABLE(enginedigitpy, 
+AC_ARG_ENABLE(enginedigitpy,
 [ --enable-enginedigitpy         enable the digitpyengine support or not <default=yes>],
 build_engine_digitpy=$enableval)
 
 if test "x$build_engine_digitpy" = "xyes"; then
-    AC_DEFINE(_MGNCSENGINE_IME, 1, 
+    AC_DEFINE(_MGNCSENGINE_IME, 1,
         [Define if support imeengine])
-    AC_DEFINE(_MGNCSENGINE_DIGIT, 1, 
+    AC_DEFINE(_MGNCSENGINE_DIGIT, 1,
         [Define if support digitengine])
-    AC_DEFINE(_MGNCSENGINE_PINYIN, 1, 
+    AC_DEFINE(_MGNCSENGINE_PINYIN, 1,
         [Define if support pinyinengine])
-    AC_DEFINE(_MGNCSENGINE_DIGITPY, 1, 
+    AC_DEFINE(_MGNCSENGINE_DIGITPY, 1,
         [Define if support digitpyengine])
 fi
 
