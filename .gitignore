@@ -23,4 +23,5 @@ Makefile.in
 /*config.h
 /*config.h.in
 /*config.h.in~
+test/
 
