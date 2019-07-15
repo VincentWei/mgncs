@@ -1,15 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////
-//
-//                          IMPORTANT NOTICE
-//
-// The following open source license statement does not apply to any
-// entity in the Exception List published by FMSoft.
-//
-// For more information, please visit:
-//
-// https://www.fmsoft.cn/exception-list
-//
-//////////////////////////////////////////////////////////////////////////////
 /* mgncsconfig.h.  Generated from mgncsconfig.h.in by configure.  */
 /* mgncsconfig.h.in.  Generated from configure.in by autoheader.  */
 
