@@ -30,7 +30,7 @@ For more information, please run
 
 ## Copying
 
-Copyright (C) 2008~2019, Beijing FMSoft Technologies Co., Ltd.
+Copyright (C) 2008 ~ 2019, Beijing FMSoft Technologies Co., Ltd.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
