@@ -1203,7 +1203,11 @@ mWidget* ncsCreateMainWindow (const char *class_name, const char *caption, DWORD
     MainCreate.ty = y;
     MainCreate.rx = x + w;
     MainCreate.by = y + h;
+#ifdef _MGSCHEMA_COMPOSITING
+    MainCreate.iBkColor = ncsColor2Pixel(HDC_SCREEN, WndClass.dwBkColor);
+#else
     MainCreate.iBkColor = WndClass.iBkColor;
+#endif
     MainCreate.dwAddData = (DWORD)&main_create_info;
     MainCreate.dwReserved = 0;
 
@@ -1313,10 +1317,17 @@ mWidget* ncsCreateMainWindowIndirect(const NCS_MNWND_TEMPLATE* tmpl, HWND host)
     MainCreate.rx = tmpl->x + tmpl->w;
     MainCreate.by = tmpl->y + tmpl->h;
 
+#ifdef _MGSCHEMA_COMPOSITING
+    if(GetAValue(tmpl->bk_color) == 0)
+        MainCreate.iBkColor = ncsColor2Pixel(HDC_SCREEN, WndClass.dwBkColor);
+    else
+        MainCreate.iBkColor = ncsColor2Pixel(HDC_SCREEN, tmpl->bk_color);
+#else
     if(GetAValue(tmpl->bk_color) == 0)
         MainCreate.iBkColor = WndClass.iBkColor;
     else
         MainCreate.iBkColor = ncsColor2Pixel(HDC_SCREEN, tmpl->bk_color);
+#endif
     MainCreate.dwAddData = (DWORD)&main_create_info;
     MainCreate.dwReserved = 0;
 

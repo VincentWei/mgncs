@@ -628,7 +628,11 @@ BOOL ncsRegisterComponent(mComponentClass *compCls, DWORD dwStyle,
     WndClass.dwStyle     = dwStyle;
     WndClass.dwExStyle   = dwExStyle;
     WndClass.hCursor     = GetSystemCursor (idCursor);
+#ifdef _MGSCHEMA_COMPOSITING
+    WndClass.dwBkColor   = ncsGetElement(NULL, idBkColor);
+#else
     WndClass.iBkColor    = ncsColor2Pixel(HDC_SCREEN, ncsGetElement(NULL, idBkColor));
+#endif
     WndClass.WinProc     = compCls->_window_proc;
     WndClass.dwAddData   = magic_num;
 
