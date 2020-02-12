@@ -4064,17 +4064,17 @@ static void mTextEditor_beginSelection(mTextEditor *self, HDC hdc)
     SetBkMode(hdc, BM_OPAQUE);
 
     SetTextColor (hdc,
-        GetWindowElementPixel (self->hwnd,
+        GetWindowElementPixelEx (self->hwnd, hdc,
             GetWindowStyle(self->hwnd)&WS_DISABLED?
                 WE_FGC_DISABLED_ITEM : WE_FGC_SELECTED_ITEM));
 
     if (TE_IS_FOCUS(self)) {
         SetBkColor (hdc,
-            GetWindowElementPixel(self->hwnd, WE_BGC_SELECTED_ITEM));
+            GetWindowElementPixelEx (self->hwnd, hdc, WE_BGC_SELECTED_ITEM));
     }
     else {
         SetBkColor (hdc,
-            GetWindowElementPixel (self->hwnd, WE_BGC_SELECTED_LOSTFOCUS));
+            GetWindowElementPixelEx (self->hwnd, hdc, WE_BGC_SELECTED_LOSTFOCUS));
     }
 }
 
@@ -4085,7 +4085,7 @@ static void mTextEditor_setupDC(mTextEditor *self, HDC hdc)
         SetBkColor (hdc, GetWindowBkColor (self->hwnd));
 
         SetTextColor (hdc,
-            GetWindowElementPixel (self->hwnd,
+            GetWindowElementPixelEx (self->hwnd, hdc,
                 GetWindowStyle(self->hwnd)&WS_DISABLED?
                     WE_FGC_DISABLED_ITEM : WE_FGC_WINDOW));
     }
@@ -4177,12 +4177,12 @@ static int mTextEditor_getInvalidBkgnd(mTextEditor *self, RECT *prc)
 
 #define INIT_SELECT_BRUSH(self, hdc, oldColor) \
     if (TE_IS_FOCUS(self)) {\
-        oldColor = SetBrushColor (hdc, GetWindowElementPixel(self->hwnd, \
-                    WE_BGC_SELECTED_ITEM));    \
+        oldColor = SetBrushColor (hdc, GetWindowElementPixelEx (self->hwnd, \
+                    hdc, WE_BGC_SELECTED_ITEM));    \
     }\
     else {\
-        oldColor = SetBrushColor (hdc, GetWindowElementPixel(self->hwnd, \
-                    WE_BGC_SELECTED_LOSTFOCUS));\
+        oldColor = SetBrushColor (hdc, GetWindowElementPixelEx (self->hwnd, \
+                    hdc, WE_BGC_SELECTED_LOSTFOCUS));\
     }
 
 #define INIT_NORMAL_BRUSH(self, hdc, oldColor) \
@@ -6780,7 +6780,11 @@ BOOL RegisterTextEditControl (void)
     WndClass.dwStyle     = WS_NONE;
     WndClass.dwExStyle   = WS_EX_NONE;
     WndClass.hCursor     = GetSystemCursor (IDC_IBEAM);
-    WndClass.iBkColor    = GetWindowElementPixel (HWND_NULL, WE_BGC_WINDOW);
+#ifdef _MGSCHEMA_COMPOSITING
+    WndClass.dwBkColor   = GetWindowElementAttr (HWND_NULL, WE_BGC_WINDOW);
+#else
+    WndClass.iBkColor    = GetWindowElementPixelEx (HWND_NULL, HDC_SCREEN, WE_BGC_WINDOW);
+#endif
     WndClass.WinProc     = mTextEditCtrlProc;
 
     init_textedit();

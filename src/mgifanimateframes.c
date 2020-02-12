@@ -651,7 +651,7 @@ static void restore_bk_color(mGIFAnimateFrames* self, mGIFAnimateFrame* frame, m
 
 		bg_color = GetWindowBkColor(owner->hwnd);
 	} else {
-		bg_color = GetWindowElementPixel(HWND_DESKTOP, WE_BGC_DESKTOP);
+		bg_color = GetWindowElementPixelEx (HWND_DESKTOP, self->mem_dc, WE_BGC_DESKTOP);
 	}
 	
 	if(bTransparent) {
