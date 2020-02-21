@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 1.4.0
+
+The MiniGUI development team announces the availability of mGNCS 1.4.0.
+
+All users of MiniGUI are encouraged to use this version, and
+report any bugs and incompatibilities on GitHub:
+
+<https://github.com/VincentWei/mgncs>
+
+### What's new in this version
+
+- Tune code to comply with MiniGUI 5.0.0.
+
 ## Version 1.2.5
 
 The MiniGUI development team announces the availability of mGNCS 1.2.5,
@@ -8,7 +21,7 @@ which is compliant to MiniGUI 4.0.x.
 All users of MiniGUI are encouraged to use this version with your new MiniGUI
 apps, and report any bugs and incompatibilities to:
 
-https://github.com/VincentWei/mgncs
+<https://github.com/VincentWei/mgncs>
 
 ### What's new in this version
 
@@ -25,7 +38,7 @@ which is compliant to MiniGUI 4.0.x.
 All users of MiniGUI are encouraged to use this version with your new MiniGUI
 apps, and report any bugs and incompatibilities to:
 
-https://github.com/VincentWei/mgncs
+<https://github.com/VincentWei/mgncs>
 
 ### What's new in this version
 
