@@ -6771,7 +6771,6 @@ static LRESULT mTextEditCtrlProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM
         return DefaultControlProc (hWnd, message, wParam, lParam);
 }
 
-extern int AddNewControlClass (PWNDCLASS pWndClass);
 BOOL RegisterTextEditControl (void)
 {
     WNDCLASS WndClass;
@@ -6789,17 +6788,15 @@ BOOL RegisterTextEditControl (void)
 
     init_textedit();
 
-    if (AddNewControlClass (&WndClass) != ERR_OK)
+    if (RegisterWindowClass (&WndClass) != ERR_OK)
         return FALSE;
 
     WndClass.spClassName = CTRL_MLEDIT;
-
-    if (AddNewControlClass (&WndClass) != ERR_OK)
+    if (RegisterWindowClass (&WndClass) != ERR_OK)
         return FALSE;
 
     WndClass.spClassName = CTRL_MEDIT;
-
-    return AddNewControlClass (&WndClass) == ERR_OK;
+    return RegisterWindowClass (&WndClass) == ERR_OK;
 }
 #endif /* __MINIGUI_LIB__ */
 #endif /* defined(_MGCTRL_TEXTEDIT_USE_NEW_IMPL) || defined(_MGNCSCTRL_TEXTEDITOR) */
