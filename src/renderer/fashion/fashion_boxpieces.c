@@ -309,7 +309,7 @@ static void fashion_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 	int index = state;
 	int style = 0;
 
-	check_bmp = GetSystemBitmapEx("fashion", type?SYSBMP_RADIOBUTTON : SYSBMP_CHECKBUTTON);
+	check_bmp = GetSystemBitmapEx2 (hdc, "fashion", type?SYSBMP_RADIOBUTTON : SYSBMP_CHECKBUTTON);
 
 	if(!check_bmp)
 		return;

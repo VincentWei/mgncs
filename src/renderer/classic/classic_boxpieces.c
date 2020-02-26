@@ -271,7 +271,7 @@ static void classic_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 	if(type == 0)
 	{
 		style = 13;
-		check_bmp = GetSystemBitmapEx ("classic", SYSBMP_CHECKBUTTON);
+		check_bmp = GetSystemBitmapEx2 (hdc, "classic", SYSBMP_CHECKBUTTON);
 		if(check_state)
 			full_state = style*4 + (state<<3)+(state<<2) + state;
 		else
@@ -281,7 +281,7 @@ static void classic_draw_check(HDC hdc, const RECT *rc, int flag ,int state, int
 	else if (type == 1)
 	{
 		style = 12;
-		check_bmp = GetSystemBitmapEx ("classic", SYSBMP_RADIOBUTTON);
+		check_bmp = GetSystemBitmapEx2 (hdc, "classic", SYSBMP_RADIOBUTTON);
 		if(check_state)
 			full_state = style*4 + (state<<3)+(state<<2);
 		else
