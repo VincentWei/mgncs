@@ -607,46 +607,41 @@ static LRESULT mWidget_wndProc(mWidget* self, UINT message, WPARAM wParam, LPARA
                 BOOL bret = TRUE;
                 HDC hdc = (HDC)wParam;
                 RECT rcTemp;
-                if(hdc == 0)
-                {
-#if MINIGUI_MAJOR_VERSION >= 3
+
+                if (hdc == 0) {
+#if MINIGUI_MAJOR_VERSION >= 4
+                    hdc = GetEffectiveCDC (self->hwnd);
+#elif MINIGUI_MAJOR_VERSION >= 3
                     hdc = GetSecondaryClientDC(self->hwnd);
-                    if(hdc == 0)
+                    if (hdc == 0)
 #endif
                         hdc = GetClientDC(self->hwnd);
                 }
 
-                if(lParam != 0)
-                {
+                if (lParam != 0) {
                     rcTemp = *((const RECT*)(lParam));
-                /*    if(IsMainWindow(self->hwnd))
-                    {
-                        ScreenToClient(self->hwnd, &rcTemp.left, &rcTemp.top);
-                        ScreenToClient(self->hwnd, &rcTemp.right, &rcTemp.bottom);
-                    }
-                */}
-                else
-                {
+                }
+                else {
                     GetClientRect(self->hwnd, &rcTemp);
                 }
 
-//                ClipRectIntersect(hdc, &rcTemp);
-
-                if(_c(self)->onEraseBkgnd){
+                if (_c(self)->onEraseBkgnd){
                      bret = _c(self)->onEraseBkgnd(self, hdc, &rcTemp);
                 }
-                else{
+                else {
                     self->renderer->drawBkground(self, hdc, &rcTemp);
                 }
 
-                if(hdc != (HDC)wParam)
-                {
-#if MINIGUI_MAJOR_VERSION >= 3
-                    ReleaseSecondaryDC(self->hwnd, hdc);
+                if (hdc != (HDC)wParam) {
+#if MINIGUI_MAJOR_VERSION >= 4
+                    ReleaseDC (hdc);
+#elif MINIGUI_MAJOR_VERSION >= 3
+                    ReleaseSecondaryDC (self->hwnd, hdc);
 #else
-                    ReleaseDC(hdc);
+                    ReleaseDC (hdc);
 #endif
                 }
+
                 return bret;
             }
             break;
