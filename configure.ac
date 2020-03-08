@@ -1,11 +1,11 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.60)
-AC_INIT(libmgncs, 1.4.0)
+AC_INIT(libmgncs, 1.5.0)
 AC_CONFIG_SRCDIR(src/mctrls.c)
 
 MGNCS_MAJOR_VERSION=1
-MGNCS_MINOR_VERSION=4
+MGNCS_MINOR_VERSION=5
 MGNCS_MICRO_VERSION=0
 MGNCS_INTERFACE_AGE=0
 MGNCS_BINARY_AGE=0
@@ -172,7 +172,7 @@ fi
 if test "x$enable_rdr_fashion" = "xyes"; then
 	AC_DEFINE(_MGNCS_RDR_FASHION, 1,
 		[Define if include fashion renderer])
-    PKG_CHECK_MODULES([MGPLUS], [mgplus >= 1.4.0])
+    PKG_CHECK_MODULES([MGPLUS], [mgplus >= 1.5.0])
     DEP_LIBS="$DEP_LIBS $MGPLUS_LIBS"
 fi
 
