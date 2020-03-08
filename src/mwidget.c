@@ -609,7 +609,7 @@ static LRESULT mWidget_wndProc(mWidget* self, UINT message, WPARAM wParam, LPARA
                 RECT rcTemp;
 
                 if (hdc == 0) {
-#if MINIGUI_MAJOR_VERSION >= 4
+#if _MINIGUI_VERSION_CODE >= _VERSION_CODE(4, 9, 0)
                     hdc = GetEffectiveCDC (self->hwnd);
 #elif MINIGUI_MAJOR_VERSION >= 3
                     hdc = GetSecondaryClientDC(self->hwnd);
@@ -633,7 +633,7 @@ static LRESULT mWidget_wndProc(mWidget* self, UINT message, WPARAM wParam, LPARA
                 }
 
                 if (hdc != (HDC)wParam) {
-#if MINIGUI_MAJOR_VERSION >= 4
+#if _MINIGUI_VERSION_CODE >= _VERSION_CODE(4, 9, 0)
                     ReleaseDC (hdc);
 #elif MINIGUI_MAJOR_VERSION >= 3
                     ReleaseSecondaryDC (self->hwnd, hdc);
