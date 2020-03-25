@@ -7,7 +7,7 @@ The MiniGUI development team announces the availability of mGNCS 1.5.0.
 All users of MiniGUI are encouraged to use this version, and
 report any bugs and incompatibilities on GitHub:
 
-<https://github.com/VincentWei/mgncs/tree/dev-4-1>
+<https://github.com/VincentWei/mgncs/tree/rel-5-0>
 
 ### What's new in this version
 
