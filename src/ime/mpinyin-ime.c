@@ -70,7 +70,8 @@ static void mPinyinIterator_set_word_direct(char* word, NCS_PINYIN_WORD_INFO* wo
 {
 	if(words->len == -2)
 	{
-		strncpy(word, words->word.chars, 2);
+		//strncpy(word, words->word.chars, 2);
+		memcpy(word, words->word.chars, 2); // VW: avoid warning
 		word[2] = 0;
 	}
 	else

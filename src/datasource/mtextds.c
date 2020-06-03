@@ -409,7 +409,8 @@ static char* get_field(FILE* fp, int fs, BOOL *pFieldEnd/*, int* ppos, BOOL getC
 		if(buf_idx > 0)
 		{
 			str = (char*)realloc(str, buf_idx+idx);
-			strncpy(str+idx, buff, buf_idx);
+			//strncpy(str+idx, buff, buf_idx);
+			memcpy(str+idx, buff, buf_idx); // VW: avoid warning
 		}
 		if(str)
 			str[idx+buf_idx] = 0;

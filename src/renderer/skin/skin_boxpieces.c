@@ -583,7 +583,7 @@ static void skin_daygrid_paint_content(mDayGridPiece *self,
 		mWidget *owner,
 		mDayGridPiecePaintContentData *data)
 {
-	char szText[8];
+	char szText[20];
 	int day, daytype;
 
 	daytype = get_day_by_cell(self, row, col, &day);
