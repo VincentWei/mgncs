@@ -1,8 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.60)
-AC_INIT(libmgncs, 1.5.0)
+AC_PREREQ([2.71])
+AC_INIT([libmgncs],[1.5.0])
 AC_CONFIG_SRCDIR(src/mctrls.c)
+AC_CONFIG_MACRO_DIRS([m4])
 
 MGNCS_MAJOR_VERSION=1
 MGNCS_MINOR_VERSION=5
@@ -42,7 +43,7 @@ AC_SUBST(LT_AGE)
 
 dnl ========================================================================
 dnl Need for cross-compiling
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 
 dnl ========================================================================
 dnl Init automake
@@ -51,12 +52,10 @@ AM_INIT_AUTOMAKE
 dnl ========================================================================
 # Checks for programs.
 AC_PROG_CC
-AC_PROG_LD
-AC_PROG_RANLIB
-AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+LT_INIT
 
 dnl ========================================================================
 dnl Put the name and version of the package here
@@ -65,7 +64,11 @@ dnl Put the name and version of the package here
 
 # Checks for header files.
 AC_HEADER_DIRENT
-AC_HEADER_STDC
+# Autoupdate added the next two lines to ensure that your configure
+# script's behavior did not change.  They are probably safe to remove.
+AC_CHECK_INCLUDES_DEFAULT
+AC_PROG_EGREP
+
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/ioctl.h sys/time.h termio.h termios.h unistd.h])
 
@@ -85,7 +88,7 @@ AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
 AC_CHECK_FUNCS([bzero dup2 getcwd memmove memset putenv strchr strdup strerror strstr strndup ftruncate mmap])
 
-AM_CONFIG_HEADER(mgncsconfig.h)
+AC_CONFIG_HEADERS([mgncsconfig.h])
 
 dnl ===============================================
 dnl System wide options
@@ -660,14 +663,14 @@ if test "x$devel_mode" = "xyes"; then
         CPPFLAGS="$CPPFLAGS -DDEBUG"
     fi
 
-    if test "$ac_cv_prog_gcc" = "yes"; then
+    if test "$ac_cv_c_compiler_gnu" = "yes"; then
         CPPFLAGS="$CPPFLAGS -Werror -Wall"
     fi
 else
     CPPFLAGS="$CPPFLAGS -DNDEBUG"
 fi
 
-if test "$ac_cv_prog_gcc" = "yes"; then
+if test "$ac_cv_c_compiler_gnu" = "yes"; then
     CFLAGS="$CFLAGS -Wstrict-prototypes -pipe"
 fi
 

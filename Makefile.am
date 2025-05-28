@@ -1,3 +1,4 @@
+ACLOCAL_AMFLAGS=-I m4
 SUBDIRS=etc include src build
 
 AUTOMAKE_OPTIONS=foreign

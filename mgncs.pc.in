@@ -6,7 +6,7 @@ includedir=@includedir@
 Name: mGNCS
 Description: The New Control Set of MiniGUI
 Version: @MGNCS_VERSION@
-Requires:
-Libs: -L${libdir} -lmgncs@MGNCS_LIBSUFFIX@ @DEP_LIBS@
-libs.private:
+Requires:mgplus
+Libs: -lmgncs@MGNCS_LIBSUFFIX@
+libs.private: @DEP_LIBS@
 CFlags: -I${includedir}
